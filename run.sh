@@ -33,10 +33,20 @@ activate_venv() {
 
 install_deps() {
     echo "Installing dependencies..."
+
+    # Create virtual environment first
     create_venv
-    activate_venv
-    pip install gunicorn flask requests
-    echo "Dependencies installed!"
+
+    # Use venv's pip directly (avoids activate script issues)
+    if [ -d "venv" ] && [ -f "venv/bin/pip" ]; then
+        echo "Installing Python packages..."
+        venv/bin/pip install gunicorn flask requests
+        echo "Dependencies installed!"
+    else
+        echo "Error: Failed to create virtual environment!"
+        echo "Please check if python3 is installed."
+        exit 1
+    fi
 }
 
 start_server() {
