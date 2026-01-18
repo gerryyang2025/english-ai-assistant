@@ -50,7 +50,7 @@
 ## 📁 文件结构
 
 ```
-english-notes/
+english-ai-assistant/
 ├── index.html              # 主页面
 ├── server.py               # Python Flask 后端服务器
 ├── run.sh                  # 服务器管理脚本
@@ -73,82 +73,35 @@ english-notes/
 
 ## 🚀 使用方法
 
-### 方法一：使用 Python 服务器（推荐，需要 AI 功能）
-
-如果需要使用 AI 助手功能，建议使用 Python 服务器运行：
+### 快速启动
 
 ```bash
 # 进入项目目录
-cd /path/to/english-notes
+cd /path/to/english-ai-assistant
 
-# 首次安装依赖
+# 安装依赖（首次运行）
 ./run.sh install
 
-# 启动服务器（开发模式）
+# 启动服务器
 ./run.sh start
 
-# 或启动服务器（生产模式，支持高并发）
-./run.sh start prod
-
-# 然后在浏览器中访问
-# http://localhost:8080
-
-# 停止服务器
-./run.sh stop
-
-# 重启服务器
-./run.sh restart
+# 浏览器访问 http://localhost:8082
 ```
 
-**服务器管理命令**：
+### 服务器命令
 
 | 命令 | 说明 |
 |------|------|
-| `./run.sh install` | 安装依赖（Flask、requests、Gunicorn） |
-| `./run.sh start` | 启动服务器（开发模式） |
-| `./run.sh start prod` | 启动服务器（生产模式，Gunicorn） |
+| `./run.sh install` | 安装依赖 |
+| `./run.sh start` | 启动服务器（默认端口 8082） |
+| `./run.sh start prod` | 生产模式启动 |
 | `./run.sh stop` | 停止服务器 |
 | `./run.sh restart` | 重启服务器 |
 
-### 方法二：使用简单的 HTTP 服务器
+### 注意事项
 
-如果不需要 AI 功能，可以使用简单的 HTTP 服务器：
-
-**使用 Python：**
-```bash
-# 进入项目目录
-cd /path/to/english-notes
-
-# 启动服务器
-python3 -m http.server 8080
-
-# 然后在浏览器中访问
-# http://localhost:8080
-```
-
-**使用 Node.js：**
-```bash
-# 进入项目目录
-cd /path/to/english-notes
-
-# 使用 npx 启动
-npx serve .
-
-# 或者使用 http-server
-npx http-server -p 8080
-```
-
-**使用 VS Code：**
-1. 安装 "Live Server" 扩展
-2. 右键点击 `index.html`
-3. 选择 "Open with Live Server"
-
-### 方法三：直接在浏览器中打开
-
-1. 在文件管理器中找到 `index.html` 文件
-2. 双击用浏览器（Chrome、Edge、Safari、Firefox等）打开即可
-
-**注意**：直接打开文件可能无法使用 AI 功能，且部分浏览器可能限制语音功能。
+- 需要 AI 功能时，先配置 `api_config.py` 中的 MiniMax API Key
+- 无需 AI 功能时，可直接双击打开 `index.html` 使用基础功能
 
 ## 🔧 API 配置
 
@@ -163,20 +116,12 @@ AI 助手功能需要配置 MiniMax API Key：
 
 2. **编辑配置文件**
    ```bash
-   # 编辑 api_config.py，填入你的 API Key
    nano api_config.py
    ```
 
    内容示例：
    ```python
-   # MiniMax API Key
    MINIMAX_API_KEY = 'your-api-key-here'
-   
-   # API Endpoint
-   MINIMAX_API_URL = 'https://api.minimax.chat/v1/text/chatcompletion_v2'
-   
-   # Model name
-   MINIMAX_MODEL = 'MiniMax-M2.1'
    ```
 
 3. **获取 API Key**
@@ -225,84 +170,20 @@ AI 助手功能有以下限制：
 
 ## 🔄 更新单词数据
 
-当您修改了 `WORDS.md` 文件后，需要将内容同步到网站数据。有以下几种方式：
-
-### 方法一：使用更新工具（推荐）
-
-这是最简单的方式，无需安装任何工具：
+当您修改了 `WORDS.md` 文件后，需要将内容同步到网站数据：
 
 1. **打开更新工具**
-   
-   在浏览器中打开 `tools/update-tool.html` 文件：
-   
    ```bash
-   # 在 macOS 上
    open tools/update-tool.html
-   
-   # 或者在文件管理器中双击打开
    ```
 
 2. **上传 WORDS.md 文件**
-   
    - 点击或拖拽 `WORDS.md` 文件到上传区域
    - 工具会自动解析并显示数据预览
 
-3. **生成并下载数据文件**
-   
-   点击"生成并下载数据文件"按钮，会下载 `words.json` 文件
-
-4. **更新项目文件**
-   
-   ```bash
-   # 复制 words.json 到 data 目录
-   cp words.json data/words.json
-   ```
-
-5. **刷新页面**
-   
-   重新打开 `index.html` 查看更新后的内容。
-
-### 方法二：使用 Node.js 脚本
-
-如果你的电脑上安装了 Node.js，可以使用命令行工具：
-
-```bash
-# 进入项目目录
-cd /path/to/english-notes
-
-# 运行转换脚本
-node convert.js
-
-# 脚本会自动：
-# 1. 读取 WORDS.md 文件
-# 2. 解析单词数据
-# 3. 更新 data/words.json
-```
-
-### 方法三：手动更新
-
-1. **编辑 WORDS.md**
-   
-   按照现有格式添加或修改单词内容。格式说明：
-   
-   ```
-   ## Unit X
-   
-   Title: 单元标题 Category: 分类名称
-   
-   * 单词 /音标/ 含义 - 例句：(翻译)
-   * 单词 /音标/ 含义 - 记忆：记忆技巧
-   ```
-
-2. **运行转换脚本**
-   
-   ```bash
-   node convert.js
-   ```
-
-3. **或手动更新 JSON 文件**
-   
-   如果你熟悉 JSON 格式，可以直接编辑 `data/words.json` 文件。
+3. **更新数据文件**
+   - 点击"生成并下载数据文件"按钮
+   - 将下载的 `words.json` 复制到 `data/` 目录
 
 ## 🎨 设计特点
 
