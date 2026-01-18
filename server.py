@@ -297,6 +297,15 @@ def api_status():
         'rate_limit': RATE_LIMIT
     })
 
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    """健康检查端点"""
+    return jsonify({
+        'status': 'ok',
+        'service': 'english-ai-assistant',
+        'timestamp': datetime.now().isoformat()
+    })
+
 # ========== 静态文件服务 ==========
 
 # 获取当前目录

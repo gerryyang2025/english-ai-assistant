@@ -21,12 +21,19 @@ const DOM = {};
 // ========== 初始化应用 ==========
 document.addEventListener('DOMContentLoaded', () => {
     initDOMElements();
-    showLoading();
-    loadWordData().then(() => {
-        loadUserProgress();
-        bindEvents();
-        renderHomePage();
-        hideLoading();
+    // 先检查服务健康状态
+    checkServiceHealth().then(healthy => {
+        if (!healthy) {
+            showServiceError();
+            return;
+        }
+        showLoading();
+        loadWordData().then(() => {
+            loadUserProgress();
+            bindEvents();
+            renderHomePage();
+            hideLoading();
+        });
     });
 });
 
@@ -40,6 +47,38 @@ function initDOMElements() {
     DOM.unitSelectGrid = document.getElementById('unit-select-grid');
     DOM.flashcard = document.getElementById('flashcard');
     DOM.loading = document.getElementById('loading');
+    DOM.serviceError = document.getElementById('service-error');
+}
+
+// 检查服务健康状态
+async function checkServiceHealth() {
+    try {
+        const response = await fetch('/api/health', {
+            method: 'GET',
+            timeout: 3000
+        });
+        const data = await response.json();
+        return data.status === 'ok';
+    } catch (error) {
+        console.error('Service health check failed:', error);
+        return false;
+    }
+}
+
+// 显示服务错误提示
+function showServiceError() {
+    if (DOM.serviceError) {
+        DOM.serviceError.classList.add('show');
+    }
+    // 隐藏主内容
+    const mainContent = document.querySelector('main');
+    if (mainContent) {
+        mainContent.style.display = 'none';
+    }
+    const footer = document.querySelector('.footer');
+    if (footer) {
+        footer.style.display = 'none';
+    }
 }
 
 // 显示加载动画

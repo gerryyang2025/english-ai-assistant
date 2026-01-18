@@ -397,6 +397,17 @@
         <p>加载中...</p>
     </div>
 
+    <!-- 服务不可用提示 -->
+    <div class="error-overlay" id="service-error">
+        <div class="error-content">
+            <div class="error-icon">⚠️</div>
+            <h2>服务暂时不可用</h2>
+            <p>服务器连接失败，请确保服务正在运行</p>
+            <p class="error-hint">请刷新页面重试，或联系管理员</p>
+            <button class="btn-primary" onclick="location.reload()">刷新页面</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/app.js"></script>
 </body>
