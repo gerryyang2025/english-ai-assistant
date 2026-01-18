@@ -33,6 +33,9 @@ coverage/
 # Server
 .server.pid
 
+# Project
+TODO.md
+
 # Python
 __pycache__/
 *.py[cod]
