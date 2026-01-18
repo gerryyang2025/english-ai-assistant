@@ -76,35 +76,92 @@ async function checkServiceHealth() {
 // 加载每日笑话
 async function loadDailyJoke() {
     const jokeEl = document.getElementById('daily-joke');
-    if (!jokeEl) return;
+    if (!jokeEl) {
+        console.log('[Joke] Element #daily-joke not found');
+        return;
+    }
+    
+    console.log('[Joke] Starting to load joke...');
+    jokeEl.classList.add('loading');
+    jokeEl.textContent = 'Loading joke...';
     
     try {
-        jokeEl.classList.add('loading');
-        jokeEl.textContent = 'Loading joke...';
+        // 检测浏览器是否支持 AbortSignal.timeout
+        const supportsTimeout = typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function';
+        console.log('[Joke] AbortSignal.timeout supported:', supportsTimeout);
+        
+        const controller = new AbortController();
+        const timeoutMs = 8000; // 8秒超时
+        let timeoutId;
+        
+        if (supportsTimeout) {
+            const signal = AbortSignal.timeout(timeoutMs);
+            timeoutId = setTimeout(() => {
+                console.log('[Joke] Timeout reached, aborting request');
+                controller.abort();
+            }, timeoutMs);
+        } else {
+            // 降级方案：手动设置超时
+            timeoutId = setTimeout(() => {
+                console.log('[Joke] Manual timeout reached, aborting request');
+                controller.abort();
+            }, timeoutMs);
+        }
+        
+        console.log('[Joke] Fetching from https://api.chucknorris.io/jokes/random...');
         
         const response = await fetch('https://api.chucknorris.io/jokes/random', {
             method: 'GET',
-            signal: AbortSignal.timeout(5000)
+            signal: controller.signal
         });
         
+        clearTimeout(timeoutId);
+        console.log('[Joke] Response received, status:', response.status, response.statusText);
+        
         if (!response.ok) {
-            throw new Error('Failed to fetch joke');
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const contentType = response.headers.get('content-type');
+        console.log('[Joke] Content-Type:', contentType);
+        
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Invalid content type: ' + contentType);
         }
         
         const data = await response.json();
+        console.log('[Joke] Data received:', JSON.stringify(data, null, 2));
         
-        if (data.value) {
+        if (data && data.value) {
             jokeEl.textContent = `"${data.value}"`;
             jokeEl.classList.remove('error');
+            jokeEl.style.display = 'block';
+            console.log('[Joke] Successfully loaded joke');
         } else {
-            throw new Error('No joke content');
+            console.log('[Joke] No joke content in response, data.value is:', data?.value);
+            throw new Error('No joke content in response');
         }
     } catch (error) {
-        console.log('Failed to load joke:', error);
+        console.error('[Joke] Error loading joke:', error.name, error.message);
+        
+        // 详细错误分析
+        if (error.name === 'AbortError') {
+            console.log('[Joke] Request was aborted (timeout or cancellation)');
+        } else if (error.name === 'TypeError') {
+            console.log('[Joke] Network error or CORS issue');
+            console.log('[Joke] This might be because:');
+            console.log('[Joke] 1. No network connection');
+            console.log('[Joke] 2. CORS blocked by browser');
+            console.log('[Joke] 3. API server is down');
+        } else if (error.message.includes('Failed to fetch')) {
+            console.log('[Joke] Network connection failed');
+        }
+        
         jokeEl.classList.add('error');
         jokeEl.style.display = 'none';
     } finally {
         jokeEl.classList.remove('loading');
+        console.log('[Joke] Done (loading state removed)');
     }
 }
 
