@@ -2,7 +2,7 @@
 
 # Word Wizard - Server Script
 # Uses Flask-based server with API proxy for AI features
-# Usage: ./server.sh start|stop|restart|install [production]
+# Usage: ./run.sh start|stop|restart|install [production]
 
 PORT=8082
 export PORT
@@ -12,14 +12,23 @@ PID_FILE=".server.pid"
 create_venv() {
     if [ ! -d "venv" ]; then
         echo "Creating Python virtual environment..."
-        python3 -m venv venv
-        echo "Virtual environment created!"
+        if python3 -m venv venv; then
+            echo "Virtual environment created!"
+        else
+            echo "Failed to create virtual environment!"
+            exit 1
+        fi
     fi
 }
 
-# Activate virtual environment
+# Activate virtual environment (with error handling)
 activate_venv() {
-    source venv/bin/activate
+    if [ -f "venv/bin/activate" ]; then
+        source venv/bin/activate
+    else
+        echo "Error: Virtual environment not found. Run './run.sh install' first."
+        exit 1
+    fi
 }
 
 install_deps() {
@@ -58,8 +67,9 @@ start_server() {
     # Check if api_config.py exists
     if [ ! -f "api_config.py" ]; then
         echo ""
-        echo "Configuration file not found!"
+        echo "Warning: Configuration file not found!"
         echo "Please copy: cp api_config.example.py api_config.py"
+        echo "Without API Key, AI assistant will not work."
         echo ""
     fi
 
@@ -90,9 +100,9 @@ start_server() {
     echo "Mode: $mode"
     echo ""
     echo "Commands:"
-    echo "  ./server.sh start        # Development mode"
-    echo "  ./server.sh start prod   # Production mode (Gunicorn)"
-    echo "  ./server.sh stop         # Stop server"
+    echo "  ./run.sh start        # Development mode"
+    echo "  ./run.sh start prod   # Production mode (Gunicorn)"
+    echo "  ./run.sh stop         # Stop server"
     echo ""
 }
 
@@ -142,14 +152,14 @@ case "$1" in
         install_deps
         ;;
     *)
-        echo "Usage: ./server.sh {start|stop|restart|install} [prod]"
+        echo "Usage: ./run.sh {start|stop|restart|install} [prod]"
         echo ""
         echo "Commands:"
-        echo "  ./server.sh start        # Development mode (Flask built-in)"
-        echo "  ./server.sh start prod   # Production mode (Gunicorn)"
-        echo "  ./server.sh stop         # Stop server"
-        echo "  ./server.sh restart      # Restart"
-        echo "  ./server.sh install      # Install dependencies"
+        echo "  ./run.sh start        # Development mode (Flask built-in)"
+        echo "  ./run.sh start prod   # Production mode (Gunicorn)"
+        echo "  ./run.sh stop         # Stop server"
+        echo "  ./run.sh restart      # Restart"
+        echo "  ./run.sh install      # Install dependencies"
         echo ""
         echo "Configuration:"
         echo "  cp api_config.example.py api_config.py"
