@@ -1494,10 +1494,23 @@ body {
     border-bottom: none;
 }
 
+.unit-progress-info {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.unit-progress-book {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    margin-bottom: 2px;
+}
+
 .unit-progress-name {
-    width: 120px;
     font-weight: 600;
     color: var(--text-primary);
+    font-size: 0.95rem;
 }
 
 .unit-progress-bar {
@@ -2476,9 +2489,29 @@ body {
         gap: 8px;
     }
     
+    .unit-progress-info {
+        width: 100%;
+    }
+    
+    .unit-progress-book {
+        font-size: 0.7rem;
+    }
+    
     .unit-progress-name {
         width: 100%;
         margin-bottom: 4px;
+    }
+    
+    .unit-progress-bar {
+        flex: 1;
+        min-width: 120px;
+        margin: 0;
+    }
+    
+    .unit-progress-count {
+        width: auto;
+        font-size: 0.85rem;
+    }
     }
     
     .unit-progress-bar {

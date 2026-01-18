@@ -1819,7 +1819,10 @@ function renderProgressPage() {
             
             unitHtml += `
                 <div class="unit-progress-item">
-                    <span class="unit-progress-name">${unit.unit}</span>
+                    <div class="unit-progress-info">
+                        <span class="unit-progress-book">${wordbook.name}</span>
+                        <span class="unit-progress-name">${unit.unit}</span>
+                    </div>
                     <div class="unit-progress-bar">
                         <div class="unit-progress-fill" style="width: ${percent}%"></div>
                     </div>
