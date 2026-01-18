@@ -306,6 +306,67 @@ body {
     color: #999;
 }
 
+/* 联网搜索开关 */
+.qa-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: 0.3s;
+    border-radius: 26px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: white;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+}
+
+.toggle-label {
+    font-size: 0.9rem;
+    opacity: 0.95;
+    user-select: none;
+}
+
 #qa-submit-btn {
     padding: 14px 28px;
     background: white;
@@ -1126,12 +1187,14 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
 
 .answer-source .source-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
 }
 
 .answer-source .source-label {
@@ -1150,6 +1213,7 @@ body {
     gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
 }
 
 .answer-actions button {
@@ -1162,7 +1226,11 @@ body {
     transition: all var(--transition-fast);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    flex: 1;
+    min-width: 100px;
+    max-width: 200px;
 }
 
 .btn-known {
@@ -1946,15 +2014,88 @@ body {
         text-align: center;
     }
     
+    .wordbook-selector select {
+        width: 100%;
+    }
+    
     /* 单元标签页 */
     .unit-tabs {
         gap: 6px;
         padding: 6px 0;
+        margin-bottom: 16px;
     }
     
     .unit-tab {
         padding: 8px 14px;
         font-size: 0.85rem;
+    }
+    
+    /* 单词列表容器 */
+    .word-list {
+        gap: 12px;
+    }
+    
+    /* 单词卡片 */
+    .word-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 16px;
+        gap: 16px;
+    }
+    
+    .word-main {
+        width: 100%;
+    }
+    
+    .word-text {
+        font-size: 1.3rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .word-phonetic {
+        font-size: 0.85rem;
+    }
+    
+    .word-meaning {
+        font-size: 1rem;
+    }
+    
+    .word-example {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+    
+    .word-tip {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+    
+    .word-actions {
+        width: 100%;
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    /* 分页 */
+    .pagination {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .pagination-controls {
+        gap: 6px;
+    }
+    
+    .pagination-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .pagination-num {
+        min-width: 32px;
+        height: 32px;
     }
     
     /* 单词卡片 */
@@ -2025,6 +2166,133 @@ body {
     
     .select-actions {
         flex-direction: column;
+    }
+    
+    .select-actions button {
+        width: 100%;
+    }
+    
+    /* 闪卡答案页面完整适配 */
+    .flashcard-back {
+        overflow-y: auto;
+        justify-content: flex-start;
+        padding: 20px 16px;
+    }
+    
+    .answer-source {
+        font-size: 0.8rem;
+        padding: 10px 14px;
+        gap: 16px;
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    
+    .answer-source .source-item {
+        gap: 6px;
+    }
+    
+    .answer-source .source-label {
+        font-size: 0.75rem;
+    }
+    
+    .answer-source .source-value {
+        font-size: 0.85rem;
+    }
+    
+    .answer-word {
+        font-size: 1.8rem;
+        gap: 10px;
+        margin-bottom: 6px;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .speak-hint {
+        font-size: 1.1rem;
+    }
+    
+    .answer-phonetic-wrapper {
+        gap: 10px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .answer-phonetic {
+        font-size: 1rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+    
+    .phonetic-audio-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .answer-meaning {
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .answer-example {
+        padding: 12px 14px;
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    
+    .answer-example .example-en {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .answer-example .example-zh {
+        font-size: 0.9rem;
+    }
+    
+    .answer-example .audio-btn.small {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+    
+    .answer-tip {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+        width: 100%;
+    }
+    
+    .answer-actions {
+        gap: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .answer-actions button {
+        flex: 1;
+        min-width: 80px;
+        max-width: none;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        white-space: nowrap;
+    }
+    
+    .btn-icon {
+        font-size: 1.1rem;
+    }
+    
+    .btn-exit {
+        margin-top: 16px;
+        padding: 10px 24px;
+        font-size: 0.9rem;
+        width: 100%;
     }
     
     /* 闪卡 */
@@ -2290,6 +2558,132 @@ body {
         font-size: 1.1rem;
     }
     
+    /* 单词列表页面 */
+    .page-header {
+        gap: 10px;
+    }
+    
+    .page-header h2 {
+        font-size: 1.15rem;
+    }
+    
+    /* 搜索框 */
+    .search-box {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .search-box input {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+    
+    .search-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+    
+    /* 词书选择器 */
+    .wordbook-selector {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .wordbook-selector label {
+        font-size: 0.9rem;
+    }
+    
+    .wordbook-selector select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    /* 单元标签页 */
+    .unit-tabs {
+        gap: 4px;
+        margin-bottom: 12px;
+        padding: 4px 0;
+    }
+    
+    .unit-tab {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        border-radius: var(--radius-md);
+    }
+    
+    /* 单词列表容器 */
+    .word-list {
+        gap: 10px;
+    }
+    
+    /* 单词卡片 */
+    .word-card {
+        padding: 16px 12px;
+        gap: 12px;
+    }
+    
+    .word-text {
+        font-size: 1.2rem;
+        gap: 8px;
+    }
+    
+    .word-phonetic {
+        font-size: 0.8rem;
+    }
+    
+    .word-meaning {
+        font-size: 0.95rem;
+    }
+    
+    .word-example {
+        font-size: 0.9rem;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+    }
+    
+    .word-tip {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+    
+    .word-actions {
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .word-action-btn {
+        flex: 1;
+        max-width: 50px;
+    }
+    
+    /* 分页 */
+    .pagination {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .pagination-info {
+        font-size: 0.85rem;
+    }
+    
+    .pagination-controls {
+        gap: 4px;
+    }
+    
+    .pagination-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .pagination-num {
+        min-width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
     /* 闪卡测试设置 */
     .setup-section {
         padding: 20px 14px;
@@ -2328,7 +2722,134 @@ body {
     }
     
     .select-actions {
+        gap: 8px;
+        flex-direction: column;
+    }
+    
+    .select-actions button {
+        width: 100%;
+    }
+    
+    /* 闪卡答案页面完整适配 */
+    .flashcard-back {
+        overflow-y: auto;
+        justify-content: flex-start;
+        padding: 16px 12px;
+    }
+    
+    .answer-source {
+        font-size: 0.7rem;
+        padding: 8px 10px;
         gap: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .answer-source .source-item {
+        gap: 4px;
+    }
+    
+    .answer-source .source-label {
+        font-size: 0.65rem;
+    }
+    
+    .answer-source .source-value {
+        font-size: 0.75rem;
+    }
+    
+    .answer-word {
+        font-size: 1.4rem;
+        gap: 6px;
+        margin-bottom: 4px;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .speak-hint {
+        font-size: 1rem;
+    }
+    
+    .answer-phonetic-wrapper {
+        gap: 6px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .answer-phonetic {
+        font-size: 0.85rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2px;
+    }
+    
+    .phonetic-audio-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
+    .answer-meaning {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .answer-example {
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .answer-example .example-en {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    
+    .answer-example .example-zh {
+        font-size: 0.8rem;
+    }
+    
+    .answer-example .audio-btn.small {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+        flex-shrink: 0;
+    }
+    
+    .answer-tip {
+        font-size: 0.75rem;
+        padding: 8px 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .answer-actions {
+        gap: 6px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .answer-actions button {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    
+    .btn-icon {
+        font-size: 1rem;
+    }
+    
+    .btn-exit {
+        margin-top: 12px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        width: 100%;
     }
     
     /* 闪卡 */
@@ -2435,6 +2956,272 @@ body {
         width: 100%;
     }
     
+    /* 错词本页面完整适配 */
+    #page-wrongbook h2 {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+    
+    .wrongbook-stats {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    
+    .wrongbook-stats .stat-card {
+        min-width: 100%;
+        flex-direction: row;
+        text-align: left;
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .wrongbook-stats .stat-icon {
+        font-size: 1.8rem;
+    }
+    
+    .wrongbook-stats .stat-value {
+        font-size: 1.4rem;
+    }
+    
+    .wrongbook-stats .stat-desc {
+        font-size: 0.85rem;
+    }
+    
+    .mastery-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+    }
+    
+    .legend-title {
+        font-size: 0.9rem;
+    }
+    
+    .legend-item {
+        gap: 6px;
+    }
+    
+    .legend-badge {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .legend-note {
+        margin-left: 0;
+        font-size: 0.8rem;
+    }
+    
+    .wrongbook-actions {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    
+    .wrongbook-actions .btn-primary,
+    .wrongbook-actions .btn-secondary {
+        min-width: 100%;
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .wrongbook-list-section {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .wrongbook-list-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+    }
+    
+    .wrongbook-words {
+        max-height: 400px;
+    }
+    
+    .wrongbook-word-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px;
+    }
+    
+    .wrongbook-word-item .word-main {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    .wrongbook-word-item .word-text {
+        font-size: 1rem;
+    }
+    
+    .wrongbook-word-item .word-phonetic {
+        font-size: 0.85rem;
+        width: 100%;
+    }
+    
+    .wrongbook-word-item .word-meaning {
+        font-size: 0.9rem;
+        width: 100%;
+    }
+    
+    .wrongbook-word-item .wrongbook-example {
+        font-size: 0.85rem;
+        width: 100%;
+    }
+    
+    .wrongbook-word-item .wrongbook-memory-tip {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        width: 100%;
+    }
+    
+    .wrongbook-word-item .word-actions {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    
+    .wrongbook-word-item .mastery-badge {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+    
+    .wrongbook-word-item .audio-btn,
+    .wrongbook-word-item .remove-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+    
+    /* 错词本页面完整适配 */
+    #page-wrongbook h2 {
+        font-size: 1.2rem;
+        margin-bottom: 14px;
+    }
+    
+    .wrongbook-stats {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    
+    .wrongbook-stats .stat-card {
+        padding: 14px;
+        gap: 10px;
+    }
+    
+    .wrongbook-stats .stat-icon {
+        font-size: 1.6rem;
+    }
+    
+    .wrongbook-stats .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .wrongbook-stats .stat-desc {
+        font-size: 0.8rem;
+    }
+    
+    .mastery-legend {
+        gap: 10px;
+        padding: 12px;
+        font-size: 0.8rem;
+    }
+    
+    .legend-title {
+        font-size: 0.85rem;
+    }
+    
+    .legend-item {
+        gap: 4px;
+    }
+    
+    .legend-badge {
+        padding: 3px 6px;
+        font-size: 0.75rem;
+    }
+    
+    .legend-note {
+        font-size: 0.75rem;
+    }
+    
+    .wrongbook-actions {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    
+    .wrongbook-actions .btn-primary,
+    .wrongbook-actions .btn-secondary {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .wrongbook-list-section {
+        padding: 14px;
+    }
+    
+    .wrongbook-list-section h3 {
+        font-size: 1rem;
+        margin-bottom: 14px;
+    }
+    
+    .wrongbook-words {
+        max-height: 350px;
+    }
+    
+    .wrongbook-word-item {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .wrongbook-word-item .word-main {
+        gap: 8px;
+    }
+    
+    .wrongbook-word-item .word-text {
+        font-size: 0.95rem;
+    }
+    
+    .wrongbook-word-item .word-phonetic {
+        font-size: 0.8rem;
+    }
+    
+    .wrongbook-word-item .word-meaning {
+        font-size: 0.85rem;
+    }
+    
+    .wrongbook-word-item .wrongbook-example {
+        font-size: 0.8rem;
+        margin-top: 6px;
+    }
+    
+    .wrongbook-word-item .wrongbook-memory-tip {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+        margin-top: 6px;
+    }
+    
+    .wrongbook-word-item .word-actions {
+        gap: 8px;
+    }
+    
+    .wrongbook-word-item .mastery-badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+    
+    .wrongbook-word-item .audio-btn,
+    .wrongbook-word-item .remove-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
     /* 学习进度 */
     .overall-stats {
         grid-template-columns: 1fr;
@@ -2496,75 +3283,406 @@ body {
     
     /* 底部 */
     .footer {
-        padding: 16px 12px;
-        font-size: 0.8rem;
+        padding: 14px 10px;
+        font-size: 0.75rem;
     }
     
-    /* 错词本 */
+    /* 错词本页面完整适配 */
+    #page-wrongbook h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    
     .wrongbook-stats {
-        flex-direction: column;
-        gap: 12px;
+        gap: 8px;
+        margin-bottom: 14px;
     }
     
     .wrongbook-stats .stat-card {
-        min-width: 100%;
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .wrongbook-stats .stat-icon {
+        font-size: 1.4rem;
+    }
+    
+    .wrongbook-stats .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .wrongbook-stats .stat-desc {
+        font-size: 0.75rem;
     }
     
     .mastery-legend {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        gap: 8px;
+        padding: 10px;
+        font-size: 0.75rem;
+    }
+    
+    .legend-title {
+        font-size: 0.8rem;
+    }
+    
+    .legend-item {
+        gap: 4px;
+    }
+    
+    .legend-badge {
+        padding: 2px 5px;
+        font-size: 0.7rem;
     }
     
     .legend-note {
-        margin-left: 0;
+        font-size: 0.7rem;
     }
     
     .wrongbook-actions {
-        flex-direction: column;
-        gap: 10px;
+        gap: 8px;
+        margin-bottom: 14px;
     }
     
     .wrongbook-actions .btn-primary,
     .wrongbook-actions .btn-secondary {
-        min-width: 100%;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    
+    .wrongbook-list-section {
+        padding: 12px;
+    }
+    
+    .wrongbook-list-section h3 {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+    
+    .wrongbook-words {
+        max-height: 300px;
+    }
+    
+    .wrongbook-word-item {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .wrongbook-word-item .word-main {
+        gap: 6px;
+    }
+    
+    .wrongbook-word-item .word-text {
+        font-size: 0.9rem;
+    }
+    
+    .wrongbook-word-item .word-phonetic {
+        font-size: 0.75rem;
+    }
+    
+    .wrongbook-word-item .word-meaning {
+        font-size: 0.8rem;
+    }
+    
+    .wrongbook-word-item .wrongbook-example {
+        font-size: 0.75rem;
+        margin-top: 4px;
+    }
+    
+    .wrongbook-word-item .wrongbook-memory-tip {
+        font-size: 0.7rem;
+        padding: 4px 6px;
+        margin-top: 4px;
+    }
+    
+    .wrongbook-word-item .word-actions {
+        gap: 6px;
+    }
+    
+    .wrongbook-word-item .mastery-badge {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+    }
+    
+    .wrongbook-word-item .audio-btn,
+    .wrongbook-word-item .remove-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
     }
 }
 
 /* 小屏幕手机 (360px 以下) */
 @media (max-width: 360px) {
     .nav-btn {
-        padding: 6px 10px;
-        font-size: 0.75rem;
+        padding: 4px 6px;
+        font-size: 0.65rem;
     }
     
     .hero-section h2 {
+        font-size: 0.95rem;
+    }
+    
+    /* 错词本页面完整适配 */
+    #page-wrongbook h2 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .wrongbook-stats {
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+    
+    .wrongbook-stats .stat-card {
+        padding: 10px;
+        gap: 6px;
+    }
+    
+    .wrongbook-stats .stat-icon {
+        font-size: 1.2rem;
+    }
+    
+    .wrongbook-stats .stat-value {
         font-size: 1.1rem;
     }
     
-    .flashcard {
-        height: 280px;
+    .wrongbook-stats .stat-desc {
+        font-size: 0.7rem;
     }
     
-    .question-text {
-        font-size: 1.4rem;
+    .mastery-legend {
+        gap: 6px;
+        padding: 8px;
+        font-size: 0.7rem;
+    }
+    
+    .legend-title {
+        font-size: 0.75rem;
+    }
+    
+    .legend-item {
+        gap: 2px;
+    }
+    
+    .legend-badge {
+        padding: 2px 4px;
+        font-size: 0.65rem;
+    }
+    
+    .legend-note {
+        font-size: 0.65rem;
+    }
+    
+    .wrongbook-actions {
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+    
+    .wrongbook-actions .btn-primary,
+    .wrongbook-actions .btn-secondary {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .wrongbook-list-section {
+        padding: 10px;
+    }
+    
+    .wrongbook-list-section h3 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+    
+    .wrongbook-words {
+        max-height: 250px;
+    }
+    
+    .wrongbook-word-item {
+        padding: 8px;
+        gap: 6px;
+    }
+    
+    .wrongbook-word-item .word-main {
+        gap: 4px;
+    }
+    
+    .wrongbook-word-item .word-text {
+        font-size: 0.85rem;
+    }
+    
+    .wrongbook-word-item .word-phonetic {
+        font-size: 0.7rem;
+    }
+    
+    .wrongbook-word-item .word-meaning {
+        font-size: 0.75rem;
+    }
+    
+    .wrongbook-word-item .wrongbook-example {
+        font-size: 0.7rem;
+        margin-top: 2px;
+    }
+    
+    .wrongbook-word-item .wrongbook-memory-tip {
+        font-size: 0.65rem;
+        padding: 3px 5px;
+        margin-top: 2px;
+    }
+    
+    .wrongbook-word-item .word-actions {
+        gap: 4px;
+    }
+    
+    .wrongbook-word-item .mastery-badge {
+        font-size: 0.6rem;
+        padding: 1px 4px;
+    }
+    
+    .wrongbook-word-item .audio-btn,
+    .wrongbook-word-item .remove-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 0.75rem;
+    }
+    
+    /* 闪卡答案页面完整适配 */
+    .flashcard-back {
+        overflow-y: auto;
+        justify-content: flex-start;
+        padding: 12px 10px;
+    }
+    
+    .answer-source {
+        font-size: 0.65rem;
+        padding: 6px 8px;
+        gap: 8px;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    
+    .answer-source .source-item {
+        gap: 4px;
+    }
+    
+    .answer-source .source-label {
+        font-size: 0.6rem;
+    }
+    
+    .answer-source .source-value {
+        font-size: 0.7rem;
     }
     
     .answer-word {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        gap: 4px;
+        margin-bottom: 2px;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .speak-hint {
+        font-size: 0.9rem;
+    }
+    
+    .answer-phonetic-wrapper {
+        gap: 4px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .answer-phonetic {
+        font-size: 0.75rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2px;
+    }
+    
+    .phonetic-audio-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
     }
     
     .answer-meaning {
         font-size: 1rem;
+        margin-bottom: 8px;
+        width: 100%;
+        text-align: center;
     }
     
-    .btn-reveal {
-        padding: 10px 24px;
-        font-size: 0.9rem;
+    .answer-example {
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    
+    .answer-example .example-en {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    .answer-example .example-zh {
+        font-size: 0.75rem;
+    }
+    
+    .answer-example .audio-btn.small {
+        width: 22px;
+        height: 22px;
+        font-size: 0.65rem;
+        flex-shrink: 0;
+    }
+    
+    .answer-tip {
+        font-size: 0.7rem;
+        padding: 6px 8px;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    
+    .answer-actions {
+        gap: 4px;
+        width: 100%;
+        justify-content: center;
     }
     
     .answer-actions button {
-        padding: 10px 14px;
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    
+    .btn-icon {
         font-size: 0.9rem;
+    }
+    
+    .btn-exit {
+        margin-top: 10px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        width: 100%;
+    }
+    
+    .flashcard {
+        height: 260px;
+    }
+    
+    .question-text {
+        font-size: 1.2rem;
+    }
+    
+    .question-label {
+        font-size: 0.7rem;
+        margin-bottom: 8px;
+    }
+    
+    .btn-reveal {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        margin-top: 12px;
     }
 }

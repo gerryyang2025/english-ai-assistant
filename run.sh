@@ -111,6 +111,9 @@ install_deps() {
 start_server() {
     local mode=${1:-dev}
     
+    # Check if virtual environment exists
+    create_venv
+    
     echo "========================================"
     echo "Starting Server (Debug Mode)"
     echo "========================================"

@@ -1554,13 +1554,19 @@ async function submitQA() {
     resultEl.style.display = 'none';
     
     try {
+        // 获取是否启用联网搜索
+        const enableWebSearch = document.getElementById('web-search-toggle').checked;
+        
         // 调用本地 API 服务器（server.py），由后端代理调用 MiniMax
         const response = await fetch(`${API_BASE_URL}/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ question })
+            body: JSON.stringify({ 
+                question,
+                enable_web_search: enableWebSearch
+            })
         });
         
         if (!response.ok) {

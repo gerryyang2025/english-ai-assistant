@@ -141,7 +141,7 @@ def check_rate_limit(client_ip):
     request_history[client_ip]['minute'].append(now_ts)
     return True, "OK"
 
-def call_minimax_api(question):
+def call_minimax_api(question, enable_web_search=False):
     """调用 MiniMax API"""
     headers = {
         'Content-Type': 'application/json',
@@ -169,6 +169,11 @@ Respond in Simplified Chinese with Chinese punctuation.'''
         'temperature': 0.7,
         'max_tokens': 1000
     }
+    
+    # 启用联网搜索功能
+    if enable_web_search:
+        data['tools'] = [{"type": "web_search"}]
+        data['tool_choice'] = "auto"
     
     try:
         response = requests.post(
@@ -225,6 +230,9 @@ def chat_api():
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response, 400
     
+    # 获取是否启用联网搜索
+    enable_web_search = data.get('enable_web_search', False)
+    
     # 记录请求
     logger.info(f"API 请求 - IP: {client_ip}, 问题长度: {len(question)}")
     
@@ -239,7 +247,8 @@ def chat_api():
             return response, 500
         
         # 调用 MiniMax API
-        result = call_minimax_api(question)
+        logger.info(f"API 请求 - 启用联网搜索: {enable_web_search}")
+        result = call_minimax_api(question, enable_web_search)
         
         # 解析响应 - 尝试多种可能的格式
         answer = None
