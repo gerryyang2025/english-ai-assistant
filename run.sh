@@ -66,6 +66,7 @@ get_python_cmd() {
 
 install_deps() {
     echo "Installing dependencies..."
+    echo ""
     
     # Create virtual environment first
     create_venv
@@ -74,17 +75,35 @@ install_deps() {
     PIP_CMD=$(get_pip_cmd)
     
     if [ -z "$PIP_CMD" ]; then
-        echo "Error: pip not found! Please install pip first."
-        echo "On Ubuntu/Debian: sudo apt-get install python3-pip"
+        echo "[Error] pip not found!"
+        echo ""
+        echo "On Ubuntu/Debian, install with:"
+        echo "  sudo apt-get install python3-pip"
         exit 1
     fi
     
-    echo "Installing Python packages with $PIP_CMD..."
-    if $PIP_CMD install gunicorn flask requests 2>/dev/null; then
-        echo "Dependencies installed!"
+    echo "[Debug] Using pip: $PIP_CMD"
+    echo ""
+    echo "Installing packages: gunicorn flask requests"
+    echo "----------------------------------------"
+    
+    if $PIP_CMD install gunicorn flask requests; then
+        echo "----------------------------------------"
+        echo "[OK] Dependencies installed successfully!"
+        echo ""
     else
-        echo "Error: Failed to install packages. Try with sudo:"
-        echo "  sudo $PIP_CMD install gunicorn flask requests"
+        echo "----------------------------------------"
+        echo ""
+        echo "[Error] Failed to install packages!"
+        echo ""
+        echo "Possible solutions:"
+        echo "  1. Try with sudo:"
+        echo "     sudo $PIP_CMD install gunicorn flask requests"
+        echo ""
+        echo "  2. On Ubuntu/Debian, install system packages:"
+        echo "     sudo apt-get update"
+        echo "     sudo apt-get install -y python3-flask python3-requests"
+        echo ""
         exit 1
     fi
 }
@@ -125,16 +144,14 @@ start_server() {
     echo "[Debug] Checking Flask availability..."
     if ! $PYTHON_CMD -c "import flask" 2>&1; then
         echo ""
-        echo "[Warning] Flask not found, installing dependencies..."
-        PIP_CMD=$(get_pip_cmd)
-        echo "[Debug] Installing with: $PIP_CMD"
-        if [ -z "$PIP_CMD" ] || ! $PIP_CMD install flask requests 2>&1; then
-            echo ""
-            echo "[Error] Failed to install Flask!"
-            echo "Please run './run.sh install' manually"
-            exit 1
-        fi
-        echo "[OK] Flask installed"
+        echo "[Warning] Flask not found!"
+        echo ""
+        echo "Please run './run.sh install' first to install dependencies."
+        echo ""
+        echo "Or install manually with:"
+        echo "  pip3 install gunicorn flask requests"
+        echo ""
+        exit 1
     else
         echo "[OK] Flask is available"
     fi
