@@ -1,0 +1,30 @@
+# Git configuration file
+# This file helps normalize line endings and other settings
+
+# Force line endings to LF on checkout and CRLF on commit for cross-platform compatibility
+* text=auto eol=lf
+
+# Ensure script files are executable on Unix-like systems
+*.sh eol=lf
+*.sh text
+
+# JSON and Markdown files should use LF line endings
+*.json text
+*.md text
+
+# HTML, CSS, JavaScript files
+*.html text
+*.css text
+*.js text
+
+# Disable binary file conversion for image files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+
+# Don't track editor backup files
+*~
+*.bak

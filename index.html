@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>若宸的单词小精灵 - 英语学习助手</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">📚 若宸的单词小精灵</h1>
+                <nav class="nav-menu">
+                    <button class="nav-btn active" data-page="home">首页</button>
+                    <button class="nav-btn" data-page="words">单词列表</button>
+                    <button class="nav-btn" data-page="flashcard">闪卡测试</button>
+                    <button class="nav-btn" data-page="wrongbook">错词本</button>
+                    <button class="nav-btn" data-page="favorites">收藏</button>
+                    <button class="nav-btn" data-page="progress">学习进度</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 首页 -->
+            <section id="page-home" class="page active">
+                <div class="hero-section">
+                    <h2>欢迎来到英语单词学习乐园！<span id="current-date"></span></h2>
+                    <p>让我们一起轻松记忆英语单词吧！</p>
+                </div>
+
+                <!-- AI 知识问答 -->
+                <div class="ai-qa-section">
+                    <h3>🤖 AI 单词助手</h3>
+                    <p class="qa-desc">输入英语单词或句子，AI 帮你详细解释用法</p>
+                    
+                    <div class="qa-input-area">
+                        <input type="text" id="qa-input" placeholder="例如: explain the word 'future' or make a sentence with 'pilot'">
+                        <button id="qa-submit-btn" onclick="submitQA()">提问</button>
+                    </div>
+                    
+                    <div id="qa-loading" class="qa-loading" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <span>AI 思考中...</span>
+                    </div>
+                    
+                    <div id="qa-result" class="qa-result" style="display: none;">
+                        <div class="qa-answer"></div>
+                    </div>
+                </div>
+
+                <div class="feature-cards">
+                    <div class="feature-card" data-action="go-flashcard">
+                        <div class="card-icon">📇</div>
+                        <h3>闪卡测试</h3>
+                        <p>选择单元，进行单词记忆测试</p>
+                    </div>
+                    <div class="feature-card" data-action="go-words">
+                        <div class="card-icon">📚</div>
+                        <h3>单词列表</h3>
+                        <p>查看所有单元的单词内容</p>
+                    </div>
+                    <div class="feature-card" data-action="go-progress">
+                        <div class="card-icon">📈</div>
+                        <h3>学习进度</h3>
+                        <p>查看你的学习统计和成就</p>
+                    </div>
+                </div>
+
+                <!-- 今日统计 -->
+                <div class="today-stats">
+                    <h3>今日学习</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" id="today-reviewed">0</span>
+                            <span class="stat-label">已学单词</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="today-correct">0</span>
+                            <span class="stat-label">正确数</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="today-accuracy">0%</span>
+                            <span class="stat-label">正确率</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="streak-days">0</span>
+                            <span class="stat-label">连续天数</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 单词列表页 -->
+            <section id="page-words" class="page">
+                <div class="page-header">
+                    <h2>单词列表</h2>
+                    <div class="search-box">
+                        <input type="text" id="word-search" placeholder="搜索单词或中文含义...">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+
+                <!-- 词书/年级选择 -->
+                <div class="wordbook-selector">
+                    <label for="wordbook-select">选择词书：</label>
+                    <select id="wordbook-select">
+                        <option value="grade5-upper">英语五年级上册</option>
+                    </select>
+                </div>
+
+                <!-- 单元标签页 -->
+                <div class="unit-tabs" id="unit-tabs">
+                    <!-- 单元标签将由 JS 动态生成 -->
+                </div>
+
+                <!-- 单词列表 -->
+                <div class="word-list" id="word-list">
+                    <!-- 单词列表将由 JS 动态生成 -->
+                </div>
+            </section>
+
+            <!-- 闪卡测试页 -->
+            <section id="page-flashcard" class="page">
+                <!-- 测试设置区域 -->
+                <div id="flashcard-setup" class="setup-section">
+                    <h2>闪卡测试设置</h2>
+                    
+                    <div class="setup-group">
+                        <h3>选择单元（可多选）</h3>
+                        <div class="unit-select-grid" id="unit-select-grid">
+                            <!-- 单元选择将由 JS 动态生成 -->
+                        </div>
+                        <div class="select-actions">
+                            <button class="btn-secondary" id="select-all-units">全选</button>
+                            <button class="btn-secondary" id="clear-unit-selection">清空</button>
+                        </div>
+                    </div>
+
+                    <div class="setup-group">
+                        <h3>测试模式</h3>
+                        <div class="mode-options">
+                            <label class="mode-option">
+                                <input type="radio" name="test-mode" value="en-to-zh" checked>
+                                <span class="mode-label">英文 → 中文</span>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="test-mode" value="zh-to-en">
+                                <span class="mode-label">中文 → 英文</span>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="test-mode" value="mixed">
+                                <span class="mode-label">混合模式</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary btn-large" id="start-test-btn">
+                        开始测试
+                    </button>
+                </div>
+
+                <!-- 闪卡测试区域 -->
+                <div id="flashcard-test" class="test-section" style="display: none;">
+                    <!-- 进度条 -->
+                    <div class="test-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="test-progress-fill"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">1 / 10</span>
+                    </div>
+
+                    <!-- 闪卡 -->
+                    <div class="flashcard" id="flashcard">
+                        <div class="flashcard-inner">
+                            <!-- 正面：问题 -->
+                            <div class="flashcard-front">
+                                <div class="question-label" id="question-label">英文</div>
+                                <div class="question-text" id="question-text">future</div>
+                                <button class="btn-reveal" id="btn-reveal">查看答案</button>
+                            </div>
+                            
+                            <!-- 反面：答案 -->
+                            <div class="flashcard-back">
+                                <!-- 单词来源信息 -->
+                                <div class="answer-source" id="answer-source"></div>
+                                <div class="answer-word" id="answer-word" onclick="speakCurrentWord()" style="cursor: pointer;" title="点击播放英音">
+                                    future
+                                    <span class="speak-hint">🇬🇧</span>
+                                </div>
+                                <div class="answer-phonetic-wrapper">
+                                    <div class="answer-phonetic" id="answer-phonetic">/ˈfjuːtʃə/</div>
+                                    <button class="phonetic-audio-btn" onclick="speakCurrentWord()" title="播放英音">🇬🇧</button>
+                                    <button class="phonetic-audio-btn" onclick="speakCurrentWordUS()" title="播放美音">🇺🇸</button>
+                                </div>
+                                <div class="answer-meaning" id="answer-meaning">将来；未来</div>
+                                <div class="answer-example" id="answer-example">
+                                    <p class="example-en">I want to be a teacher in the future.</p>
+                                    <p class="example-zh">我将来想成为一名老师。</p>
+                                </div>
+                                <div class="answer-tip" id="answer-tip"></div>
+                                <div class="answer-actions">
+                                    <button class="btn-known" id="btn-known">
+                                        <span class="btn-icon">✅</span>
+                                        记住了
+                                    </button>
+                                    <button class="btn-unknown" id="btn-unknown">
+                                        <span class="btn-icon">❌</span>
+                                        没记住
+                                    </button>
+                                    <button class="btn-review" id="btn-review">
+                                        <span class="btn-icon">🔖</span>
+                                        稍后复习
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 退出测试 -->
+                    <button class="btn-exit" id="btn-exit-test">退出测试</button>
+                </div>
+
+                <!-- 测试结果区域 -->
+                <div id="flashcard-result" class="result-section" style="display: none;">
+                    <h2>测试完成！</h2>
+                    
+                    <div class="result-stats">
+                        <div class="result-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="circle-bg" cx="50" cy="50" r="45"/>
+                                <circle class="circle-progress" id="result-circle" cx="50" cy="50" r="45"/>
+                            </svg>
+                            <div class="result-percent" id="result-percent">85%</div>
+                        </div>
+                        
+                        <div class="result-details">
+                            <div class="result-row">
+                                <span class="result-label">总题数</span>
+                                <span class="result-value" id="result-total">20</span>
+                            </div>
+                            <div class="result-row correct">
+                                <span class="result-label">正确</span>
+                                <span class="result-value" id="result-correct">17</span>
+                            </div>
+                            <div class="result-row wrong">
+                                <span class="result-label">错误</span>
+                                <span class="result-value" id="result-wrong">3</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">用时</span>
+                                <span class="result-value" id="result-time">2:30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="btn-primary" id="retry-test-btn">再测一次</button>
+                        <button class="btn-secondary" id="review-wrong-btn">复习错词</button>
+                        <button class="btn-secondary" id="back-home-btn">返回首页</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 错词本页 -->
+            <section id="page-wrongbook" class="page">
+                <h2>📝 错词本</h2>
+                
+                <!-- 分类说明 -->
+                <div class="mastery-legend">
+                    <span class="legend-title">分类说明：</span>
+                    <span class="legend-item"><span class="legend-badge mastered">已掌握</span> 熟练度 ≥ 4</span>
+                    <span class="legend-item"><span class="legend-badge learning">学习中</span> 熟练度 2-3</span>
+                    <span class="legend-item"><span class="legend-badge review">待复习</span> 熟练度 0-1</span>
+                    <span class="legend-note">（答对+1，答错-1，最高5级）</span>
+                </div>
+                
+                <!-- 错词统计 -->
+                <div class="wrongbook-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📕</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="wrongbook-count">0</span>
+                            <span class="stat-desc">当前错词数</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌟</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="wrongbook-mastery">0</span>
+                            <span class="stat-desc">已掌握词数</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="wrongbook-actions">
+                    <button class="btn-primary" id="review-all-wrong-btn" onclick="reviewAllWrongWords()">
+                        🔁 复习全部错词
+                    </button>
+                    <button class="btn-secondary" id="clear-wrongbook-btn" onclick="clearWrongbook()">
+                        🗑️ 清空错词本
+                    </button>
+                </div>
+
+                <!-- 错词列表 -->
+                <div class="wrongbook-list-section">
+                    <h3>错词列表</h3>
+                    <div class="wrongbook-words" id="wrongbook-words">
+                        <p class="empty-message">🎉 恭喜！错词本为空，继续保持！</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 收藏单词页 -->
+            <section id="page-favorites" class="page">
+                <div class="page-header">
+                    <h2>收藏的单词</h2>
+                    <div class="favorites-stats" id="favorites-stats">
+                        <span class="stat-badge">❤️ 共收藏 <span id="favorites-count">0</span> 个单词</span>
+                    </div>
+                </div>
+                
+                <!-- 收藏单词列表 -->
+                <div class="favorites-list" id="favorites-list">
+                    <p class="empty-message">📝 还没有收藏任何单词</p>
+                </div>
+            </section>
+
+            <!-- 学习进度页 -->
+            <section id="page-progress" class="page">
+                <h2>学习进度</h2>
+                
+                <!-- 总体统计 -->
+                <div class="overall-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-words">0</span>
+                            <span class="stat-desc">总单词数</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎉</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="mastered-words">0</span>
+                            <span class="stat-desc">已掌握</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="overall-accuracy">0%</span>
+                            <span class="stat-desc">总体正确率</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-streak">0</span>
+                            <span class="stat-desc">连续学习(天)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 单元进度 -->
+                <div class="unit-progress-section">
+                    <h3>各单元进度</h3>
+                    <div class="unit-progress-list" id="unit-progress-list">
+                        <!-- 单元进度将由 JS 动态生成 -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <p>若宸的单词小精灵 © 2026 | 英语学习助手</p>
+        </footer>
+    </div>
+
+    <!-- 加载动画 -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-spinner"></div>
+        <p>加载中...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

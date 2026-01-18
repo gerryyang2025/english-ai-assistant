@@ -1,0 +1,2125 @@
+[
+  {
+    "id": "grade5-upper",
+    "name": "英语五年级上册",
+    "units": [
+      {
+        "unit": "Unit 1",
+        "title": "My future",
+        "category": "职业类",
+        "words": [
+          {
+            "id": "grade5-upper-u1-w1",
+            "word": "future",
+            "phonetic": "/ˈfjuːtʃə/",
+            "meaning": "将来；未来",
+            "example": "I want to be a teacher in the future.",
+            "translation": "我将来想成为一名老师。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w2",
+            "word": "want",
+            "phonetic": "/wɒnt/",
+            "meaning": "想要",
+            "example": "I want an apple.",
+            "translation": "我想要一个苹果。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w3",
+            "word": "pilot",
+            "phonetic": "/ˈpaɪlət/",
+            "meaning": "飞行员",
+            "example": "My uncle is a pilot.",
+            "translation": "我叔叔是一名飞行员。",
+            "memoryTip": "pilot 开飞机，pilot 很厉害！",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w4",
+            "word": "teach",
+            "phonetic": "/tiːtʃ/",
+            "meaning": "教(课)",
+            "example": "My teacher teaches English.",
+            "translation": "我的老师教英语。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w5",
+            "word": "cook",
+            "phonetic": "/kʊk/",
+            "meaning": "厨师；烹饪",
+            "example": "My mother is a good cook.",
+            "translation": "我妈妈是个好厨师。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w6",
+            "word": "taxi driver",
+            "phonetic": "/ˈtæksi ˈdraɪvə/",
+            "meaning": "出租车司机",
+            "example": "The taxi driver is very friendly.",
+            "translation": "出租车司机很友好。",
+            "memoryTip": "taxi（出租车）+ driver（司机）= taxi driver",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w7",
+            "word": "job",
+            "phonetic": "/dʒɒb/",
+            "meaning": "工作；职业",
+            "example": "What's your job?",
+            "translation": "你的工作是什么？",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w8",
+            "word": "singer",
+            "phonetic": "/ˈsɪŋə/",
+            "meaning": "歌手",
+            "example": "She wants to be a singer.",
+            "translation": "她想成为一名歌手。",
+            "memoryTip": "sing（唱歌）+ er（人）= singer（歌手）",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w9",
+            "word": "fall",
+            "phonetic": "/fɔːl/",
+            "meaning": "掉落；落下",
+            "example": "The apple falls from the tree.",
+            "translation": "苹果从树上掉下来。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w10",
+            "word": "lifeguard",
+            "phonetic": "/ˈlaɪfɡɑːd/",
+            "meaning": "救生员",
+            "example": "The lifeguard helps people at the beach.",
+            "translation": "救生员在海滩帮助人们。",
+            "memoryTip": "life（生命）+ guard（守卫）= lifeguard（救生员）",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w11",
+            "word": "save",
+            "phonetic": "/seɪv/",
+            "meaning": "救；救助；节约",
+            "example": "The lifeguard saves people.",
+            "translation": "救生员救人。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w12",
+            "word": "become",
+            "phonetic": "/bɪˈkʌm/",
+            "meaning": "变成；变得",
+            "example": "I want to become a doctor.",
+            "translation": "我想成为一名医生。",
+            "memoryTip": "",
+            "category": "职业类"
+          },
+          {
+            "id": "grade5-upper-u1-w13",
+            "word": "(be) good",
+            "phonetic": "/biː ɡʊd æt/",
+            "meaning": "at  擅长",
+            "example": "I am good at English.",
+            "translation": "我擅长英语。",
+            "memoryTip": "",
+            "category": "职业类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 2",
+        "title": "Going to school",
+        "category": "交通类",
+        "words": [
+          {
+            "id": "grade5-upper-u2-w1",
+            "word": "by",
+            "phonetic": "/baɪ/",
+            "meaning": "(表示方式)；靠近",
+            "example": "I go to school by bus.",
+            "translation": "我乘公共汽车去学校。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w2",
+            "word": "walk",
+            "phonetic": "/wɔːk/",
+            "meaning": "走；步行",
+            "example": "I walk to school every day.",
+            "translation": "我每天步行去学校。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w3",
+            "word": "Ms",
+            "phonetic": "/mɪz/",
+            "meaning": "女士",
+            "example": "Ms Wang is my teacher.",
+            "translation": "王女士是我的老师。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w4",
+            "word": "journey",
+            "phonetic": "/ˈdʒɜːni/",
+            "meaning": "旅程；旅行",
+            "example": "It's a long journey.",
+            "translation": "这是一次长途旅行。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w5",
+            "word": "primary school",
+            "phonetic": "/ˈpraɪməri skuːl/",
+            "meaning": "小学",
+            "example": "I study at a primary school.",
+            "translation": "我在小学学习。",
+            "memoryTip": "primary（初级的）+ school（学校）= primary school（小学）",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w6",
+            "word": "underground",
+            "phonetic": "/ˈʌndəɡraʊnd/",
+            "meaning": "地铁",
+            "example": "I take the underground to school.",
+            "translation": "我乘地铁去学校。",
+            "memoryTip": "under（下）+ ground（地面）= underground（地铁）",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w7",
+            "word": "station",
+            "phonetic": "/ˈsteɪʃən/",
+            "meaning": "车站",
+            "example": "The train station is big.",
+            "translation": "火车站很大。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w8",
+            "word": "take",
+            "phonetic": "/teɪk/",
+            "meaning": "乘坐(交通工具)；带领",
+            "example": "I take the bus to school.",
+            "translation": "我乘公共汽车去学校。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w9",
+            "word": "after",
+            "phonetic": "/ˈɑːftə/",
+            "meaning": "在......后",
+            "example": "I do homework after school.",
+            "translation": "放学后我做作业。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w10",
+            "word": "hour",
+            "phonetic": "/ˈaʊə/",
+            "meaning": "小时",
+            "example": "I sleep for eight hours.",
+            "translation": "我睡八小时。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w11",
+            "word": "bus stop",
+            "phonetic": "/bʌs stɒp/",
+            "meaning": "公共汽车站",
+            "example": "I wait at the bus stop.",
+            "translation": "我在公共汽车站等车。",
+            "memoryTip": "bus（公共汽车）+ stop（站）= bus stop",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w12",
+            "word": "by bus",
+            "phonetic": "/baɪ bʌs/",
+            "meaning": "乘公共汽车",
+            "example": "I go home by bus.",
+            "translation": "我乘公共汽车回家。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w13",
+            "word": "far from",
+            "phonetic": "/fɑː frɒm/",
+            "meaning": "离......远",
+            "example": "My school is far from my home.",
+            "translation": "我的学校离我家很远。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w14",
+            "word": "on foot",
+            "phonetic": "/ɒn fʊt/",
+            "meaning": "步行",
+            "example": "I go to the park on foot.",
+            "translation": "我步行去公园。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w15",
+            "word": "by bike",
+            "phonetic": "/baɪ baɪk/",
+            "meaning": "骑自行车",
+            "example": "I go to school by bike.",
+            "translation": "我骑自行车去学校。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w16",
+            "word": "by car",
+            "phonetic": "/baɪ kɑː/",
+            "meaning": "乘小汽车",
+            "example": "My father goes to work by car.",
+            "translation": "我爸爸开车去上班。",
+            "memoryTip": "",
+            "category": "交通类"
+          },
+          {
+            "id": "grade5-upper-u2-w17",
+            "word": "get off",
+            "phonetic": "/ɡet ɒf/",
+            "meaning": "下车",
+            "example": "I get off the bus at the school.",
+            "translation": "我在学校下车。",
+            "memoryTip": "",
+            "category": "交通类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 3",
+        "title": "My birthday",
+        "category": "序数词",
+        "words": [
+          {
+            "id": "grade5-upper-u3-w1",
+            "word": "party",
+            "phonetic": "/ˈpɑːti/",
+            "meaning": "聚会",
+            "example": "I go to a birthday party.",
+            "translation": "我去参加生日聚会。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w2",
+            "word": "when",
+            "phonetic": "/wen/",
+            "meaning": "什么时候",
+            "example": "When do you go to school?",
+            "translation": "你什么时候去学校？",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w3",
+            "word": "begin",
+            "phonetic": "/bɪˈɡɪn/",
+            "meaning": "开始",
+            "example": "The class begins at eight.",
+            "translation": "课在八点开始。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w4",
+            "word": "bring",
+            "phonetic": "/brɪŋ/",
+            "meaning": "带来",
+            "example": "Please bring your book.",
+            "translation": "请带上你的书。",
+            "memoryTip": "bring（带来）和 thing（东西）容易混淆，bring 是动作",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w5",
+            "word": "thing",
+            "phonetic": "/θɪŋ/",
+            "meaning": "东西；事物",
+            "example": "This is a nice thing.",
+            "translation": "这是一个好东西。",
+            "memoryTip": "thing（东西）和 bring（带来）容易混淆，thing 是名词",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w6",
+            "word": "favourite",
+            "phonetic": "/ˈfeɪvərɪt/",
+            "meaning": "最喜欢的",
+            "example": "Apple is my favourite fruit.",
+            "translation": "苹果是我最喜欢的水果。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w7",
+            "word": "interesting",
+            "phonetic": "/ˈɪntrəstɪŋ/",
+            "meaning": "有趣的",
+            "example": "This book is very interesting.",
+            "translation": "这本书很有趣。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w8",
+            "word": "hat",
+            "phonetic": "/hæt/",
+            "meaning": "帽子",
+            "example": "I wear a red hat.",
+            "translation": "我戴一顶红帽子。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w9",
+            "word": "have fun",
+            "phonetic": "/hæv fʌn/",
+            "meaning": "尽情玩",
+            "example": "We have fun at the party.",
+            "translation": "我们在聚会上玩得很开心。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w10",
+            "word": "first",
+            "phonetic": "/fɜːst/",
+            "meaning": "第一",
+            "example": "I am the first in the race.",
+            "translation": "我在比赛中得了第一。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w11",
+            "word": "second",
+            "phonetic": "/ˈsekənd/",
+            "meaning": "第二",
+            "example": "He is the second student.",
+            "translation": "他是第二个学生。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w12",
+            "word": "third",
+            "phonetic": "/θɜːd/",
+            "meaning": "第三",
+            "example": "Today is the third day.",
+            "translation": "今天是第三天。",
+            "memoryTip": "",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w13",
+            "word": "fourth",
+            "phonetic": "/fɔːθ/",
+            "meaning": "第四",
+            "example": "Today is the fourth day.",
+            "translation": "今天是第四天。",
+            "memoryTip": "four（四）+ th = fourth（第四）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w14",
+            "word": "fifth",
+            "phonetic": "/fɪfθ/",
+            "meaning": "第五",
+            "example": "This is the fifth book.",
+            "translation": "这是第五本书。",
+            "memoryTip": "five（五）→ fifth（第五），注意 ve 变 f 再加 th",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w15",
+            "word": "sixth",
+            "phonetic": "/sɪksθ/",
+            "meaning": "第六",
+            "example": "I am in the sixth grade.",
+            "translation": "我在六年级。",
+            "memoryTip": "six（六）+ th = sixth（第六）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w16",
+            "word": "seventh",
+            "phonetic": "/ˈsevənθ/",
+            "meaning": "第七",
+            "example": "This is the seventh month.",
+            "translation": "这是第七个月。",
+            "memoryTip": "seven（七）+ th = seventh（第七）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w17",
+            "word": "eighth",
+            "phonetic": "/eɪtθ/",
+            "meaning": "第八",
+            "example": "Today is the eighth day.",
+            "translation": "今天是第八天。",
+            "memoryTip": "eight（八）+ th = eighth（第八），注意只有一个 t",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w18",
+            "word": "ninth",
+            "phonetic": "/naɪnθ/",
+            "meaning": "第九",
+            "example": "This is the ninth lesson.",
+            "translation": "这是第九课。",
+            "memoryTip": "nine（九）→ ninth（第九），去掉 e 加 th",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w19",
+            "word": "tenth",
+            "phonetic": "/tenθ/",
+            "meaning": "第十",
+            "example": "This is the tenth question.",
+            "translation": "这是第十个问题。",
+            "memoryTip": "ten（十）+ th = tenth（第十）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w20",
+            "word": "eleventh",
+            "phonetic": "/ɪˈlevənθ/",
+            "meaning": "第十一",
+            "example": "Today is the eleventh day.",
+            "translation": "今天是第十一天。",
+            "memoryTip": "eleven（十一）+ th = eleventh（第十一）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w21",
+            "word": "twelfth",
+            "phonetic": "/twelfθ/",
+            "meaning": "第十二",
+            "example": "This is the twelfth month.",
+            "translation": "这是第十二个月。",
+            "memoryTip": "twelve（十二）→ twelfth（第十二），注意 ve 变 f 再加 th",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w22",
+            "word": "thirteenth",
+            "phonetic": "/ˌθɜːˈtiːnθ/",
+            "meaning": "第十三",
+            "example": "Today is the thirteenth day.",
+            "translation": "今天是第十三天。",
+            "memoryTip": "thirteen（十三）+ th = thirteenth（第十三）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w23",
+            "word": "fourteenth",
+            "phonetic": "/ˌfɔːˈtiːnθ/",
+            "meaning": "第十四",
+            "example": "This is the fourteenth lesson.",
+            "translation": "这是第十四课。",
+            "memoryTip": "fourteen（十四）+ th = fourteenth（第十四）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w24",
+            "word": "fifteenth",
+            "phonetic": "/ˌfɪfˈtiːnθ/",
+            "meaning": "第十五",
+            "example": "Today is the fifteenth day.",
+            "translation": "今天是第十五天。",
+            "memoryTip": "fifteen（十五）+ th = fifteenth（第十五）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w25",
+            "word": "sixteenth",
+            "phonetic": "/ˌsɪkˈstiːnθ/",
+            "meaning": "第十六",
+            "example": "This is the sixteenth question.",
+            "translation": "这是第十六个问题。",
+            "memoryTip": "sixteen（十六）+ th = sixteenth（第十六）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w26",
+            "word": "seventeenth",
+            "phonetic": "/ˌsevənˈtiːnθ/",
+            "meaning": "第十七",
+            "example": "Today is the seventeenth day.",
+            "translation": "今天是第十七天。",
+            "memoryTip": "seventeen（十七）+ th = seventeenth（第十七）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w27",
+            "word": "eighteenth",
+            "phonetic": "/ˌeɪˈtiːnθ/",
+            "meaning": "第十八",
+            "example": "This is the eighteenth lesson.",
+            "translation": "这是第十八课。",
+            "memoryTip": "eighteen（十八）+ th = eighteenth（第十八）",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w28",
+            "word": "nineteenth",
+            "phonetic": "/ˌnaɪnˈtiːnθ/",
+            "meaning": "第十九",
+            "example": "Today is the nineteenth day.",
+            "translation": "今天是第十九天。",
+            "memoryTip": "nineteen（十九）→ nineteenth（第十九），去掉 e 加 th",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w29",
+            "word": "twentieth",
+            "phonetic": "/ˈtwentiəθ/",
+            "meaning": "第二十",
+            "example": "This is the twentieth question.",
+            "translation": "这是第二十个问题。",
+            "memoryTip": "twenty（二十）→ twentieth（第二十），y 变 ie 加 th",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w30",
+            "word": "twenty-first",
+            "phonetic": "/ˌtwenti ˈfɜːst/",
+            "meaning": "第二十一",
+            "example": "Today is the twenty-first day.",
+            "translation": "今天是第二十一天。",
+            "memoryTip": "twenty（二十）+ first（第一）= twenty-first",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w31",
+            "word": "twenty-second",
+            "phonetic": "/ˌtwenti ˈsekənd/",
+            "meaning": "第二十二",
+            "example": "This is the twenty-second lesson.",
+            "translation": "这是第二十二课。",
+            "memoryTip": "twenty（二十）+ second（第二）= twenty-second",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w32",
+            "word": "twenty-third",
+            "phonetic": "/ˌtwenti ˈθɜːd/",
+            "meaning": "第二十三",
+            "example": "Today is the twenty-third day.",
+            "translation": "今天是第二十三天。",
+            "memoryTip": "twenty（二十）+ third（第三）= twenty-third",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w33",
+            "word": "twenty-fourth",
+            "phonetic": "/ˌtwenti ˈfɔːθ/",
+            "meaning": "第二十四",
+            "example": "This is the twenty-fourth question.",
+            "translation": "这是第二十四个问题。",
+            "memoryTip": "twenty（二十）+ fourth（第四）= twenty-fourth",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w34",
+            "word": "twenty-fifth",
+            "phonetic": "/ˌtwenti ˈfɪfθ/",
+            "meaning": "第二十五",
+            "example": "Today is the twenty-fifth day.",
+            "translation": "今天是第二十五天。",
+            "memoryTip": "twenty（二十）+ fifth（第五）= twenty-fifth",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w35",
+            "word": "twenty-sixth",
+            "phonetic": "/ˌtwenti ˈsɪksθ/",
+            "meaning": "第二十六",
+            "example": "This is the twenty-sixth lesson.",
+            "translation": "这是第二十六课。",
+            "memoryTip": "twenty（二十）+ sixth（第六）= twenty-sixth",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w36",
+            "word": "twenty-seventh",
+            "phonetic": "/ˌtwenti ˈsevənθ/",
+            "meaning": "第二十七",
+            "example": "Today is the twenty-seventh day.",
+            "translation": "今天是第二十七天。",
+            "memoryTip": "twenty（二十）+ seventh（第七）= twenty-seventh",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w37",
+            "word": "twenty-eighth",
+            "phonetic": "/ˌtwenti ˈeɪtθ/",
+            "meaning": "第二十八",
+            "example": "This is the twenty-eighth question.",
+            "translation": "这是第二十八个问题。",
+            "memoryTip": "twenty（二十）+ eighth（第八）= twenty-eighth",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w38",
+            "word": "twenty-ninth",
+            "phonetic": "/ˌtwenti ˈnaɪnθ/",
+            "meaning": "第二十九",
+            "example": "Today is the twenty-ninth day.",
+            "translation": "今天是第二十九天。",
+            "memoryTip": "twenty（二十）+ ninth（第九）= twenty-ninth",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w39",
+            "word": "thirtieth",
+            "phonetic": "/ˈθɜːtiəθ/",
+            "meaning": "第三十",
+            "example": "This is the thirtieth question.",
+            "translation": "这是第三十个问题。",
+            "memoryTip": "thirty（三十）→ thirtieth（第三十），y 变 ie 加 th",
+            "category": "序数词"
+          },
+          {
+            "id": "grade5-upper-u3-w40",
+            "word": "thirty-first",
+            "phonetic": "/ˌθɜːti ˈfɜːst/",
+            "meaning": "第三十一",
+            "example": "Today is the thirty-first day.",
+            "translation": "今天是第三十一天。",
+            "memoryTip": "thirty（三十）+ first（第一）= thirty-first",
+            "category": "序数词"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 4",
+        "title": "Grandparents",
+        "category": "频率副词",
+        "words": [
+          {
+            "id": "grade5-upper-u4-w1",
+            "word": "usually",
+            "phonetic": "/ˈjuːʒuəli/",
+            "meaning": "通常",
+            "example": "I usually go to school at seven.",
+            "translation": "我通常七点去学校。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w2",
+            "word": "often",
+            "phonetic": "/ˈɒfən/",
+            "meaning": "经常",
+            "example": "I often read books.",
+            "translation": "我经常读书。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w3",
+            "word": "visit",
+            "phonetic": "/ˈvɪzɪt/",
+            "meaning": "看望；拜访；参观",
+            "example": "I visit my grandparents.",
+            "translation": "我看望我的祖父母。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w4",
+            "word": "sometimes",
+            "phonetic": "/ˈsʌmtaɪmz/",
+            "meaning": "有时",
+            "example": "Sometimes I play football.",
+            "translation": "有时我踢足球。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w5",
+            "word": "always",
+            "phonetic": "/ˈɔːlweɪz/",
+            "meaning": "总是；一直",
+            "example": "I always do my homework.",
+            "translation": "我总是做作业。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w6",
+            "word": "never",
+            "phonetic": "/ˈnevə/",
+            "meaning": "从不",
+            "example": "I never go to bed late.",
+            "translation": "我从不晚睡。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w7",
+            "word": "play sport",
+            "phonetic": "/pleɪ spɔːt/",
+            "meaning": "做运动",
+            "example": "I play sport every day.",
+            "translation": "我每天做运动。",
+            "memoryTip": "",
+            "category": "频率副词"
+          },
+          {
+            "id": "grade5-upper-u4-w8",
+            "word": "go shopping",
+            "phonetic": "/ɡəʊ ˈʃɒpɪŋ/",
+            "meaning": "去购物",
+            "example": "My mother goes shopping on Sunday.",
+            "translation": "我妈妈星期天去购物。",
+            "memoryTip": "",
+            "category": "频率副词"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 5",
+        "title": "Friends",
+        "category": "日常交流类",
+        "words": [
+          {
+            "id": "grade5-upper-u5-w1",
+            "word": "clever",
+            "phonetic": "/ˈklevə/",
+            "meaning": "聪明的",
+            "example": "Tom is a clever boy.",
+            "translation": "汤姆是个聪明的男孩。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w2",
+            "word": "same",
+            "phonetic": "/seɪm/",
+            "meaning": "相同的",
+            "example": "We are in the same class.",
+            "translation": "我们在同一个班级。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w3",
+            "word": "class",
+            "phonetic": "/klɑːs/",
+            "meaning": "班；班级",
+            "example": "I am in Class One.",
+            "translation": "我在一班。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w4",
+            "word": "both",
+            "phonetic": "/bəʊθ/",
+            "meaning": "(两个)都",
+            "example": "Both of us like English.",
+            "translation": "我们两个都喜欢英语。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w5",
+            "word": "cross",
+            "phonetic": "/krɒs/",
+            "meaning": "穿越；越过",
+            "example": "Don't cross the road here.",
+            "translation": "不要在这里过马路。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w6",
+            "word": "carry",
+            "phonetic": "/ˈkæri/",
+            "meaning": "背；提；拿",
+            "example": "I carry a heavy bag.",
+            "translation": "我背着一个重包。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w7",
+            "word": "heavy",
+            "phonetic": "/ˈhevi/",
+            "meaning": "重的；沉的",
+            "example": "This box is very heavy.",
+            "translation": "这个箱子很重。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w8",
+            "word": "different",
+            "phonetic": "/ˈdɪfərənt/",
+            "meaning": "不同的",
+            "example": "We are different.",
+            "translation": "我们是不同的。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w9",
+            "word": "bored",
+            "phonetic": "/bɔːd/",
+            "meaning": "无聊的",
+            "example": "I feel bored.",
+            "translation": "我感到无聊。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w10",
+            "word": "word",
+            "phonetic": "/wɜːd/",
+            "meaning": "单词",
+            "example": "This is a new word.",
+            "translation": "这是一个新单词。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w11",
+            "word": "easy",
+            "phonetic": "/ˈiːzi/",
+            "meaning": "容易的",
+            "example": "This question is easy.",
+            "translation": "这个问题很容易。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w12",
+            "word": "say",
+            "phonetic": "/seɪ/",
+            "meaning": "说",
+            "example": "What do you say?",
+            "translation": "你说什么？",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w13",
+            "word": "then",
+            "phonetic": "/ðen/",
+            "meaning": "然后；那么",
+            "example": "First I read, then I write.",
+            "translation": "我先读，然后写。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w14",
+            "word": "ask",
+            "phonetic": "/ɑːsk/",
+            "meaning": "问",
+            "example": "I ask the teacher a question.",
+            "translation": "我问老师一个问题。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w15",
+            "word": "answer",
+            "phonetic": "/ˈɑːnsə/",
+            "meaning": "回答",
+            "example": "Please answer my question.",
+            "translation": "请回答我的问题。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w16",
+            "word": "soon",
+            "phonetic": "/suːn/",
+            "meaning": "很快；不久",
+            "example": "I will come back soon.",
+            "translation": "我很快回来。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w17",
+            "word": "each other",
+            "phonetic": "/iːtʃ ˈʌðə/",
+            "meaning": "互相",
+            "example": "We help each other.",
+            "translation": "我们互相帮助。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          },
+          {
+            "id": "grade5-upper-u5-w18",
+            "word": "make phone",
+            "phonetic": "/meɪk fəʊn kɔːlz/",
+            "meaning": "calls  打电话",
+            "example": "I make phone calls to my friends.",
+            "translation": "我给朋友打电话。",
+            "memoryTip": "",
+            "category": "日常交流类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 6",
+        "title": "Family life",
+        "category": "房间类",
+        "words": [
+          {
+            "id": "grade5-upper-u6-w1",
+            "word": "life",
+            "phonetic": "/laɪf/",
+            "meaning": "生活",
+            "example": "Life is beautiful.",
+            "translation": "生活是美好的。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w2",
+            "word": "living room",
+            "phonetic": "/ˈlɪvɪŋ ruːm/",
+            "meaning": "客厅",
+            "example": "We watch TV in the living room.",
+            "translation": "我们在客厅看电视。",
+            "memoryTip": "living（生活）+ room（房间）= living room（客厅）",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w3",
+            "word": "bedroom",
+            "phonetic": "/ˈbedruːm/",
+            "meaning": "卧室",
+            "example": "I sleep in my bedroom.",
+            "translation": "我在卧室睡觉。",
+            "memoryTip": "bed（床）+ room（房间）= bedroom（卧室）",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w4",
+            "word": "model plane",
+            "phonetic": "/ˈmɒdəl pleɪn/",
+            "meaning": "飞机模型",
+            "example": "I have a model plane.",
+            "translation": "我有一个飞机模型。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w5",
+            "word": "kitchen",
+            "phonetic": "/ˈkɪtʃɪn/",
+            "meaning": "厨房",
+            "example": "My mother cooks in the kitchen.",
+            "translation": "我妈妈在厨房做饭。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w6",
+            "word": "bathroom",
+            "phonetic": "/ˈbɑːθruːm/",
+            "meaning": "浴室；卫生间",
+            "example": "I brush my teeth in the bathroom.",
+            "translation": "我在浴室刷牙。",
+            "memoryTip": "bath（洗澡）+ room（房间）= bathroom（浴室）",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w7",
+            "word": "their",
+            "phonetic": "/ðeə/",
+            "meaning": "他们的；她们的；它们的",
+            "example": "This is their book.",
+            "translation": "这是他们的书。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w8",
+            "word": "light",
+            "phonetic": "/laɪt/",
+            "meaning": "灯；光",
+            "example": "Turn on the light, please.",
+            "translation": "请开灯。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w9",
+            "word": "watch",
+            "phonetic": "/wɒtʃ/",
+            "meaning": "观看；观察",
+            "example": "I watch TV in the evening.",
+            "translation": "我晚上看电视。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w10",
+            "word": "TV",
+            "phonetic": "/ˌtiː ˈviː/",
+            "meaning": "电视；电视机",
+            "example": "I like watching TV.",
+            "translation": "我喜欢看电视。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w11",
+            "word": "before",
+            "phonetic": "/bɪˈfɔː/",
+            "meaning": "在......以前",
+            "example": "I do homework before dinner.",
+            "translation": "我在晚饭前做作业。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w12",
+            "word": "bedtime",
+            "phonetic": "/ˈbedtaɪm/",
+            "meaning": "就寝时间",
+            "example": "My bedtime is nine o'clock.",
+            "translation": "我的就寝时间是九点。",
+            "memoryTip": "bed（床）+ time（时间）= bedtime（就寝时间）",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w13",
+            "word": "do ...",
+            "phonetic": "/duː ˈhəʊmwɜːk/",
+            "meaning": "homework  做家庭作业",
+            "example": "I do my homework every day.",
+            "translation": "我每天做家庭作业。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w14",
+            "word": "turn off",
+            "phonetic": "/tɜːn ɒf/",
+            "meaning": "关掉",
+            "example": "Turn off the light, please.",
+            "translation": "请关灯。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w15",
+            "word": "watch TV",
+            "phonetic": "/wɒtʃ ˌtiː ˈviː/",
+            "meaning": "看电视",
+            "example": "I watch TV after dinner.",
+            "translation": "我晚饭后看电视。",
+            "memoryTip": "",
+            "category": "房间类"
+          },
+          {
+            "id": "grade5-upper-u6-w16",
+            "word": "tell a",
+            "phonetic": "/tel ə ˈstɔːri/",
+            "meaning": "story  讲故事",
+            "example": "My mother tells me a story.",
+            "translation": "我妈妈给我讲故事。",
+            "memoryTip": "",
+            "category": "房间类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 7",
+        "title": "At the beach",
+        "category": "度假类",
+        "words": [
+          {
+            "id": "grade5-upper-u7-w1",
+            "word": "beach",
+            "phonetic": "/biːtʃ/",
+            "meaning": "海滩",
+            "example": "We play on the beach.",
+            "translation": "我们在海滩上玩。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w2",
+            "word": "enjoy",
+            "phonetic": "/ɪnˈdʒɔɪ/",
+            "meaning": "享受...的乐趣",
+            "example": "I enjoy reading books.",
+            "translation": "我喜欢读书。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w3",
+            "word": "sunshine",
+            "phonetic": "/ˈsʌnʃaɪn/",
+            "meaning": "阳光",
+            "example": "We enjoy the sunshine on the beach.",
+            "translation": "我们在海滩享受阳光。",
+            "memoryTip": "sun（太阳）+ shine（照耀）= sunshine（阳光）",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w4",
+            "word": "collect",
+            "phonetic": "/kəˈlekt/",
+            "meaning": "收集",
+            "example": "I collect shells.",
+            "translation": "我收集贝壳。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w5",
+            "word": "shell",
+            "phonetic": "/ʃel/",
+            "meaning": "贝壳",
+            "example": "I find a beautiful shell.",
+            "translation": "我找到一个漂亮的贝壳。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w6",
+            "word": "sea",
+            "phonetic": "/siː/",
+            "meaning": "海",
+            "example": "The sea is blue.",
+            "translation": "大海是蓝色的。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w7",
+            "word": "letter",
+            "phonetic": "/ˈletə/",
+            "meaning": "信",
+            "example": "I write a letter to my friend.",
+            "translation": "我给我的朋友写信。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w8",
+            "word": "put",
+            "phonetic": "/pʊt/",
+            "meaning": "放；安置",
+            "example": "Put the book on the desk.",
+            "translation": "把书放在桌子上。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w9",
+            "word": "know",
+            "phonetic": "/nəʊ/",
+            "meaning": "知道",
+            "example": "I know the answer.",
+            "translation": "我知道答案。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w10",
+            "word": "year",
+            "phonetic": "/jɪə/",
+            "meaning": "年岁；年",
+            "example": "I am ten years old.",
+            "translation": "我十岁了。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w11",
+            "word": "on holiday",
+            "phonetic": "/ɒn ˈhɒlədi/",
+            "meaning": "度假",
+            "example": "We go to the beach on holiday.",
+            "translation": "我们度假时去海滩。",
+            "memoryTip": "",
+            "category": "度假类"
+          },
+          {
+            "id": "grade5-upper-u7-w12",
+            "word": "have a",
+            "phonetic": "/hæv ə ɡʊd taɪm/",
+            "meaning": "good time  玩得高兴",
+            "example": "We have a good time at the beach.",
+            "translation": "我们在海滩玩得很开心。",
+            "memoryTip": "",
+            "category": "度假类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 8",
+        "title": "An outing",
+        "category": "远足探险类",
+        "words": [
+          {
+            "id": "grade5-upper-u8-w1",
+            "word": "outing",
+            "phonetic": "/ˈaʊtɪŋ/",
+            "meaning": "远足",
+            "example": "We go on an outing.",
+            "translation": "我们去远足。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w2",
+            "word": "map",
+            "phonetic": "/mæp/",
+            "meaning": "地图",
+            "example": "I look at the map.",
+            "translation": "我看地图。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w3",
+            "word": "hill",
+            "phonetic": "/hɪl/",
+            "meaning": "小山",
+            "example": "There is a hill over there.",
+            "translation": "那边有一座小山。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w4",
+            "word": "find",
+            "phonetic": "/faɪnd/",
+            "meaning": "发现；找到",
+            "example": "I find a key.",
+            "translation": "我找到一把钥匙。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w5",
+            "word": "diamond",
+            "phonetic": "/ˈdaɪəmənd/",
+            "meaning": "钻石",
+            "example": "The diamond is very beautiful.",
+            "translation": "钻石很漂亮。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w6",
+            "word": "another",
+            "phonetic": "/əˈnʌðə/",
+            "meaning": "另一个",
+            "example": "I want another apple.",
+            "translation": "我想要另一个苹果。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w7",
+            "word": "lake",
+            "phonetic": "/leɪk/",
+            "meaning": "湖",
+            "example": "The lake is very big.",
+            "translation": "这个湖很大。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w8",
+            "word": "funny",
+            "phonetic": "/ˈfʌni/",
+            "meaning": "滑稽的；好笑的",
+            "example": "This story is very funny.",
+            "translation": "这个故事很有趣。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w9",
+            "word": "hole",
+            "phonetic": "/həʊl/",
+            "meaning": "洞",
+            "example": "There is a hole in the wall.",
+            "translation": "墙上有一个洞。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w10",
+            "word": "key",
+            "phonetic": "/kiː/",
+            "meaning": "钥匙",
+            "example": "This is the key to the door.",
+            "translation": "这是门的钥匙。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w11",
+            "word": "think",
+            "phonetic": "/θɪŋk/",
+            "meaning": "想",
+            "example": "I think it's good.",
+            "translation": "我认为这很好。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w12",
+            "word": "at the",
+            "phonetic": "/æt ðə tɒp ɒv/",
+            "meaning": "top of  在......顶部",
+            "example": "The flag is at the top of the hill.",
+            "translation": "旗子在山顶。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          },
+          {
+            "id": "grade5-upper-u8-w13",
+            "word": "get through",
+            "phonetic": "/ɡet θruː/",
+            "meaning": "通过",
+            "example": "We get through the hole.",
+            "translation": "我们通过这个洞。",
+            "memoryTip": "",
+            "category": "远足探险类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 9",
+        "title": "Around the city",
+        "category": "方向类",
+        "words": [
+          {
+            "id": "grade5-upper-u9-w1",
+            "word": "post office",
+            "phonetic": "/pəʊst ˈɒfɪs/",
+            "meaning": "邮局",
+            "example": "I send a letter at the post office.",
+            "translation": "我在邮局寄信。",
+            "memoryTip": "post（邮政）+ office（办公室）= post office（邮局）",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w2",
+            "word": "quite",
+            "phonetic": "/kwaɪt/",
+            "meaning": "相当；十分",
+            "example": "It's quite good.",
+            "translation": "这相当好。",
+            "memoryTip": "quite（相当）和 quiet（安静的）容易混淆，quite 是副词",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w3",
+            "word": "along",
+            "phonetic": "/əˈlɒŋ/",
+            "meaning": "沿着；顺着",
+            "example": "Walk along this road.",
+            "translation": "沿着这条路走。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w4",
+            "word": "turn",
+            "phonetic": "/tɜːn/",
+            "meaning": "转向；转弯",
+            "example": "Turn left at the corner.",
+            "translation": "在拐角处向左转。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w5",
+            "word": "left",
+            "phonetic": "/left/",
+            "meaning": "左边",
+            "example": "The book is on the left.",
+            "translation": "书在左边。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w6",
+            "word": "straight",
+            "phonetic": "/streɪt/",
+            "meaning": "笔直地",
+            "example": "Go straight ahead.",
+            "translation": "一直往前走。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w7",
+            "word": "right",
+            "phonetic": "/raɪt/",
+            "meaning": "右边；正确的",
+            "example": "Turn right here.",
+            "translation": "在这里向右转。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w8",
+            "word": "between",
+            "phonetic": "/bɪˈtwiːn/",
+            "meaning": "在...中间",
+            "example": "The book is between two pens.",
+            "translation": "书在两支笔中间。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w9",
+            "word": "flower shop",
+            "phonetic": "/ˈflaʊə ʃɒp/",
+            "meaning": "花店",
+            "example": "My mother buys flowers at the flower shop.",
+            "translation": "我妈妈在花店买花。",
+            "memoryTip": "flower（花）+ shop（商店）= flower shop（花店）",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w10",
+            "word": "hospital",
+            "phonetic": "/ˈhɒspɪtəl/",
+            "meaning": "医院",
+            "example": "My father works in a hospital.",
+            "translation": "我爸爸在医院工作。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w11",
+            "word": "toy shop",
+            "phonetic": "/tɔɪ ʃɒp/",
+            "meaning": "玩具店",
+            "example": "I buy toys at the toy shop.",
+            "translation": "我在玩具店买玩具。",
+            "memoryTip": "toy（玩具）+ shop（商店）= toy shop（玩具店）",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w12",
+            "word": "road",
+            "phonetic": "/rəʊd/",
+            "meaning": "路；马路",
+            "example": "This road is very long.",
+            "translation": "这条路很长。",
+            "memoryTip": "",
+            "category": "方向类"
+          },
+          {
+            "id": "grade5-upper-u9-w13",
+            "word": "get to",
+            "phonetic": "/ɡet tuː/",
+            "meaning": "到达",
+            "example": "How do I get to the school?",
+            "translation": "我怎么到学校？",
+            "memoryTip": "",
+            "category": "方向类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 10",
+        "title": "Wind",
+        "category": "副词类",
+        "words": [
+          {
+            "id": "grade5-upper-u10-w1",
+            "word": "blow",
+            "phonetic": "/bləʊ/",
+            "meaning": "刮；吹",
+            "example": "The wind blows gently.",
+            "translation": "风轻轻地吹。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w2",
+            "word": "gently",
+            "phonetic": "/ˈdʒentli/",
+            "meaning": "和缓地；温柔地",
+            "example": "The wind blows gently.",
+            "translation": "风轻轻地吹。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w3",
+            "word": "softly",
+            "phonetic": "/ˈsɒftli/",
+            "meaning": "轻柔地",
+            "example": "She speaks softly.",
+            "translation": "她轻声说话。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w4",
+            "word": "strongly",
+            "phonetic": "/ˈstrɒŋli/",
+            "meaning": "强劲地",
+            "example": "The wind blows strongly.",
+            "translation": "风强劲地吹。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w5",
+            "word": "happily",
+            "phonetic": "/ˈhæpɪli/",
+            "meaning": "快乐地",
+            "example": "We play happily.",
+            "translation": "我们快乐地玩。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w6",
+            "word": "windmill",
+            "phonetic": "/ˈwɪndmɪl/",
+            "meaning": "风车",
+            "example": "The windmill turns in the wind.",
+            "translation": "风车在风中转动。",
+            "memoryTip": "wind（风）+ mill（磨坊）= windmill（风车）",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w7",
+            "word": "move",
+            "phonetic": "/muːv/",
+            "meaning": "(使)改变位置；移动",
+            "example": "Don't move!",
+            "translation": "别动！",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w8",
+            "word": "slowly",
+            "phonetic": "/ˈsləʊli/",
+            "meaning": "缓慢地",
+            "example": "The old man walks slowly.",
+            "translation": "老人慢慢地走。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w9",
+            "word": "quickly",
+            "phonetic": "/ˈkwɪkli/",
+            "meaning": "快地；迅速地",
+            "example": "I run quickly.",
+            "translation": "我跑得很快。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w10",
+            "word": "sound",
+            "phonetic": "/saʊnd/",
+            "meaning": "声乐；听起来好像",
+            "example": "It sounds good.",
+            "translation": "听起来不错。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w11",
+            "word": "wind-bell",
+            "phonetic": "/ˈwɪnd bel/",
+            "meaning": "风铃",
+            "example": "The wind-bell makes a nice sound.",
+            "translation": "风铃发出好听的声音。",
+            "memoryTip": "wind（风）+ bell（铃）= wind-bell（风铃）",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w12",
+            "word": "cut",
+            "phonetic": "/kʌt/",
+            "meaning": "剪；砍；切",
+            "example": "I cut the paper.",
+            "translation": "我剪纸。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w13",
+            "word": "paper",
+            "phonetic": "/ˈpeɪpə/",
+            "meaning": "纸；纸张",
+            "example": "I write on paper.",
+            "translation": "我在纸上写字。",
+            "memoryTip": "",
+            "category": "副词类"
+          },
+          {
+            "id": "grade5-upper-u10-w14",
+            "word": "quiet",
+            "phonetic": "/ˈkwaɪət/",
+            "meaning": "轻声的；安静的",
+            "example": "Please be quiet.",
+            "translation": "请安静。",
+            "memoryTip": "quiet（安静的）和 quite（相当）容易混淆，quiet 是形容词",
+            "category": "副词类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 11",
+        "title": "Water",
+        "category": "生活自然类",
+        "words": [
+          {
+            "id": "grade5-upper-u11-w1",
+            "word": "tap",
+            "phonetic": "/tæp/",
+            "meaning": "水龙头",
+            "example": "Turn on the tap.",
+            "translation": "打开水龙头。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w2",
+            "word": "use",
+            "phonetic": "/juːz/",
+            "meaning": "使用",
+            "example": "I use water to wash.",
+            "translation": "我用水来洗。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w3",
+            "word": "vegetable",
+            "phonetic": "/ˈvedʒtəbəl/",
+            "meaning": "蔬菜",
+            "example": "I like eating vegetables.",
+            "translation": "我喜欢吃蔬菜。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w4",
+            "word": "clothes",
+            "phonetic": "/kləʊðz/",
+            "meaning": "衣服；服装",
+            "example": "I wash my clothes.",
+            "translation": "我洗衣服。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w5",
+            "word": "farmer",
+            "phonetic": "/ˈfɑːmə/",
+            "meaning": "农民",
+            "example": "The farmer grows vegetables.",
+            "translation": "农民种蔬菜。",
+            "memoryTip": "farm（农场）+ er（人）= farmer（农民）",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w6",
+            "word": "useful",
+            "phonetic": "/ˈjuːsfəl/",
+            "meaning": "有用的",
+            "example": "This book is very useful.",
+            "translation": "这本书很有用。",
+            "memoryTip": "use（使用）+ ful（充满的）= useful（有用的）",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w7",
+            "word": "drop",
+            "phonetic": "/drɒp/",
+            "meaning": "滴；水珠",
+            "example": "A drop of water falls.",
+            "translation": "一滴水落下。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w8",
+            "word": "up",
+            "phonetic": "/ʌp/",
+            "meaning": "向上；在上面",
+            "example": "Look up!",
+            "translation": "向上看！",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w9",
+            "word": "shine",
+            "phonetic": "/ʃaɪn/",
+            "meaning": "照耀",
+            "example": "The sun shines.",
+            "translation": "太阳照耀。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w10",
+            "word": "over",
+            "phonetic": "/ˈəʊvə/",
+            "meaning": "在......上方",
+            "example": "The bridge is over the river.",
+            "translation": "桥在河上方。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w11",
+            "word": "mountain",
+            "phonetic": "/ˈmaʊntɪn/",
+            "meaning": "山；山脉",
+            "example": "The mountain is very high.",
+            "translation": "这座山很高。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w12",
+            "word": "tree",
+            "phonetic": "/triː/",
+            "meaning": "树",
+            "example": "There is a big tree.",
+            "translation": "有一棵大树。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w13",
+            "word": "ground",
+            "phonetic": "/ɡraʊnd/",
+            "meaning": "地面",
+            "example": "The apple falls to the ground.",
+            "translation": "苹果掉到地上。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w14",
+            "word": "inside",
+            "phonetic": "/ˌɪnˈsaɪd/",
+            "meaning": "在......里面",
+            "example": "The cat is inside the box.",
+            "translation": "猫在盒子里。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w15",
+            "word": "grow crops",
+            "phonetic": "/ɡrəʊ krɒps/",
+            "meaning": "种庄稼",
+            "example": "Farmers grow crops.",
+            "translation": "农民种庄稼。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          },
+          {
+            "id": "grade5-upper-u11-w16",
+            "word": "put out",
+            "phonetic": "/pʊt aʊt ˈfaɪəz/",
+            "meaning": "fires  灭火",
+            "example": "Firefighters put out fires.",
+            "translation": "消防员灭火。",
+            "memoryTip": "",
+            "category": "生活自然类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 12",
+        "title": "Fire",
+        "category": "安全类",
+        "words": [
+          {
+            "id": "grade5-upper-u12-w1",
+            "word": "fire",
+            "phonetic": "/ˈfaɪə/",
+            "meaning": "火；火灾",
+            "example": "Fire is dangerous.",
+            "translation": "火是危险的。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w2",
+            "word": "burn",
+            "phonetic": "/bɜːn/",
+            "meaning": "燃烧；烧",
+            "example": "Don't let the paper burn.",
+            "translation": "不要让纸烧起来。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w3",
+            "word": "hurt",
+            "phonetic": "/hɜːt/",
+            "meaning": "(使)受伤",
+            "example": "The fire can hurt you.",
+            "translation": "火会伤害你。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w4",
+            "word": "must",
+            "phonetic": "/mʌst/",
+            "meaning": "必须",
+            "example": "You must be careful.",
+            "translation": "你必须小心。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w5",
+            "word": "careful",
+            "phonetic": "/ˈkeəfəl/",
+            "meaning": "小心的",
+            "example": "Be careful with fire.",
+            "translation": "小心火。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w6",
+            "word": "safety",
+            "phonetic": "/ˈseɪfti/",
+            "meaning": "安全",
+            "example": "Safety is important.",
+            "translation": "安全很重要。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w7",
+            "word": "smoke",
+            "phonetic": "/sməʊk/",
+            "meaning": "吸烟",
+            "example": "Don't smoke here.",
+            "translation": "不要在这里吸烟。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w8",
+            "word": "match",
+            "phonetic": "/mætʃ/",
+            "meaning": "火柴",
+            "example": "Don't play with matches.",
+            "translation": "不要玩火柴。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w9",
+            "word": "heat",
+            "phonetic": "/hiːt/",
+            "meaning": "热；高温",
+            "example": "The heat is very strong.",
+            "translation": "热量很强。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w10",
+            "word": "hate",
+            "phonetic": "/heɪt/",
+            "meaning": "讨厌",
+            "example": "I hate fire.",
+            "translation": "我讨厌火。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w11",
+            "word": "burn down",
+            "phonetic": "/bɜːn daʊn/",
+            "meaning": "烧毁",
+            "example": "The fire can burn down the house.",
+            "translation": "火会烧毁房子。",
+            "memoryTip": "",
+            "category": "安全类"
+          },
+          {
+            "id": "grade5-upper-u12-w12",
+            "word": "(be) careful",
+            "phonetic": "/biː ˈkeəfəl wɪð/",
+            "meaning": "with  当心......",
+            "example": "Be careful with fire.",
+            "translation": "小心火。",
+            "memoryTip": "",
+            "category": "安全类"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grade6-upper",
+    "name": "英语六年级上册",
+    "units": [
+      {
+        "unit": "Unit 1",
+        "title": "Growing up",
+        "category": "成长变化类",
+        "words": [
+          {
+            "id": "grade6-upper-u1-w1",
+            "word": "month",
+            "phonetic": "/mʌnθ/",
+            "meaning": "一个月的时间；月份",
+            "example": "There are twelve months in a year.",
+            "translation": "一年有十二个月。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w2",
+            "word": "cute",
+            "phonetic": "/kjuːt/",
+            "meaning": "可爱的",
+            "example": "The baby is very cute.",
+            "translation": "这个婴儿很可爱。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w3",
+            "word": "pretty",
+            "phonetic": "/ˈprɪti/",
+            "meaning": "漂亮的",
+            "example": "She is a pretty girl.",
+            "translation": "她是个漂亮的女孩。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w4",
+            "word": "handsome",
+            "phonetic": "/ˈhænsəm/",
+            "meaning": "英俊的；帅气的",
+            "example": "He is a handsome boy.",
+            "translation": "他是个帅气的男孩。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w5",
+            "word": "turtle",
+            "phonetic": "/ˈtɜːtəl/",
+            "meaning": "乌龟",
+            "example": "I have a pet turtle.",
+            "translation": "我有一只宠物乌龟。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w6",
+            "word": "catch",
+            "phonetic": "/kætʃ/",
+            "meaning": "逮住；捕捉",
+            "example": "I catch a fly.",
+            "translation": "我捉住了一只苍蝇。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w7",
+            "word": "fly",
+            "phonetic": "/flaɪ/",
+            "meaning": "苍蝇",
+            "example": "There is a fly on the table.",
+            "translation": "桌子上有一只苍蝇。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w8",
+            "word": "grow up",
+            "phonetic": "/ɡrəʊ ʌp/",
+            "meaning": "长大；成长",
+            "example": "I want to grow up quickly.",
+            "translation": "我想快点长大。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w9",
+            "word": "junior high",
+            "phonetic": "/ˈdʒuːniə haɪ skuːl/",
+            "meaning": "school  初级中学",
+            "example": "I will go to junior high school next year.",
+            "translation": "我明年将上初级中学。",
+            "memoryTip": "junior（初级的）+ high school（中学）= junior high school（初级中学）",
+            "category": "成长变化类"
+          },
+          {
+            "id": "grade6-upper-u1-w10",
+            "word": "(be) born",
+            "phonetic": "/biː bɔːn/",
+            "meaning": "出生",
+            "example": "I was born in 2010.",
+            "translation": "我出生于2010年。",
+            "memoryTip": "",
+            "category": "成长变化类"
+          }
+        ]
+      }
+    ]
+  }
+]

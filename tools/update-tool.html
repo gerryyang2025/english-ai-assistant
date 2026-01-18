@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单词数据更新工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #ddd;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .upload-hint {
+            color: #999;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #eee;
+            box-shadow: none;
+        }
+        
+        .status {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        .status.info {
+            background: #cce5ff;
+            color: #004085;
+            display: block;
+        }
+        
+        .preview {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .preview.show {
+            display: block;
+        }
+        
+        .preview-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .wordbook-list {
+            list-style: none;
+        }
+        
+        .wordbook-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .unit-list {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .unit-item {
+            padding: 8px;
+            margin: 3px 0;
+            background: #f0f2ff;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .file-info {
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .file-info.show {
+            display: block;
+        }
+        
+        .file-name {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .file-size {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .actions {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .actions.show {
+            display: block;
+        }
+        
+        .help-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .help-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .help-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .help-code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            color: #666;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            color: #667eea;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>📚 单词数据更新工具</h1>
+            <p class="subtitle">将 WORDS.md 文件转换为网站可用的 JSON 数据格式</p>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="upload">文件上传</div>
+                <div class="tab" data-tab="help">使用帮助</div>
+            </div>
+            
+            <!-- 上传标签页 -->
+            <div class="tab-content active" id="tab-upload">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">点击或拖拽 WORDS.md 文件到此处</div>
+                    <div class="upload-hint">支持 .md 格式的文件</div>
+                </div>
+                <input type="file" id="fileInput" accept=".md,.txt">
+                
+                <div class="file-info" id="fileInfo">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+                
+                <div class="preview" id="preview">
+                    <div class="preview-title">数据预览：</div>
+                    <ul class="wordbook-list" id="wordbookList"></ul>
+                </div>
+                
+                <div class="actions" id="actions">
+                    <button class="btn" id="generateBtn">生成并下载数据文件</button>
+                    <button class="btn btn-secondary" id="copyBtn">复制 JSON 到剪贴板</button>
+                </div>
+                
+                <div class="status" id="status"></div>
+            </div>
+            
+            <!-- 帮助标签页 -->
+            <div class="tab-content" id="tab-help">
+                <div class="help-section">
+                    <div class="help-title">📖 使用方法</div>
+                    <div class="help-content">
+                        <p>1. <strong>上传文件</strong>：点击上方区域或拖拽 WORDS.md 文件</p>
+                        <p>2. <strong>预览数据</strong>：查看解析后的数据结构是否正确</p>
+                        <p>3. <strong>生成数据</strong>：点击按钮生成 JSON 数据</p>
+                        <p>4. <strong>更新文件</strong>：将生成的文件复制到项目对应位置</p>
+                        
+                        <div class="help-title" style="margin-top: 20px;">📂 需要更新的文件</div>
+                        <p>生成数据后，需要更新以下文件：</p>
+                        <div class="help-code">
+data/words.json
+js/app.js (EMBEDDED_WORD_DATA 常量)</div>
+                        
+                        <div class="help-title" style="margin-top: 20px;">💡 提示</div>
+                        <p>• 如果使用本地服务器（http://），只需更新 <code>data/words.json</code></p>
+                        <p>• 如果直接打开 HTML 文件（file://），需要同时更新 <code>js/app.js</code> 中的 <code>EMBEDDED_WORD_DATA</code></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 结果标签页 -->
+            <div class="tab-content" id="tab-result">
+                <div class="help-section">
+                    <div class="help-title">✅ 更新完成！</div>
+                    <div class="help-content">
+                        <p>请按以下步骤完成更新：</p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>下载生成的文件到项目目录</li>
+                            <li>更新 <code>data/words.json</code></li>
+                            <li>如果需要离线使用，复制 JSON 内容更新 <code>js/app.js</code> 中的 <code>EMBEDDED_WORD_DATA</code></li>
+                            <li>刷新浏览器页面查看更新后的内容</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM 元素
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const preview = document.getElementById('preview');
+        const wordbookList = document.getElementById('wordbookList');
+        const actions = document.getElementById('actions');
+        const generateBtn = document.getElementById('generateBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const status = document.getElementById('status');
+        
+        let parsedData = null;
+        let originalFileName = 'WORDS.md';
+        
+        // 标签切换
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 文件上传
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+        
+        function handleFile(file) {
+            if (!file.name.endsWith('.md')) {
+                showStatus('请上传 .md 格式的文件', 'error');
+                return;
+            }
+            
+            originalFileName = file.name;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.classList.add('show');
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                try {
+                    parsedData = parseWordsMD(content);
+                    showPreview(parsedData);
+                    showStatus('文件解析成功！', 'success');
+                    actions.classList.add('show');
+                } catch (error) {
+                    showStatus('文件解析失败：' + error.message, 'error');
+                    console.error(error);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+        
+        function parseWordsMD(content) {
+            const lines = content.split('\n');
+            const wordBooks = [];
+            let currentBook = null;
+            let currentUnit = null;
+            let currentWordData = null;
+            let wordIndex = 0;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const rawLine = lines[i];
+                const line = rawLine.trim();
+                
+                // 跳过注释和空行（但保留用于缩进检测）
+                if (line.startsWith('<!--') || line.startsWith('```')) {
+                    continue;
+                }
+                
+                // 检测词书标题
+                if (rawLine.startsWith('# ')) {
+                    const bookName = line.replace('# ', '').replace('单词', '').trim();
+                    if (bookName.includes('年级')) {
+                        currentBook = {
+                            id: bookNameToId(bookName),
+                            name: bookName,
+                            units: []
+                        };
+                        wordBooks.push(currentBook);
+                        currentUnit = null;
+                        currentWordData = null;
+                    }
+                    continue;
+                }
+                
+                // 检测单元标题
+                if (rawLine.startsWith('## ')) {
+                    const unitMatch = line.match(/##\s*(Unit\s*\d+)/);
+                    if (unitMatch) {
+                        // 保存上一个单词
+                        if (currentWordData && currentUnit) {
+                            currentUnit.words.push(currentWordData);
+                            wordIndex++;
+                        }
+                        currentWordData = null;
+                        
+                        currentUnit = {
+                            unit: unitMatch[1],
+                            title: '',
+                            category: '',
+                            words: []
+                        };
+                        wordIndex = 0;
+                        if (currentBook) {
+                            currentBook.units.push(currentUnit);
+                        }
+                    }
+                    continue;
+                }
+                
+                // 检测 Title 行
+                if (rawLine.startsWith('Title:')) {
+                    const titleMatch = line.match(/Title:\s*(.+?)\s*Category:\s*(.+)/);
+                    if (titleMatch && currentUnit) {
+                        currentUnit.title = titleMatch[1].trim();
+                        currentUnit.category = titleMatch[2].trim();
+                    }
+                    continue;
+                }
+                
+                // 检测详情行（缩进的 - 行）
+                if (rawLine.startsWith('  - ')) {
+                    const detailContent = line.substring(2).trim(); // 移除 "- "
+                    
+                    // 如果还没有当前单词数据，跳过
+                    if (!currentWordData) continue;
+                    
+                    if (detailContent.startsWith('例句：')) {
+                        const examplePart = detailContent.substring(3); // 移除 "例句："
+                        const match = examplePart.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+                        if (match) {
+                            currentWordData.example = match[1].trim();
+                            currentWordData.translation = match[2].trim();
+                        } else if (examplePart.trim()) {
+                            currentWordData.example = examplePart.trim();
+                        }
+                    } else if (detailContent.startsWith('记忆：')) {
+                        currentWordData.memoryTip = detailContent.substring(3).trim();
+                    }
+                    continue;
+                }
+                
+                // 检测单词行（以 * 开头但不是缩进的）
+                if (rawLine.startsWith('* ')) {
+                    // 保存上一个单词
+                    if (currentWordData && currentUnit) {
+                        currentUnit.words.push(currentWordData);
+                        wordIndex++;
+                    }
+                    
+                    currentWordData = parseWordLine(line, currentBook, currentUnit, wordIndex);
+                    continue;
+                }
+            }
+            
+            // 保存最后一个单词
+            if (currentWordData && currentUnit) {
+                currentUnit.words.push(currentWordData);
+            }
+            
+            return wordBooks;
+        }
+        
+        function bookNameToId(bookName) {
+            const map = {
+                '英语五年级上册': 'grade5-upper',
+                '英语六年级上册': 'grade6-upper',
+                '英语五年级下册': 'grade5-lower',
+                '英语六年级下册': 'grade6-lower'
+            };
+            return map[bookName] || bookName;
+        }
+        
+        function parseWordLine(line, book, unit, index) {
+            // 格式: * word /phonetic/ meaning
+            const wordLine = line.substring(2).trim(); // 移除 "* "
+            const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
+            if (!wordMatch) return null;
+            
+            const word = wordMatch[1].trim();
+            let remaining = wordLine.substring(wordMatch[0].length).trim();
+            
+            // 提取音标 /.../
+            let phonetic = '';
+            const phoneticMatch = remaining.match(/\/([^\/]+)\//);
+            if (phoneticMatch) {
+                phonetic = '/' + phoneticMatch[1] + '/';
+                remaining = remaining.replace(/\/[^\/]+\//, '').trim();
+            }
+            
+            // 含义
+            const meaning = remaining;
+            
+            // 生成 ID（包含词书前缀以确保唯一性）
+            const bookId = book ? (book.id || 'book') : 'book';
+            const unitNum = unit ? unit.unit.replace('Unit ', 'u') : 'u0';
+            const id = `${bookId}-${unitNum}-w${index + 1}`;
+            
+            return {
+                id: id,
+                word: word,
+                phonetic: phonetic,
+                meaning: meaning,
+                example: '',
+                translation: '',
+                memoryTip: '',
+                category: unit ? unit.category : ''
+            };
+        }
+        
+        function showPreview(data) {
+            wordbookList.innerHTML = '';
+            
+            data.forEach(book => {
+                const bookItem = document.createElement('li');
+                bookItem.className = 'wordbook-item';
+                bookItem.innerHTML = `
+                    <strong>${book.name}</strong>
+                    <div class="unit-list">
+                        ${book.units.map(unit => `
+                            <div class="unit-item">
+                                ${unit.unit} - ${unit.title || '未命名'} (${unit.words.length} 个单词)
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                wordbookList.appendChild(bookItem);
+            });
+            
+            preview.classList.add('show');
+        }
+        
+        function generateJSON() {
+            if (!parsedData) return null;
+            return JSON.stringify(parsedData, null, 2);
+        }
+        
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+        
+        // 生成按钮
+        generateBtn.addEventListener('click', () => {
+            const json = generateJSON();
+            if (!json) {
+                showStatus('没有可生成的数据', 'error');
+                return;
+            }
+            
+            // 下载 words.json
+            downloadFile(json, 'words.json', 'application/json');
+            
+            // 生成 app.js 的内嵌数据
+            const embeddedData = `// ========== 内嵌单词数据（当 fetch 失败时使用）==========
+// 数据格式：词书列表，每个词书包含多个单元
+// 此文件由更新工具自动生成，不要手动修改
+const EMBEDDED_WORD_DATA = ${json};`;
+            
+            // 下载 app.js 片段
+            downloadFile(embeddedData, 'app.js-embedded-data.txt', 'text/plain');
+            
+            showStatus(`
+                ✅ 数据生成成功！<br><br>
+                已下载两个文件：<br>
+                1. <code>data/words.json</code> - 网站数据文件<br>
+                2. <code>app.js-embedded-data.txt</code> - 用于离线使用的内嵌数据<br><br>
+                请将文件内容复制到对应位置，然后刷新页面查看更新。
+            `, 'success');
+            
+            // 切换到结果标签页
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector('[data-tab="result"]').classList.add('active');
+            document.getElementById('tab-result').classList.add('active');
+        });
+        
+        // 复制按钮
+        copyBtn.addEventListener('click', () => {
+            const json = generateJSON();
+            if (!json) {
+                showStatus('没有可复制的数据', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(json).then(() => {
+                showStatus('JSON 数据已复制到剪贴板！', 'success');
+            }).catch(err => {
+                showStatus('复制失败：' + err.message, 'error');
+            });
+        });
+        
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
