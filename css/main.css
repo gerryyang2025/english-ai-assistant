@@ -1799,125 +1799,772 @@ body {
 }
 
 /* ========== 响应式设计 ========== */
+
+/* 平板设备 (768px 以下) */
 @media (max-width: 768px) {
+    /* 头部导航 */
+    .header {
+        padding: 0 12px;
+    }
+    
     .header-content {
         flex-direction: column;
         height: auto;
         padding: 12px 0;
-        gap: 12px;
+        gap: 10px;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
     }
     
     .nav-menu {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 6px;
     }
     
     .nav-btn {
-        padding: 8px 16px;
-        font-size: 0.9rem;
+        padding: 8px 14px;
+        font-size: 0.85rem;
     }
     
+    /* 主内容区域 */
     .main-content {
-        padding: 16px;
+        padding: 16px 12px;
+    }
+    
+    /* 首页 */
+    .hero-section {
+        padding: 28px 16px;
+        margin-bottom: 24px;
     }
     
     .hero-section h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+    }
+    
+    .hero-section p {
+        font-size: 1rem;
+    }
+    
+    .feature-cards {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+    }
+    
+    .feature-card {
+        padding: 24px 20px;
+    }
+    
+    .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.15rem;
+    }
+    
+    /* 今日统计 */
+    .today-stats {
+        padding: 20px 16px;
     }
     
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
     
-    .page-header {
+    .stat-item {
+        padding: 12px 8px;
+    }
+    
+    .stat-number {
+        font-size: 1.6rem;
+    }
+    
+    /* AI 问答 */
+    .ai-qa-section {
+        padding: 20px 16px;
+    }
+    
+    .ai-qa-section h3 {
+        font-size: 1.2rem;
+    }
+    
+    .qa-input-area {
         flex-direction: column;
-        align-items: stretch;
     }
     
-    .search-box input {
+    #qa-input {
+        padding: 12px 14px;
+    }
+    
+    #qa-submit-btn {
+        padding: 12px 24px;
         width: 100%;
     }
     
-    .word-card {
+    /* 页面头部 */
+    .page-header {
         flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .page-header h2 {
+        font-size: 1.3rem;
         text-align: center;
     }
     
+    /* 搜索框 */
+    .search-box {
+        width: 100%;
+    }
+    
+    .search-box input {
+        flex: 1;
+        width: auto;
+        padding: 10px 16px;
+    }
+    
+    .search-btn {
+        padding: 10px 16px;
+        font-size: 1rem;
+    }
+    
+    /* 词书选择器 */
+    .wordbook-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 16px;
+    }
+    
+    .wordbook-selector label {
+        text-align: center;
+    }
+    
+    /* 单元标签页 */
+    .unit-tabs {
+        gap: 6px;
+        padding: 6px 0;
+    }
+    
+    .unit-tab {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    
+    /* 单词卡片 */
+    .word-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 16px;
+        gap: 16px;
+    }
+    
+    .word-text {
+        font-size: 1.3rem;
+        justify-content: center;
+    }
+    
+    .word-phonetic {
+        font-size: 0.85rem;
+    }
+    
+    .word-meaning {
+        font-size: 1rem;
+    }
+    
+    .word-example {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
     .word-actions {
-        margin-top: 16px;
+        margin-top: 8px;
+    }
+    
+    /* 分页 */
+    .pagination {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    /* 闪卡测试设置 */
+    .setup-section {
+        max-width: 100%;
+        padding: 24px 20px;
+        margin: 0 8px;
+    }
+    
+    .setup-section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 24px;
+    }
+    
+    .unit-select-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    .unit-select-item {
+        padding: 10px 12px;
+    }
+    
+    .mode-options {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .mode-option {
+        min-width: 100%;
+    }
+    
+    .select-actions {
+        flex-direction: column;
+    }
+    
+    /* 闪卡 */
+    .test-section {
+        max-width: 100%;
+        padding: 0 8px;
     }
     
     .flashcard {
-        height: 360px;
+        height: 340px;
+        margin-bottom: 20px;
     }
     
     .question-text {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     
     .answer-word {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .answer-meaning {
         font-size: 1.3rem;
     }
     
+    .btn-reveal {
+        padding: 14px 36px;
+        font-size: 1.1rem;
+    }
+    
+    .answer-actions {
+        gap: 10px;
+    }
+    
+    .answer-actions button {
+        flex: 1;
+        padding: 12px 20px;
+        justify-content: center;
+    }
+    
+    /* 测试结果 */
+    .result-section {
+        max-width: 100%;
+        padding: 24px 20px;
+        margin: 0 8px;
+    }
+    
     .result-stats {
-        flex-direction: column;
         gap: 24px;
     }
     
-    .overall-stats {
-        grid-template-columns: repeat(2, 1fr);
+    .result-circle {
+        width: 140px;
+        height: 140px;
     }
     
+    .result-percent {
+        font-size: 2rem;
+    }
+    
+    /* 学习进度 */
+    .overall-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 20px 16px;
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+    }
+    
+    .stat-value {
+        font-size: 1.6rem;
+    }
+    
+    /* 单元进度 */
     .unit-progress-item {
         flex-wrap: wrap;
+        gap: 8px;
     }
     
     .unit-progress-name {
         width: 100%;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
     }
     
     .unit-progress-bar {
-        margin: 0 0 8px 0;
+        margin: 0;
+        flex: 1;
     }
     
     .unit-progress-count {
-        width: 100%;
-        text-align: left;
+        width: auto;
+    }
+    
+    /* 按钮 */
+    .btn-primary,
+    .btn-secondary {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
+    
+    .btn-large {
+        padding: 16px 36px;
+        font-size: 1.1rem;
     }
 }
 
+/* 手机设备 (480px 以下) */
 @media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+    
+    body {
+        line-height: 1.5;
+    }
+    
+    /* 头部 */
+    .header {
+        padding: 0 8px;
+    }
+    
+    .logo {
+        font-size: 1.1rem;
+    }
+    
+    .nav-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        border-radius: var(--radius-md);
+    }
+    
+    /* 内容区域 */
+    .main-content {
+        padding: 12px 10px;
+    }
+    
+    /* 首页 */
+    .hero-section {
+        padding: 20px 14px;
+        border-radius: var(--radius-lg);
+    }
+    
+    .hero-section h2 {
+        font-size: 1.2rem;
+    }
+    
     .feature-cards {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .feature-card {
+        padding: 20px 16px;
+    }
+    
+    .card-icon {
+        font-size: 2.2rem;
+    }
+    
+    /* 统计 */
+    .today-stats {
+        padding: 16px 12px;
     }
     
     .stats-grid {
-        grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
     
     .stat-number {
+        font-size: 1.4rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    /* AI 问答 */
+    .ai-qa-section {
+        padding: 16px 12px;
+        border-radius: var(--radius-md);
+    }
+    
+    .ai-qa-section h3 {
+        font-size: 1.1rem;
+    }
+    
+    #qa-input {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    
+    #qa-submit-btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+    
+    /* 页面头部 */
+    .page-header h2 {
+        font-size: 1.15rem;
+    }
+    
+    /* 搜索框 */
+    .search-box {
+        flex-direction: column;
+    }
+    
+    .search-box input,
+    .search-btn {
+        width: 100%;
+        padding: 10px 14px;
+    }
+    
+    /* 词书选择器 */
+    .wordbook-selector {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    /* 单元标签 */
+    .unit-tabs {
+        margin-bottom: 16px;
+    }
+    
+    .unit-tab {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* 单词卡片 */
+    .word-card {
+        padding: 16px 12px;
+        gap: 12px;
+    }
+    
+    .word-text {
+        font-size: 1.2rem;
+        gap: 8px;
+    }
+    
+    .word-phonetic {
+        font-size: 0.8rem;
+    }
+    
+    .word-meaning {
+        font-size: 0.95rem;
+    }
+    
+    .word-example {
+        font-size: 0.9rem;
+    }
+    
+    .word-action-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    /* 闪卡测试设置 */
+    .setup-section {
+        padding: 20px 14px;
+        margin: 0 4px;
+    }
+    
+    .setup-section h2 {
+        font-size: 1.15rem;
+        margin-bottom: 20px;
+    }
+    
+    .setup-group {
+        margin-bottom: 24px;
+    }
+    
+    .setup-group h3 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .unit-select-item {
+        padding: 8px 10px;
+    }
+    
+    .unit-select-item .unit-name {
+        font-size: 0.9rem;
+    }
+    
+    .unit-select-item .unit-count {
+        font-size: 0.75rem;
+    }
+    
+    .mode-label {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+    
+    .select-actions {
+        gap: 10px;
+    }
+    
+    /* 闪卡 */
+    .flashcard {
+        height: 300px;
+    }
+    
+    .flashcard-front,
+    .flashcard-back {
+        padding: 20px 16px;
+    }
+    
+    .question-text {
+        font-size: 1.6rem;
+    }
+    
+    .question-label {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    
+    .btn-reveal {
+        padding: 12px 28px;
+        font-size: 1rem;
+        margin-top: 20px;
+    }
+    
+    .answer-word {
         font-size: 1.5rem;
+    }
+    
+    .answer-phonetic {
+        font-size: 1rem;
+    }
+    
+    .answer-meaning {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    
+    .answer-example {
+        padding: 12px 14px;
+    }
+    
+    .answer-example .example-en {
+        font-size: 0.95rem;
+    }
+    
+    .answer-example .example-zh {
+        font-size: 0.9rem;
     }
     
     .answer-actions {
         flex-direction: column;
+        gap: 8px;
     }
     
     .answer-actions button {
         width: 100%;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+    
+    .btn-exit {
+        margin-top: 16px;
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+    
+    /* 测试结果 */
+    .result-section {
+        padding: 20px 14px;
+        margin: 0 4px;
+    }
+    
+    .result-section h2 {
+        font-size: 1.15rem;
+        margin-bottom: 24px;
+    }
+    
+    .result-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .result-percent {
+        font-size: 1.8rem;
+    }
+    
+    .result-details {
+        text-align: center;
+    }
+    
+    .result-row {
         justify-content: center;
+        gap: 12px;
     }
     
     .result-actions {
-        flex-direction: column;
+        gap: 10px;
     }
     
     .result-actions button {
         width: 100%;
+    }
+    
+    /* 学习进度 */
+    .overall-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .stat-card {
+        flex-direction: row;
+        text-align: left;
+        gap: 12px;
+    }
+    
+    .stat-icon {
+        font-size: 1.8rem;
+    }
+    
+    .stat-value {
+        font-size: 1.4rem;
+    }
+    
+    /* 单元进度 */
+    .unit-progress-section,
+    .wrong-words-section {
+        padding: 16px 12px;
+    }
+    
+    .unit-progress-item {
+        padding: 12px 0;
+    }
+    
+    /* 错词列表 */
+    .wrong-words-list {
+        max-height: 300px;
+    }
+    
+    .wrong-word-item {
+        padding: 12px;
+    }
+    
+    /* 收藏夹 */
+    .favorites-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    /* 按钮 */
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        border-radius: var(--radius-md);
+    }
+    
+    .btn-large {
+        padding: 14px 28px;
+        font-size: 1rem;
+    }
+    
+    /* 底部 */
+    .footer {
+        padding: 16px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* 错词本 */
+    .wrongbook-stats {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .wrongbook-stats .stat-card {
+        min-width: 100%;
+    }
+    
+    .mastery-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .legend-note {
+        margin-left: 0;
+    }
+    
+    .wrongbook-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .wrongbook-actions .btn-primary,
+    .wrongbook-actions .btn-secondary {
+        min-width: 100%;
+    }
+}
+
+/* 小屏幕手机 (360px 以下) */
+@media (max-width: 360px) {
+    .nav-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+    
+    .hero-section h2 {
+        font-size: 1.1rem;
+    }
+    
+    .flashcard {
+        height: 280px;
+    }
+    
+    .question-text {
+        font-size: 1.4rem;
+    }
+    
+    .answer-word {
+        font-size: 1.3rem;
+    }
+    
+    .answer-meaning {
+        font-size: 1rem;
+    }
+    
+    .btn-reveal {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+    
+    .answer-actions button {
+        padding: 10px 14px;
+        font-size: 0.9rem;
     }
 }
