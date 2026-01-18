@@ -12,10 +12,16 @@ PID_FILE=".server.pid"
 create_venv() {
     if [ ! -d "venv" ]; then
         echo "Creating Python virtual environment..."
-        if python3 -m venv venv; then
+        if python3 -m venv venv 2>/dev/null; then
             echo "Virtual environment created!"
         else
-            echo "Failed to create virtual environment!"
+            echo "Error: Failed to create virtual environment!"
+            echo ""
+            echo "On Ubuntu/Debian, try installing python3-venv:"
+            echo "  sudo apt-get install python3-venv"
+            echo ""
+            echo "Or use system Python packages without virtual environment:"
+            echo "  pip3 install gunicorn flask requests"
             exit 1
         fi
     fi
