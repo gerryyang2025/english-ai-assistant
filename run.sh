@@ -189,6 +189,67 @@ stop_server() {
     fi
 }
 
+# Check server status
+check_status() {
+    echo "Server Status Check"
+    echo "===================="
+    echo ""
+    
+    local running=false
+    local pid=""
+    
+    # Check by PID file first
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat "$PID_FILE")
+        if kill -0 "$PID" 2>/dev/null; then
+            echo "✓ Server is running (PID: $PID)"
+            running=true
+            pid=$PID
+        fi
+    fi
+    
+    # If not found by PID file, search by process name
+    if [ "$running" = false ]; then
+        # Check for Python server
+        pid=$(pgrep -f "python.*server.py" 2>/dev/null | head -1)
+        if [ -n "$pid" ]; then
+            echo "✓ Server is running (PID: $pid)"
+            running=true
+        fi
+        
+        # Check for Gunicorn server
+        if [ "$running" = false ]; then
+            pid=$(pgrep -f "gunicorn.*server:app" 2>/dev/null | head -1)
+            if [ -n "$pid" ]; then
+                echo "✓ Server is running (Gunicorn, PID: $pid)"
+                running=true
+            fi
+        fi
+    fi
+    
+    if [ "$running" = false ]; then
+        echo "✗ Server is not running"
+    fi
+    
+    echo ""
+    echo "Port: $PORT"
+    echo "Access URL: http://localhost:$PORT"
+    echo ""
+    
+    # Check API configuration
+    if [ -f "api_config.py" ]; then
+        if grep -q "MINIMAX_API_KEY.*=.*'" api_config.py 2>/dev/null; then
+            echo "✓ API Key: Configured"
+        else
+            echo "✗ API Key: Not configured"
+        fi
+    else
+        echo "✗ Config file: Missing (api_config.py)"
+    fi
+    
+    echo ""
+}
+
 case "$1" in
     start)
         if [ "$2" = "prod" ] || [ "$2" = "production" ]; then
@@ -212,8 +273,11 @@ case "$1" in
     install)
         install_deps
         ;;
+    status)
+        check_status
+        ;;
     *)
-        echo "Usage: ./run.sh {start|stop|restart|install} [prod]"
+        echo "Usage: ./run.sh {start|stop|restart|install|status} [prod]"
         echo ""
         echo "Commands:"
         echo "  ./run.sh start        # Development mode (Flask built-in)"
@@ -221,6 +285,7 @@ case "$1" in
         echo "  ./run.sh stop         # Stop server"
         echo "  ./run.sh restart      # Restart"
         echo "  ./run.sh install      # Install dependencies"
+        echo "  ./run.sh status       # Check server status"
         echo ""
         echo "Configuration:"
         echo "  cp api_config.example.py api_config.py"
