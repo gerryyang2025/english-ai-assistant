@@ -102,6 +102,24 @@ cd /path/to/english-ai-assistant
 
 - 需要 AI 功能时，先配置 `api_config.py` 中的 MiniMax API Key
 - 无需 AI 功能时，可直接双击打开 `index.html` 使用基础功能
+- **更新代码后**：建议先 `./run.sh restart` 重启服务器，然后使用 `Ctrl + Shift + R` (Windows/Linux) 或 `Cmd + Shift + R` (Mac) 强制刷新浏览器，清除缓存
+
+### 浏览器缓存清除
+
+如果页面显示异常或加载旧版本内容，可以尝试以下方法：
+
+1. **强制刷新（不清除缓存）**
+   - Windows/Linux: `Ctrl + Shift + R` 或 `Ctrl + F5`
+   - Mac: `Cmd + Shift + R`
+
+2. **完全清除缓存**
+   - Chrome: `Ctrl + Shift + Delete` → 选择"缓存的图片和文件" → "清除数据"
+   - Safari: `Cmd + ,` → 高级 → 勾选"显示开发菜单" → 开发 → 清空缓存
+   - Firefox: `Ctrl + Shift + Delete` → 选择"缓存" → "清除"
+
+3. **开发者工具强制刷新**
+   - 打开开发者工具 (`F12`)
+   - 右键点击刷新按钮 → 选择"清空缓存并硬性重新加载"
 
 ## 🔧 API 配置
 

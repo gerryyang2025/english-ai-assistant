@@ -53,10 +53,15 @@ function initDOMElements() {
 // 检查服务健康状态
 async function checkServiceHealth() {
     try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+        
         const response = await fetch('/api/health', {
             method: 'GET',
-            timeout: 3000
+            signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
         const data = await response.json();
         return data.status === 'ok';
     } catch (error) {

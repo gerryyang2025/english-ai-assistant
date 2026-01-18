@@ -300,11 +300,13 @@ def api_status():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """健康检查端点"""
-    return jsonify({
+    response = jsonify({
         'status': 'ok',
         'service': 'english-ai-assistant',
         'timestamp': datetime.now().isoformat()
     })
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 # ========== 静态文件服务 ==========
 
