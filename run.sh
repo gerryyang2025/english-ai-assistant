@@ -223,25 +223,72 @@ start_server() {
 }
 
 stop_server() {
+    echo "Stopping server..."
+    echo ""
+    
+    local stopped=false
+    local found_pid=""
+    
+    # Check if server is running by PID file first
     if [ -f "$PID_FILE" ]; then
         PID=$(cat "$PID_FILE")
         if kill -0 "$PID" 2>/dev/null; then
+            echo "Found server process (PID: $PID)"
             kill "$PID"
+            sleep 1
+            if kill -0 "$PID" 2>/dev/null; then
+                echo "Force killing process..."
+                kill -9 "$PID" 2>/dev/null
+                sleep 1
+            fi
             rm -f "$PID_FILE"
-            echo "Server stopped (PID: $PID)"
+            echo "✓ Server stopped (PID: $PID)"
+            stopped=true
         else
-            # Try Gunicorn cleanup
-            pkill -f "gunicorn.*server:app" 2>/dev/null
-            rm -f "$PID_FILE" 2>/dev/null
-            echo "Server stopped"
+            echo "[Info] Stale PID file found (process not running)"
+            rm -f "$PID_FILE"
         fi
-    else
-        # Try to stop by process name
-        pkill -f "python.*server.py" 2>/dev/null
-        pkill -f "gunicorn.*server:app" 2>/dev/null
-        rm -f "$PID_FILE" 2>/dev/null
-        echo "Server stopped"
     fi
+    
+    # Check for any running server processes if not stopped yet
+    if [ "$stopped" = false ]; then
+        # Check for Python server
+        PID=$(pgrep -f "python.*server.py" 2>/dev/null | head -1)
+        if [ -n "$PID" ]; then
+            echo "Found server process (PID: $PID)"
+            kill "$PID" 2>/dev/null
+            sleep 1
+            if kill -0 "$PID" 2>/dev/null; then
+                kill -9 "$PID" 2>/dev/null
+            fi
+            echo "✓ Server stopped (PID: $PID)"
+            stopped=true
+        fi
+        
+        # Check for Gunicorn server
+        if [ "$stopped" = false ]; then
+            PID=$(pgrep -f "gunicorn.*server:app" 2>/dev/null | head -1)
+            if [ -n "$PID" ]; then
+                echo "Found Gunicorn process (PID: $PID)"
+                pkill -f "gunicorn.*server:app" 2>/dev/null
+                sleep 1
+                rm -f "$PID_FILE"
+                echo "✓ Server stopped (Gunicorn)"
+                stopped=true
+            fi
+        fi
+    fi
+    
+    # Clean up any remaining artifacts
+    rm -f "$PID_FILE" 2>/dev/null
+    
+    echo ""
+    if [ "$stopped" = true ]; then
+        echo "Done."
+    else
+        echo "[Info] Server is not running"
+    fi
+    echo ""
 }
 
 # Check server status
