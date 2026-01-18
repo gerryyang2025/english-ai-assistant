@@ -604,6 +604,28 @@ body {
     cursor: not-allowed;
 }
 
+/* 闪卡词书选择器 */
+.wordbook-selector-flashcard {
+    margin-bottom: 20px;
+}
+
+.wordbook-selector-flashcard select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    cursor: pointer;
+    transition: border-color var(--transition-fast);
+}
+
+.wordbook-selector-flashcard select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
 /* 单元标签页 */
 .unit-tabs {
     display: flex;
@@ -973,7 +995,7 @@ body {
 /* 闪卡样式 */
 .flashcard {
     width: 100%;
-    height: 420px;
+    height: 480px;
     perspective: 1000px;
     margin-bottom: 24px;
 }
@@ -2119,9 +2141,9 @@ body {
     }
     
     .word-example {
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 8px;
-        align-items: flex-start;
+        align-items: center;
     }
     
     .word-tip {
@@ -2177,7 +2199,7 @@ body {
     }
     
     .word-example {
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 8px;
     }
     
@@ -2231,8 +2253,6 @@ body {
     
     /* 闪卡答案页面完整适配 */
     .flashcard-back {
-        overflow-y: auto;
-        justify-content: flex-start;
         padding: 20px 16px;
     }
     
@@ -2359,7 +2379,7 @@ body {
     }
     
     .flashcard {
-        height: 340px;
+        height: 420px;
         margin-bottom: 20px;
     }
     
@@ -2576,6 +2596,12 @@ body {
         gap: 10px;
     }
     
+    /* 闪卡词书选择器 */
+    .wordbook-selector-flashcard select {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+    
     /* 单元标签 */
     .unit-tabs {
         margin-bottom: 16px;
@@ -2657,6 +2683,12 @@ body {
         font-size: 0.9rem;
     }
     
+    /* 闪卡词书选择器 */
+    .wordbook-selector-flashcard select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
     /* 单元标签页 */
     .unit-tabs {
         gap: 4px;
@@ -2696,9 +2728,8 @@ body {
     
     .word-example {
         font-size: 0.9rem;
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 6px;
-        align-items: flex-start;
     }
     
     .word-tip {
@@ -2789,8 +2820,6 @@ body {
     
     /* 闪卡答案页面完整适配 */
     .flashcard-back {
-        overflow-y: auto;
-        justify-content: flex-start;
         padding: 16px 12px;
     }
     
@@ -2911,7 +2940,7 @@ body {
     
     /* 闪卡 */
     .flashcard {
-        height: 300px;
+        height: 380px;
     }
     
     .flashcard-front,
@@ -3318,11 +3347,33 @@ body {
         padding: 12px;
     }
     
-    /* 收藏夹 */
-    .favorites-stats {
+    /* 收藏页面完整适配 */
+    #page-favorites .page-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+    
+    #page-favorites .page-header h2 {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+    
+    .favorites-stats {
+        width: 100%;
+    }
+    
+    .stat-badge {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .favorites-list {
         gap: 10px;
+        padding: 0 4px;
     }
     
     /* 按钮 */
@@ -3336,6 +3387,37 @@ body {
     .btn-large {
         padding: 14px 28px;
         font-size: 1rem;
+    }
+    
+    /* 收藏页面完整适配 */
+    #page-favorites .page-header {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+    }
+    
+    #page-favorites .page-header h2 {
+        font-size: 1.4rem;
+        margin: 0;
+    }
+    
+    .favorites-stats {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .stat-badge {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .favorites-list {
+        gap: 12px;
+        padding: 0 8px;
     }
     
     /* 底部 */
@@ -3604,8 +3686,6 @@ body {
     
     /* 闪卡答案页面完整适配 */
     .flashcard-back {
-        overflow-y: auto;
-        justify-content: flex-start;
         padding: 12px 10px;
     }
     
@@ -3725,7 +3805,7 @@ body {
     }
     
     .flashcard {
-        height: 260px;
+        height: 320px;
     }
     
     .question-text {
@@ -3755,5 +3835,34 @@ body {
     
     .error-content h2 {
         font-size: 1.3rem;
+    }
+    
+    /* 收藏页面完整适配 (360px) */
+    #page-favorites .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+    }
+    
+    #page-favorites .page-header h2 {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+    
+    .favorites-stats {
+        width: 100%;
+    }
+    
+    .stat-badge {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    
+    .favorites-list {
+        gap: 8px;
+        padding: 0 2px;
     }
 }

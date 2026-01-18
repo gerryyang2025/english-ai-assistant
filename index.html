@@ -138,14 +138,24 @@
                 <div id="flashcard-setup" class="setup-section">
                     <h2>闪卡测试设置</h2>
                     
+                    <!-- 词书/年级选择 -->
+                    <div class="setup-group">
+                        <h3>选择词书</h3>
+                        <div class="wordbook-selector-flashcard">
+                            <select id="flashcard-wordbook-select">
+                                <!-- 词书选项将由 JS 动态生成 -->
+                            </select>
+                        </div>
+                    </div>
+                    
                     <div class="setup-group">
                         <h3>选择单元（可多选）</h3>
-                        <div class="unit-select-grid" id="unit-select-grid">
+                        <div class="unit-select-grid" id="flashcard-unit-select-grid">
                             <!-- 单元选择将由 JS 动态生成 -->
                         </div>
                         <div class="select-actions">
-                            <button class="btn-secondary" id="select-all-units">全选</button>
-                            <button class="btn-secondary" id="clear-unit-selection">清空</button>
+                            <button class="btn-secondary" id="flashcard-select-all-units">全选</button>
+                            <button class="btn-secondary" id="flashcard-clear-unit-selection">清空</button>
                         </div>
                     </div>
 

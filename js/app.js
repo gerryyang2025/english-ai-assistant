@@ -10,6 +10,8 @@ const AppState = {
     selectedUnits: [],     // 选中的单元
     currentUnit: null,     // 当前查看的单元
     flashcardSession: null,// 闪卡测试会话
+    flashcardWordBook: null, // 闪卡当前选中的词书
+    flashcardSelectedUnits: [], // 闪卡选中的单元
     userProgress: null,    // 用户学习进度
     wordListPage: 1,       // 单词列表当前页码
     wordsPerPage: 20       // 每页显示单词数量
@@ -125,6 +127,13 @@ function bindEvents() {
     // 单元选择
     document.getElementById('select-all-units')?.addEventListener('click', selectAllUnits);
     document.getElementById('clear-unit-selection')?.addEventListener('click', clearUnitSelection);
+    
+    // 闪卡词书选择
+    document.getElementById('flashcard-wordbook-select')?.addEventListener('change', handleFlashcardWordBookChange);
+    
+    // 闪卡单元选择
+    document.getElementById('flashcard-select-all-units')?.addEventListener('click', flashcardSelectAllUnits);
+    document.getElementById('flashcard-clear-unit-selection')?.addEventListener('click', flashcardClearUnitSelection);
     
     // 开始测试
     document.getElementById('start-test-btn')?.addEventListener('click', startFlashcardTest);
@@ -410,6 +419,126 @@ function handleWordBookChange(e) {
     renderWordList();
 }
 
+// ========== 闪卡词书选择 ==========
+
+// 初始化闪卡词书选择器
+function initFlashcardWordBookSelector() {
+    const wordbookSelect = document.getElementById('flashcard-wordbook-select');
+    if (!wordbookSelect) return;
+    
+    // 如果已经有选项，直接使用
+    if (wordbookSelect.options.length > 1) return;
+    
+    // 从数据中获取词书列表并填充选择器
+    AppState.wordData.forEach((wordbook, index) => {
+        const option = document.createElement('option');
+        option.value = wordbook.id || index;
+        option.textContent = wordbook.name;
+        wordbookSelect.appendChild(option);
+    });
+    
+    // 选择第一个词书
+    if (AppState.wordData.length > 0) {
+        const firstBookId = AppState.wordData[0].id || 0;
+        wordbookSelect.value = firstBookId;
+        AppState.flashcardWordBook = firstBookId;
+    }
+}
+
+// 闪卡词书选择变化处理
+function handleFlashcardWordBookChange(e) {
+    AppState.flashcardWordBook = e.target.value;
+    // 重置单元选择并重新渲染
+    AppState.flashcardSelectedUnits = [];
+    renderFlashcardUnitGrid();
+}
+
+// 渲染闪卡单元选择网格
+function renderFlashcardUnitGrid() {
+    const grid = document.getElementById('flashcard-unit-select-grid');
+    if (!grid) return;
+    
+    // 获取当前选中的词书
+    let currentWordBook = AppState.flashcardWordBook;
+    
+    // 如果没有选中词书，默认选择第一个
+    if (!currentWordBook && AppState.wordData.length > 0) {
+        const firstWordBook = AppState.wordData[0];
+        currentWordBook = firstWordBook.id || firstWordBook.name;
+        AppState.flashcardWordBook = currentWordBook;
+        
+        // 更新选择器
+        const wordbookSelect = document.getElementById('flashcard-wordbook-select');
+        if (wordbookSelect) wordbookSelect.value = currentWordBook;
+    }
+    
+    // 查找当前词书
+    const currentBook = AppState.wordData.find(book => 
+        (book.id && book.id === currentWordBook) || 
+        (book.name && book.name === currentWordBook)
+    );
+    
+    if (!currentBook || !currentBook.units) {
+        grid.innerHTML = '<p class="empty-message">暂无单元数据</p>';
+        return;
+    }
+    
+    // 渲染单元选项
+    grid.innerHTML = currentBook.units.map((unit, index) => {
+        const unitNum = unit.unit || index + 1;
+        const unitNumStr = String(unitNum);
+        const isSelected = AppState.flashcardSelectedUnits.includes(unitNumStr);
+        return `
+            <label class="unit-select-item ${isSelected ? 'selected' : ''}">
+                <input type="checkbox" 
+                    value="${unitNumStr}" 
+                    ${isSelected ? 'checked' : ''}
+                    onchange="toggleFlashcardUnit('${unitNumStr.replace(/'/g, "\\'")}')">
+                <span>${unitNumStr}</span>
+            </label>
+        `;
+    }).join('');
+}
+
+// 切换闪卡单元选择
+function toggleFlashcardUnit(unitNum) {
+    const unitNumStr = String(unitNum);
+    const index = AppState.flashcardSelectedUnits.indexOf(unitNumStr);
+    if (index > -1) {
+        AppState.flashcardSelectedUnits.splice(index, 1);
+    } else {
+        AppState.flashcardSelectedUnits.push(unitNumStr);
+    }
+    // 更新样式
+    renderFlashcardUnitGrid();
+}
+
+// 闪卡全选单元
+function flashcardSelectAllUnits() {
+    let currentWordBook = AppState.flashcardWordBook;
+    
+    if (!currentWordBook && AppState.wordData.length > 0) {
+        const firstWordBook = AppState.wordData[0];
+        currentWordBook = firstWordBook.id || firstWordBook.name;
+    }
+    
+    const currentBook = AppState.wordData.find(book => 
+        (book.id && book.id === currentWordBook) || 
+        (book.name && book.name === currentWordBook)
+    );
+    
+    if (currentBook && currentBook.units) {
+        AppState.flashcardSelectedUnits = currentBook.units.map((unit, index) => unit.unit || index + 1);
+        renderFlashcardUnitGrid();
+    }
+}
+
+// 闪卡清空单元选择
+function flashcardClearUnitSelection() {
+    AppState.flashcardSelectedUnits = [];
+    renderFlashcardUnitGrid();
+}
+
 function renderUnitTabs() {
     // 获取当前选中的词书
     let currentWordBook = AppState.currentWordBook;
@@ -671,48 +800,16 @@ function handleWordSearch(e) {
 
 // ========== 闪卡测试 ==========
 function renderFlashcardSetup() {
-    // 获取当前选中的词书
-    let currentWordBookId = AppState.currentWordBook;
+    // 初始化词书选择器
+    initFlashcardWordBookSelector();
     
-    // 如果没有选中词书，默认选择第一个
-    if (!currentWordBookId && AppState.wordData.length > 0) {
-        const firstBook = AppState.wordData[0];
-        currentWordBookId = firstBook.id || firstBook.name;
-        AppState.currentWordBook = currentWordBookId;
-    }
+    // 渲染单元网格
+    renderFlashcardUnitGrid();
     
-    // 获取当前词书的单元
-    const currentBook = AppState.wordData.find(book => 
-        (book.id && book.id === currentWordBookId) || 
-        (book.name && book.name === currentWordBookId)
-    );
-    
-    const units = currentBook ? currentBook.units : [];
-    
-    // 渲染单元选择网格
-    let html = units.map(unit => `
-        <div class="unit-select-item" data-unit="${unit.unit}">
-            <div class="unit-name">${unit.unit}</div>
-            <div class="unit-count">${unit.words.length} 词</div>
-        </div>
-    `).join('');
-    
-    DOM.unitSelectGrid.innerHTML = html;
-    AppState.selectedUnits = [];
-    
-    // 绑定单元选择事件
-    DOM.unitSelectGrid.querySelectorAll('.unit-select-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const unit = item.dataset.unit;
-            item.classList.toggle('selected');
-            
-            if (item.classList.contains('selected')) {
-                AppState.selectedUnits.push(unit);
-            } else {
-                AppState.selectedUnits = AppState.selectedUnits.filter(u => u !== unit);
-            }
-        });
-    });
+    // 确保显示设置页面
+    document.getElementById('flashcard-setup').style.display = 'block';
+    document.getElementById('flashcard-test').style.display = 'none';
+    document.getElementById('flashcard-result').style.display = 'none';
 }
 
 function selectAllUnits() {
@@ -730,7 +827,7 @@ function clearUnitSelection() {
 }
 
 function startFlashcardTest() {
-    if (AppState.selectedUnits.length === 0) {
+    if (AppState.flashcardSelectedUnits.length === 0) {
         alert('请至少选择一个单元');
         return;
     }
@@ -741,9 +838,13 @@ function startFlashcardTest() {
     // 收集选中单元的单词
     let words = [];
     AppState.wordData.forEach(wordbook => {
-        // 遍历每个词书的单元
+        // 只处理当前选中的词书
+        const bookId = wordbook.id || wordbook.name;
+        if (bookId !== AppState.flashcardWordBook) return;
+        
+        // 遍历当前词书的单元
         wordbook.units.forEach(unit => {
-            if (AppState.selectedUnits.includes(unit.unit)) {
+            if (AppState.flashcardSelectedUnits.includes(unit.unit)) {
                 // 为每个单词添加课本和单元信息
                 unit.words.forEach(word => {
                     words.push({
@@ -1029,7 +1130,7 @@ function retryTest() {
     document.getElementById('flashcard-result').style.display = 'none';
     document.getElementById('flashcard-setup').style.display = 'block';
     // 清空已选单元
-    clearUnitSelection();
+    flashcardClearUnitSelection();
     AppState.flashcardSession = null;
 }
 
