@@ -92,78 +92,133 @@ install_deps() {
 start_server() {
     local mode=${1:-dev}
     
+    echo "========================================"
+    echo "Starting Server (Debug Mode)"
+    echo "========================================"
+    echo "Port: $PORT"
+    echo "Mode: $mode"
+    echo "Python: $(get_python_cmd)"
+    echo "Virtual Environment: $USE_VENV"
+    echo "PID File: $PID_FILE"
+    echo ""
+    
     if [ -f "$PID_FILE" ]; then
         OLD_PID=$(cat "$PID_FILE")
         if kill -0 "$OLD_PID" 2>/dev/null; then
-            echo "Server is already running (PID: $OLD_PID)"
+            echo "Warning: Server may already be running (PID: $OLD_PID)"
+            echo "Use './run.sh stop' first, or './run.sh restart'"
             return 1
         else
+            echo "Stale PID file found, removing..."
             rm -f "$PID_FILE"
         fi
     fi
 
     echo "Starting server on port $PORT (mode: $mode)..."
+    echo ""
 
-    # Ensure dependencies are available
+    # Get Python command
     PYTHON_CMD=$(get_python_cmd)
+    echo "[Debug] Using Python: $PYTHON_CMD"
     
     # Check if Flask is available
-    if ! $PYTHON_CMD -c "import flask" 2>/dev/null; then
-        echo "Flask not found, installing dependencies..."
+    echo "[Debug] Checking Flask availability..."
+    if ! $PYTHON_CMD -c "import flask" 2>&1; then
+        echo ""
+        echo "[Warning] Flask not found, installing dependencies..."
         PIP_CMD=$(get_pip_cmd)
-        if [ -z "$PIP_CMD" ] || ! $PIP_CMD install flask requests 2>/dev/null; then
-            echo "Error: Failed to install Flask. Please run './run.sh install' first."
+        echo "[Debug] Installing with: $PIP_CMD"
+        if [ -z "$PIP_CMD" ] || ! $PIP_CMD install flask requests 2>&1; then
+            echo ""
+            echo "[Error] Failed to install Flask!"
+            echo "Please run './run.sh install' manually"
             exit 1
         fi
+        echo "[OK] Flask installed"
+    else
+        echo "[OK] Flask is available"
     fi
 
     # Check if api_config.py exists
     if [ ! -f "api_config.py" ]; then
         echo ""
-        echo "Warning: Configuration file not found!"
-        echo "Please copy: cp api_config.example.py api_config.py"
-        echo "Without API Key, AI assistant will not work."
+        echo "[Warning] Configuration file not found!"
+        echo "  Please copy: cp api_config.example.py api_config.py"
+        echo "  Without API Key, AI assistant will not work."
         echo ""
     fi
 
     # Start server based on mode
     if [ "$mode" = "production" ]; then
         # Production mode with Gunicorn
+        echo "[Debug] Checking Gunicorn..."
         if ! command -v gunicorn &> /dev/null; then
-            echo "Installing Gunicorn for production..."
+            echo "[Info] Installing Gunicorn for production..."
             PIP_CMD=$(get_pip_cmd)
-            if ! $PIP_CMD install gunicorn 2>/dev/null; then
-                echo "Error: Failed to install Gunicorn."
+            if ! $PIP_CMD install gunicorn 2>&1; then
+                echo "[Error] Failed to install Gunicorn!"
                 exit 1
             fi
         fi
         
         # Start Gunicorn with multiple workers
-        echo "Starting Gunicorn production server..."
+        echo "[Info] Starting Gunicorn production server..."
+        echo "[Debug] Command: gunicorn server:app -w 4 -b 0.0.0.0:$PORT"
+        
         if [ "$USE_VENV" = true ]; then
-            venv/bin/gunicorn server:app -w 4 -b 0.0.0.0:$PORT --pid $PID_FILE --daemon
+            venv/bin/gunicorn server:app -w 4 -b 0.0.0.0:$PORT --pid $PID_FILE --daemon 2>&1
         else
-            gunicorn server:app -w 4 -b 0.0.0.0:$PORT --pid $PID_FILE --daemon
+            gunicorn server:app -w 4 -b 0.0.0.0:$PORT --pid $PID_FILE --daemon 2>&1
         fi
-        echo "Server started with Gunicorn"
-    else
-        # Development mode
-        if [ "$USE_VENV" = true ]; then
-            venv/bin/python server.py > /dev/null 2>&1 &
+        EXIT_CODE=$?
+        
+        if [ $EXIT_CODE -ne 0 ]; then
+            echo "[Error] Gunicorn failed to start (exit code: $EXIT_CODE)"
+            echo "Check logs with: cat nohup.out 2>/dev/null || journalctl -u gunicorn 2>/dev/null"
         else
-            python3 server.py > /dev/null 2>&1 &
+            echo "[OK] Server started with Gunicorn"
+        fi
+    else
+        # Development mode - capture output for debugging
+        echo "[Debug] Starting development server..."
+        echo "[Debug] Command: $PYTHON_CMD server.py"
+        
+        LOG_FILE="server.log"
+        if [ "$USE_VENV" = true ]; then
+            venv/bin/python server.py > "$LOG_FILE" 2>&1 &
+        else
+            python3 server.py > "$LOG_FILE" 2>&1 &
         fi
         SERVER_PID=$!
+        
+        echo "[Debug] Server PID: $SERVER_PID"
         echo "$SERVER_PID" > "$PID_FILE"
-        echo "Server started (PID: $SERVER_PID)"
+        
+        # Wait a moment and check if process is still running
+        sleep 1
+        
+        if kill -0 $SERVER_PID 2>/dev/null; then
+            echo "[OK] Server started successfully (PID: $SERVER_PID)"
+        else
+            echo "[Error] Server failed to start!"
+            echo ""
+            echo "=== Server Output ==="
+            if [ -f "$LOG_FILE" ]; then
+                cat "$LOG_FILE"
+            else
+                echo "(No log file found)"
+            fi
+            echo "====================="
+            echo ""
+            rm -f "$PID_FILE"
+            exit 1
+        fi
     fi
 
     echo ""
     echo "======================================"
     echo "Access URL: http://localhost:$PORT"
     echo "======================================"
-    echo ""
-    echo "Mode: $mode"
     echo ""
 }
 
