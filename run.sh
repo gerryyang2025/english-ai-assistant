@@ -300,7 +300,7 @@ stop_server() {
             echo "✓ Server stopped (PID: $PID)"
             stopped=true
         else
-            echo "[Info] Stale PID file found (process not running)"
+            echo "[Info] Stale PID file found, removing..."
             rm -f "$PID_FILE"
         fi
     fi
@@ -341,9 +341,8 @@ stop_server() {
     if [ "$stopped" = true ]; then
         echo "Done."
     else
-        echo "[Info] Server is not running"
+        echo "[Info] Server is not running."
     fi
-    echo ""
 }
 
 # Check server status
