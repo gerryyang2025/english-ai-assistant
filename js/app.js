@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadUserProgress();
             bindEvents();
             renderHomePage();
+            loadDailyJoke(); // 加载每日笑话
             hideLoading();
         });
     });
@@ -69,6 +70,41 @@ async function checkServiceHealth() {
     } catch (error) {
         console.error('Service health check failed:', error);
         return false;
+    }
+}
+
+// 加载每日笑话
+async function loadDailyJoke() {
+    const jokeEl = document.getElementById('daily-joke');
+    if (!jokeEl) return;
+    
+    try {
+        jokeEl.classList.add('loading');
+        jokeEl.textContent = 'Loading joke...';
+        
+        const response = await fetch('https://api.chucknorris.io/jokes/random', {
+            method: 'GET',
+            signal: AbortSignal.timeout(5000)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch joke');
+        }
+        
+        const data = await response.json();
+        
+        if (data.value) {
+            jokeEl.textContent = `"${data.value}"`;
+            jokeEl.classList.remove('error');
+        } else {
+            throw new Error('No joke content');
+        }
+    } catch (error) {
+        console.log('Failed to load joke:', error);
+        jokeEl.classList.add('error');
+        jokeEl.style.display = 'none';
+    } finally {
+        jokeEl.classList.remove('loading');
     }
 }
 

@@ -18,6 +18,7 @@
    - 进度条显示当前测试进度
    - 测试结果统计（正确率、用时等）
    - 错词自动加入错词本
+   - **支持独立选择词书**，闪卡测试与单词列表使用独立的词书选择
 
 3. **AI 助手功能**：
    - 提供智能问答功能，解答单词用法、语法规则等复杂问题
@@ -33,25 +34,36 @@
    - 记录学习进度、错词本、收藏夹
    - 展示统计信息
 
+6. **每日一笑功能**：
+   - 首页显示每日随机英文笑话
+   - 调用 Chuck Norris API 获取笑话
+   - 获取失败时自动隐藏，不影响用户体验
+
+7. **服务健康检查**：
+   - 后端提供 /api/health 健康检查端点
+   - 前端启动时自动检测服务状态
+   - 服务不可用时显示友好错误提示界面
+
 ## 技术栈选择
 
 - **前端**：HTML5 + CSS3 + JavaScript（原生实现）
 - **后端**：Python Flask
 - **数据存储**：JSON 文件 + localStorage
 - **AI 服务**：MiniMax API（通过后端代理调用）
+- **外部 API**：Chuck Norris Jokes API（每日笑话）
 - **部署**：静态前端托管 + Python 后端服务器
 
 ## 网站结构
 
 ```
 英语单词记忆网站
-├── 首页（词书选择+AI助手）
+├── 首页（每日笑话 + 词书选择 + AI助手）
 ├── 单词列表页（分页/搜索）
-├── 闪卡测试页面
+├── 闪卡测试页面（独立词书选择）
 ├── 学习统计页
 ├── 错词本管理页
 ├── 收藏夹管理页
-└── Python 后端服务器（API 代理 + 静态文件服务）
+└── Python 后端服务器（API 代理 + 静态文件服务 + 健康检查）
 ```
 
 ## 核心功能模块设计
@@ -61,13 +73,18 @@
 ```
 初始化
     ↓
+检查服务健康状态（/api/health）
+    ↓
 加载单词数据（JSON格式，支持多词书结构）
+    ↓
+加载每日笑话（Chuck Norris API）
     ↓
 词书单元选择 → 筛选对应单词数据
     ↓
 学习模式：展示单词列表，支持搜索/过滤/分页
     ↓
 测试模式：
+  + 用户选择词书（独立于单词列表）
   + 用户选择单元（多选）
   + 选择测试模式（英→中 / 中→英 / 混合）
   + 生成测试队列
@@ -81,6 +98,44 @@ AI 问答模式：
   + 后端调用 MiniMax API
   + 返回 Markdown 格式答案
 ```
+
+### 每日笑话模块
+
+**功能特点**：
+- 位于首页英雄区域，替换原有的静态标语
+- 调用第三方 API 获取随机英文笑话
+- 5秒超时，避免长时间等待
+- 获取失败时自动隐藏，不显示错误信息
+
+**API 调用**：
+```javascript
+// 端点: GET https://api.chucknorris.io/jokes/random
+// 响应格式:
+{
+  "categories": [],
+  "created_at": "2020-01-05T13:42:20.841843Z",
+  "icon_url": "https://api.chucknorris.io/img/avatar/chuck-norris.png",
+  "id": "w0M0-3ByTOOMBtfnnXqblw",
+  "updated_at": "2020-01-05T13:42:20.841843Z",
+  "url": "https://api.chucknorris.io/jokes/w0M0-3ByTOOMBtfnnXqblw",
+  "value": "Why did the chicken cross the road? To get away from Chuck Norris..."
+}
+```
+
+### 服务健康检查模块
+
+**后端端点**：
+```python
+# 端点: GET /api/health
+# 响应: {"status": "ok", "service": "english-ai-assistant", "timestamp": "..."}
+# CORS: Access-Control-Allow-Origin: *
+```
+
+**前端检测**：
+- 页面加载时调用 /api/health
+- 使用 AbortController 实现5秒超时
+- 服务不可用时显示错误覆盖层
+- 隐藏主内容，避免显示缓存旧页面
 
 ### 单词数据管理模块
 
@@ -192,12 +247,19 @@ RATE_LIMIT = {
 ./run.sh start prod   # 生产模式（Gunicorn）
 ./run.sh stop         # 停止服务器
 ./run.sh restart      # 重启服务器
+./run.sh status       # 检查服务器状态
 ```
 
 **生产部署**：
 ```bash
-gunicorn server:app -w 4 -b 0.0.0.0:8080
+gunicorn server:app -w 4 -b 0.0.0.0:8082
 ```
+
+**服务管理功能**：
+- PID 文件记录（.server.pid）
+- 多重停止机制（PID 文件 + 进程名查找）
+- 详细的启动/停止日志
+- 虚拟环境自动检测和创建
 
 ## 视觉设计
 
@@ -206,40 +268,64 @@ gunicorn server:app -w 4 -b 0.0.0.0:8080
 - 辅助色：绿色（正确）、红色（错误）
 - AI 助手：绿色/青色渐变（#10B981 → #06B6D4）
 - 背景：浅灰色护眼设计
+- 闪卡背面：紫色渐变（#667eea → #764ba2）
 
 **交互效果**：
-- 卡片翻转动画（3D 旋转效果，500ms）
+- 卡片翻转动画（3D 旋转效果，600ms）
 - 按钮悬停效果
 - 进度条动态填充
 - 页面切换淡入淡出效果
 
 **响应式设计**：
-- 移动端优先设计
+
+| 断点 | 设备类型 | 典型屏幕宽度 |
+|------|----------|--------------|
+| 默认 | 桌面设备 | > 768px |
+| @media (max-width: 768px) | 平板设备 | 481px - 768px |
+| @media (max-width: 480px) | 手机设备 | 361px - 480px |
+| @media (max-width: 360px) | 小屏手机 | ≤ 360px |
+
+**响应式适配要点**：
+- 移动端优先设计理念
 - 桌面端最大宽度限制（1200px）
 - 触摸友好的按钮尺寸（最小 44x44px）
+- 闪卡高度自适应调整
+- 单词卡片竖向堆叠布局
+- 导航栏响应式隐藏/显示
+- 服务错误提示层响应式适配
+
+**移动端优化**：
+- 单词列表：例句、发音图标、翻译自动换行不纵向排列
+- 闪卡测试：增大高度确保"记住了/没记住/稍后复习"按钮在可视区域
+- 收藏页面：页面头部纵向堆叠，统计徽章全宽居中
+- 错词本页面：完整的响应式适配
 
 ## 文件结构
 
 ```
-english-notes/
+english-ai-assistant/
 ├── index.html              # 主页面
 ├── server.py               # Python Flask 后端服务器
-├── run.sh               # 服务器管理脚本
+├── run.sh                  # 服务器管理脚本
 ├── api_config.py           # API 配置文件（忽略版本控制）
 ├── api_config.example.py   # API 配置模板
+├── README.md               # 项目说明
+├── DESIGN.md               # 详细设计文档
+├── PROPOSAL.md             # 项目提案文档
+├── TODO.md                 # 待办事项
+├── .gitignore              # Git 忽略配置
+├── .gitattributes          # Git 属性配置
 ├── css/
-│   └── main.css            # 样式文件
+│   └── main.css            # 样式文件（包含所有响应式样式）
 ├── js/
-│   └── app.js              # 应用程序
+│   └── app.js              # 应用程序（包含健康检查、笑话加载等）
 ├── data/
 │   └── words.json          # 单词数据文件
 ├── tools/
 │   └── update-tool.html    # 数据更新工具
 ├── convert.js              # 数据转换脚本（Node.js）
 ├── WORDS.md                # 原始单词数据
-├── DESIGN.md               # 设计文档
-├── README.md               # 项目说明
-└── .gitignore              # Git 忽略配置
+└── venv/                   # Python 虚拟环境（忽略版本控制）
 ```
 
 ## 附录
@@ -250,6 +336,7 @@ english-notes/
 - [Flask Documentation](https://flask.palletsprojects.com/)
 - [Gunicorn Documentation](https://docs.gunicorn.org/)
 - [MiniMax API](https://platform.minimaxi.com/docs/guides/quickstart-sdk)
+- [Chuck Norris API](https://api.chucknorris.io/)
 
 ### 术语说明
 
@@ -260,6 +347,8 @@ english-notes/
 | WSGI | Python Web 服务器接口标准 |
 | Gunicorn | Python WSGI HTTP 服务器 |
 | 速率限制 | 限制单位时间内的请求次数 |
+| CORS | 跨域资源共享，允许跨域请求 |
+| AbortController | 用于取消 fetch 请求的控制器 |
 
 ### 更新日志
 
@@ -267,3 +356,7 @@ english-notes/
 |-----|------|------|
 | v1.0 | 2026-01-18 | 初始设计方案 |
 | v2.0 | 2026-01-18 | 添加 Python 后端、AI 助手、速率限制、生产部署支持 |
+| v2.1 | 2026-01-18 | 闪卡测试添加独立词书选择功能 |
+| v2.2 | 2026-01-18 | 添加每日笑话功能（Chuck Norris API） |
+| v2.3 | 2026-01-18 | 添加服务健康检查和错误提示界面 |
+| v2.4 | 2026-01-18 | 完善移动端响应式设计（闪卡、单词列表、收藏、错词本） |

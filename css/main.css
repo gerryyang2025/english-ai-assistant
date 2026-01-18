@@ -179,6 +179,25 @@ body {
     opacity: 0.9;
 }
 
+#daily-joke {
+    font-style: italic;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    margin-top: 12px;
+    border-left: 4px solid var(--primary-color);
+    line-height: 1.6;
+}
+
+#daily-joke.loading {
+    color: var(--text-light);
+}
+
+#daily-joke.error {
+    display: none;
+}
+
 /* 功能卡片 */
 .feature-cards {
     display: grid;

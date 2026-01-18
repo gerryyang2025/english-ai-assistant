@@ -49,6 +49,31 @@
 - 支持 Markdown 格式展示回复
 - 保护 API Key 不暴露在前端
 - 防止恶意高频调用
+- 服务不可用时显示友好错误提示
+
+### 2.4 每日一笑功能
+
+首页显示每日随机英文笑话，增加学习趣味性。
+
+**具体要求**：
+
+- 位于首页英雄区域，替换原有的静态标语
+- 调用 Chuck Norris API 获取随机笑话
+- 5秒超时，避免长时间等待
+- 获取失败时自动隐藏，不显示错误信息
+- 加载时显示 "Loading joke..." 提示
+
+### 2.5 服务健康检查
+
+前端启动时检测后端服务状态，服务不可用时显示错误提示。
+
+**具体要求**：
+
+- 调用 /api/health 端点检测服务状态
+- 使用 AbortController 实现超时控制
+- 服务不可用时显示全屏错误覆盖层
+- 隐藏主内容区域，避免显示缓存页面
+- 提供刷新页面按钮
 
 ---
 
@@ -420,6 +445,15 @@ RATE_LIMIT = {
     'requests_per_hour': 20,   # 每小时最大请求数
     'cooldown_seconds': 5,     # 请求间隔冷却时间
 }
+
+# 健康检查端点
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'ok',
+        'service': 'english-ai-assistant',
+        'timestamp': datetime.now().isoformat()
+    })
 ```
 
 **速率限制策略**：
@@ -427,6 +461,68 @@ RATE_LIMIT = {
 - IP 级别限制：每个 IP 每小时最多 20 次请求
 - 冷却时间：连续请求间隔至少 5 秒
 - 超限返回 429 状态码，提示等待时间
+
+### 5.7 每日笑话模块
+
+**功能设计**：
+
+- 位于首页英雄区域，显示在标题下方
+- 动态加载随机英文笑话
+- 斜体字体样式，浅色背景突出显示
+- 左侧紫色边框装饰
+
+**前端实现**：
+
+```javascript
+async function loadDailyJoke() {
+    const jokeEl = document.getElementById('daily-joke');
+    try {
+        const response = await fetch('https://api.chucknorris.io/jokes/random', {
+            signal: AbortSignal.timeout(5000)
+        });
+        const data = await response.json();
+        if (data.value) {
+            jokeEl.textContent = `"${data.value}"`;
+        }
+    } catch (error) {
+        jokeEl.style.display = 'none';
+    }
+}
+```
+
+### 5.8 服务错误提示模块
+
+**功能设计**：
+
+- 全屏覆盖层，z-index: 9999
+- 半透明黑色背景
+- 居中显示错误卡片
+- 提供刷新页面按钮
+
+**错误提示样式**：
+
+```css
+.error-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.error-content {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 400px;
+}
+```
 
 ---
 
@@ -717,10 +813,86 @@ gunicorn server:app -w 4 -b 0.0.0.0:8080
 
 ### 7.3 响应式设计
 
-- 移动端优先设计
-- 桌面端最大宽度限制（1200px）
-- 平板横竖屏适配
-- 触摸友好的按钮尺寸（最小 44x44px）
+网站采用移动端优先的响应式设计，确保在各种设备上都能良好显示。
+
+**断点设计**：
+
+| 断点名称 | CSS 规则 | 设备类型 | 典型屏幕宽度 |
+|---------|----------|----------|--------------|
+| 默认样式 | 无 | 桌面设备 | > 768px |
+| 平板断点 | @media (max-width: 768px) | 平板设备 | 481px - 768px |
+| 手机断点 | @media (max-width: 480px) | 手机设备 | 361px - 480px |
+| 小屏断点 | @media (max-width: 360px) | 小屏手机 | ≤ 360px |
+
+**主要适配内容**：
+
+1. **首页**：
+   - 英雄区域标题字号自适应
+   - 功能卡片网格单列显示
+   - AI 助手区域宽度调整
+
+2. **单词列表页**：
+   - 词书选择器纵向堆叠
+   - 单词卡片竖向排列
+   - 例句与发音图标同行显示（使用 flex-wrap）
+   - 搜索框全宽显示
+   - 分页控件紧凑布局
+
+3. **闪卡测试页**：
+   - 闪卡高度增加（桌面 480px → 小屏 320px）
+   - 答案区域按钮组确保在可视区域
+   - 测试模式选项纵向排列
+   - 单元选择网格单列显示
+
+4. **收藏页面**：
+   - 页面头部纵向堆叠
+   - 统计徽章全宽居中显示
+   - 收藏统计卡片紧凑布局
+
+5. **错词本页面**：
+   - 统计卡片纵向排列
+   - 分类说明纵向堆叠
+   - 操作按钮全宽显示
+   - 错词条目竖向布局
+
+6. **错误提示层**：
+   - 错误内容区域自适应边距
+   - 图标和标题字号调整
+
+**响应式 CSS 示例**：
+
+```css
+/* 平板设备 */
+@media (max-width: 768px) {
+    .word-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .flashcard {
+        height: 420px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 480px) {
+    .flashcard {
+        height: 380px;
+    }
+    
+    .word-example {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 360px) {
+    .flashcard {
+        height: 320px;
+    }
+}
+```
 
 ---
 
@@ -1056,6 +1228,10 @@ CMD ["gunicorn", "server:app", "-w", "4", "-b", "0.0.0.0:8080"]
 | v1.0 | 2026-01-18 | 初始设计方案 |
 | v1.1 | 2026-01-18 | 更新技术栈为原生 HTML/CSS/JS，简化实现方案 |
 | v2.0 | 2026-01-18 | 重大更新：添加 Python 后端服务器、AI 助手、速率限制、Gunicorn 生产部署支持 |
+| v2.1 | 2026-01-18 | 闪卡测试添加独立词书选择功能 |
+| v2.2 | 2026-01-18 | 添加每日笑话功能（Chuck Norris API） |
+| v2.3 | 2026-01-18 | 添加服务健康检查和错误提示界面 |
+| v2.4 | 2026-01-18 | 完善移动端响应式设计（闪卡、单词列表、收藏、错词本） |
 
 ---
 
@@ -1082,3 +1258,44 @@ CMD ["gunicorn", "server:app", "-w", "4", "-b", "0.0.0.0:8080"]
 
 **问：错词本显示不正确？**
 答：请检查 `localStorage` 中是否有损坏的数据，尝试清除后重新测试。
+
+**问：闪卡测试无法开始？**
+答：请确保已选择至少一个单元。如果选择单元后仍提示错误，请检查浏览器控制台是否有 JavaScript 错误。
+
+**问：每日笑话加载失败？**
+答：笑话加载失败时会自动隐藏，不影响正常使用。可能是网络问题或 API 服务暂时不可用。
+
+### 11.4 新功能说明
+
+#### 闪卡测试独立词书选择
+
+闪卡测试页面现在有独立的词书选择器，与单词列表页面互不干扰：
+
+- 独立的 `flashcardWordBook` 和 `flashcardSelectedUnits` 状态变量
+- 独立的词书选择器和单元选择网格
+- 切换词书时自动清空已选单元并重新渲染
+- 全选/清空按钮独立控制
+
+```javascript
+// 闪卡状态管理
+AppState.flashcardWordBook = null;      // 当前选中的词书
+AppState.flashcardSelectedUnits = [];   // 选中的单元列表
+```
+
+#### 每日笑话功能
+
+首页标题下方动态显示随机英文笑话：
+
+- 调用 `https://api.chucknorris.io/jokes/random` API
+- 5秒超时控制
+- 加载时显示 "Loading joke..." 提示
+- 失败时自动隐藏（`display: none`）
+
+#### 服务健康检查
+
+页面加载时自动检测后端服务状态：
+
+- 调用 `/api/health` 端点
+- 使用 `AbortController` 实现超时
+- 服务不可用时显示错误覆盖层
+- 隐藏主内容和底部导航
