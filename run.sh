@@ -15,30 +15,63 @@ USE_VENV=false
 create_venv() {
     if [ ! -d "venv" ]; then
         echo "Creating Python virtual environment..."
+        echo ""
+        
+        # Check Python version first
+        echo "[Debug] Python version:"
+        python3 --version 2>&1 || echo "python3 not found"
+        echo ""
         
         # Try python3 -m venv first
-        if python3 -m venv venv 2>/dev/null; then
-            echo "Virtual environment created!"
-            USE_VENV=true
-            return 0
+        echo "[Debug] Trying python3 -m venv..."
+        if python3 -m venv venv 2>&1; then
+            # Verify venv was created correctly
+            if [ -f "venv/bin/pip" ] && [ -f "venv/bin/python" ]; then
+                echo "Virtual environment created successfully!"
+                USE_VENV=true
+                return 0
+            else
+                echo "[Warning] venv directory created but files missing"
+            fi
+        else
+            echo "[Warning] python3 -m venv failed"
         fi
         
         # Try using virtualenv package
-        echo "Trying alternative method..."
+        echo ""
+        echo "[Debug] Trying virtualenv..."
         if command -v virtualenv &> /dev/null; then
-            if virtualenv venv 2>/dev/null; then
-                echo "Virtual environment created with virtualenv!"
-                USE_VENV=true
-                return 0
+            if virtualenv venv 2>&1; then
+                if [ -f "venv/bin/pip" ] && [ -f "venv/bin/python" ]; then
+                    echo "Virtual environment created with virtualenv!"
+                    USE_VENV=true
+                    return 0
+                else
+                    echo "[Warning] virtualenv created but files missing"
+                fi
             fi
+        else
+            echo "[Debug] virtualenv not installed"
         fi
         
         # Fall back to system packages without venv
-        echo "Warning: Virtual environment not available, using system packages."
+        echo ""
+        echo "[Warning] Virtual environment not available, using system packages."
         echo "Note: This may require sudo or affect system packages."
         USE_VENV=false
+        return 1
     else
-        USE_VENV=true
+        # Verify existing venv is valid
+        if [ -f "venv/bin/pip" ] && [ -f "venv/bin/python" ]; then
+            echo "Using existing virtual environment"
+            USE_VENV=true
+            return 0
+        else
+            echo "[Warning] venv directory exists but is incomplete, recreating..."
+            rm -rf venv
+            create_venv
+            return $?
+        fi
     fi
 }
 
@@ -46,6 +79,8 @@ create_venv() {
 get_pip_cmd() {
     if [ "$USE_VENV" = true ] && [ -f "venv/bin/pip" ]; then
         echo "venv/bin/pip"
+    elif [ -f "venv/bin/pip3" ]; then
+        echo "venv/bin/pip3"
     elif command -v pip3 &> /dev/null; then
         echo "pip3"
     elif command -v pip &> /dev/null; then
