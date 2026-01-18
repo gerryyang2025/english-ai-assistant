@@ -128,25 +128,32 @@ function parseWordsMD() {
 function parseWordLine(line, book, unit, index) {
     // 格式: * word /phonetic/ meaning
     const wordLine = line.substring(2).trim(); // 移除 "* "
-    const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
-    if (!wordMatch) return null;
     
-    const word = wordMatch[1].trim();
-    let remaining = wordLine.substring(wordMatch[0].length).trim();
-    
-    // 提取音标 /.../
+    // 先提取音标 /.../
+    let word = wordLine;
     let phonetic = '';
-    const phoneticMatch = remaining.match(/\/([^\/]+)\//);
+    let meaning = '';
+    
+    const phoneticMatch = wordLine.match(/\/([^\/]+)\//);
     if (phoneticMatch) {
         phonetic = '/' + phoneticMatch[1] + '/';
-        remaining = remaining.replace(/\/[^\/]+\//, '').trim();
+        const parts = wordLine.split('/');
+        if (parts.length >= 3) {
+            word = parts[0].trim();
+            meaning = parts[2].trim();
+        }
+    } else {
+        // 没有音标，使用原有的空格分割逻辑
+        const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
+        if (!wordMatch) return null;
+        
+        word = wordMatch[1].trim();
+        let remaining = wordLine.substring(wordMatch[0].length).trim();
+        meaning = remaining;
     }
     
-    // 含义
-    const meaning = remaining;
-    
-    // 生成 ID（包含词书前缀以确保唯一性）
-    const bookId = book ? (book.id || 'book') : 'book';
+    // 生成 ID（包含词书前缀以确保唯一 bookId = book ? (book.id性）
+    const || 'book') : 'book';
     const unitNum = unit ? unit.unit.replace('Unit ', 'u') : 'u0';
     const id = `${bookId}-${unitNum}-w${index + 1}`;
     

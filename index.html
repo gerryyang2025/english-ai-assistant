@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>若宸的单词小精灵 - 英语学习助手</title>
+    <title>若宸的英语学习小精灵 - 记住么</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/readings.css">
 </head>
 <body>
     <div id="app">
         <!-- 头部导航 -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">📚 若宸的单词小精灵</h1>
+                <h1 class="logo">📚 若宸的英语学习小精灵 - 记住么</h1>
                 <nav class="nav-menu">
                     <button class="nav-btn active" data-page="home">首页</button>
                     <button class="nav-btn" data-page="words">单词列表</button>
                     <button class="nav-btn" data-page="flashcard">闪卡测试</button>
                     <button class="nav-btn" data-page="wrongbook">错词本</button>
                     <button class="nav-btn" data-page="favorites">收藏</button>
+                    <button class="nav-btn" data-page="readings">阅读</button>
                     <button class="nav-btn" data-page="progress">学习进度</button>
                 </nav>
             </div>
@@ -29,7 +31,7 @@
             <!-- 首页 -->
             <section id="page-home" class="page active">
                 <div class="hero-section">
-                    <h2>📚 若宸的单词小精灵</h2>
+                    <h2>📚 你知道下面这个 Joke 的意思吗？</h2>
                     <p id="daily-joke">加载中...</p>
                 </div>
 
@@ -394,11 +396,53 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 阅读列表页面 -->
+            <section id="page-readings" class="page">
+                <div class="page-header">
+                    <h1>📖 英语阅读</h1>
+                    <p class="page-subtitle">选择一篇阅读材料开始跟读练习</p>
+                </div>
+                
+                <div class="readings-grid" id="readings-list">
+                    <!-- 阅读卡片由 JS 动态生成 -->
+                </div>
+            </section>
+
+            <!-- 阅读详情页面 -->
+            <section id="page-reading-detail" class="page">
+                <div class="reading-header">
+                    <button class="back-btn" onclick="showReadingsPage()">
+                        <span class="back-icon">←</span> 返回列表
+                    </button>
+                    <h1 class="reading-title" id="reading-title">Title</h1>
+                    <p class="reading-scene" id="reading-scene">Scene description</p>
+                </div>
+                
+                <!-- 重点句型 -->
+                <div class="key-patterns-section" id="key-patterns-section">
+                    <h3>📝 重点句型</h3>
+                    <div class="key-patterns-list" id="key-patterns-list">
+                        <!-- 重点句型由 JS 动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="reading-content" id="reading-content">
+                    <!-- 对话内容由 JS 动态生成 -->
+                </div>
+                
+                <div class="reading-controls">
+                    <button class="btn-primary" id="play-all-btn" onclick="playAllDialogues()">
+                        🔊 播放全部
+                    </button>
+                    <button class="btn-secondary" onclick="stopPlayback()">⏹ 停止</button>
+                </div>
+            </section>
         </main>
 
         <!-- 底部 -->
         <footer class="footer">
-            <p>若宸的单词小精灵 © 2026 | Made with ❤️ by gerryyang</p>
+            <p>若宸的英语学习小精灵 - 记住么 © 2026 | Made with ❤️ by gerryyang</p>
         </footer>
     </div>
 

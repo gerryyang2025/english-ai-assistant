@@ -1,0 +1,123 @@
+{
+  "readings": [
+    {
+      "id": "reading-001",
+      "title": "My future",
+      "titleCn": "我的未来",
+      "scene": "这段对话发生在教室内，老师询问学生们关于未来的职业理想。",
+      "keySentencePatterns": [
+        {
+          "pattern": "What do you want to be?",
+          "meaning": "你将来想做什么？"
+        },
+        {
+          "pattern": "I want to be a/an...",
+          "meaning": "我想成为一名..."
+        }
+      ],
+      "dialogues": [
+        {
+          "speaker": "Teacher",
+          "speakerCn": "老师",
+          "content": "What do you want to be, children?",
+          "contentCn": "老师：孩子们，你们将来想做什么？"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "I want to be a pilot. I want to fly a plane in the sky.",
+          "contentCn": "乔：我想成为一名飞行员。我想在天空中驾驶飞机。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I want to be a doctor. I want to help people.",
+          "contentCn": "吉蒂：我想成为一名医生。我想帮助人们。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "I want to be a teacher. I want to teach English in a school.",
+          "contentCn": "艾丽丝：我想成为一名老师。我想在学校里教英语。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "I want to be a cook. I want to cook nice food.",
+          "contentCn": "彼得：我想成为一名厨师。我想烹饪美味的食物。"
+        }
+      ],
+      "isParsingPatterns": false
+    },
+    {
+      "id": "reading-002",
+      "title": "Froggy's new job",
+      "titleCn": "小青蛙的新工作",
+      "scene": "这段文本描述了小青蛙寻找适合自己职业的过程。",
+      "keySentencePatterns": [
+        {
+          "pattern": "Do you want to be...?",
+          "meaning": "你想成为...吗？"
+        },
+        {
+          "pattern": "Yes, I do!",
+          "meaning": "是的，我想！"
+        },
+        {
+          "pattern": "be good at...",
+          "meaning": "擅长..."
+        }
+      ],
+      "dialogues": [
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "Froggy wants to be a pilot. He wants to fly a plane, but he is afraid of flying.",
+          "contentCn": "旁白：小青蛙想成为一名飞行员。他想开飞机，但他害怕飞行。"
+        },
+        {
+          "speaker": "Froggy",
+          "speakerCn": "小青蛙",
+          "content": "Help! Help! It's too high!",
+          "contentCn": "小青蛙：救命！救命！这儿太高了！"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "Froggy wants to be a singer, but he is not good at singing.",
+          "contentCn": "旁白：小青蛙想成为一名歌手，但他并不擅长唱歌。"
+        },
+        {
+          "speaker": "Chick",
+          "speakerCn": "小鸡",
+          "content": "Help!",
+          "contentCn": "小鸡：救命！"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "One day, a chick falls into the lake! A lifeguard jumps into the lake. Froggy jumps into the lake too. They save the chick.",
+          "contentCn": "旁白：一天，一只小鸡掉进了湖里！一名救生员跳进了湖中。小青蛙也跳进了湖里。他们救了小鸡。"
+        },
+        {
+          "speaker": "Lifeguard",
+          "speakerCn": "救生员",
+          "content": "You're good at swimming. Do you want to be a lifeguard?",
+          "contentCn": "救生员：你很擅长游泳。你想成为一名救生员吗？"
+        },
+        {
+          "speaker": "Froggy",
+          "speakerCn": "小青蛙",
+          "content": "Yes, I do!",
+          "contentCn": "小青蛙：是的，我想！"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "Froggy becomes a lifeguard. He likes his new job.",
+          "contentCn": "旁白：小青蛙成为了一名救生员。他喜欢他的新工作。"
+        }
+      ]
+    }
+  ]
+}

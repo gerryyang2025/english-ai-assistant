@@ -6,6 +6,8 @@
 // ========== 全局状态管理 ==========
 const AppState = {
     wordData: [],          // 单词数据（词书列表）
+    readings: [],          // 阅读数据（阅读材料列表）
+    currentReading: null,  // 当前阅读材料
     currentWordBook: null, // 当前选中的词书
     selectedUnits: [],     // 选中的单元
     currentUnit: null,     // 当前查看的单元
@@ -14,7 +16,9 @@ const AppState = {
     flashcardSelectedUnits: [], // 闪卡选中的单元
     userProgress: null,    // 用户学习进度
     wordListPage: 1,       // 单词列表当前页码
-    wordsPerPage: 20       // 每页显示单词数量
+    wordsPerPage: 20,      // 每页显示单词数量
+    currentDialogueIndex: 0, // 当前播放到第几句
+    isPlaying: false       // 是否正在播放
 };
 
 // ========== DOM 元素缓存 ==========
@@ -31,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         showLoading();
         loadWordData().then(() => {
+            loadReadingData(); // 加载阅读数据
             loadUserProgress();
             bindEvents();
             renderHomePage();
@@ -281,6 +286,9 @@ function switchPage(pageName) {
             break;
         case 'favorites':
             renderFavoritesPage();
+            break;
+        case 'readings':
+            showReadingsPage();
             break;
         case 'progress':
             renderProgressPage();
@@ -1576,6 +1584,208 @@ function reviewWrongWords() {
     }, 50);
 }
 
+// ========== 阅读模块 ==========
+async function loadReadingData() {
+    try {
+        const response = await fetch('data/readings.json');
+        if (!response.ok) throw new Error('加载阅读数据失败');
+        const data = await response.json();
+        // 清理临时字段
+        AppState.readings = (data.readings || []).map(reading => {
+            const clean = { ...reading };
+            delete clean.isParsingPatterns;
+            return clean;
+        });
+        console.log('加载阅读数据成功，共 ' + AppState.readings.length + ' 篇阅读材料');
+    } catch (error) {
+        console.error('加载阅读数据失败:', error);
+        AppState.readings = [];
+    }
+}
+
+function showReadingsPage() {
+    // 直接切换页面显示，避免与 switchPage 形成递归调用
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-readings');
+    });
+    
+    // 更新导航按钮状态
+    DOM.navBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === 'readings');
+    });
+    
+    renderReadingsList();
+}
+
+function showReadingDetail(readingId) {
+    const reading = AppState.readings.find(r => r.id === readingId);
+    if (!reading) return;
+    
+    AppState.currentReading = reading;
+    AppState.currentDialogueIndex = 0;
+    AppState.isPlaying = false;
+    
+    // 直接切换页面显示，避免与 switchPage 形成递归调用
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-reading-detail');
+    });
+    
+    // 更新导航按钮状态（保持在阅读页面）
+    DOM.navBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === 'readings');
+    });
+    
+    renderReadingDetail(reading);
+}
+
+function renderReadingsList() {
+    const container = document.getElementById('readings-list');
+    const readings = AppState.readings || [];
+    
+    if (readings.length === 0) {
+        container.innerHTML = '<p class="empty-message">暂无阅读材料</p>';
+        return;
+    }
+    
+    container.innerHTML = readings.map(reading => `
+        <div class="reading-card" onclick="showReadingDetail('${reading.id}')">
+            <div class="reading-card-icon">📖</div>
+            <div class="reading-card-info">
+                <h3 class="reading-card-title">${reading.title}</h3>
+                <p class="reading-card-title-cn">${reading.titleCn}</p>
+                <p class="reading-card-meta">
+                    ${reading.dialogues.length} 句对话
+                </p>
+            </div>
+            <div class="reading-card-arrow">›</div>
+        </div>
+    `).join('');
+}
+
+function renderReadingDetail(reading) {
+    document.getElementById('reading-title').textContent = 
+        `${reading.title} (${reading.titleCn})`;
+    document.getElementById('reading-scene').textContent = reading.scene;
+    
+    // 渲染重点句型
+    const patternsSection = document.getElementById('key-patterns-section');
+    const patternsList = document.getElementById('key-patterns-list');
+    
+    if (reading.keySentencePatterns && reading.keySentencePatterns.length > 0) {
+        patternsSection.style.display = 'block';
+        patternsList.innerHTML = reading.keySentencePatterns.map(pattern => `
+            <div class="key-pattern-item">
+                <span class="pattern-en">${pattern.pattern}</span>
+                <span class="pattern-cn">${pattern.meaning}</span>
+            </div>
+        `).join('');
+    } else {
+        patternsSection.style.display = 'none';
+    }
+    
+    // 渲染对话内容
+    const container = document.getElementById('reading-content');
+    container.innerHTML = reading.dialogues.map((dialogue, index) => `
+        <div class="dialogue-item" data-index="${index}">
+            <div class="dialogue-header">
+                <span class="dialogue-speaker">${dialogue.speaker}</span>
+                <span class="dialogue-speaker-cn">${dialogue.speakerCn}</span>
+            </div>
+            <div class="dialogue-content">
+                <p class="dialogue-en">${dialogue.content}</p>
+                <p class="dialogue-cn">${dialogue.contentCn}</p>
+            </div>
+            <button class="play-btn" onclick="playDialogue(${index})" title="播放">
+                🔊
+            </button>
+        </div>
+    `).join('');
+}
+
+function playDialogue(index) {
+    const reading = AppState.currentReading;
+    if (!reading || index >= reading.dialogues.length) return;
+    
+    const dialogue = reading.dialogues[index];
+    highlightDialogue(index);
+    speakText(dialogue.content, 'en-US');
+}
+
+function playAllDialogues() {
+    const reading = AppState.currentReading;
+    if (!reading) return;
+    
+    AppState.isPlaying = true;
+    AppState.currentDialogueIndex = 0;
+    playNextDialogue();
+}
+
+function playNextDialogue() {
+    const reading = AppState.currentReading;
+    if (!reading || !AppState.isPlaying) return;
+    
+    if (AppState.currentDialogueIndex >= reading.dialogues.length) {
+        AppState.isPlaying = false;
+        clearHighlights();
+        showToast('播放完成');
+        return;
+    }
+    
+    const dialogue = reading.dialogues[AppState.currentDialogueIndex];
+    highlightDialogue(AppState.currentDialogueIndex);
+    
+    speakText(dialogue.content, 'en-US', () => {
+        AppState.currentDialogueIndex++;
+        setTimeout(playNextDialogue, 500);
+    });
+}
+
+function speakText(text, lang, onEnd) {
+    if (!('speechSynthesis' in window)) {
+        showToast('您的浏览器不支持语音播放');
+        return;
+    }
+    
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    
+    utterance.onend = () => {
+        if (onEnd) onEnd();
+    };
+    
+    utterance.onerror = (event) => {
+        console.error('语音播放错误:', event);
+        if (onEnd) onEnd();
+    };
+    
+    window.speechSynthesis.speak(utterance);
+}
+
+function stopPlayback() {
+    AppState.isPlaying = false;
+    window.speechSynthesis.cancel();
+    clearHighlights();
+    showToast('已停止播放');
+}
+
+function highlightDialogue(index) {
+    clearHighlights();
+    const items = document.querySelectorAll('.dialogue-item');
+    if (items[index]) {
+        items[index].classList.add('playing');
+        items[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function clearHighlights() {
+    document.querySelectorAll('.dialogue-item.playing')
+        .forEach(item => item.classList.remove('playing'));
+}
+
 // ========== 学习进度页 ==========
 function renderProgressPage() {
     const progress = AppState.userProgress;
@@ -1653,6 +1863,30 @@ function shuffleArray(array) {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
+}
+
+// Toast 提示
+function showToast(message) {
+    // 创建 toast 元素
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    
+    // 添加到页面
+    document.body.appendChild(toast);
+    
+    // 显示动画
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+    
+    // 2秒后移除
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 2000);
 }
 
 // 单词发音（英音）

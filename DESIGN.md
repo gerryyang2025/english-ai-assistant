@@ -1299,3 +1299,550 @@ AppState.flashcardSelectedUnits = [];   // 选中的单元列表
 - 使用 `AbortController` 实现超时
 - 服务不可用时显示错误覆盖层
 - 隐藏主内容和底部导航
+
+#### 阅读模块
+
+在首页导航栏添加「阅读」一级入口，提供英语阅读材料跟读练习功能。
+
+##### 数据源格式（READINGS.md）
+
+阅读材料源文件采用 Markdown 格式存储在项目根目录，每篇阅读材料包含标题、场景说明和多行对话内容。
+
+```
+# 题目：My future (我的未来)
+# 场景：这段对话发生在教室内，老师询问学生们关于未来的职业理想。
+
+Teacher: What do you want to be, children? (老师：孩子们，你们将来想做什么？)
+Joe: I want to be a pilot. I want to fly a plane in the sky. (乔：我想成为一名飞行员。我想在天空中驾驶飞机。)
+Kitty: I want to be a doctor. I want to help people. (吉蒂：我想成为一名医生。我想帮助人们。)
+
+# 题目：Froggy's new job (小青蛙的新工作)
+# 场景：这段文本描述了小青蛙寻找适合自己职业的过程。
+
+Narrator: Froggy wants to be a pilot. He wants to fly a plane, but he is afraid of flying. (旁白：小青蛙想成为一名飞行员。他想开飞机，但他害怕飞行。)
+Froggy: Help! Help! It's too high! (小青蛙：救命！救命！这儿太高了！)
+```
+
+##### 格式规范
+
+| 元素 | 格式 | 说明 |
+|------|------|------|
+| 题目 | `# 题目：标题 (中文标题)` | 以 `# 题目：` 开头，中英文标题用括号包裹 |
+| 场景 | `# 场景：描述文字` | 以 `# 场景：` 开头，说明阅读材料的背景 |
+| 对话 | `角色: 英文内容 (中文翻译)` | 每行一条对话，英文和中文翻译用括号包裹 |
+
+##### JSON 数据结构（data/readings.json）
+
+转换后的 JSON 文件包含阅读材料列表，每个材料包含基本信息和完整的对话内容。
+
+```json
+{
+  "readings": [
+    {
+      "id": "reading-001",
+      "title": "My future",
+      "titleCn": "我的未来",
+      "scene": "这段对话发生在教室内，老师询问学生们关于未来的职业理想。",
+      "keySentencePatterns": [
+        {
+          "pattern": "What do you want to be?",
+          "meaning": "你将来想做什么？"
+        },
+        {
+          "pattern": "I want to be a/an...",
+          "meaning": "我想成为一名..."
+        }
+      ],
+      "dialogues": [
+        {
+          "speaker": "Teacher",
+          "speakerCn": "老师",
+          "content": "What do you want to be, children?",
+          "contentCn": "孩子们，你们将来想做什么？"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "I want to be a pilot. I want to fly a plane in the sky.",
+          "contentCn": "我想成为一名飞行员。我想在天空中驾驶飞机。"
+        }
+      ]
+    }
+  ]
+}
+```
+
+##### 字段说明
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | string | 阅读材料唯一标识符，格式为 `reading-序号` |
+| title | string | 英文标题 |
+| titleCn | string | 中文标题 |
+| scene | string | 场景描述文字 |
+| keySentencePatterns | array | 重点句型数组 |
+| keySentencePatterns[].pattern | string | 英文句型 |
+| keySentencePatterns[].meaning | string | 句型中文含义 |
+| dialogues | array | 对话内容数组 |
+| dialogues[].speaker | string | 说话者英文名 |
+| dialogues[].speakerCn | string | 说话者中文名 |
+| dialogues[].content | string | 对话英文内容 |
+| dialogues[].contentCn | string | 对话中文翻译 |
+
+##### 转换脚本（convert-readings.js）
+
+新增 Node.js 脚本用于将 READINGS.md 转换为 JSON 格式。
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+function parseReadingsMD() {
+    const readingsMdPath = path.join(__dirname, 'READINGS.md');
+    const content = fs.readFileSync(readingsMdPath, 'utf-8');
+    
+    const lines = content.split('\n');
+    const readings = [];
+    let currentReading = null;
+    let readingIndex = 0;
+    
+    for (let i = 0; i < lines.length; i++) {
+        const rawLine = lines[i];
+        const line = rawLine.trim();
+        
+        // 检测题目行
+        if (line.startsWith('# 题目：')) {
+            if (currentReading) {
+                readings.push(currentReading);
+            }
+            
+            const titleMatch = line.match(/# 题目：(.+?)\s*\(([^)]+)\)/);
+            currentReading = {
+                id: `reading-${String(readingIndex + 1).padStart(3, '0')}`,
+                title: titleMatch ? titleMatch[1].trim() : '',
+                titleCn: titleMatch ? titleMatch[2].trim() : '',
+                scene: '',
+                keySentencePatterns: [],
+                dialogues: []
+            };
+            readingIndex++;
+            continue;
+        }
+        
+        // 检测场景行
+        if (line.startsWith('# 场景：')) {
+            if (currentReading) {
+                currentReading.scene = line.replace('# 场景：', '').trim();
+            }
+            continue;
+        }
+        
+        // 检测重点句型行
+        if (line.startsWith('# 重点句型：') || line === '# 重点句型') {
+            if (currentReading) {
+                currentReading.isParsingPatterns = true;
+            }
+            continue;
+        }
+        
+        // 解析重点句型（缩进的 - 行）
+        if (rawLine.startsWith('  - ') && currentReading && currentReading.isParsingPatterns) {
+            const patternLine = line.substring(3).trim(); // 移除 "- "
+            const patternMatch = patternLine.match(/^(.+?)（(.+)）$/);
+            if (patternMatch) {
+                currentReading.keySentencePatterns.push({
+                    pattern: patternMatch[1].trim(),
+                    meaning: patternMatch[2].trim()
+                });
+            }
+            continue;
+        }
+        
+        // 检测对话行（结束句型解析）
+        if (line.includes(':') && line.includes('(') && line.includes(')')) {
+            if (currentReading) {
+                currentReading.isParsingPatterns = false;
+                const dialogueMatch = line.match(/^([^:]+):\s*(.+?)\s*\(([^)]+)\)/);
+                if (dialogueMatch) {
+                    currentReading.dialogues.push({
+                        speaker: dialogueMatch[1].trim(),
+                        speakerCn: dialogueMatch[2].trim().replace(/\([^)]+\)$/, ''),
+                        content: dialogueMatch[2].trim(),
+                        contentCn: dialogueMatch[3].trim()
+                    });
+                }
+            }
+            continue;
+        }
+    }
+    
+    if (currentReading) {
+        readings.push(currentReading);
+    }
+    
+    return { readings };
+}
+
+function main() {
+    console.log('开始转换 READINGS.md...');
+    const data = parseReadingsMD();
+    
+    console.log(`\n解析结果：共 ${data.readings.length} 篇阅读材料`);
+    data.readings.forEach((reading, index) => {
+        console.log(`  ${index + 1}. ${reading.title} (${reading.titleCn})`);
+        console.log(`     - 句型: ${reading.keySentencePatterns.length} 个`);
+        console.log(`     - 对话: ${reading.dialogues.length} 句`);
+    });
+    
+    const outputPath = path.join(__dirname, 'data', 'readings.json');
+    fs.writeFileSync(outputPath, JSON.stringify(data, null, 2), 'utf-8');
+    console.log(`\n数据已保存到: ${outputPath}`);
+    
+    console.log('\n转换完成！');
+}
+
+main();
+```
+
+##### 前端页面结构
+
+###### 阅读列表页面
+
+阅读材料列表页面采用卡片式布局，显示所有可用的阅读材料。
+
+```html
+<div id="readings-page" class="page hidden">
+    <div class="page-header">
+        <h1>📖 英语阅读</h1>
+        <p class="page-subtitle">选择一篇阅读材料开始跟读练习</p>
+    </div>
+    
+    <div class="readings-grid" id="readings-list">
+        <!-- 阅读卡片由 JS 动态生成 -->
+    </div>
+</div>
+```
+
+###### 阅读详情页面
+
+阅读材料详情页面显示完整对话内容，支持逐句播放。
+
+```html
+<div id="reading-detail-page" class="page hidden">
+    <div class="reading-header">
+        <button class="back-btn" onclick="showReadingsPage()">
+            <span class="back-icon">←</span> 返回列表
+        </button>
+        <h1 class="reading-title" id="reading-title">Title</h1>
+        <p class="reading-scene" id="reading-scene">Scene description</p>
+    </div>
+    
+    <div class="reading-content" id="reading-content">
+        <!-- 对话内容由 JS 动态生成 -->
+    </div>
+    
+    <div class="reading-controls">
+        <button class="btn-primary" id="play-all-btn" onclick="playAllDialogues()">
+            🔊 播放全部
+        </button>
+        <button class="btn-secondary" onclick="stopPlayback()">⏹ 停止</button>
+    </div>
+</div>
+```
+
+##### 前端 JavaScript 逻辑
+
+###### 状态管理
+
+```javascript
+AppState.currentReading = null;      // 当前阅读材料
+AppState.currentDialogueIndex = 0;   // 当前播放到第几句
+AppState.isPlaying = false;          // 是否正在播放
+```
+
+###### 页面导航
+
+```javascript
+function showReadingsPage() {
+    hideAllPages();
+    document.getElementById('readings-page').classList.remove('hidden');
+    renderReadingsList();
+}
+
+function showReadingDetail(readingId) {
+    const reading = getReadingById(readingId);
+    if (!reading) return;
+    
+    AppState.currentReading = reading;
+    AppState.currentDialogueIndex = 0;
+    
+    hideAllPages();
+    document.getElementById('reading-detail-page').classList.remove('hidden');
+    renderReadingDetail(reading);
+}
+```
+
+###### 渲染阅读列表
+
+```javascript
+function renderReadingsList() {
+    const container = document.getElementById('readings-list');
+    const readings = AppState.readings || [];
+    
+    container.innerHTML = readings.map(reading => `
+        <div class="reading-card" onclick="showReadingDetail('${reading.id}')">
+            <div class="reading-card-icon">📖</div>
+            <div class="reading-card-info">
+                <h3 class="reading-card-title">${reading.title}</h3>
+                <p class="reading-card-title-cn">${reading.titleCn}</p>
+                <p class="reading-card-meta">
+                    ${reading.dialogues.length} 句对话
+                </p>
+            </div>
+            <div class="reading-card-arrow">›</div>
+        </div>
+    `).join('');
+}
+```
+
+###### 语音播放功能
+
+```javascript
+function playDialogue(index) {
+    const reading = AppState.currentReading;
+    if (!reading || index >= reading.dialogues.length) return;
+    
+    const dialogue = reading.dialogues[index];
+    speakText(dialogue.content, 'en-US');
+}
+
+function playAllDialogues() {
+    const reading = AppState.currentReading;
+    if (!reading) return;
+    
+    AppState.isPlaying = true;
+    AppState.currentDialogueIndex = 0;
+    playNextDialogue();
+}
+
+function speakText(text, lang, onEnd) {
+    if (!('speechSynthesis' in window)) {
+        showToast('您的浏览器不支持语音播放');
+        return;
+    }
+    
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    
+    utterance.onend = () => {
+        if (onEnd) onEnd();
+    };
+    
+    window.speechSynthesis.speak(utterance);
+}
+```
+
+##### 导航菜单集成
+
+在首页导航栏的「收藏」入口后添加「阅读」入口。
+
+```html
+<nav class="nav-links">
+    <a href="#" onclick="navigateTo('words')">单词</a>
+    <a href="#" onclick="navigateTo('flashcards')">闪卡</a>
+    <a href="#" onclick="navigateTo('favorites')">收藏</a>
+    <a href="#" onclick="navigateTo('readings')" class="nav-active">阅读</a>
+    <a href="#" onclick="navigateTo('wrong-words')">错题本</a>
+    <a href="#" onclick="navigateTo('ai-chat')">AI 助手</a>
+</nav>
+```
+
+##### 语音播放样式设计
+
+###### 对话项样式
+
+```css
+.dialogue-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.dialogue-item.playing {
+    background: #e8f4ff;
+    border: 2px solid #4a90d9;
+    transform: scale(1.02);
+}
+
+.dialogue-header {
+    min-width: 80px;
+    margin-right: 12px;
+}
+
+.dialogue-speaker {
+    display: block;
+    font-weight: 600;
+    color: #4a90d9;
+    font-size: 14px;
+}
+
+.dialogue-speaker-cn {
+    display: block;
+    font-size: 12px;
+    color: #999;
+}
+
+.dialogue-content {
+    flex: 1;
+}
+
+.dialogue-en {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.dialogue-cn {
+    font-size: 14px;
+    color: #666;
+}
+
+.play-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.play-btn:hover {
+    background: #4a90d9;
+    color: white;
+}
+```
+
+##### 阅读卡片样式
+
+```css
+.readings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.reading-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.reading-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.reading-card-icon {
+    width: 48px;
+    height: 48px;
+    background: #e8f4ff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-right: 16px;
+}
+
+.reading-card-info {
+    flex: 1;
+}
+
+.reading-card-title {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.reading-card-title-cn {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.reading-card-meta {
+    font-size: 12px;
+    color: #999;
+}
+```
+
+##### 移动端适配
+
+```css
+@media (max-width: 768px) {
+    .readings-grid {
+        grid-template-columns: 1fr;
+        padding: 12px;
+    }
+    
+    .dialogue-item {
+        padding: 12px;
+    }
+    
+    .dialogue-header {
+        min-width: 60px;
+        margin-right: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reading-card {
+        padding: 12px;
+    }
+    
+    .reading-card-icon {
+        display: none;
+    }
+}
+```
+
+##### 注意事项
+
+1. **语音播放兼容性**：`SpeechSynthesis` API 在不同浏览器中的表现可能不一致，建议添加降级提示
+2. **网络加载失败**：提供嵌入式数据作为后备，确保离线也能使用基础功能
+3. **READINGS.md 格式**：严格遵循指定格式编写，确保转换脚本能正确解析
+4. **发音质量**：使用 `en-US` 语调可获得较好的发音效果，语速建议设置在 0.8-1.0 之间
+5. **连续播放**：多句对话播放时需要在句子之间添加适当的停顿（建议 300-500ms）
+
+### 11.5 更新日志
+
+| 版本 | 日期 | 说明 |
+|------|------|------|
+| v2.5 | 2026-01-19 | 新增阅读模块（READINGS.md 数据源、data/readings.json、阅读列表页面、阅读详情页面、语音播放功能） |
+| v2.4 | 2026-01-18 | 完善移动端响应式设计（闪卡、单词列表、收藏、错词本） |
+| v2.3 | 2026-01-18 | 添加服务健康检查和错误提示界面 |
+| v2.2 | 2026-01-18 | 添加每日笑话功能（Chuck Norris API） |
+| v2.1 | 2026-01-18 | 闪卡测试添加独立词书选择功能 |
+| v2.0 | 2026-01-18 | 重大更新：添加 Python 后端服务器、AI 助手、速率限制、Gunicorn 生产部署支持 |
+| v1.1 | 2026-01-18 | 更新技术栈为原生 HTML/CSS/JS，简化实现方案 |
+| v1.0 | 2026-01-18 | 初始设计方案 |
