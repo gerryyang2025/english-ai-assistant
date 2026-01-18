@@ -455,6 +455,25 @@ function renderHomePage() {
     document.getElementById('today-correct').textContent = todayStats.correct;
     document.getElementById('today-accuracy').textContent = todayStats.accuracy + '%';
     document.getElementById('streak-days').textContent = AppState.userProgress.stats.currentStreak;
+    
+    // 今日阅读统计
+    const todayReadings = getTodayReadingCount();
+    document.getElementById('today-readings').textContent = todayReadings;
+}
+
+// 获取今日阅读数量
+function getTodayReadingCount() {
+    const today = new Date().toISOString().split('T')[0];
+    const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
+    const readingDates = JSON.parse(localStorage.getItem('readingDates') || '{}');
+    
+    // 如果今天的日期有记录，返回记录的数量
+    if (readingDates[today]) {
+        return readingDates[today].length;
+    }
+    
+    // 否则返回 0
+    return 0;
 }
 
 // 显示当前日期和星期几
@@ -1700,6 +1719,21 @@ function renderReadingDetail(reading) {
             </button>
         </div>
     `).join('');
+    
+    // 检查阅读完成状态并更新按钮
+    const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
+    const markBtn = document.getElementById('mark-read-btn');
+    if (markBtn) {
+        if (completedReadings.includes(reading.id)) {
+            markBtn.textContent = '✅ 已完成';
+            markBtn.disabled = true;
+            markBtn.style.opacity = '0.6';
+        } else {
+            markBtn.textContent = '✅ 标记已读';
+            markBtn.disabled = false;
+            markBtn.style.opacity = '1';
+        }
+    }
 }
 
 function playDialogue(index) {
@@ -1772,6 +1806,46 @@ function stopPlayback() {
     showToast('已停止播放');
 }
 
+function markCurrentReadingCompleted() {
+    const reading = AppState.currentReading;
+    if (!reading) {
+        showToast('请先选择一篇阅读材料');
+        return;
+    }
+    
+    const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
+    if (completedReadings.includes(reading.id)) {
+        showToast('这篇阅读已经标记为已读');
+        return;
+    }
+    
+    completedReadings.push(reading.id);
+    localStorage.setItem('completedReadings', JSON.stringify(completedReadings));
+    
+    // 记录阅读日期
+    const today = new Date().toISOString().split('T')[0];
+    const readingDates = JSON.parse(localStorage.getItem('readingDates') || '{}');
+    if (!readingDates[today]) {
+        readingDates[today] = [];
+    }
+    readingDates[today].push(reading.id);
+    localStorage.setItem('readingDates', JSON.stringify(readingDates));
+    
+    showToast(`《${reading.titleCn}》已标记为已读`);
+    
+    // 更新按钮状态
+    const markBtn = document.getElementById('mark-read-btn');
+    if (markBtn) {
+        markBtn.textContent = '✅ 已完成';
+        markBtn.disabled = true;
+        markBtn.style.opacity = '0.6';
+    }
+    
+    // 刷新首页统计
+    const todayReadings = getTodayReadingCount();
+    document.getElementById('today-readings').textContent = todayReadings;
+}
+
 function highlightDialogue(index) {
     clearHighlights();
     const items = document.querySelectorAll('.dialogue-item');
@@ -1833,6 +1907,43 @@ function renderProgressPage() {
     });
     
     unitProgressList.innerHTML = unitHtml;
+    
+    // 渲染阅读进度
+    renderReadingProgress();
+}
+
+// 渲染阅读进度
+function renderReadingProgress() {
+    const readings = AppState.readings || [];
+    const totalReadings = readings.length;
+    
+    // 从 localStorage 获取已完成的阅读
+    const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
+    const completedCount = completedReadings.length;
+    
+    // 计算完成率
+    const progressPercent = totalReadings > 0 
+        ? Math.round((completedCount / totalReadings) * 100) 
+        : 0;
+    
+    // 更新阅读统计卡片
+    const totalReadingsEl = document.getElementById('total-readings');
+    const completedReadingsEl = document.getElementById('completed-readings');
+    const progressPercentEl = document.getElementById('reading-progress-percent');
+    
+    if (totalReadingsEl) totalReadingsEl.textContent = totalReadings;
+    if (completedReadingsEl) completedReadingsEl.textContent = completedCount;
+    if (progressPercentEl) progressPercentEl.textContent = progressPercent + '%';
+}
+
+// 标记阅读为完成
+function markReadingCompleted(readingId) {
+    const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
+    if (!completedReadings.includes(readingId)) {
+        completedReadings.push(readingId);
+        localStorage.setItem('completedReadings', JSON.stringify(completedReadings));
+        renderReadingProgress();
+    }
 }
 
 // ========== 工具函数 ==========

@@ -99,6 +99,10 @@
                             <span class="stat-label">正确率</span>
                         </div>
                         <div class="stat-item">
+                            <span class="stat-number" id="today-readings">0</span>
+                            <span class="stat-label">阅读篇数</span>
+                        </div>
+                        <div class="stat-item">
                             <span class="stat-number" id="streak-days">0</span>
                             <span class="stat-label">连续天数</span>
                         </div>
@@ -395,6 +399,34 @@
                         <!-- 单元进度将由 JS 动态生成 -->
                     </div>
                 </div>
+
+                <!-- 阅读进度 -->
+                <div class="reading-progress-section">
+                    <h3>📖 阅读进度</h3>
+                    <div class="reading-stats">
+                        <div class="reading-stat-card">
+                            <div class="reading-stat-icon">📖</div>
+                            <div class="reading-stat-info">
+                                <span class="reading-stat-value" id="total-readings">0</span>
+                                <span class="reading-stat-desc">阅读篇数</span>
+                            </div>
+                        </div>
+                        <div class="reading-stat-card">
+                            <div class="reading-stat-icon">✅</div>
+                            <div class="reading-stat-info">
+                                <span class="reading-stat-value" id="completed-readings">0</span>
+                                <span class="reading-stat-desc">已读完</span>
+                            </div>
+                        </div>
+                        <div class="reading-stat-card">
+                            <div class="reading-stat-icon">📊</div>
+                            <div class="reading-stat-info">
+                                <span class="reading-stat-value" id="reading-progress-percent">0%</span>
+                                <span class="reading-stat-desc">完成率</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- 阅读列表页面 -->
@@ -436,6 +468,7 @@
                         🔊 播放全部
                     </button>
                     <button class="btn-secondary" onclick="stopPlayback()">⏹ 停止</button>
+                    <button class="btn-secondary" id="mark-read-btn" onclick="markCurrentReadingCompleted()">✅ 标记已读</button>
                 </div>
             </section>
         </main>

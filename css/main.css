@@ -255,8 +255,8 @@ body {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
 }
 
 .stat-item {
@@ -2051,7 +2051,7 @@ body {
     }
     
     .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 12px;
     }
     
@@ -3613,6 +3613,23 @@ body {
         font-size: 0.95rem;
     }
     
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .stat-item {
+        padding: 10px 6px;
+    }
+    
+    .stat-number {
+        font-size: 1.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
+    }
+    
     /* 错词本页面完整适配 */
     #page-wrongbook h2 {
         font-size: 1rem;
@@ -3916,5 +3933,127 @@ body {
     .favorites-list {
         gap: 8px;
         padding: 0 2px;
+    }
+}
+
+/* 阅读进度样式 */
+.reading-progress-section {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.reading-progress-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.reading-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.reading-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.reading-stat-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.reading-stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reading-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.reading-stat-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+    .reading-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    
+    .reading-stat-card {
+        padding: 12px;
+    }
+    
+    .reading-stat-icon {
+        font-size: 1.5rem;
+        margin-bottom: 6px;
+    }
+    
+    .reading-stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .reading-stat-desc {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .reading-progress-section {
+        padding: 16px;
+    }
+    
+    .reading-progress-section h3 {
+        font-size: 1rem;
+        margin-bottom: 16px;
+    }
+    
+    .reading-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .reading-stat-card {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 16px;
+        text-align: left;
+    }
+    
+    .reading-stat-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+        margin-right: 12px;
+    }
+    
+    .reading-stat-info {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .reading-stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .reading-stat-desc {
+        margin-top: 0;
+        font-size: 0.85rem;
     }
 }
