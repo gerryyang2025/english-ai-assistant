@@ -325,7 +325,7 @@ stop_server() {
             PID=$(pgrep -f "gunicorn.*server:app" 2>/dev/null | head -1)
             if [ -n "$PID" ]; then
                 echo "Found Gunicorn process (PID: $PID)"
-                pkill -f "gunicorn.*server:app" 2>/dev/null
+            pkill -f "gunicorn.*server:app" 2>/dev/null
                 sleep 1
                 rm -f "$PID_FILE"
                 echo "✓ Server stopped (Gunicorn)"
@@ -335,14 +335,14 @@ stop_server() {
     fi
     
     # Clean up any remaining artifacts
-    rm -f "$PID_FILE" 2>/dev/null
+            rm -f "$PID_FILE" 2>/dev/null
     
     echo ""
     if [ "$stopped" = true ]; then
         echo "Done."
     else
         echo "[Info] Server is not running."
-    fi
+        fi
 }
 
 # Check server status
@@ -398,7 +398,7 @@ check_status() {
             echo "✓ API Key: Configured"
         else
             echo "✗ API Key: Not configured"
-        fi
+    fi
     else
         echo "✗ Config file: Missing (api_config.py)"
     fi

@@ -33,14 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
             showServiceError();
             return;
         }
-        showLoading();
-        loadWordData().then(() => {
+    showLoading();
+    loadWordData().then(() => {
             loadReadingData(); // 加载阅读数据
-            loadUserProgress();
-            bindEvents();
-            renderHomePage();
+        loadUserProgress();
+        bindEvents();
+        renderHomePage();
             loadDailyJoke(); // 加载每日笑话
-            hideLoading();
+        hideLoading();
         });
     });
 });
@@ -1895,7 +1895,7 @@ function renderProgressPage() {
                 <div class="unit-progress-item">
                     <div class="unit-progress-info">
                         <span class="unit-progress-book">${wordbook.name}</span>
-                        <span class="unit-progress-name">${unit.unit}</span>
+                    <span class="unit-progress-name">${unit.unit}</span>
                     </div>
                     <div class="unit-progress-bar">
                         <div class="unit-progress-fill" style="width: ${percent}%"></div>

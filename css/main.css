@@ -2512,16 +2512,6 @@ body {
         width: auto;
         font-size: 0.85rem;
     }
-    }
-    
-    .unit-progress-bar {
-        margin: 0;
-        flex: 1;
-    }
-    
-    .unit-progress-count {
-        width: auto;
-    }
     
     /* 按钮 */
     .btn-primary,
@@ -3195,60 +3185,98 @@ body {
         align-items: flex-start;
         gap: 10px;
         padding: 12px;
+        border-radius: 10px;
     }
     
     .wrongbook-word-item .word-main {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .wrongbook-word-item .word-header {
+        display: flex;
+        align-items: baseline;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 8px;
     }
     
     .wrongbook-word-item .word-text {
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-primary);
     }
     
     .wrongbook-word-item .word-phonetic {
-        font-size: 0.8rem;
-        width: 100%;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
     }
     
     .wrongbook-word-item .word-meaning {
-        font-size: 0.9rem;
-        width: 100%;
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        line-height: 1.4;
     }
     
     .wrongbook-word-item .wrongbook-example {
-        font-size: 0.8rem;
-        width: 100%;
-        padding-left: 10px;
-        border-left: 2px solid var(--border-color);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        padding: 8px 10px;
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: 6px;
+        border-left: 3px solid var(--primary-light);
+        margin-top: 4px;
+    }
+    
+    .wrongbook-word-item .wrongbook-example::before {
+        content: "例句：";
+        font-weight: 500;
+        color: var(--primary-color);
     }
     
     .wrongbook-word-item .wrongbook-memory-tip {
-        font-size: 0.75rem;
-        padding: 6px 10px;
-        width: 100%;
-        border-radius: var(--radius-sm);
+        font-size: 0.8rem;
+        color: #E67E22;
+        background: #FFF8F0;
+        padding: 8px 10px;
+        border-radius: 6px;
+        border-left: 3px solid #E67E22;
+        margin-top: 6px;
+        line-height: 1.4;
     }
     
     .wrongbook-word-item .word-actions {
         width: 100%;
-        justify-content: flex-start;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 10px;
-        margin-top: 4px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--border-color);
+    }
+    
+    .wrongbook-word-item .action-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
     
     .wrongbook-word-item .mastery-badge {
         font-size: 0.75rem;
         padding: 4px 10px;
-        order: -1;
+        border-radius: 10px;
+        font-weight: 500;
     }
     
     .wrongbook-word-item .audio-btn,
     .wrongbook-word-item .remove-btn {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
         font-size: 1rem;
         flex-shrink: 0;
     }
@@ -3343,69 +3371,42 @@ body {
     .wrongbook-word-item {
         padding: 10px;
         gap: 8px;
-        flex-wrap: wrap;
-    }
-    
-    .wrongbook-word-item .word-main {
-        flex: 1 1 100%;
-        gap: 6px;
-        order: 1;
     }
     
     .wrongbook-word-item .word-text {
-        font-size: 0.95rem;
-        font-weight: 600;
+        font-size: 1rem;
     }
     
     .wrongbook-word-item .word-phonetic {
-        font-size: 0.75rem;
-        width: 100%;
+        font-size: 0.8rem;
     }
     
     .wrongbook-word-item .word-meaning {
-        font-size: 0.85rem;
-        width: 100%;
+        font-size: 0.9rem;
+        line-height: 1.3;
     }
     
     .wrongbook-word-item .wrongbook-example {
-        font-size: 0.75rem;
-        width: 100%;
-        margin-top: 4px;
-        padding-left: 8px;
-        border-left: 2px solid var(--border-color);
+        font-size: 0.8rem;
+        padding: 6px 8px;
     }
     
     .wrongbook-word-item .wrongbook-memory-tip {
-        font-size: 0.7rem;
-        padding: 5px 8px;
-        width: 100%;
-        margin-top: 6px;
-        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        padding: 6px 8px;
     }
     
     .wrongbook-word-item .word-actions {
-        width: 100%;
-        justify-content: flex-start;
         gap: 8px;
-        order: 2;
         margin-top: 6px;
         padding-top: 6px;
-        border-top: 1px dashed var(--border-color);
-    }
-    
-    .wrongbook-word-item .mastery-badge {
-        font-size: 0.7rem;
-        padding: 2px 6px;
-        order: 3;
-        margin-left: auto;
     }
     
     .wrongbook-word-item .audio-btn,
     .wrongbook-word-item .remove-btn {
         width: 36px;
         height: 36px;
-        font-size: 0.9rem;
-        flex-shrink: 0;
+        font-size: 0.95rem;
     }
     
     /* 学习进度 */
@@ -3767,69 +3768,53 @@ body {
     .wrongbook-word-item {
         padding: 8px;
         gap: 6px;
-        flex-wrap: wrap;
     }
     
-    .wrongbook-word-item .word-main {
-        flex: 1 1 100%;
-        gap: 4px;
-        order: 1;
+    .wrongbook-word-item .word-header {
+        gap: 6px;
     }
     
     .wrongbook-word-item .word-text {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: 600;
     }
     
     .wrongbook-word-item .word-phonetic {
-        font-size: 0.65rem;
-        width: 100%;
+        font-size: 0.7rem;
     }
     
     .wrongbook-word-item .word-meaning {
-        font-size: 0.7rem;
-        width: 100%;
+        font-size: 0.75rem;
     }
     
     .wrongbook-word-item .wrongbook-example {
-        font-size: 0.65rem;
-        width: 100%;
-        margin-top: 2px;
-        padding-left: 6px;
-        border-left: 1px solid var(--border-color);
+        font-size: 0.7rem;
+        padding: 6px 8px;
+        margin-top: 4px;
     }
     
     .wrongbook-word-item .wrongbook-memory-tip {
-        font-size: 0.6rem;
-        padding: 3px 5px;
-        width: 100%;
+        font-size: 0.65rem;
+        padding: 5px 8px;
         margin-top: 4px;
-        border-radius: 3px;
     }
     
     .wrongbook-word-item .word-actions {
-        width: 100%;
-        justify-content: flex-start;
         gap: 6px;
-        order: 2;
-        margin-top: 4px;
-        padding-top: 4px;
-        border-top: 1px dashed var(--border-color);
+        margin-top: 6px;
+        padding-top: 6px;
     }
     
     .wrongbook-word-item .mastery-badge {
-        font-size: 0.6rem;
-        padding: 1px 4px;
-        order: 3;
-        margin-left: auto;
+        font-size: 0.65rem;
+        padding: 3px 8px;
     }
     
     .wrongbook-word-item .audio-btn,
     .wrongbook-word-item .remove-btn {
         width: 32px;
         height: 32px;
-        font-size: 0.75rem;
-        flex-shrink: 0;
+        font-size: 0.8rem;
     }
     
     /* 闪卡答案页面完整适配 */
