@@ -75,6 +75,47 @@
 - 隐藏主内容区域，避免显示缓存页面
 - 提供刷新页面按钮
 
+### 2.6 阅读模块功能
+
+提供英语阅读材料跟读练习功能，帮助提高阅读理解和口语能力。
+
+**具体要求**：
+
+- 阅读材料列表页面，显示所有可用阅读材料
+- 阅读详情页面，显示完整对话内容
+- 支持逐句语音播放（Web Speech API）
+- 重点句型高亮展示
+- 知识点 Markdown 渲染
+- 阅读进度追踪
+
+### 2.7 工具页面功能
+
+提供在线数据转换和格式检查功能，方便用户更新和管理数据。
+
+**具体要求**：
+
+- **Markdown 转 JSON**：上传 .md 文件转换为 JSON 格式
+- **JSON 上传实时生效**：上传 .json 文件后立即应用更改
+- **数据预览**：上传后可以预览数据内容
+- **安全检查**：上传文件类型验证、内容安全扫描
+- **格式检查工具**：命令行工具验证数据格式
+
+### 2.8 格式检查工具
+
+提供命令行工具验证数据格式是否正确。
+
+**具体要求**：
+
+- **单词格式检查**：`python3 check-words-format.py`
+  - 验证 WORDS.md 格式
+  - 检查标题、分类、单词条目、例句、记忆技巧
+  - 报告错误和警告
+
+- **阅读格式检查**：`python3 check-readings-format.py`
+  - 验证 READINGS.md 格式
+  - 检查题目、场景、句型、对话、知识点
+  - 支持半角和全角括号混用
+
 ---
 
 ## 3 技术方案设计
@@ -113,19 +154,28 @@ english-notes/
 ├── run.sh                  # 服务器管理脚本
 ├── api_config.py           # API 配置文件（忽略版本控制）
 ├── api_config.example.py   # API 配置模板
+├── README.md               # 项目说明
+├── DESIGN.md               # 设计文档
+├── PROPOSAL.md             # 项目提案
+├── TODO.md                 # 待办事项
+├── .gitignore              # Git 忽略配置
+├── .gitattributes          # Git 属性配置
 ├── css/
-│   └── main.css            # 主样式文件
+│   ├── main.css            # 主样式文件
+│   └── readings.css        # 阅读页面样式
 ├── js/
 │   └── app.js              # 主应用逻辑
 ├── data/
-│   └── words.json          # 单词数据文件
+│   ├── words.json          # 单词数据文件
+│   └── readings.json       # 阅读数据文件
 ├── tools/
 │   └── update-tool.html    # 数据更新工具
-├── convert.js              # 数据转换脚本（Node.js）
 ├── WORDS.md                # 原始单词数据
-├── DESIGN.md               # 设计文档
-├── README.md               # 项目说明
-└── .gitignore              # Git 忽略配置
+├── READINGS.md             # 原始阅读数据
+├── convert-words.js        # 单词数据转换脚本（Node.js）
+├── convert-readings.js     # 阅读数据转换脚本（Node.js）
+├── check-words-format.py   # 单词数据格式检查工具（Python）
+└── check-readings-format.py # 阅读数据格式检查工具（Python）
 ```
 
 ---
@@ -1226,6 +1276,7 @@ CMD ["gunicorn", "server:app", "-w", "4", "-b", "0.0.0.0:8080"]
 | 版本 | 日期 | 说明 |
 |-----|------|------|
 | v1.0 | 2026-01-18 | 初始设计方案 |
+
 | v1.1 | 2026-01-18 | 更新技术栈为原生 HTML/CSS/JS，简化实现方案 |
 | v2.0 | 2026-01-18 | 重大更新：添加 Python 后端服务器、AI 助手、速率限制、Gunicorn 生产部署支持 |
 | v2.1 | 2026-01-18 | 闪卡测试添加独立词书选择功能 |
@@ -1838,7 +1889,10 @@ function speakText(text, lang, onEnd) {
 
 | 版本 | 日期 | 说明 |
 |------|------|------|
-| v2.5 | 2026-01-19 | 新增阅读模块（READINGS.md 数据源、data/readings.json、阅读列表页面、阅读详情页面、语音播放功能） |
+| v2.5 | 2026-01-20 | 新增阅读模块（READINGS.md 数据源、data/readings.json、阅读列表页面、阅读详情页面、语音播放功能） |
+| v2.6 | 2026-01-20 | 添加工具页面（Markdown/JSON 转换、格式检查、实时生效） |
+| v2.7 | 2026-01-20 | 添加移动端工具页面适配 |
+| v2.8 | 2026-01-20 | 添加数据安全检查功能 |
 | v2.4 | 2026-01-18 | 完善移动端响应式设计（闪卡、单词列表、收藏、错词本） |
 | v2.3 | 2026-01-18 | 添加服务健康检查和错误提示界面 |
 | v2.2 | 2026-01-18 | 添加每日笑话功能（Chuck Norris API） |
@@ -1846,3 +1900,4 @@ function speakText(text, lang, onEnd) {
 | v2.0 | 2026-01-18 | 重大更新：添加 Python 后端服务器、AI 助手、速率限制、Gunicorn 生产部署支持 |
 | v1.1 | 2026-01-18 | 更新技术栈为原生 HTML/CSS/JS，简化实现方案 |
 | v1.0 | 2026-01-18 | 初始设计方案 |
+

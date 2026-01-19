@@ -44,6 +44,34 @@
    - 前端启动时自动检测服务状态
    - 服务不可用时显示友好错误提示界面
 
+8. **阅读模块功能**：
+   - 提供英语阅读材料跟读练习
+   - 阅读列表页面显示所有可用材料
+   - 阅读详情页面显示完整对话内容
+   - 支持逐句语音播放（Web Speech API）
+   - 重点句型高亮展示
+   - 知识点 Markdown 渲染
+   - 阅读进度追踪
+
+9. **工具页面功能**：
+   - Markdown 文件转换为 JSON 格式
+   - JSON 文件上传实时生效，无需重启服务器
+   - 数据预览功能
+   - 格式帮助文档
+   - 单词数据和阅读数据两种模式
+
+10. **数据安全检查**：
+    - 上传文件类型验证（支持 .md 和 .json 后缀）
+    - 文件大小限制（最大 2MB）
+    - 内容安全扫描（防止恶意脚本上传）
+    - 危险模式检测（script 标签、iframe、event handlers 等）
+
+11. **格式检查工具**：
+    - 单词格式检查：`python3 check-words-format.py`
+    - 阅读格式检查：`python3 check-readings-format.py`
+    - 验证数据格式正确性
+    - 报告错误和警告
+
 ## 技术栈选择
 
 - **前端**：HTML5 + CSS3 + JavaScript（原生实现）
@@ -63,6 +91,8 @@
 ├── 学习统计页
 ├── 错词本管理页
 ├── 收藏夹管理页
+├── 阅读页（阅读列表 + 详情 + 语音播放）
+├── 工具页（Markdown/JSON 转换 + 实时生效）
 └── Python 后端服务器（API 代理 + 静态文件服务 + 健康检查）
 ```
 
@@ -316,15 +346,21 @@ english-ai-assistant/
 ├── .gitignore              # Git 忽略配置
 ├── .gitattributes          # Git 属性配置
 ├── css/
-│   └── main.css            # 样式文件（包含所有响应式样式）
+│   ├── main.css            # 主样式文件
+│   └── readings.css        # 阅读页面样式
 ├── js/
-│   └── app.js              # 应用程序（包含健康检查、笑话加载等）
+│   └── app.js              # 应用程序（包含健康检查、笑话加载、工具页面）
 ├── data/
-│   └── words.json          # 单词数据文件
+│   ├── words.json          # 单词数据文件
+│   └── readings.json       # 阅读数据文件
 ├── tools/
 │   └── update-tool.html    # 数据更新工具
-├── convert.js              # 数据转换脚本（Node.js）
 ├── WORDS.md                # 原始单词数据
+├── READINGS.md             # 原始阅读数据
+├── convert-words.js        # 单词数据转换脚本（Node.js）
+├── convert-readings.js     # 阅读数据转换脚本（Node.js）
+├── check-words-format.py   # 单词数据格式检查工具（Python）
+├── check-readings-format.py # 阅读数据格式检查工具（Python）
 └── venv/                   # Python 虚拟环境（忽略版本控制）
 ```
 
@@ -350,13 +386,3 @@ english-ai-assistant/
 | CORS | 跨域资源共享，允许跨域请求 |
 | AbortController | 用于取消 fetch 请求的控制器 |
 
-### 更新日志
-
-| 版本 | 日期 | 说明 |
-|-----|------|------|
-| v1.0 | 2026-01-18 | 初始设计方案 |
-| v2.0 | 2026-01-18 | 添加 Python 后端、AI 助手、速率限制、生产部署支持 |
-| v2.1 | 2026-01-18 | 闪卡测试添加独立词书选择功能 |
-| v2.2 | 2026-01-18 | 添加每日笑话功能（Chuck Norris API） |
-| v2.3 | 2026-01-18 | 添加服务健康检查和错误提示界面 |
-| v2.4 | 2026-01-18 | 完善移动端响应式设计（闪卡、单词列表、收藏、错词本） |

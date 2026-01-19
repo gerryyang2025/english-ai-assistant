@@ -89,16 +89,20 @@ Narrator: Froggy becomes a lifeguard. He likes his new job. (旁白：小青蛙�
   - by bike (骑自行车)
   - by car (乘小汽车)
   - on foot (步行)
+# 知识点：
+  - 交通方式表达：`by bus` (乘公交), `by bike` (骑车), `by car` (乘私家车), `by underground` (乘地铁), `on foot` (步行) 
+  - 核心动作短语：`walk to...` (步行去...), `take the bus/train` (乘公交/火车), `get off` (下车), `far from` (离...远) 
+  - 地点名词：`station` (车站), `bus stop` (公交站), `primary school` (小学)
+  - 语音知识：掌握字母组合 `sp` 的发音，如 `wasp` (黄蜂) 和 `crisp` (薯片)
 
-
-Jill: How do you come to school, Joe? (吉尔：乔，你怎么来学校？)
-Joe: I come to school by bus. I live far from our school. (乔：我乘公共汽车来学校。我住得离学校远。)
-Jill: How do you come to school, Alice? (吉尔：艾丽丝，你怎么来学校？)
-Alice: I come to school on foot. I live near school. (艾丽丝：我步行来学校。我住得离学校近。)
-Jill: How do you come to school, Kitty? (吉尔：吉蒂，你怎么来学校？)
-Kitty: I come to school on foot too. Alice and I walk to school together. (吉蒂：我也步行来学校。艾丽丝和我一起走路去上学。)
-Jill: What about you, Peter? How do you come to school? (吉尔：你呢，彼得？你怎么来学校？)
-Peter: I come to school by bus. (彼得：我乘公共汽车来学校。)
+Jill: How do you come to school, Joe? (吉尔：乔，你怎样来学校？) 
+Joe: I come to school by bus. I live far from our school. (乔：我乘公共汽车来。我住得离学校很远。) 
+Jill: How do you come to school, Alice? (吉尔：艾丽丝，你怎样来学校？) 
+Alice: I come to school on foot. I live near school. (艾丽丝：我步行来。我住得离学校近。) 
+Kitty: I come to school on foot too. Alice and I walk to school together. (吉蒂：我也步行来。艾丽丝和我一起走路来学校。) 
+Peter: I come to school by bus. (彼得：我乘公共汽车来学校。) 
+Narrator: Ms Guo is a teacher. She walks to the underground station and takes the train. (旁白：郭老师是一名老师。她步行到地铁站并乘坐地铁。) 
+Narrator: Then she takes Bus No. 12 to Spring Street. She gets off at the bus stop and walks to her school. (旁白：然后她乘坐12路公交车到春晓街。她在公交站下车，然后步行去学校。) 
 
 
 # 题目：Ms Guo's journey to work (郭老师的上班之旅) 
@@ -120,6 +124,14 @@ Text: After half an hour, she gets off at Spring Street Bus Stop. Then she walks
 # 重点句型：
   - When's your birthday? (你的生日是什么时候？)
   - It's on 26th September. (在9月26日。注：日期使用“on + 序数词 + 月份”。) 
+  - What time does the party begin? (聚会几点开始？) 
+  - Can you bring some orange things to the party? (你能带一些橙色的东西来聚会吗？) 
+# 知识点：
+  - 核心名词：`party` (聚会), `hat` (帽子), `thing` (东西), `favourite` (最喜欢的)
+  - 核心短语：`begin` (开始), `bring` (带来), `have fun` (尽情玩), `can't wait` (等不及了) 
+  - 序数词：掌握从 `first` (第一) 到 `thirty-first` (第三十一) 的表达方式及缩写规律（如 1st, 2nd, 3rd, 4th...） 
+  - 语音知识：掌握字母组合 `st` 的发音，如 `toast` (烤面包) 和 `postman` (邮递员) 
+  - 文化知识：在中国，人们通常不会立刻打开礼物；而在西方国家，人们通常会当面打开礼物 
 
 Peter: Can you come to my birthday party, Joe? (彼得：乔，你能来参加我的生日聚会吗？)
 Joe: Sure. When's your birthday? (乔：当然可以。你的生日是什么时候？)
@@ -150,9 +162,33 @@ Peter: What do you have, Alice? (彼得：你带了什么，艾丽丝？)
 Alice: Look, Peter! I have an orange card for you. (艾丽丝：看，彼得！我有一张给你的橙色卡片。)
 Peter: Thank you so much. Look at the table. Here are some orange things for you. They're oranges, orange juice and an orange cake. Let's have some fun! (彼得：非常感谢。看桌子。这儿有一些给你们的橙色东西。它们是橙子、橙汁和橙色蛋糕。让我们尽情玩吧！)
 
-请从 pdf 中解析 unit4 课文内容并生成对话文本，同时对每个对话添加中文翻译，并总结这个单元的重要句型和知识点。最后按照下面格式输出 ``` markdown xxx ```包裹的文本格式。
 
-```
+# 题目：Grandparents (与祖父母的日常) 
+# 场景：郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。
+# 重点句型：
+  - What do you usually do with your grandparents? (你通常和你的祖父母做什么？) 
+  - I usually play chess with my grandpa. (我通常和我爷爷下棋。) 
+  - Grandma is never late. (奶奶从不迟到。) 
+# 知识点：
+  - 频率副词排序：`always` (总是) > `usually` (通常) > `often` (经常) > `sometimes` (有时) > `never` (从不) 
+  - 重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离...远), `at the weekend` (在周末) 
+  - 语音知识：掌握字母组合 `sh` 的发音，如 `dish` (盘子) 和 `wash` (洗) 
+  - 文化常识：中国在10月或11月庆祝重阳节 (Double Ninth Festival)；美国在9月的某个周日庆祝祖父母节 (Grandparents' Day)
+
+
+Ms Guo: What do you usually do with your grandparents? (郭老师：你通常和你的祖父母一起做什么？)
+Alice: I usually play chess with my grandpa. (艾丽丝：我通常和我爷爷下棋。) 
+Peter: My grandparents live in the UK. I often write emails to them. (彼得：我的祖父母住在英国。我经常给他们写电子邮件。) 
+Kitty: My grandparents live far from my home. I often visit them at the weekend. We like going to the park together. (吉蒂：我的祖父母住得离我家很远。我经常在周末去看望他们。我们喜欢一起去公园。) 
+Ms Guo: Do you play sport with your grandparents? (郭老师：你会和你的祖父母一起做运动吗？) 
+Kitty: Yes. I sometimes play table tennis with them. (吉蒂：是的。我有时和他们一起打乒乓球。) 
+Mary: Hello, Grandma. This is Mary. Do you want to go shopping with John and me this Saturday? (玛丽：喂，奶奶。我是玛丽。这周六你想和约翰还有我一起去购物吗？) 
+Grandma: Yes, we can meet at the bus stop at twelve o'clock. (奶奶：好的，我们可以在十二点整在公交车站见面。) 
+Mary: Where's Grandma? It's twelve o'clock. (玛丽：奶奶在哪儿？已经十二点整了。) 
+John: Grandma is never late. (约翰：奶奶从不迟到。) 
+Grandma: Hello, Mary. Hello, John. Come with me! (奶奶：你们好，玛丽。你好，约翰。跟我来吧！) 
+
+
 # 题目：Friends (好朋友的共同点) 
 # 场景：Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。
 # 重点句型：
@@ -170,32 +206,30 @@ Kitty: We both like sport. I like playing table tennis and Alice likes playing v
 Kitty: We both love animals. I have a cat and Alice has a dog. (吉蒂：我们两个都喜爱动物。我有一只猫，艾丽丝有一只狗。) 
 Kitty: We both like helping people. We sometimes help old people cross the street. We also help them carry heavy bags. (吉蒂：我们两个都喜欢帮助别人。我们有时帮助老人穿过马路。我们还帮他们提重袋子。)
 Kitty: We like each other. We're good friends. (吉蒂：我们喜欢彼此。我们是好朋友。)
-```
 
-# 题目：Grandparents (与祖父母的日常) 
-# 场景：郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。
+
+# 题目：Family life (家庭生活) 
+# 场景：描述李老师（Mr Li）一家人在家里不同房间进行的日常活动，以及在“地球一小时”期间大家如何度过夜晚。
 # 重点句型：
-  - What do you usually do with your grandparents? (你通常和你的祖父母做什么？) 
-  - I usually play chess with my grandpa. (我通常和我爷爷下棋。) 
-  - Grandma is never late. (奶奶从不迟到。) 
+  - I'm doing my homework. (我正在做家庭作业。) 
+  - Where are you? (你在哪儿？) 
+  - Many people turn off their lights. (许多人关掉了灯。) 
 # 知识点：
-  - 频率副词排序：`always` (总是) > `usually` (通常) > `often` (经常) > `sometimes` (有时) > `never` (从不) 
-  - 重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离……远), `at the weekend` (在周末) 
-  - 语音知识：掌握字母组合 `sh` 的发音，如 `dish` (盘子) 和 `wash` (洗) 
-  - 文化常识：中国在10月或11月庆祝重阳节 (Double Ninth Festival)；美国在9月的某个周日庆祝祖父母节 (Grandparents' Day)
+  - 现在进行时：掌握 `be + 动词ing` 结构，如 `doing` (正在做), `making` (正在制作), `washing` (正在洗), `cooking` (正在烹饪) 
+  - 核心房间类词汇：`living room` (客厅), `bedroom` (卧室), `kitchen` (厨房), `bathroom` (浴室) 
+  - 重点短语：`model plane` (飞机模型), `turn off` (关掉), `watch TV` (看电视), `tell a story` (讲故事), `at bedtime` (在就寝时间) 
+  - 语音知识：掌握字母组合 `br` (bread) 和 `cr` (ice cream) 的发音 
 
 
-Ms Guo: What do you usually do with your grandparents? (郭老师：你通常和你的祖父母一起做什么？)
-Alice: I usually play chess with my grandpa. (艾丽丝：我通常和我爷爷下棋。) 
-Peter: My grandparents live in the UK. I often write emails to them. (彼得：我的祖父母住在英国。我经常给他们写电子邮件。) 
-Kitty: My grandparents live far from my home. I often visit them at the weekend. We like going to the park together. (吉蒂：我的祖父母住得离我家很远。我经常在周末去看望他们。我们喜欢一起去公园。) 
-Ms Guo: Do you play sport with your grandparents? (郭老师：你会和你的祖父母一起做运动吗？) 
-Kitty: Yes. I sometimes play table tennis with them. (吉蒂：是的。我有时和他们一起打乒乓球。) 
-Mary: Hello, Grandma. This is Mary. Do you want to go shopping with John and me this Saturday? (玛丽：喂，奶奶。我是玛丽。这周六你想和约翰还有我一起去购物吗？) 
-Grandma: Yes, we can meet at the bus stop at twelve o'clock. (奶奶：好的，我们可以在十二点整在公交车站见面。) 
-Mary: Where's Grandma? It's twelve o'clock. (玛丽：奶奶在哪儿？已经十二点整了。) 
-John: Grandma is never late. (约翰：奶奶从不迟到。) 
-Grandma: Hello, Mary. Hello, John. Come with me! (奶奶：你们好，玛丽。你好，约翰。跟我来吧！) 
+Kitty: I'm in the living room. I'm doing my homework. (吉蒂：我在客厅。我正在做家庭作业。) 
+Ben: I'm in my bedroom, Dad. I'm making a model plane. (本：爸爸，我在我的卧室。我正在制作飞机模型。) 
+May: I'm in the bathroom. I'm washing my hair. (梅：我在浴室。我正在洗头发。) 
+Dad: I'm in the kitchen. I'm cooking dinner. Come and help me, please. (爸爸：我在厨房。我正在做晚饭。请来帮帮我。) 
+
+Reporter: It's Earth Hour now. Many people turn off their lights. (记者：现在是“地球一小时”。许多人关掉了他们的灯。) 
+Alice: I usually watch TV with my parents in the evening, but now we're looking at the stars. (艾丽丝：我通常在晚上和父母一起看电视，但现在我们正在看星星。) 
+Kitty: My brother Ben and I usually read storybooks before bedtime, but now Grandma is telling us a story. (吉蒂：我哥哥本和我通常在睡前读故事书，但现在奶奶正在给我们讲故事。) 
+Sally: I usually do my homework at night, but now I'm playing word games with my family. (萨莉：我通常在晚上做作业，但现在我正和家人一起玩单词游戏。) 
 
 
 
