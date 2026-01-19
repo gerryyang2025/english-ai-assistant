@@ -202,34 +202,6 @@ function main() {
     fs.writeFileSync(outputPath, jsonOutput, 'utf-8');
     console.log(`\n数据已保存到: ${outputPath}`);
     
-    // 生成嵌入式数据（用于 app.js）
-    const embeddedOutput = `// ========== 内嵌单词数据（当 fetch 失败时使用）==========
-// 数据格式：词书列表，每个词书包含多个单元
-// 此文件由 convert-words.js 自动生成，不要手动修改
-const EMBEDDED_WORD_DATA = ${jsonOutput};`;
-    
-    // 更新 app.js 中的数据
-    const appJsPath = path.join(__dirname, 'js', 'app.js');
-    let appJsContent = fs.readFileSync(appJsPath, 'utf-8');
-    
-    // 替换嵌入式数据部分
-    const dataStartMarker = '// ========== 内嵌单词数据（当 fetch 失败时使用）==========';
-    const dataEndMarker = '// ========== DOM 元素缓存 ==========';
-    
-    const startIdx = appJsContent.indexOf(dataStartMarker);
-    const endIdx = appJsContent.indexOf(dataEndMarker);
-    
-    if (startIdx !== -1 && endIdx !== -1) {
-        const newAppJs = appJsContent.substring(0, startIdx) + 
-                        embeddedOutput + '\n\n' + 
-                        appJsContent.substring(endIdx);
-        
-        fs.writeFileSync(appJsPath, newAppJs, 'utf-8');
-        console.log(`嵌入式数据已更新到: ${appJsPath}`);
-    } else {
-        console.log('警告: 无法找到 app.js 中的数据标记，请手动更新');
-    }
-    
     console.log('\n转换完成！');
 }
 
