@@ -207,6 +207,58 @@
     color: #666;
 }
 
+/* 知识点区域 */
+.knowledge-points-section {
+    padding: 20px;
+    background: #fff8f0;
+    margin: 0 -20px 20px -20px;
+    border-bottom: 1px solid #eee;
+}
+
+.knowledge-points-section h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.knowledge-points-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.knowledge-point-item {
+    background: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border-left: 4px solid #e67e22;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.knowledge-point-content {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Markdown 样式 */
+.knowledge-point-content code {
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9em;
+    color: #e67e22;
+}
+
+.knowledge-point-content strong {
+    color: #e67e22;
+    font-weight: 600;
+}
+
 /* 对话内容区域 */
 .reading-content {
     padding: 20px;
@@ -452,6 +504,24 @@
         font-size: 12px;
     }
     
+    .knowledge-points-section {
+        padding: 16px;
+        margin: 0 -16px 16px -16px;
+    }
+    
+    .knowledge-points-section h3 {
+        font-size: 15px;
+    }
+    
+    .knowledge-point-item {
+        padding: 12px 14px;
+        border-radius: 8px;
+    }
+    
+    .knowledge-point-content {
+        font-size: 13px;
+    }
+    
     .reading-content {
         padding: 16px;
         padding-bottom: 90px;
@@ -633,6 +703,27 @@
     
     .pattern-cn {
         font-size: 11px;
+    }
+    
+    .knowledge-points-section {
+        padding: 12px;
+        margin: 0 -12px 12px -12px;
+    }
+    
+    .knowledge-points-section h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    .knowledge-point-item {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border-left-width: 3px;
+    }
+    
+    .knowledge-point-content {
+        font-size: 12px;
+        line-height: 1.5;
     }
     
     .reading-content {

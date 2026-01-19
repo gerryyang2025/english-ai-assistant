@@ -12,12 +12,23 @@ function parseReadingsMD() {
     const readings = [];
     let currentReading = null;
     let readingIndex = 0;
+    let isParsingPatterns = false;
+    let isParsingKnowledgePoints = false;
     
+    // 找到第一个题目行的位置
+    let startIndex = 0;
     for (let i = 0; i < lines.length; i++) {
+        if (lines[i].trim().startsWith('# 题目：')) {
+            startIndex = i;
+            break;
+        }
+    }
+    
+    for (let i = startIndex; i < lines.length; i++) {
         const rawLine = lines[i];
         const line = rawLine.trim();
         
-        // 跳过注释
+        // 跳过注释和 JSON 示例
         if (line.startsWith('<!--') || line.startsWith('```') || line.startsWith('*')) {
             continue;
         }
@@ -36,60 +47,97 @@ function parseReadingsMD() {
                 titleCn: titleMatch ? titleMatch[2].trim() : '',
                 scene: '',
                 keySentencePatterns: [],
+                knowledgePoints: [],
                 dialogues: []
             };
             readingIndex++;
+            isParsingPatterns = false;
+            isParsingKnowledgePoints = false;
+            continue;
+        }
+        
+        // 如果没有当前阅读材料，跳过
+        if (!currentReading) {
             continue;
         }
         
         // 检测场景行
         if (line.startsWith('# 场景：')) {
-            if (currentReading) {
-                currentReading.scene = line.replace('# 场景：', '').trim();
-            }
+            currentReading.scene = line.replace('# 场景：', '').trim();
             continue;
         }
         
         // 检测重点句型行
         if (line.startsWith('# 重点句型：') || line === '# 重点句型') {
-            if (currentReading) {
-                currentReading.isParsingPatterns = true;
-            }
+            isParsingPatterns = true;
+            isParsingKnowledgePoints = false;
+            continue;
+        }
+        
+        // 检测知识点行
+        if (line.startsWith('# 知识点：') || line === '# 知识点') {
+            isParsingPatterns = false;
+            isParsingKnowledgePoints = true;
             continue;
         }
         
         // 解析重点句型（缩进的 - 行）
-        if (rawLine.startsWith('  - ') && currentReading && currentReading.isParsingPatterns) {
+        // 格式：- Pattern (翻译) 或 - Pattern (翻译。附加说明)
+        if (rawLine.startsWith('  - ') && isParsingPatterns) {
             const patternLine = line.substring(2).trim(); // 移除 "- " 前缀
-            const patternMatch = patternLine.match(/^(.+?)（(.+)）$/);
-            if (patternMatch) {
+            
+            // 尝试匹配半角括号格式: Pattern (翻译)
+            const halfMatch = patternLine.match(/^(.+?)\s*\(([^)]+)\)$/);
+            if (halfMatch) {
+                let meaning = halfMatch[2].trim();
+                // 如果翻译以句号结尾，移除它
+                meaning = meaning.replace(/\.$/, '');
                 currentReading.keySentencePatterns.push({
-                    pattern: patternMatch[1].trim(),
-                    meaning: patternMatch[2].trim()
+                    pattern: halfMatch[1].trim(),
+                    meaning: meaning
                 });
             }
             continue;
         }
         
-        // 检测对话行（结束句型解析）
-        if (line.includes(':') && line.includes('(') && line.includes(')')) {
-            if (currentReading) {
-                currentReading.isParsingPatterns = false;
-                const dialogueMatch = line.match(/^([^:]+):\s*(.+?)\s*\(([^)]+)\)/);
-                if (dialogueMatch) {
-                    // dialogueMatch[1] = speaker, dialogueMatch[2] = english content, dialogueMatch[3] = chinese translation
-                    const cnTranslation = dialogueMatch[3].trim();
-                    // 提取说话者的中文名字（中文冒号前面的部分）
-                    const speakerCnMatch = cnTranslation.match(/^([^：:]+)[：:]/);
-                    const speakerCn = speakerCnMatch ? speakerCnMatch[1].trim() : cnTranslation;
-                    
-                    currentReading.dialogues.push({
-                        speaker: dialogueMatch[1].trim(),
-                        speakerCn: speakerCn,
-                        content: dialogueMatch[2].trim(),
-                        contentCn: cnTranslation
-                    });
-                }
+        // 解析知识点（缩进的 - 行）
+        // 格式：- 知识点内容
+        if (rawLine.startsWith('  - ') && isParsingKnowledgePoints) {
+            const knowledgePointLine = line.substring(2).trim();
+            if (knowledgePointLine) {
+                currentReading.knowledgePoints.push(knowledgePointLine);
+            }
+            continue;
+        }
+        
+        // 结束句型/知识点解析（遇到非缩进的行）
+        if (!rawLine.startsWith('  ')) {
+            isParsingPatterns = false;
+            isParsingKnowledgePoints = false;
+        }
+        
+        // 检测对话/正文行
+        // 格式：Speaker: Content (speaker：翻译) 或 Text: Content (正文：翻译)
+        if ((line.includes(':') || line.includes('：')) && 
+            (line.includes('(') || line.includes('（'))) {
+            
+            // 尝试匹配半角括号格式
+            let dialogueMatch = line.match(/^([^:]+):\s*(.+?)\s*\(([^)]+)\)$/);
+            
+            if (dialogueMatch) {
+                let cnTranslation = dialogueMatch[3].trim();
+                cnTranslation = cnTranslation.replace(/\.$/, '');
+                
+                // 提取说话者的中文名字（中文冒号前面的部分）
+                const speakerCnMatch = cnTranslation.match(/^([^：:]+)[：:]/);
+                const speakerCn = speakerCnMatch ? speakerCnMatch[1].trim() : cnTranslation;
+                
+                currentReading.dialogues.push({
+                    speaker: dialogueMatch[1].trim(),
+                    speakerCn: speakerCn,
+                    content: dialogueMatch[2].trim(),
+                    contentCn: cnTranslation
+                });
             }
             continue;
         }
@@ -97,8 +145,6 @@ function parseReadingsMD() {
     
     // 保存最后一个阅读材料
     if (currentReading) {
-        // 删除临时字段
-        delete currentReading.isParsingPatterns;
         readings.push(currentReading);
     }
     
@@ -113,6 +159,7 @@ function main() {
     data.readings.forEach((reading, index) => {
         console.log(`  ${index + 1}. ${reading.title} (${reading.titleCn})`);
         console.log(`     - 句型: ${reading.keySentencePatterns.length} 个`);
+        console.log(`     - 知识点: ${reading.knowledgePoints.length} 个`);
         console.log(`     - 对话: ${reading.dialogues.length} 句`);
     });
     

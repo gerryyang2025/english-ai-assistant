@@ -22,6 +22,7 @@
                     <button class="nav-btn" data-page="favorites">收藏</button>
                     <button class="nav-btn" data-page="readings">阅读</button>
                     <button class="nav-btn" data-page="progress">学习进度</button>
+                    <button class="nav-btn" data-page="tool">工具</button>
                 </nav>
             </div>
         </header>
@@ -459,6 +460,14 @@
                     </div>
                 </div>
                 
+                <!-- 知识点 -->
+                <div class="knowledge-points-section" id="knowledge-points-section">
+                    <h3>📚 知识点</h3>
+                    <div class="knowledge-points-list" id="knowledge-points-list">
+                        <!-- 知识点由 JS 动态生成 -->
+                    </div>
+                </div>
+                
                 <div class="reading-content" id="reading-content">
                     <!-- 对话内容由 JS 动态生成 -->
                 </div>
@@ -469,6 +478,67 @@
                     </button>
                     <button class="btn-secondary" onclick="stopPlayback()">⏹ 停止</button>
                     <button class="btn-secondary" id="mark-read-btn" onclick="markCurrentReadingCompleted()">✅ 标记已读</button>
+                </div>
+            </section>
+            
+            <!-- 工具页面 -->
+            <section id="page-tool" class="page">
+                <div class="page-header">
+                    <h1>🔧 数据更新工具</h1>
+                    <p class="page-subtitle">将 Markdown 文件转换为网站可用的 JSON 数据格式</p>
+                </div>
+                
+                <div class="tool-container">
+                    <div class="tool-tabs">
+                        <button class="tool-tab active" data-tab="words">单词数据</button>
+                        <button class="tool-tab" data-tab="readings">阅读数据</button>
+                    </div>
+                    
+                    <!-- 单词数据 -->
+                    <div class="tool-content active" id="tool-words">
+                        <div class="upload-area" id="wordsUploadArea">
+                            <div class="upload-icon">📖</div>
+                            <div class="upload-text">点击或拖拽 WORDS.md 文件到此处</div>
+                            <div class="upload-hint">支持 .md 格式的文件</div>
+                        </div>
+                        <input type="file" id="wordsFileInput" accept=".md,.txt" style="display: none;">
+                        <div class="file-info" id="wordsFileInfo" style="display: none;">
+                            <div class="file-name" id="wordsFileName"></div>
+                            <div class="file-size" id="wordsFileSize"></div>
+                        </div>
+                        <div class="preview" id="wordsPreview" style="display: none;">
+                            <div class="preview-title">数据预览：</div>
+                            <ul class="wordbook-list" id="wordbookList"></ul>
+                        </div>
+                        <div class="actions" id="wordsActions" style="display: none;">
+                            <button class="btn" id="wordsGenerateBtn">生成并下载 words.json</button>
+                            <button class="btn btn-secondary" id="wordsCopyBtn">复制 JSON 到剪贴板</button>
+                        </div>
+                        <div class="status" id="wordsStatus"></div>
+                    </div>
+                    
+                    <!-- 阅读数据 -->
+                    <div class="tool-content" id="tool-readings">
+                        <div class="upload-area reading" id="readingsUploadArea">
+                            <div class="upload-icon">📚</div>
+                            <div class="upload-text">点击或拖拽 READINGS.md 文件到此处</div>
+                            <div class="upload-hint">支持 .md 格式的文件</div>
+                        </div>
+                        <input type="file" id="readingsFileInput" accept=".md,.txt" style="display: none;">
+                        <div class="file-info" id="readingsFileInfo" style="display: none;">
+                            <div class="file-name reading" id="readingsFileName"></div>
+                            <div class="file-size" id="readingsFileSize"></div>
+                        </div>
+                        <div class="preview" id="readingsPreview" style="display: none;">
+                            <div class="preview-title">数据预览：</div>
+                            <ul class="reading-list" id="readingList"></ul>
+                        </div>
+                        <div class="actions" id="readingsActions" style="display: none;">
+                            <button class="btn btn-reading" id="readingsGenerateBtn">生成并下载 readings.json</button>
+                            <button class="btn btn-secondary" id="readingsCopyBtn">复制 JSON 到剪贴板</button>
+                        </div>
+                        <div class="status" id="readingsStatus"></div>
+                    </div>
                 </div>
             </section>
         </main>

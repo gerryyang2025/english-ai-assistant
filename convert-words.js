@@ -1,5 +1,5 @@
 // 数据转换脚本：将 WORDS.md 转换为 JSON 格式
-// 运行方式：node convert.js
+// 运行方式：node convert-words.js
 
 const fs = require('fs');
 const path = require('path');
@@ -7,7 +7,9 @@ const path = require('path');
 // 词书名称到 ID 的映射
 const bookNameToId = {
     '英语五年级上册': 'grade5-upper',
-    '英语六年级上册': 'grade6-upper'
+    '英语六年级上册': 'grade6-upper',
+    '英语五年级下册': 'grade5-lower',
+    '英语六年级下册': 'grade6-lower'
 };
 
 function parseWordsMD() {
@@ -35,6 +37,12 @@ function parseWordsMD() {
         if (rawLine.startsWith('# ')) {
             const bookName = line.replace('# ', '').replace('单词', '').trim();
             if (bookName.includes('年级')) {
+                // 保存上一个单词
+                if (currentWordData && currentUnit) {
+                    currentUnit.words.push(currentWordData);
+                    wordIndex++;
+                }
+                
                 currentBook = {
                     id: bookNameToId[bookName] || bookName,
                     name: bookName,
@@ -43,6 +51,7 @@ function parseWordsMD() {
                 wordBooks.push(currentBook);
                 currentUnit = null;
                 currentWordData = null;
+                wordIndex = 0;
             }
             continue;
         }
@@ -64,7 +73,7 @@ function parseWordsMD() {
                     category: '',
                     words: []
                 };
-                wordIndex = 0; // 重置单词索引
+                wordIndex = 0;
                 if (currentBook) {
                     currentBook.units.push(currentUnit);
                 }
@@ -152,8 +161,8 @@ function parseWordLine(line, book, unit, index) {
         meaning = remaining;
     }
     
-    // 生成 ID（包含词书前缀以确保唯一 bookId = book ? (book.id性）
-    const || 'book') : 'book';
+    // 生成 ID（包含词书前缀以确保唯一性）
+    const bookId = book ? (book.id || 'book') : 'book';
     const unitNum = unit ? unit.unit.replace('Unit ', 'u') : 'u0';
     const id = `${bookId}-${unitNum}-w${index + 1}`;
     
@@ -196,7 +205,7 @@ function main() {
     // 生成嵌入式数据（用于 app.js）
     const embeddedOutput = `// ========== 内嵌单词数据（当 fetch 失败时使用）==========
 // 数据格式：词书列表，每个词书包含多个单元
-// 此文件由 convert.js 自动生成，不要手动修改
+// 此文件由 convert-words.js 自动生成，不要手动修改
 const EMBEDDED_WORD_DATA = ${jsonOutput};`;
     
     // 更新 app.js 中的数据

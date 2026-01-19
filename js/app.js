@@ -293,6 +293,9 @@ function switchPage(pageName) {
         case 'progress':
             renderProgressPage();
             break;
+        case 'tool':
+            initToolPage();
+            break;
     }
 }
 
@@ -1702,6 +1705,21 @@ function renderReadingDetail(reading) {
         patternsSection.style.display = 'none';
     }
     
+    // 渲染知识点
+    const knowledgeSection = document.getElementById('knowledge-points-section');
+    const knowledgeList = document.getElementById('knowledge-points-list');
+    
+    if (reading.knowledgePoints && reading.knowledgePoints.length > 0) {
+        knowledgeSection.style.display = 'block';
+        knowledgeList.innerHTML = reading.knowledgePoints.map(point => `
+            <div class="knowledge-point-item">
+                <div class="knowledge-point-content">${parseMarkdown(point)}</div>
+            </div>
+        `).join('');
+    } else {
+        knowledgeSection.style.display = 'none';
+    }
+    
     // 渲染对话内容
     const container = document.getElementById('reading-content');
     container.innerHTML = reading.dialogues.map((dialogue, index) => `
@@ -2003,6 +2021,21 @@ function showToast(message) {
     }, 2000);
 }
 
+// 简单的 Markdown 解析函数
+function parseMarkdown(text) {
+    if (!text) return '';
+    
+    let result = text;
+    
+    // 代码反引号：`code`
+    result = result.replace(/`([^`]+)`/g, '<code>$1</code>');
+    
+    // 粗体：**text**
+    result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    return result;
+}
+
 // 单词发音（英音）
 function speakWord(text) {
     if (!('speechSynthesis' in window)) {
@@ -2208,3 +2241,552 @@ window.removeFromWrongbook = removeFromWrongbook;
 window.speakCurrentWord = speakCurrentWord;
 window.speakCurrentWordUS = speakCurrentWordUS;
 window.submitQA = submitQA;
+
+// ========== 工具页面 ==========
+let parsedWordsData = null;
+let parsedReadingsData = null;
+
+function initToolPage() {
+    // 初始化标签切换
+    document.querySelectorAll('.tool-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tool-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('tool-' + tab.dataset.tab).classList.add('active');
+        });
+    });
+    
+    // 初始化单词文件上传
+    initWordsUpload();
+    
+    // 初始化阅读文件上传
+    initReadingsUpload();
+}
+
+function initWordsUpload() {
+    const uploadArea = document.getElementById('wordsUploadArea');
+    const fileInput = document.getElementById('wordsFileInput');
+    const fileInfo = document.getElementById('wordsFileInfo');
+    const fileName = document.getElementById('wordsFileName');
+    const fileSize = document.getElementById('wordsFileSize');
+    const preview = document.getElementById('wordsPreview');
+    const wordbookList = document.getElementById('wordbookList');
+    const actions = document.getElementById('wordsActions');
+    const status = document.getElementById('wordsStatus');
+    
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) handleWordsFile(file);
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleWordsFile(file);
+    });
+    
+    function handleWordsFile(file) {
+        if (!file.name.endsWith('.md')) {
+            showWordsStatus('请上传 .md 格式的文件', 'error');
+            return;
+        }
+        
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.style.display = 'block';
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            try {
+                parsedWordsData = parseWordsMD(content);
+                showWordsPreview(parsedWordsData);
+                showWordsStatus('文件解析成功！', 'success');
+                actions.style.display = 'block';
+            } catch (error) {
+                showWordsStatus('文件解析失败：' + error.message, 'error');
+                console.error(error);
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    function showWordsPreview(data) {
+        wordbookList.innerHTML = '';
+        
+        data.forEach(book => {
+            const bookItem = document.createElement('li');
+            bookItem.className = 'wordbook-item';
+            bookItem.innerHTML = `
+                <strong>${book.name}</strong>
+                <div class="unit-list">
+                    ${book.units.map(unit => `
+                        <div class="unit-item">
+                            ${unit.unit} - ${unit.title || '未命名'} (${unit.words.length} 个单词)
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            wordbookList.appendChild(bookItem);
+        });
+        
+        preview.style.display = 'block';
+    }
+    
+    function generateWordsJSON() {
+        if (!parsedWordsData) return null;
+        return JSON.stringify(parsedWordsData, null, 2);
+    }
+    
+    function showWordsStatus(message, type) {
+        status.innerHTML = message;
+        status.className = 'status ' + type;
+    }
+    
+    document.getElementById('wordsGenerateBtn').addEventListener('click', () => {
+        const json = generateWordsJSON();
+        if (!json) {
+            showWordsStatus('没有可生成的数据', 'error');
+            return;
+        }
+        
+        downloadFile(json, 'words.json', 'application/json');
+        showWordsStatus('✅ words.json 已下载！', 'success');
+    });
+    
+    document.getElementById('wordsCopyBtn').addEventListener('click', () => {
+        const json = generateWordsJSON();
+        if (!json) {
+            showWordsStatus('没有可复制的数据', 'error');
+            return;
+        }
+        
+        navigator.clipboard.writeText(json).then(() => {
+            showWordsStatus('JSON 数据已复制到剪贴板！', 'success');
+        }).catch(err => {
+            showWordsStatus('复制失败：' + err.message, 'error');
+        });
+    });
+}
+
+function initReadingsUpload() {
+    const uploadArea = document.getElementById('readingsUploadArea');
+    const fileInput = document.getElementById('readingsFileInput');
+    const fileInfo = document.getElementById('readingsFileInfo');
+    const fileName = document.getElementById('readingsFileName');
+    const fileSize = document.getElementById('readingsFileSize');
+    const preview = document.getElementById('readingsPreview');
+    const readingList = document.getElementById('readingList');
+    const actions = document.getElementById('readingsActions');
+    const status = document.getElementById('readingsStatus');
+    
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) handleReadingsFile(file);
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleReadingsFile(file);
+    });
+    
+    function handleReadingsFile(file) {
+        if (!file.name.endsWith('.md')) {
+            showReadingsStatus('请上传 .md 格式的文件', 'error');
+            return;
+        }
+        
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.style.display = 'block';
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            try {
+                parsedReadingsData = parseReadingsMD(content);
+                showReadingsPreview(parsedReadingsData);
+                showReadingsStatus('文件解析成功！', 'success');
+                actions.style.display = 'block';
+            } catch (error) {
+                showReadingsStatus('文件解析失败：' + error.message, 'error');
+                console.error(error);
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    function showReadingsPreview(data) {
+        readingList.innerHTML = '';
+        
+        data.forEach((reading, index) => {
+            const readingItem = document.createElement('li');
+            readingItem.className = 'reading-item';
+            readingItem.innerHTML = `
+                <strong>${reading.title} (${reading.titleCn})</strong>
+                <div class="unit-list">
+                    <div class="unit-item">
+                        句型: ${reading.keySentencePatterns.length} 个 | 
+                        知识点: ${reading.knowledgePoints.length} 个 | 
+                        对话: ${reading.dialogues.length} 句
+                    </div>
+                </div>
+            `;
+            readingList.appendChild(readingItem);
+        });
+        
+        preview.style.display = 'block';
+    }
+    
+    function generateReadingsJSON() {
+        if (!parsedReadingsData) return null;
+        return JSON.stringify({ readings: parsedReadingsData }, null, 2);
+    }
+    
+    function showReadingsStatus(message, type) {
+        status.innerHTML = message;
+        status.className = 'status ' + type;
+    }
+    
+    document.getElementById('readingsGenerateBtn').addEventListener('click', () => {
+        const json = generateReadingsJSON();
+        if (!json) {
+            showReadingsStatus('没有可生成的数据', 'error');
+            return;
+        }
+        
+        downloadFile(json, 'readings.json', 'application/json');
+        showReadingsStatus('✅ readings.json 已下载！', 'success');
+    });
+    
+    document.getElementById('readingsCopyBtn').addEventListener('click', () => {
+        const json = generateReadingsJSON();
+        if (!json) {
+            showReadingsStatus('没有可复制的数据', 'error');
+            return;
+        }
+        
+        navigator.clipboard.writeText(json).then(() => {
+            showReadingsStatus('JSON 数据已复制到剪贴板！', 'success');
+        }).catch(err => {
+            showReadingsStatus('复制失败：' + err.message, 'error');
+        });
+    });
+}
+
+function parseWordsMD(content) {
+    const lines = content.split('\n');
+    const wordBooks = [];
+    let currentBook = null;
+    let currentUnit = null;
+    let currentWordData = null;
+    let wordIndex = 0;
+    
+    const bookNameToId = {
+        '英语五年级上册': 'grade5-upper',
+        '英语六年级上册': 'grade6-upper',
+        '英语五年级下册': 'grade5-lower',
+        '英语六年级下册': 'grade6-lower'
+    };
+    
+    for (let i = 0; i < lines.length; i++) {
+        const rawLine = lines[i];
+        const line = rawLine.trim();
+        
+        if (line.startsWith('<!--') || line.startsWith('```')) {
+            continue;
+        }
+        
+        if (rawLine.startsWith('# ')) {
+            const bookName = line.replace('# ', '').replace('单词', '').trim();
+            if (bookName.includes('年级')) {
+                if (currentWordData && currentUnit) {
+                    currentUnit.words.push(currentWordData);
+                    wordIndex++;
+                }
+                
+                currentBook = {
+                    id: bookNameToId[bookName] || bookName,
+                    name: bookName,
+                    units: []
+                };
+                wordBooks.push(currentBook);
+                currentUnit = null;
+                currentWordData = null;
+                wordIndex = 0;
+            }
+            continue;
+        }
+        
+        if (rawLine.startsWith('## ')) {
+            const unitMatch = line.match(/##\s*(Unit\s*\d+)/);
+            if (unitMatch) {
+                if (currentWordData && currentUnit) {
+                    currentUnit.words.push(currentWordData);
+                    wordIndex++;
+                }
+                currentWordData = null;
+                
+                currentUnit = {
+                    unit: unitMatch[1],
+                    title: '',
+                    category: '',
+                    words: []
+                };
+                wordIndex = 0;
+                if (currentBook) {
+                    currentBook.units.push(currentUnit);
+                }
+            }
+            continue;
+        }
+        
+        if (rawLine.startsWith('Title:')) {
+            const titleMatch = line.match(/Title:\s*(.+?)\s*Category:\s*(.+)/);
+            if (titleMatch && currentUnit) {
+                currentUnit.title = titleMatch[1].trim();
+                currentUnit.category = titleMatch[2].trim();
+            }
+            continue;
+        }
+        
+        if (rawLine.startsWith('  - ')) {
+            const detailContent = line.substring(2).trim();
+            if (!currentWordData) continue;
+            
+            if (detailContent.startsWith('例句：')) {
+                const examplePart = detailContent.substring(3);
+                const match = examplePart.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+                if (match) {
+                    currentWordData.example = match[1].trim();
+                    currentWordData.translation = match[2].trim();
+                } else if (examplePart.trim()) {
+                    currentWordData.example = examplePart.trim();
+                }
+            } else if (detailContent.startsWith('记忆：')) {
+                currentWordData.memoryTip = detailContent.substring(3).trim();
+            }
+            continue;
+        }
+        
+        if (rawLine.startsWith('* ')) {
+            if (currentWordData && currentUnit) {
+                currentUnit.words.push(currentWordData);
+                wordIndex++;
+            }
+            
+            currentWordData = parseWordLine(line, currentBook, currentUnit, wordIndex);
+            continue;
+        }
+    }
+    
+    if (currentWordData && currentUnit) {
+        currentUnit.words.push(currentWordData);
+    }
+    
+    return wordBooks;
+}
+
+function parseWordLine(line, book, unit, index) {
+    const wordLine = line.substring(2).trim();
+    let phonetic = '';
+    let meaning = '';
+    
+    const phoneticMatch = wordLine.match(/\/([^\/]+)\//);
+    if (phoneticMatch) {
+        phonetic = '/' + phoneticMatch[1] + '/';
+        const parts = wordLine.split('/');
+        if (parts.length >= 3) {
+            meaning = parts[2].trim();
+        }
+    } else {
+        const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
+        if (!wordMatch) return null;
+        let remaining = wordLine.substring(wordMatch[0].length).trim();
+        meaning = remaining;
+    }
+    
+    const bookId = book ? (book.id || 'book') : 'book';
+    const unitNum = unit ? unit.unit.replace('Unit ', 'u') : 'u0';
+    const id = `${bookId}-${unitNum}-w${index + 1}`;
+    const word = wordLine.split('/')[0].trim();
+    
+    return {
+        id: id,
+        word: word,
+        phonetic: phonetic,
+        meaning: meaning,
+        example: '',
+        translation: '',
+        memoryTip: '',
+        category: unit ? unit.category : ''
+    };
+}
+
+function parseReadingsMD(content) {
+    const lines = content.split('\n');
+    const readings = [];
+    let currentReading = null;
+    let readingIndex = 0;
+    let isParsingPatterns = false;
+    let isParsingKnowledgePoints = false;
+    
+    let startIndex = 0;
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].trim().startsWith('# 题目：')) {
+            startIndex = i;
+            break;
+        }
+    }
+    
+    for (let i = startIndex; i < lines.length; i++) {
+        const rawLine = lines[i];
+        const line = rawLine.trim();
+        
+        if (line.startsWith('<!--') || line.startsWith('```') || line.startsWith('*')) {
+            continue;
+        }
+        
+        if (line.startsWith('# 题目：')) {
+            if (currentReading) {
+                readings.push(currentReading);
+            }
+            
+            const titleMatch = line.match(/# 题目：(.+?)\s*\(([^)]+)\)/);
+            currentReading = {
+                id: `reading-${String(readingIndex + 1).padStart(3, '0')}`,
+                title: titleMatch ? titleMatch[1].trim() : '',
+                titleCn: titleMatch ? titleMatch[2].trim() : '',
+                scene: '',
+                keySentencePatterns: [],
+                knowledgePoints: [],
+                dialogues: []
+            };
+            readingIndex++;
+            isParsingPatterns = false;
+            isParsingKnowledgePoints = false;
+            continue;
+        }
+        
+        if (!currentReading) continue;
+        
+        if (line.startsWith('# 场景：')) {
+            currentReading.scene = line.replace('# 场景：', '').trim();
+            continue;
+        }
+        
+        if (line.startsWith('# 重点句型：') || line === '# 重点句型') {
+            isParsingPatterns = true;
+            isParsingKnowledgePoints = false;
+            continue;
+        }
+        
+        if (line.startsWith('# 知识点：') || line === '# 知识点') {
+            isParsingPatterns = false;
+            isParsingKnowledgePoints = true;
+            continue;
+        }
+        
+        if (rawLine.startsWith('  - ') && isParsingPatterns) {
+            const patternLine = line.substring(2).trim();
+            
+            const halfMatch = patternLine.match(/^(.+?)\s*\(([^)]+)\)$/);
+            if (halfMatch) {
+                let meaning = halfMatch[2].trim();
+                meaning = meaning.replace(/\.$/, '');
+                currentReading.keySentencePatterns.push({
+                    pattern: halfMatch[1].trim(),
+                    meaning: meaning
+                });
+            }
+            continue;
+        }
+        
+        if (rawLine.startsWith('  - ') && isParsingKnowledgePoints) {
+            const knowledgePointLine = line.substring(2).trim();
+            if (knowledgePointLine) {
+                currentReading.knowledgePoints.push(knowledgePointLine);
+            }
+            continue;
+        }
+        
+        if (!rawLine.startsWith('  ')) {
+            isParsingPatterns = false;
+            isParsingKnowledgePoints = false;
+        }
+        
+        if ((line.includes(':') || line.includes('：')) && 
+            (line.includes('(') || line.includes('（'))) {
+            
+            const dialogueMatch = line.match(/^([^:]+):\s*(.+?)\s*\(([^)]+)\)$/);
+            if (dialogueMatch) {
+                let cnTranslation = dialogueMatch[3].trim();
+                cnTranslation = cnTranslation.replace(/\.$/, '');
+                
+                const speakerCnMatch = cnTranslation.match(/^([^：:]+)[：:]/);
+                const speakerCn = speakerCnMatch ? speakerCnMatch[1].trim() : cnTranslation;
+                
+                currentReading.dialogues.push({
+                    speaker: dialogueMatch[1].trim(),
+                    speakerCn: speakerCn,
+                    content: dialogueMatch[2].trim(),
+                    contentCn: cnTranslation
+                });
+            }
+            continue;
+        }
+    }
+    
+    if (currentReading) {
+        readings.push(currentReading);
+    }
+    
+    return readings;
+}
+
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// 导出工具函数
+window.initToolPage = initToolPage;

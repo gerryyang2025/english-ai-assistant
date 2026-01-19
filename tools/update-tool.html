@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>单词数据更新工具</title>
+    <title>数据更新工具</title>
     <style>
         * {
             box-sizing: border-box;
@@ -19,7 +19,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
         
@@ -60,6 +60,14 @@
         .upload-area.dragover {
             border-color: #667eea;
             background: #f0f2ff;
+        }
+        
+        .upload-area.reading {
+            border-color: #27ae60;
+        }
+        
+        .upload-area.reading:hover {
+            background: #e8f8f0;
         }
         
         .upload-icon {
@@ -114,6 +122,14 @@
         .btn-secondary:hover {
             background: #eee;
             box-shadow: none;
+        }
+        
+        .btn-reading {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+        
+        .btn-reading:hover {
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
         }
         
         .status {
@@ -173,6 +189,18 @@
             border-left: 4px solid #667eea;
         }
         
+        .reading-list {
+            list-style: none;
+        }
+        
+        .reading-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #27ae60;
+        }
+        
         .unit-list {
             margin-left: 20px;
             margin-top: 10px;
@@ -203,6 +231,10 @@
             color: #667eea;
         }
         
+        .file-name.reading {
+            color: #27ae60;
+        }
+        
         .file-size {
             color: #666;
             font-size: 12px;
@@ -216,6 +248,12 @@
         
         .actions.show {
             display: block;
+        }
+        
+        .actions-reading {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+            margin-top: 30px;
         }
         
         .help-section {
@@ -273,6 +311,11 @@
             font-weight: bold;
         }
         
+        .tab-reading.active {
+            color: #27ae60;
+            border-bottom-color: #27ae60;
+        }
+        
         .tab-content {
             display: none;
         }
@@ -280,44 +323,110 @@
         .tab-content.active {
             display: block;
         }
+        
+        .data-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .data-type-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .data-type-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .data-type-btn.reading-btn {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+        
+        .data-type-btn.reading-btn.active {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 30px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h1>📚 单词数据更新工具</h1>
-            <p class="subtitle">将 WORDS.md 文件转换为网站可用的 JSON 数据格式</p>
+            <h1>📚 数据更新工具</h1>
+            <p class="subtitle">将 Markdown 文件转换为网站可用的 JSON 数据格式</p>
             
             <div class="tabs">
-                <div class="tab active" data-tab="upload">文件上传</div>
+                <div class="tab active" data-tab="words">单词数据</div>
+                <div class="tab" data-tab="readings">阅读数据</div>
                 <div class="tab" data-tab="help">使用帮助</div>
             </div>
             
-            <!-- 上传标签页 -->
-            <div class="tab-content active" id="tab-upload">
-                <div class="upload-area" id="uploadArea">
-                    <div class="upload-icon">📁</div>
+            <!-- 单词数据标签页 -->
+            <div class="tab-content active" id="tab-words">
+                <div class="upload-area" id="wordsUploadArea">
+                    <div class="upload-icon">📖</div>
                     <div class="upload-text">点击或拖拽 WORDS.md 文件到此处</div>
                     <div class="upload-hint">支持 .md 格式的文件</div>
                 </div>
-                <input type="file" id="fileInput" accept=".md,.txt">
+                <input type="file" id="wordsFileInput" accept=".md,.txt">
                 
-                <div class="file-info" id="fileInfo">
-                    <div class="file-name" id="fileName"></div>
-                    <div class="file-size" id="fileSize"></div>
+                <div class="file-info" id="wordsFileInfo">
+                    <div class="file-name" id="wordsFileName"></div>
+                    <div class="file-size" id="wordsFileSize"></div>
                 </div>
                 
-                <div class="preview" id="preview">
+                <div class="preview" id="wordsPreview">
                     <div class="preview-title">数据预览：</div>
                     <ul class="wordbook-list" id="wordbookList"></ul>
                 </div>
                 
-                <div class="actions" id="actions">
-                    <button class="btn" id="generateBtn">生成并下载数据文件</button>
-                    <button class="btn btn-secondary" id="copyBtn">复制 JSON 到剪贴板</button>
+                <div class="actions" id="wordsActions">
+                    <button class="btn" id="wordsGenerateBtn">生成并下载 words.json</button>
+                    <button class="btn btn-secondary" id="wordsCopyBtn">复制 JSON 到剪贴板</button>
                 </div>
                 
-                <div class="status" id="status"></div>
+                <div class="status" id="wordsStatus"></div>
+            </div>
+            
+            <!-- 阅读数据标签页 -->
+            <div class="tab-content" id="tab-readings">
+                <div class="upload-area reading" id="readingsUploadArea">
+                    <div class="upload-icon">📚</div>
+                    <div class="upload-text">点击或拖拽 READINGS.md 文件到此处</div>
+                    <div class="upload-hint">支持 .md 格式的文件</div>
+                </div>
+                <input type="file" id="readingsFileInput" accept=".md,.txt">
+                
+                <div class="file-info" id="readingsFileInfo">
+                    <div class="file-name reading" id="readingsFileName"></div>
+                    <div class="file-size" id="readingsFileSize"></div>
+                </div>
+                
+                <div class="preview" id="readingsPreview">
+                    <div class="preview-title">数据预览：</div>
+                    <ul class="reading-list" id="readingList"></ul>
+                </div>
+                
+                <div class="actions" id="readingsActions">
+                    <button class="btn btn-reading" id="readingsGenerateBtn">生成并下载 readings.json</button>
+                    <button class="btn btn-secondary" id="readingsCopyBtn">复制 JSON 到剪贴板</button>
+                </div>
+                
+                <div class="status" id="readingsStatus"></div>
             </div>
             
             <!-- 帮助标签页 -->
@@ -325,36 +434,25 @@
                 <div class="help-section">
                     <div class="help-title">📖 使用方法</div>
                     <div class="help-content">
-                        <p>1. <strong>上传文件</strong>：点击上方区域或拖拽 WORDS.md 文件</p>
-                        <p>2. <strong>预览数据</strong>：查看解析后的数据结构是否正确</p>
-                        <p>3. <strong>生成数据</strong>：点击按钮生成 JSON 数据</p>
-                        <p>4. <strong>更新文件</strong>：将生成的文件复制到项目对应位置</p>
+                        <p>1. <strong>选择数据类型</strong>：点击上方标签切换"单词数据"或"阅读数据"</p>
+                        <p>2. <strong>上传文件</strong>：点击上方区域或拖拽对应的 .md 文件</p>
+                        <p>3. <strong>预览数据</strong>：查看解析后的数据结构是否正确</p>
+                        <p>4. <strong>生成数据</strong>：点击按钮生成 JSON 数据</p>
+                        <p>5. <strong>更新文件</strong>：将生成的文件复制到项目对应位置</p>
                         
                         <div class="help-title" style="margin-top: 20px;">📂 需要更新的文件</div>
-                        <p>生成数据后，需要更新以下文件：</p>
+                        <p>单词数据：</p>
                         <div class="help-code">
 data/words.json
 js/app.js (EMBEDDED_WORD_DATA 常量)</div>
+                        <p style="margin-top: 10px;">阅读数据：</p>
+                        <div class="help-code">
+data/readings.json
+js/app.js (EMBEDDED_READING_DATA 常量)</div>
                         
                         <div class="help-title" style="margin-top: 20px;">💡 提示</div>
-                        <p>• 如果使用本地服务器（http://），只需更新 <code>data/words.json</code></p>
-                        <p>• 如果直接打开 HTML 文件（file://），需要同时更新 <code>js/app.js</code> 中的 <code>EMBEDDED_WORD_DATA</code></p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 结果标签页 -->
-            <div class="tab-content" id="tab-result">
-                <div class="help-section">
-                    <div class="help-title">✅ 更新完成！</div>
-                    <div class="help-content">
-                        <p>请按以下步骤完成更新：</p>
-                        <ol style="margin-left: 20px; margin-top: 10px;">
-                            <li>下载生成的文件到项目目录</li>
-                            <li>更新 <code>data/words.json</code></li>
-                            <li>如果需要离线使用，复制 JSON 内容更新 <code>js/app.js</code> 中的 <code>EMBEDDED_WORD_DATA</code></li>
-                            <li>刷新浏览器页面查看更新后的内容</li>
-                        </ol>
+                        <p>• 如果使用本地服务器（http://），只需更新对应的 <code>data/*.json</code> 文件</p>
+                        <p>• 如果直接打开 HTML 文件（file://），需要同时更新 <code>js/app.js</code> 中的内嵌数据</p>
                     </div>
                 </div>
             </div>
@@ -362,21 +460,20 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
     </div>
 
     <script>
-        // DOM 元素
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const preview = document.getElementById('preview');
+        // ========== 单词数据处理 ==========
+        const wordsUploadArea = document.getElementById('wordsUploadArea');
+        const wordsFileInput = document.getElementById('wordsFileInput');
+        const wordsFileInfo = document.getElementById('wordsFileInfo');
+        const wordsFileName = document.getElementById('wordsFileName');
+        const wordsFileSize = document.getElementById('wordsFileSize');
+        const wordsPreview = document.getElementById('wordsPreview');
         const wordbookList = document.getElementById('wordbookList');
-        const actions = document.getElementById('actions');
-        const generateBtn = document.getElementById('generateBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const status = document.getElementById('status');
+        const wordsActions = document.getElementById('wordsActions');
+        const wordsGenerateBtn = document.getElementById('wordsGenerateBtn');
+        const wordsCopyBtn = document.getElementById('wordsCopyBtn');
+        const wordsStatus = document.getElementById('wordsStatus');
         
-        let parsedData = null;
-        let originalFileName = 'WORDS.md';
+        let parsedWordsData = null;
         
         // 标签切换
         document.querySelectorAll('.tab').forEach(tab => {
@@ -388,61 +485,54 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
             });
         });
         
-        // 文件上传
-        uploadArea.addEventListener('click', () => fileInput.click());
+        // 单词文件上传
+        wordsUploadArea.addEventListener('click', () => wordsFileInput.click());
         
-        uploadArea.addEventListener('dragover', (e) => {
+        wordsUploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            uploadArea.classList.add('dragover');
+            wordsUploadArea.classList.add('dragover');
         });
         
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
+        wordsUploadArea.addEventListener('dragleave', () => {
+            wordsUploadArea.classList.remove('dragover');
         });
         
-        uploadArea.addEventListener('drop', (e) => {
+        wordsUploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            uploadArea.classList.remove('dragover');
+            wordsUploadArea.classList.remove('dragover');
             const file = e.dataTransfer.files[0];
-            if (file) handleFile(file);
+            if (file) handleWordsFile(file);
         });
         
-        fileInput.addEventListener('change', (e) => {
+        wordsFileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            if (file) handleFile(file);
+            if (file) handleWordsFile(file);
         });
         
-        function handleFile(file) {
+        function handleWordsFile(file) {
             if (!file.name.endsWith('.md')) {
-                showStatus('请上传 .md 格式的文件', 'error');
+                showWordsStatus('请上传 .md 格式的文件', 'error');
                 return;
             }
             
-            originalFileName = file.name;
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            fileInfo.classList.add('show');
+            wordsFileName.textContent = file.name;
+            wordsFileSize.textContent = formatFileSize(file.size);
+            wordsFileInfo.classList.add('show');
             
             const reader = new FileReader();
             reader.onload = (e) => {
                 const content = e.target.result;
                 try {
-                    parsedData = parseWordsMD(content);
-                    showPreview(parsedData);
-                    showStatus('文件解析成功！', 'success');
-                    actions.classList.add('show');
+                    parsedWordsData = parseWordsMD(content);
+                    showWordsPreview(parsedWordsData);
+                    showWordsStatus('文件解析成功！', 'success');
+                    wordsActions.classList.add('show');
                 } catch (error) {
-                    showStatus('文件解析失败：' + error.message, 'error');
+                    showWordsStatus('文件解析失败：' + error.message, 'error');
                     console.error(error);
                 }
             };
             reader.readAsText(file);
-        }
-        
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
         }
         
         function parseWordsMD(content) {
@@ -457,16 +547,13 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                 const rawLine = lines[i];
                 const line = rawLine.trim();
                 
-                // 跳过注释和空行（但保留用于缩进检测）
                 if (line.startsWith('<!--') || line.startsWith('```')) {
                     continue;
                 }
                 
-                // 检测词书标题
                 if (rawLine.startsWith('# ')) {
                     const bookName = line.replace('# ', '').replace('单词', '').trim();
                     if (bookName.includes('年级')) {
-                        // 保存上一个单词到当前单元（如果有）
                         if (currentWordData && currentUnit) {
                             currentUnit.words.push(currentWordData);
                             wordIndex++;
@@ -485,11 +572,9 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                     continue;
                 }
                 
-                // 检测单元标题
                 if (rawLine.startsWith('## ')) {
                     const unitMatch = line.match(/##\s*(Unit\s*\d+)/);
                     if (unitMatch) {
-                        // 保存上一个单词
                         if (currentWordData && currentUnit) {
                             currentUnit.words.push(currentWordData);
                             wordIndex++;
@@ -510,7 +595,6 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                     continue;
                 }
                 
-                // 检测 Title 行
                 if (rawLine.startsWith('Title:')) {
                     const titleMatch = line.match(/Title:\s*(.+?)\s*Category:\s*(.+)/);
                     if (titleMatch && currentUnit) {
@@ -520,15 +604,12 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                     continue;
                 }
                 
-                // 检测详情行（缩进的 - 行）
                 if (rawLine.startsWith('  - ')) {
-                    const detailContent = line.substring(2).trim(); // 移除 "- "
-                    
-                    // 如果还没有当前单词数据，跳过
+                    const detailContent = line.substring(2).trim();
                     if (!currentWordData) continue;
                     
                     if (detailContent.startsWith('例句：')) {
-                        const examplePart = detailContent.substring(3); // 移除 "例句："
+                        const examplePart = detailContent.substring(3);
                         const match = examplePart.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
                         if (match) {
                             currentWordData.example = match[1].trim();
@@ -542,9 +623,7 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                     continue;
                 }
                 
-                // 检测单词行（以 * 开头但不是缩进的）
                 if (rawLine.startsWith('* ')) {
-                    // 保存上一个单词
                     if (currentWordData && currentUnit) {
                         currentUnit.words.push(currentWordData);
                         wordIndex++;
@@ -555,7 +634,6 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                 }
             }
             
-            // 保存最后一个单词
             if (currentWordData && currentUnit) {
                 currentUnit.words.push(currentWordData);
             }
@@ -574,11 +652,7 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
         }
         
         function parseWordLine(line, book, unit, index) {
-            // 格式: * word /phonetic/ meaning
-            const wordLine = line.substring(2).trim(); // 移除 "* "
-            
-            // 先提取音标 /.../
-            let word = wordLine;
+            const wordLine = line.substring(2).trim();
             let phonetic = '';
             let meaning = '';
             
@@ -587,23 +661,19 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                 phonetic = '/' + phoneticMatch[1] + '/';
                 const parts = wordLine.split('/');
                 if (parts.length >= 3) {
-                    word = parts[0].trim();
                     meaning = parts[2].trim();
                 }
             } else {
-                // 没有音标，使用原有的空格分割逻辑
                 const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
                 if (!wordMatch) return null;
-                
-                word = wordMatch[1].trim();
                 let remaining = wordLine.substring(wordMatch[0].length).trim();
                 meaning = remaining;
             }
             
-            // 生成 ID（包含词书前缀以确保唯一性）
             const bookId = book ? (book.id || 'book') : 'book';
             const unitNum = unit ? unit.unit.replace('Unit ', 'u') : 'u0';
             const id = `${bookId}-${unitNum}-w${index + 1}`;
+            const word = wordLine.split('/')[0].trim();
             
             return {
                 id: id,
@@ -617,7 +687,7 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
             };
         }
         
-        function showPreview(data) {
+        function showWordsPreview(data) {
             wordbookList.innerHTML = '';
             
             data.forEach(book => {
@@ -636,68 +706,320 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                 wordbookList.appendChild(bookItem);
             });
             
-            preview.classList.add('show');
+            wordsPreview.classList.add('show');
         }
         
-        function generateJSON() {
-            if (!parsedData) return null;
-            return JSON.stringify(parsedData, null, 2);
+        function generateWordsJSON() {
+            if (!parsedWordsData) return null;
+            return JSON.stringify({ readings: parsedWordsData }, null, 2);
         }
         
-        function showStatus(message, type) {
-            status.textContent = message;
-            status.className = 'status ' + type;
+        function showWordsStatus(message, type) {
+            wordsStatus.innerHTML = message;
+            wordsStatus.className = 'status ' + type;
         }
         
-        // 生成按钮
-        generateBtn.addEventListener('click', () => {
-            const json = generateJSON();
+        wordsGenerateBtn.addEventListener('click', () => {
+            const json = generateWordsJSON();
             if (!json) {
-                showStatus('没有可生成的数据', 'error');
+                showWordsStatus('没有可生成的数据', 'error');
                 return;
             }
             
-            // 下载 words.json
             downloadFile(json, 'words.json', 'application/json');
             
-            // 生成 app.js 的内嵌数据
             const embeddedData = `// ========== 内嵌单词数据（当 fetch 失败时使用）==========
-// 数据格式：词书列表，每个词书包含多个单元
-// 此文件由更新工具自动生成，不要手动修改
 const EMBEDDED_WORD_DATA = ${json};`;
             
-            // 下载 app.js 片段
-            downloadFile(embeddedData, 'app.js-embedded-data.txt', 'text/plain');
+            downloadFile(embeddedData, 'app.js-words-data.txt', 'text/plain');
             
-            showStatus(`
-                ✅ 数据生成成功！<br><br>
+            showWordsStatus(`
+                ✅ 单词数据生成成功！<br><br>
                 已下载两个文件：<br>
-                1. <code>data/words.json</code> - 网站数据文件<br>
-                2. <code>app.js-embedded-data.txt</code> - 用于离线使用的内嵌数据<br><br>
-                请将文件内容复制到对应位置，然后刷新页面查看更新。
+                1. <code>data/words.json</code><br>
+                2. <code>app.js-words-data.txt</code> - 用于离线使用
             `, 'success');
-            
-            // 切换到结果标签页
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelector('[data-tab="result"]').classList.add('active');
-            document.getElementById('tab-result').classList.add('active');
         });
         
-        // 复制按钮
-        copyBtn.addEventListener('click', () => {
-            const json = generateJSON();
+        wordsCopyBtn.addEventListener('click', () => {
+            const json = generateWordsJSON();
             if (!json) {
-                showStatus('没有可复制的数据', 'error');
+                showWordsStatus('没有可复制的数据', 'error');
                 return;
             }
             
             navigator.clipboard.writeText(json).then(() => {
-                showStatus('JSON 数据已复制到剪贴板！', 'success');
+                showWordsStatus('JSON 数据已复制到剪贴板！', 'success');
             }).catch(err => {
-                showStatus('复制失败：' + err.message, 'error');
+                showWordsStatus('复制失败：' + err.message, 'error');
             });
         });
+        
+        // ========== 阅读数据处理 ==========
+        const readingsUploadArea = document.getElementById('readingsUploadArea');
+        const readingsFileInput = document.getElementById('readingsFileInput');
+        const readingsFileInfo = document.getElementById('readingsFileInfo');
+        const readingsFileName = document.getElementById('readingsFileName');
+        const readingsFileSize = document.getElementById('readingsFileSize');
+        const readingsPreview = document.getElementById('readingsPreview');
+        const readingList = document.getElementById('readingList');
+        const readingsActions = document.getElementById('readingsActions');
+        const readingsGenerateBtn = document.getElementById('readingsGenerateBtn');
+        const readingsCopyBtn = document.getElementById('readingsCopyBtn');
+        const readingsStatus = document.getElementById('readingsStatus');
+        
+        let parsedReadingsData = null;
+        
+        readingsUploadArea.addEventListener('click', () => readingsFileInput.click());
+        
+        readingsUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            readingsUploadArea.classList.add('dragover');
+        });
+        
+        readingsUploadArea.addEventListener('dragleave', () => {
+            readingsUploadArea.classList.remove('dragover');
+        });
+        
+        readingsUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            readingsUploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleReadingsFile(file);
+        });
+        
+        readingsFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleReadingsFile(file);
+        });
+        
+        function handleReadingsFile(file) {
+            if (!file.name.endsWith('.md')) {
+                showReadingsStatus('请上传 .md 格式的文件', 'error');
+                return;
+            }
+            
+            readingsFileName.textContent = file.name;
+            readingsFileSize.textContent = formatFileSize(file.size);
+            readingsFileInfo.classList.add('show');
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                try {
+                    parsedReadingsData = parseReadingsMD(content);
+                    showReadingsPreview(parsedReadingsData);
+                    showReadingsStatus('文件解析成功！', 'success');
+                    readingsActions.classList.add('show');
+                } catch (error) {
+                    showReadingsStatus('文件解析失败：' + error.message, 'error');
+                    console.error(error);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        function parseReadingsMD(content) {
+            const lines = content.split('\n');
+            const readings = [];
+            let currentReading = null;
+            let readingIndex = 0;
+            let isParsingPatterns = false;
+            let isParsingKnowledgePoints = false;
+            
+            // 找到第一个题目行的位置
+            let startIndex = 0;
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim().startsWith('# 题目：')) {
+                    startIndex = i;
+                    break;
+                }
+            }
+            
+            for (let i = startIndex; i < lines.length; i++) {
+                const rawLine = lines[i];
+                const line = rawLine.trim();
+                
+                if (line.startsWith('<!--') || line.startsWith('```') || line.startsWith('*')) {
+                    continue;
+                }
+                
+                if (line.startsWith('# 题目：')) {
+                    if (currentReading) {
+                        readings.push(currentReading);
+                    }
+                    
+                    const titleMatch = line.match(/# 题目：(.+?)\s*\(([^)]+)\)/);
+                    currentReading = {
+                        id: `reading-${String(readingIndex + 1).padStart(3, '0')}`,
+                        title: titleMatch ? titleMatch[1].trim() : '',
+                        titleCn: titleMatch ? titleMatch[2].trim() : '',
+                        scene: '',
+                        keySentencePatterns: [],
+                        knowledgePoints: [],
+                        dialogues: []
+                    };
+                    readingIndex++;
+                    isParsingPatterns = false;
+                    isParsingKnowledgePoints = false;
+                    continue;
+                }
+                
+                if (!currentReading) continue;
+                
+                if (line.startsWith('# 场景：')) {
+                    currentReading.scene = line.replace('# 场景：', '').trim();
+                    continue;
+                }
+                
+                if (line.startsWith('# 重点句型：') || line === '# 重点句型') {
+                    isParsingPatterns = true;
+                    isParsingKnowledgePoints = false;
+                    continue;
+                }
+                
+                if (line.startsWith('# 知识点：') || line === '# 知识点') {
+                    isParsingPatterns = false;
+                    isParsingKnowledgePoints = true;
+                    continue;
+                }
+                
+                // 解析重点句型（缩进的 - 行）
+                if (rawLine.startsWith('  - ') && isParsingPatterns) {
+                    const patternLine = line.substring(2).trim();
+                    
+                    // 尝试匹配半角括号格式: Pattern (翻译)
+                    const halfMatch = patternLine.match(/^(.+?)\s*\(([^)]+)\)$/);
+                    if (halfMatch) {
+                        let meaning = halfMatch[2].trim();
+                        meaning = meaning.replace(/\.$/, '');
+                        currentReading.keySentencePatterns.push({
+                            pattern: halfMatch[1].trim(),
+                            meaning: meaning
+                        });
+                    }
+                    continue;
+                }
+                
+                // 解析知识点（缩进的 - 行）
+                if (rawLine.startsWith('  - ') && isParsingKnowledgePoints) {
+                    const knowledgePointLine = line.substring(2).trim();
+                    if (knowledgePointLine) {
+                        currentReading.knowledgePoints.push(knowledgePointLine);
+                    }
+                    continue;
+                }
+                
+                // 结束句型/知识点解析
+                if (!rawLine.startsWith('  ')) {
+                    isParsingPatterns = false;
+                    isParsingKnowledgePoints = false;
+                }
+                
+                // 检测对话/正文行
+                if ((line.includes(':') || line.includes('：')) && 
+                    (line.includes('(') || line.includes('（'))) {
+                    
+                    const dialogueMatch = line.match(/^([^:]+):\s*(.+?)\s*\(([^)]+)\)$/);
+                    if (dialogueMatch) {
+                        let cnTranslation = dialogueMatch[3].trim();
+                        cnTranslation = cnTranslation.replace(/\.$/, '');
+                        
+                        const speakerCnMatch = cnTranslation.match(/^([^：:]+)[：:]/);
+                        const speakerCn = speakerCnMatch ? speakerCnMatch[1].trim() : cnTranslation;
+                        
+                        currentReading.dialogues.push({
+                            speaker: dialogueMatch[1].trim(),
+                            speakerCn: speakerCn,
+                            content: dialogueMatch[2].trim(),
+                            contentCn: cnTranslation
+                        });
+                    }
+                    continue;
+                }
+            }
+            
+            if (currentReading) {
+                readings.push(currentReading);
+            }
+            
+            return readings;
+        }
+        
+        function showReadingsPreview(data) {
+            readingList.innerHTML = '';
+            
+            data.forEach((reading, index) => {
+                const readingItem = document.createElement('li');
+                readingItem.className = 'reading-item';
+                readingItem.innerHTML = `
+                    <strong>${reading.title} (${reading.titleCn})</strong>
+                    <div class="unit-list">
+                        <div class="unit-item">
+                            句型: ${reading.keySentencePatterns.length} 个 | 
+                            知识点: ${reading.knowledgePoints.length} 个 | 
+                            对话: ${reading.dialogues.length} 句
+                        </div>
+                    </div>
+                `;
+                readingList.appendChild(readingItem);
+            });
+            
+            readingsPreview.classList.add('show');
+        }
+        
+        function generateReadingsJSON() {
+            if (!parsedReadingsData) return null;
+            return JSON.stringify({ readings: parsedReadingsData }, null, 2);
+        }
+        
+        function showReadingsStatus(message, type) {
+            readingsStatus.innerHTML = message;
+            readingsStatus.className = 'status ' + type;
+        }
+        
+        readingsGenerateBtn.addEventListener('click', () => {
+            const json = generateReadingsJSON();
+            if (!json) {
+                showReadingsStatus('没有可生成的数据', 'error');
+                return;
+            }
+            
+            downloadFile(json, 'readings.json', 'application/json');
+            
+            const embeddedData = `// ========== 内嵌阅读数据（当 fetch 失败时使用）==========
+const EMBEDDED_READING_DATA = ${json};`;
+            
+            downloadFile(embeddedData, 'app.js-readings-data.txt', 'text/plain');
+            
+            showReadingsStatus(`
+                ✅ 阅读数据生成成功！<br><br>
+                已下载两个文件：<br>
+                1. <code>data/readings.json</code><br>
+                2. <code>app.js-readings-data.txt</code> - 用于离线使用
+            `, 'success');
+        });
+        
+        readingsCopyBtn.addEventListener('click', () => {
+            const json = generateReadingsJSON();
+            if (!json) {
+                showReadingsStatus('没有可复制的数据', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(json).then(() => {
+                showReadingsStatus('JSON 数据已复制到剪贴板！', 'success');
+            }).catch(err => {
+                showReadingsStatus('复制失败：' + err.message, 'error');
+            });
+        });
+        
+        // 通用函数
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
         
         function downloadFile(content, filename, mimeType) {
             const blob = new Blob([content], { type: mimeType });
