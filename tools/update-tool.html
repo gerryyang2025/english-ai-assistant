@@ -466,6 +466,12 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                 if (rawLine.startsWith('# ')) {
                     const bookName = line.replace('# ', '').replace('单词', '').trim();
                     if (bookName.includes('年级')) {
+                        // 保存上一个单词到当前单元（如果有）
+                        if (currentWordData && currentUnit) {
+                            currentUnit.words.push(currentWordData);
+                            wordIndex++;
+                        }
+                        
                         currentBook = {
                             id: bookNameToId(bookName),
                             name: bookName,
@@ -474,6 +480,7 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                         wordBooks.push(currentBook);
                         currentUnit = null;
                         currentWordData = null;
+                        wordIndex = 0;
                     }
                     continue;
                 }
