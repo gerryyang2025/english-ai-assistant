@@ -2264,9 +2264,158 @@ function initToolPage() {
     initReadingsUpload();
 }
 
+// ========== 安全检查函数 ==========
+const SecurityConfig = {
+    // 最大文件大小 (5MB)
+    maxFileSize: 5 * 1024 * 1024,
+    
+    // 允许的文件扩展名
+    allowedExtensions: {
+        markdown: ['.md', '.txt'],
+        json: ['.json']
+    },
+    
+    // 危险的文件扩展名
+    dangerousExtensions: [
+        '.exe', '.bat', '.cmd', '.com', '.pif', '.scr',
+        '.js', '.ts', '.jsx', '.tsx',
+        '.html', '.htm', '.xhtml', '.shtml',
+        '.php', '.asp', '.jsp', '.cgi', '.pl',
+        '.py', '.rb', '.sh', '.bash', '.zsh',
+        '.sql', '.db', '.mdb', '.sqlite',
+        '.xml', '.xsl', '.xsd',
+        '.zip', '.rar', '.7z', '.tar', '.gz',
+        '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico', '.webp',
+        '.mp3', '.mp4', '.avi', '.mkv', '.wav', '.pdf',
+        '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'
+    ],
+    
+    // 危险内容模式（正则表达式）
+    dangerousPatterns: [
+        /<script[^>]*>[\s\S]*?<\/script>/gi,
+        /<iframe[^>]*>[\s\S]*?<\/iframe>/gi,
+        /<object[^>]*>[\s\S]*?<\/object>/gi,
+        /<embed[^>]*>/gi,
+        /on\w+\s*=/gi,
+        /javascript:/gi,
+        /eval\s*\(/gi,
+        /document\.cookie/gi,
+        /window\.location/gi,
+        /fetch\s*\(/gi,
+        /XMLHttpRequest/gi,
+        /\$_(GET|POST|REQUEST|SESSION|COOKIE)/gi
+    ]
+};
+
+// 安全检查函数
+function validateUploadFile(file, fileType) {
+    const errors = [];
+    
+    // 提取文件扩展名（统一使用小写）
+    const fileNameLower = file.name.toLowerCase();
+    const extension = '.' + fileNameLower.split('.').pop();
+    const fileSize = file.size;
+    
+    // 1. 检查文件大小
+    if (fileSize > SecurityConfig.maxFileSize) {
+        errors.push(`文件大小超过限制 (最大 ${formatFileSize(SecurityConfig.maxFileSize)})`);
+    }
+    
+    // 2. 检查文件扩展名（统一小写检查）
+    if (SecurityConfig.dangerousExtensions.includes(extension)) {
+        errors.push(`不支持的文件类型：${extension}`);
+    }
+    
+    // 3. 检查允许的扩展名
+    const allowedExts = SecurityConfig.allowedExtensions[fileType] || [];
+    const hasAllowedExt = allowedExts.some(ext => fileNameLower.endsWith(ext.toLowerCase()));
+    if (!hasAllowedExt) {
+        errors.push(`只支持 ${allowedExts.join('、')} 格式的文件`);
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
+}
+
+// 检查文件内容中的危险模式
+function scanContentForDangerousPatterns(content) {
+    const dangerousFindings = [];
+    
+    for (const pattern of SecurityConfig.dangerousPatterns) {
+        const matches = content.match(pattern);
+        if (matches) {
+            dangerousFindings.push(`发现危险内容模式：${pattern.source.substring(0, 50)}...`);
+        }
+    }
+    
+    return {
+        isSafe: dangerousFindings.length === 0,
+        findings: dangerousFindings
+    };
+}
+
+// 格式化文件大小
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
 function initWordsUpload() {
-    const uploadArea = document.getElementById('wordsUploadArea');
-    const fileInput = document.getElementById('wordsFileInput');
+    // Markdown 文件上传
+    const mdUploadArea = document.getElementById('wordsMdUploadArea');
+    const mdFileInput = document.getElementById('wordsMdFileInput');
+    
+    // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
+    mdFileInput.addEventListener('click', (e) => e.stopPropagation());
+    
+    mdUploadArea.addEventListener('click', () => mdFileInput.click());
+    mdUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        mdUploadArea.classList.add('dragover');
+    });
+    mdUploadArea.addEventListener('dragleave', () => {
+        mdUploadArea.classList.remove('dragover');
+    });
+    mdUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        mdUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.md')) handleWordsMdFile(file);
+    });
+    mdFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleWordsMdFile(file);
+    });
+    
+    // JSON 文件上传（实时生效）
+    const jsonUploadArea = document.getElementById('wordsJsonUploadArea');
+    const jsonFileInput = document.getElementById('wordsJsonFileInput');
+    
+    // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
+    jsonFileInput.addEventListener('click', (e) => e.stopPropagation());
+    
+    jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
+    jsonUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        jsonUploadArea.classList.add('dragover');
+    });
+    jsonUploadArea.addEventListener('dragleave', () => {
+        jsonUploadArea.classList.remove('dragover');
+    });
+    jsonUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        jsonUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.json')) handleWordsJsonFile(file);
+    });
+    jsonFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleWordsJsonFile(file);
+    });
+    
     const fileInfo = document.getElementById('wordsFileInfo');
     const fileName = document.getElementById('wordsFileName');
     const fileSize = document.getElementById('wordsFileSize');
@@ -2275,32 +2424,18 @@ function initWordsUpload() {
     const actions = document.getElementById('wordsActions');
     const status = document.getElementById('wordsStatus');
     
-    uploadArea.addEventListener('click', () => fileInput.click());
+    function resetFileInput() {
+        // 重置 file input，允许再次选择同一文件
+        mdFileInput.value = '';
+        jsonFileInput.value = '';
+    }
     
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
-    
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file) handleWordsFile(file);
-    });
-    
-    fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) handleWordsFile(file);
-    });
-    
-    function handleWordsFile(file) {
-        if (!file.name.endsWith('.md')) {
-            showWordsStatus('请上传 .md 格式的文件', 'error');
+    function handleWordsMdFile(file) {
+        // 安全检查
+        const validation = validateUploadFile(file, 'markdown');
+        if (!validation.isValid) {
+            showWordsStatus('文件验证失败：' + validation.errors.join('；'), 'error');
+            resetFileInput();
             return;
         }
         
@@ -2311,11 +2446,22 @@ function initWordsUpload() {
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
+            
+            // 内容安全扫描
+            const contentScan = scanContentForDangerousPatterns(content);
+            if (!contentScan.isSafe) {
+                showWordsStatus('文件内容包含不安全的内容，已拒绝处理', 'error');
+                console.error('Dangerous content found:', contentScan.findings);
+                resetFileInput();
+                return;
+            }
+            
             try {
                 parsedWordsData = parseWordsMD(content);
                 showWordsPreview(parsedWordsData);
-                showWordsStatus('文件解析成功！', 'success');
+                showWordsStatus('Markdown 文件解析成功！', 'success');
                 actions.style.display = 'block';
+                resetFileInput();
             } catch (error) {
                 showWordsStatus('文件解析失败：' + error.message, 'error');
                 console.error(error);
@@ -2324,8 +2470,100 @@ function initWordsUpload() {
         reader.readAsText(file);
     }
     
+    function handleWordsJsonFile(file) {
+        // 安全检查
+        const validation = validateUploadFile(file, 'json');
+        if (!validation.isValid) {
+            showWordsStatus('文件验证失败：' + validation.errors.join('；'), 'error');
+            resetFileInput();
+            return;
+        }
+        
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.style.display = 'block';
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            
+            // 内容安全扫描
+            const contentScan = scanContentForDangerousPatterns(content);
+            if (!contentScan.isSafe) {
+                showWordsStatus('文件内容包含不安全的内容，已拒绝处理', 'error');
+                console.error('Dangerous content found:', contentScan.findings);
+                resetFileInput();
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(content);
+                console.log('[Words JSON] Parsed data type:', typeof data, Array.isArray(data));
+                console.log('[Words JSON] Data length:', data.length);
+                parsedWordsData = data;
+                showWordsPreview(parsedWordsData);
+                showWordsStatus('JSON 文件加载成功！正在应用更改...', 'success');
+                // 实时应用到系统
+                applyWordsData(data);
+                resetFileInput();
+            } catch (error) {
+                showWordsStatus('JSON 解析失败：' + error.message, 'error');
+                console.error('JSON parse error:', error);
+            }
+        };
+        reader.onerror = (e) => {
+            showWordsStatus('文件读取失败', 'error');
+            console.error('File read error:', e);
+        };
+        reader.readAsText(file);
+    }
+    
+    function applyWordsData(data) {
+        console.log('[Apply Words] Received data type:', typeof data, Array.isArray(data));
+        console.log('[Apply Words] Data:', data);
+        
+        // 确保数据是数组
+        if (!Array.isArray(data)) {
+            showWordsStatus('数据格式错误：期望数组格式', 'error');
+            console.error('Invalid data format:', data);
+            return;
+        }
+        
+        // 更新应用状态
+        AppState.wordData = data;
+        
+        // 保存到 localStorage
+        localStorage.setItem('wordData', JSON.stringify(data));
+        
+        // 重新初始化词书选择器
+        initWordBookSelector();
+        
+        // 重新渲染当前页面
+        if (document.getElementById('page-words').classList.contains('active')) {
+            renderWordListPage();
+        }
+        if (document.getElementById('page-flashcard').classList.contains('active')) {
+            renderFlashcardSetup();
+        }
+        
+        showWordsStatus('✅ 单词数据已成功应用！系统已更新。', 'success');
+    }
+    
     function showWordsPreview(data) {
         wordbookList.innerHTML = '';
+        
+        // 确保数据是数组
+        if (!Array.isArray(data)) {
+            showWordsStatus('数据格式错误：期望数组格式', 'error');
+            console.error('Invalid data format:', data);
+            return;
+        }
+        
+        if (data.length === 0) {
+            wordbookList.innerHTML = '<li class="wordbook-item">没有数据</li>';
+            preview.style.display = 'block';
+            return;
+        }
         
         data.forEach(book => {
             const bookItem = document.createElement('li');
@@ -2342,7 +2580,6 @@ function initWordsUpload() {
             `;
             wordbookList.appendChild(bookItem);
         });
-        
         preview.style.display = 'block';
     }
     
@@ -2362,7 +2599,6 @@ function initWordsUpload() {
             showWordsStatus('没有可生成的数据', 'error');
             return;
         }
-        
         downloadFile(json, 'words.json', 'application/json');
         showWordsStatus('✅ words.json 已下载！', 'success');
     });
@@ -2373,7 +2609,6 @@ function initWordsUpload() {
             showWordsStatus('没有可复制的数据', 'error');
             return;
         }
-        
         navigator.clipboard.writeText(json).then(() => {
             showWordsStatus('JSON 数据已复制到剪贴板！', 'success');
         }).catch(err => {
@@ -2383,8 +2618,58 @@ function initWordsUpload() {
 }
 
 function initReadingsUpload() {
-    const uploadArea = document.getElementById('readingsUploadArea');
-    const fileInput = document.getElementById('readingsFileInput');
+    // Markdown 文件上传
+    const mdUploadArea = document.getElementById('readingsMdUploadArea');
+    const mdFileInput = document.getElementById('readingsMdFileInput');
+    
+    // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
+    mdFileInput.addEventListener('click', (e) => e.stopPropagation());
+    
+    mdUploadArea.addEventListener('click', () => mdFileInput.click());
+    mdUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        mdUploadArea.classList.add('dragover');
+    });
+    mdUploadArea.addEventListener('dragleave', () => {
+        mdUploadArea.classList.remove('dragover');
+    });
+    mdUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        mdUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.md')) handleReadingsMdFile(file);
+    });
+    mdFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleReadingsMdFile(file);
+    });
+    
+    // JSON 文件上传（实时生效）
+    const jsonUploadArea = document.getElementById('readingsJsonUploadArea');
+    const jsonFileInput = document.getElementById('readingsJsonFileInput');
+    
+    // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
+    jsonFileInput.addEventListener('click', (e) => e.stopPropagation());
+    
+    jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
+    jsonUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        jsonUploadArea.classList.add('dragover');
+    });
+    jsonUploadArea.addEventListener('dragleave', () => {
+        jsonUploadArea.classList.remove('dragover');
+    });
+    jsonUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        jsonUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.json')) handleReadingsJsonFile(file);
+    });
+    jsonFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleReadingsJsonFile(file);
+    });
+    
     const fileInfo = document.getElementById('readingsFileInfo');
     const fileName = document.getElementById('readingsFileName');
     const fileSize = document.getElementById('readingsFileSize');
@@ -2393,32 +2678,18 @@ function initReadingsUpload() {
     const actions = document.getElementById('readingsActions');
     const status = document.getElementById('readingsStatus');
     
-    uploadArea.addEventListener('click', () => fileInput.click());
+    function resetFileInput() {
+        // 重置 file input，允许再次选择同一文件
+        mdFileInput.value = '';
+        jsonFileInput.value = '';
+    }
     
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
-    
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file) handleReadingsFile(file);
-    });
-    
-    fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) handleReadingsFile(file);
-    });
-    
-    function handleReadingsFile(file) {
-        if (!file.name.endsWith('.md')) {
-            showReadingsStatus('请上传 .md 格式的文件', 'error');
+    function handleReadingsMdFile(file) {
+        // 安全检查
+        const validation = validateUploadFile(file, 'markdown');
+        if (!validation.isValid) {
+            showReadingsStatus('文件验证失败：' + validation.errors.join('；'), 'error');
+            resetFileInput();
             return;
         }
         
@@ -2429,11 +2700,22 @@ function initReadingsUpload() {
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
+            
+            // 内容安全扫描
+            const contentScan = scanContentForDangerousPatterns(content);
+            if (!contentScan.isSafe) {
+                showReadingsStatus('文件内容包含不安全的内容，已拒绝处理', 'error');
+                console.error('Dangerous content found:', contentScan.findings);
+                resetFileInput();
+                return;
+            }
+            
             try {
                 parsedReadingsData = parseReadingsMD(content);
                 showReadingsPreview(parsedReadingsData);
-                showReadingsStatus('文件解析成功！', 'success');
+                showReadingsStatus('Markdown 文件解析成功！', 'success');
                 actions.style.display = 'block';
+                resetFileInput();
             } catch (error) {
                 showReadingsStatus('文件解析失败：' + error.message, 'error');
                 console.error(error);
@@ -2442,8 +2724,86 @@ function initReadingsUpload() {
         reader.readAsText(file);
     }
     
+    function handleReadingsJsonFile(file) {
+        // 安全检查
+        const validation = validateUploadFile(file, 'json');
+        if (!validation.isValid) {
+            showReadingsStatus('文件验证失败：' + validation.errors.join('；'), 'error');
+            resetFileInput();
+            return;
+        }
+        
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.style.display = 'block';
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            
+            // 内容安全扫描
+            const contentScan = scanContentForDangerousPatterns(content);
+            if (!contentScan.isSafe) {
+                showReadingsStatus('文件内容包含不安全的内容，已拒绝处理', 'error');
+                console.error('Dangerous content found:', contentScan.findings);
+                resetFileInput();
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(content);
+                parsedReadingsData = data.readings || data;
+                showReadingsPreview(parsedReadingsData);
+                showReadingsStatus('JSON 文件加载成功！正在应用更改...', 'success');
+                
+                // 实时应用到系统
+                applyReadingsData(parsedReadingsData);
+                resetFileInput();
+            } catch (error) {
+                showReadingsStatus('JSON 解析失败：' + error.message, 'error');
+                console.error(error);
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    function applyReadingsData(data) {
+        // 确保数据是数组
+        if (!Array.isArray(data)) {
+            showReadingsStatus('数据格式错误：期望数组格式', 'error');
+            console.error('Invalid data format:', data);
+            return;
+        }
+        
+        // 更新应用状态
+        AppState.readings = data;
+        
+        // 保存到 localStorage
+        localStorage.setItem('readingsData', JSON.stringify(data));
+        
+        // 重新渲染阅读列表（如果当前在阅读页面）
+        if (document.getElementById('page-readings').classList.contains('active')) {
+            renderReadingsList();
+        }
+        
+        showReadingsStatus('✅ 阅读数据已成功应用！系统已更新。', 'success');
+    }
+    
     function showReadingsPreview(data) {
         readingList.innerHTML = '';
+        
+        // 确保数据是数组
+        if (!Array.isArray(data)) {
+            showReadingsStatus('数据格式错误：期望数组格式', 'error');
+            console.error('Invalid data format:', data);
+            return;
+        }
+        
+        if (data.length === 0) {
+            readingList.innerHTML = '<li class="reading-item">没有数据</li>';
+            preview.style.display = 'block';
+            return;
+        }
         
         data.forEach((reading, index) => {
             const readingItem = document.createElement('li');
@@ -2460,7 +2820,6 @@ function initReadingsUpload() {
             `;
             readingList.appendChild(readingItem);
         });
-        
         preview.style.display = 'block';
     }
     
@@ -2480,7 +2839,6 @@ function initReadingsUpload() {
             showReadingsStatus('没有可生成的数据', 'error');
             return;
         }
-        
         downloadFile(json, 'readings.json', 'application/json');
         showReadingsStatus('✅ readings.json 已下载！', 'success');
     });
@@ -2491,7 +2849,6 @@ function initReadingsUpload() {
             showReadingsStatus('没有可复制的数据', 'error');
             return;
         }
-        
         navigator.clipboard.writeText(json).then(() => {
             showReadingsStatus('JSON 数据已复制到剪贴板！', 'success');
         }).catch(err => {

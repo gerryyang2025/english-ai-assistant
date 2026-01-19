@@ -13,9 +13,25 @@
         {
           "pattern": "I want to be a/an...",
           "meaning": "我想成为一名.."
+        },
+        {
+          "pattern": "I want to be a pilot.",
+          "meaning": "我想成为一名飞行员。"
+        },
+        {
+          "pattern": "I want to fly a plane in the sky.",
+          "meaning": "我想在天空中开飞机。"
+        },
+        {
+          "pattern": "I want to help people.",
+          "meaning": "我想帮助别人。"
         }
       ],
-      "knowledgePoints": [],
+      "knowledgePoints": [
+        "核心职业名词：`pilot` (飞行员), `cook` (厨师/烹饪), `taxi driver` (出租车司机), `singer` (歌手), `lifeguard` (救生员), `teacher` (教师), `doctor` (医生)",
+        "核心动词与短语：`future` (将来), `want` (想要), `teach` (教), `save` (救), `become` (变成), `(be) good at` (擅长)",
+        "语音知识：掌握字母组合 `sk` 的发音，如 `desk` (书桌) 和 `mask` (面具)"
+      ],
       "dialogues": [
         {
           "speaker": "Teacher",
@@ -463,6 +479,100 @@
           "speakerCn": "吉蒂",
           "content": "We like each other. We're good friends.",
           "contentCn": "吉蒂：我们喜欢彼此。我们是好朋友。"
+        }
+      ]
+    },
+    {
+      "id": "reading-008",
+      "title": "Grandparents",
+      "titleCn": "与祖父母的日常",
+      "scene": "郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。",
+      "keySentencePatterns": [
+        {
+          "pattern": "What do you usually do with your grandparents?",
+          "meaning": "你通常和你的祖父母做什么？"
+        },
+        {
+          "pattern": "I usually play chess with my grandpa.",
+          "meaning": "我通常和我爷爷下棋。"
+        },
+        {
+          "pattern": "Grandma is never late.",
+          "meaning": "奶奶从不迟到。"
+        }
+      ],
+      "knowledgePoints": [
+        "频率副词排序：`always` (总是) > `usually` (通常) > `often` (经常) > `sometimes` (有时) > `never` (从不)",
+        "重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离……远), `at the weekend` (在周末)",
+        "语音知识：掌握字母组合 `sh` 的发音，如 `dish` (盘子) 和 `wash` (洗)",
+        "文化常识：中国在10月或11月庆祝重阳节 (Double Ninth Festival)；美国在9月的某个周日庆祝祖父母节 (Grandparents' Day)"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "What do you usually do with your grandparents?",
+          "contentCn": "郭老师：你通常和你的祖父母一起做什么？"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "I usually play chess with my grandpa.",
+          "contentCn": "艾丽丝：我通常和我爷爷下棋。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "My grandparents live in the UK. I often write emails to them.",
+          "contentCn": "彼得：我的祖父母住在英国。我经常给他们写电子邮件。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "My grandparents live far from my home. I often visit them at the weekend. We like going to the park together.",
+          "contentCn": "吉蒂：我的祖父母住得离我家很远。我经常在周末去看望他们。我们喜欢一起去公园。"
+        },
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Do you play sport with your grandparents?",
+          "contentCn": "郭老师：你会和你的祖父母一起做运动吗？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Yes. I sometimes play table tennis with them.",
+          "contentCn": "吉蒂：是的。我有时和他们一起打乒乓球。"
+        },
+        {
+          "speaker": "Mary",
+          "speakerCn": "玛丽",
+          "content": "Hello, Grandma. This is Mary. Do you want to go shopping with John and me this Saturday?",
+          "contentCn": "玛丽：喂，奶奶。我是玛丽。这周六你想和约翰还有我一起去购物吗？"
+        },
+        {
+          "speaker": "Grandma",
+          "speakerCn": "奶奶",
+          "content": "Yes, we can meet at the bus stop at twelve o'clock.",
+          "contentCn": "奶奶：好的，我们可以在十二点整在公交车站见面。"
+        },
+        {
+          "speaker": "Mary",
+          "speakerCn": "玛丽",
+          "content": "Where's Grandma? It's twelve o'clock.",
+          "contentCn": "玛丽：奶奶在哪儿？已经十二点整了。"
+        },
+        {
+          "speaker": "John",
+          "speakerCn": "约翰",
+          "content": "Grandma is never late.",
+          "contentCn": "约翰：奶奶从不迟到。"
+        },
+        {
+          "speaker": "Grandma",
+          "speakerCn": "奶奶",
+          "content": "Hello, Mary. Hello, John. Come with me!",
+          "contentCn": "奶奶：你们好，玛丽。你好，约翰。跟我来吧！"
         }
       ]
     }

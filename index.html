@@ -485,7 +485,7 @@
             <section id="page-tool" class="page">
                 <div class="page-header">
                     <h1>🔧 数据更新工具</h1>
-                    <p class="page-subtitle">将 Markdown 文件转换为网站可用的 JSON 数据格式</p>
+                    <p class="page-subtitle">将 Markdown 文件转换为网站可用的 JSON 数据格式，或直接上传 JSON 文件实时生效</p>
                 </div>
                 
                 <div class="tool-container">
@@ -496,12 +496,51 @@
                     
                     <!-- 单词数据 -->
                     <div class="tool-content active" id="tool-words">
-                        <div class="upload-area" id="wordsUploadArea">
-                            <div class="upload-icon">📖</div>
-                            <div class="upload-text">点击或拖拽 WORDS.md 文件到此处</div>
-                            <div class="upload-hint">支持 .md 格式的文件</div>
+                        <div class="upload-section">
+                            <h3>📖 上传 Markdown 文件</h3>
+                            <div class="upload-area" id="wordsMdUploadArea">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">点击或拖拽 WORDS.md 文件到此处</div>
+                                <div class="upload-hint">支持 .md 格式的文件</div>
+                            </div>
+                            <input type="file" id="wordsMdFileInput" accept=".md,.txt" style="display: none;">
                         </div>
-                        <input type="file" id="wordsFileInput" accept=".md,.txt" style="display: none;">
+                        
+                        <!-- 格式说明 -->
+                        <div class="format-help">
+                            <h4>📋 Markdown 格式要求</h4>
+                            <div class="format-example">
+                                <pre># 英语五年级上册单词
+
+## Unit 1 My future
+Title:My future Category:职业类
+
+* future /ˈfjuːtʃə/ 将来；未来
+  - 例句：I want to be a teacher in the future. (我将来想成为一名老师。)
+  - 记忆：future = fu + ture
+
+* want /wɒnt/ 想要
+  - 例句：I want an apple. (我想要一个苹果。)
+
+## Unit 2 What subjects do you like?
+Title:What subjects do you like? Category:学科类
+
+* subject /ˈsʌbdʒekt/ 学科；主题
+  - 例句：What subject do you like? (你喜欢什么学科？)
+  - 记忆：sub + ject</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="upload-section json-upload">
+                            <h3>📋 上传 JSON 文件（实时生效）</h3>
+                            <div class="upload-area json" id="wordsJsonUploadArea">
+                                <div class="upload-icon">⚡</div>
+                                <div class="upload-text">点击或拖拽 words.json 文件到此处</div>
+                                <div class="upload-hint">上传后立即生效，无需刷新页面</div>
+                            </div>
+                            <input type="file" id="wordsJsonFileInput" accept=".json" style="display: none;">
+                        </div>
+                        
                         <div class="file-info" id="wordsFileInfo" style="display: none;">
                             <div class="file-name" id="wordsFileName"></div>
                             <div class="file-size" id="wordsFileSize"></div>
@@ -519,12 +558,49 @@
                     
                     <!-- 阅读数据 -->
                     <div class="tool-content" id="tool-readings">
-                        <div class="upload-area reading" id="readingsUploadArea">
-                            <div class="upload-icon">📚</div>
-                            <div class="upload-text">点击或拖拽 READINGS.md 文件到此处</div>
-                            <div class="upload-hint">支持 .md 格式的文件</div>
+                        <div class="upload-section">
+                            <h3>📚 上传 Markdown 文件</h3>
+                            <div class="upload-area reading" id="readingsMdUploadArea">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">点击或拖拽 READINGS.md 文件到此处</div>
+                                <div class="upload-hint">支持 .md 格式的文件</div>
+                            </div>
+                            <input type="file" id="readingsMdFileInput" accept=".md,.txt" style="display: none;">
                         </div>
-                        <input type="file" id="readingsFileInput" accept=".md,.txt" style="display: none;">
+                        
+                        <!-- 格式说明 -->
+                        <div class="format-help">
+                            <h4>📋 Markdown 格式要求</h4>
+                            <div class="format-example">
+                                <pre># 题目：My future (我的未来)
+# 场景：讨论未来的职业理想
+
+# 重点句型：
+  - What do you want to be? (你将来想做什么？)
+  - I want to be a doctor. (我想成为一名医生。)
+
+# 知识点：
+  - **want to be** 表示"想成为"
+  - 使用 `code` 标记关键单词
+
+# 对话：
+Teacher: What do you want to be when you grow up? (老师：你长大后想做什么？)
+Tom: I want to be a doctor. (汤姆：我想成为一名医生。)
+
+</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="upload-section json-upload">
+                            <h3>⚡ 上传 JSON 文件（实时生效）</h3>
+                            <div class="upload-area json reading" id="readingsJsonUploadArea">
+                                <div class="upload-icon">🚀</div>
+                                <div class="upload-text">点击或拖拽 readings.json 文件到此处</div>
+                                <div class="upload-hint">上传后立即生效，无需刷新页面</div>
+                            </div>
+                            <input type="file" id="readingsJsonFileInput" accept=".json" style="display: none;">
+                        </div>
+                        
                         <div class="file-info" id="readingsFileInfo" style="display: none;">
                             <div class="file-name reading" id="readingsFileName"></div>
                             <div class="file-size" id="readingsFileSize"></div>

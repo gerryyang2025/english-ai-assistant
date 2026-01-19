@@ -10,6 +10,14 @@
       "title": "My future",
       "titleCn": "我的未来",
       "scene": "这段对话发生在教室内，老师询问学生们关于未来的职业理想。",
+      "keySentencePatterns": [
+        { "pattern": "What do you want to be?", "meaning": "你将来想做什么？" },
+        { "pattern": "I want to be a/an...", "meaning": "我想成为一名..." }
+      ],
+      "knowledgePoints": [
+        "**want to be** 表示\"想成为\"",
+        "使用 `a/an` 区分元音和辅音开头"
+      ],
       "dialogues": [
         {
           "speaker": "Teacher",
@@ -26,7 +34,7 @@
       ]
     }
   ]
-} 
+}
 ```
 -->
 
@@ -36,6 +44,13 @@
 # 重点句型：
   - What do you want to be? (你将来想做什么？)
   - I want to be a/an... (我想成为一名...)
+  - I want to be a pilot. (我想成为一名飞行员。)
+  - I want to fly a plane in the sky. (我想在天空中开飞机。)
+  - I want to help people. (我想帮助别人。)
+# 知识点：
+  - 核心职业名词：`pilot` (飞行员), `cook` (厨师/烹饪), `taxi driver` (出租车司机), `singer` (歌手), `lifeguard` (救生员), `teacher` (教师), `doctor` (医生)
+  - 核心动词与短语：`future` (将来), `want` (想要), `teach` (教), `save` (救), `become` (变成), `(be) good at` (擅长)
+  - 语音知识：掌握字母组合 `sk` 的发音，如 `desk` (书桌) 和 `mask` (面具)
 
 Teacher: What do you want to be, children? (老师：孩子们，你们将来想做什么？)
 Joe: I want to be a pilot. I want to fly a plane in the sky. (乔：我想成为一名飞行员。我想在天空中驾驶飞机。)
@@ -135,8 +150,9 @@ Peter: What do you have, Alice? (彼得：你带了什么，艾丽丝？)
 Alice: Look, Peter! I have an orange card for you. (艾丽丝：看，彼得！我有一张给你的橙色卡片。)
 Peter: Thank you so much. Look at the table. Here are some orange things for you. They're oranges, orange juice and an orange cake. Let's have some fun! (彼得：非常感谢。看桌子。这儿有一些给你们的橙色东西。它们是橙子、橙汁和橙色蛋糕。让我们尽情玩吧！)
 
+请从 pdf 中解析 unit4 课文内容并生成对话文本，同时对每个对话添加中文翻译，并总结这个单元的重要句型和知识点。最后按照下面格式输出 ``` markdown xxx ```包裹的文本格式。
 
-
+```
 # 题目：Friends (好朋友的共同点) 
 # 场景：Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。
 # 重点句型：
@@ -154,9 +170,32 @@ Kitty: We both like sport. I like playing table tennis and Alice likes playing v
 Kitty: We both love animals. I have a cat and Alice has a dog. (吉蒂：我们两个都喜爱动物。我有一只猫，艾丽丝有一只狗。) 
 Kitty: We both like helping people. We sometimes help old people cross the street. We also help them carry heavy bags. (吉蒂：我们两个都喜欢帮助别人。我们有时帮助老人穿过马路。我们还帮他们提重袋子。)
 Kitty: We like each other. We're good friends. (吉蒂：我们喜欢彼此。我们是好朋友。)
+```
+
+# 题目：Grandparents (与祖父母的日常) 
+# 场景：郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。
+# 重点句型：
+  - What do you usually do with your grandparents? (你通常和你的祖父母做什么？) 
+  - I usually play chess with my grandpa. (我通常和我爷爷下棋。) 
+  - Grandma is never late. (奶奶从不迟到。) 
+# 知识点：
+  - 频率副词排序：`always` (总是) > `usually` (通常) > `often` (经常) > `sometimes` (有时) > `never` (从不) 
+  - 重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离……远), `at the weekend` (在周末) 
+  - 语音知识：掌握字母组合 `sh` 的发音，如 `dish` (盘子) 和 `wash` (洗) 
+  - 文化常识：中国在10月或11月庆祝重阳节 (Double Ninth Festival)；美国在9月的某个周日庆祝祖父母节 (Grandparents' Day)
 
 
-
+Ms Guo: What do you usually do with your grandparents? (郭老师：你通常和你的祖父母一起做什么？)
+Alice: I usually play chess with my grandpa. (艾丽丝：我通常和我爷爷下棋。) 
+Peter: My grandparents live in the UK. I often write emails to them. (彼得：我的祖父母住在英国。我经常给他们写电子邮件。) 
+Kitty: My grandparents live far from my home. I often visit them at the weekend. We like going to the park together. (吉蒂：我的祖父母住得离我家很远。我经常在周末去看望他们。我们喜欢一起去公园。) 
+Ms Guo: Do you play sport with your grandparents? (郭老师：你会和你的祖父母一起做运动吗？) 
+Kitty: Yes. I sometimes play table tennis with them. (吉蒂：是的。我有时和他们一起打乒乓球。) 
+Mary: Hello, Grandma. This is Mary. Do you want to go shopping with John and me this Saturday? (玛丽：喂，奶奶。我是玛丽。这周六你想和约翰还有我一起去购物吗？) 
+Grandma: Yes, we can meet at the bus stop at twelve o'clock. (奶奶：好的，我们可以在十二点整在公交车站见面。) 
+Mary: Where's Grandma? It's twelve o'clock. (玛丽：奶奶在哪儿？已经十二点整了。) 
+John: Grandma is never late. (约翰：奶奶从不迟到。) 
+Grandma: Hello, Mary. Hello, John. Come with me! (奶奶：你们好，玛丽。你好，约翰。跟我来吧！) 
 
 
 
