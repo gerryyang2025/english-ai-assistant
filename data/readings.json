@@ -183,55 +183,60 @@
           "meaning": "步行"
         }
       ],
-      "knowledgePoints": [],
+      "knowledgePoints": [
+        "交通方式表达：`by bus` (乘公交), `by bike` (骑车), `by car` (乘私家车), `by underground` (乘地铁), `on foot` (步行)",
+        "核心动作短语：`walk to...` (步行去...), `take the bus/train` (乘公交/火车), `get off` (下车), `far from` (离...远)",
+        "地点名词：`station` (车站), `bus stop` (公交站), `primary school` (小学)",
+        "语音知识：掌握字母组合 `sp` 的发音，如 `wasp` (黄蜂) 和 `crisp` (薯片)"
+      ],
       "dialogues": [
         {
           "speaker": "Jill",
           "speakerCn": "吉尔",
           "content": "How do you come to school, Joe?",
-          "contentCn": "吉尔：乔，你怎么来学校？"
+          "contentCn": "吉尔：乔，你怎样来学校？"
         },
         {
           "speaker": "Joe",
           "speakerCn": "乔",
           "content": "I come to school by bus. I live far from our school.",
-          "contentCn": "乔：我乘公共汽车来学校。我住得离学校远。"
+          "contentCn": "乔：我乘公共汽车来。我住得离学校很远。"
         },
         {
           "speaker": "Jill",
           "speakerCn": "吉尔",
           "content": "How do you come to school, Alice?",
-          "contentCn": "吉尔：艾丽丝，你怎么来学校？"
+          "contentCn": "吉尔：艾丽丝，你怎样来学校？"
         },
         {
           "speaker": "Alice",
           "speakerCn": "艾丽丝",
           "content": "I come to school on foot. I live near school.",
-          "contentCn": "艾丽丝：我步行来学校。我住得离学校近。"
-        },
-        {
-          "speaker": "Jill",
-          "speakerCn": "吉尔",
-          "content": "How do you come to school, Kitty?",
-          "contentCn": "吉尔：吉蒂，你怎么来学校？"
+          "contentCn": "艾丽丝：我步行来。我住得离学校近。"
         },
         {
           "speaker": "Kitty",
           "speakerCn": "吉蒂",
           "content": "I come to school on foot too. Alice and I walk to school together.",
-          "contentCn": "吉蒂：我也步行来学校。艾丽丝和我一起走路去上学。"
-        },
-        {
-          "speaker": "Jill",
-          "speakerCn": "吉尔",
-          "content": "What about you, Peter? How do you come to school?",
-          "contentCn": "吉尔：你呢，彼得？你怎么来学校？"
+          "contentCn": "吉蒂：我也步行来。艾丽丝和我一起走路来学校。"
         },
         {
           "speaker": "Peter",
           "speakerCn": "彼得",
           "content": "I come to school by bus.",
           "contentCn": "彼得：我乘公共汽车来学校。"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "Ms Guo is a teacher. She walks to the underground station and takes the train.",
+          "contentCn": "旁白：郭老师是一名老师。她步行到地铁站并乘坐地铁。"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "Then she takes Bus No. 12 to Spring Street. She gets off at the bus stop and walks to her school.",
+          "contentCn": "旁白：然后她乘坐12路公交车到春晓街。她在公交站下车，然后步行去学校。"
         }
       ]
     },
@@ -301,9 +306,23 @@
         {
           "pattern": "It's on 26th September.",
           "meaning": "在9月26日。注：日期使用“on + 序数词 + 月份”。"
+        },
+        {
+          "pattern": "What time does the party begin?",
+          "meaning": "聚会几点开始？"
+        },
+        {
+          "pattern": "Can you bring some orange things to the party?",
+          "meaning": "你能带一些橙色的东西来聚会吗？"
         }
       ],
-      "knowledgePoints": [],
+      "knowledgePoints": [
+        "核心名词：`party` (聚会), `hat` (帽子), `thing` (东西), `favourite` (最喜欢的)",
+        "核心短语：`begin` (开始), `bring` (带来), `have fun` (尽情玩), `can't wait` (等不及了)",
+        "序数词：掌握从 `first` (第一) 到 `thirty-first` (第三十一) 的表达方式及缩写规律（如 1st, 2nd, 3rd, 4th...）",
+        "语音知识：掌握字母组合 `st` 的发音，如 `toast` (烤面包) 和 `postman` (邮递员)",
+        "文化知识：在中国，人们通常不会立刻打开礼物；而在西方国家，人们通常会当面打开礼物"
+      ],
       "dialogues": [
         {
           "speaker": "Peter",
@@ -427,63 +446,6 @@
     },
     {
       "id": "reading-007",
-      "title": "Friends",
-      "titleCn": "好朋友的共同点",
-      "scene": "Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。",
-      "keySentencePatterns": [
-        {
-          "pattern": "We both like sport.",
-          "meaning": "我们两个都喜欢运动。"
-        },
-        {
-          "pattern": "We're in the same class.",
-          "meaning": "我们在同一个班级。"
-        },
-        {
-          "pattern": "We sometimes help old people cross the street.",
-          "meaning": "我们有时帮助老人穿过马路。"
-        }
-      ],
-      "knowledgePoints": [
-        "核心形容词：`clever` (聪明的), `same` (相同的), `different` (不同的), `heavy` (重的), `bored` (无聊的), `easy` (容易的)",
-        "重点短语：`both` (两个都), `each other` (互相), `cross the street` (穿过马路), `carry heavy bags` (提重袋子), `make phone calls` (打电话)",
-        "语音知识：掌握字母组合 `dr` (dress) 和 `pr` (princess) 的发音"
-      ],
-      "dialogues": [
-        {
-          "speaker": "Kitty",
-          "speakerCn": "吉蒂",
-          "content": "I'm Kitty. I have a friend. Her name's Alice. She's clever. We're in the same class.",
-          "contentCn": "吉蒂：我是吉蒂。我有一个朋友。她的名字叫艾丽丝。她很聪明。我们在同一个班级。"
-        },
-        {
-          "speaker": "Kitty",
-          "speakerCn": "吉蒂",
-          "content": "We both like sport. I like playing table tennis and Alice likes playing volleyball.",
-          "contentCn": "吉蒂：我们两个都喜欢运动。我喜欢打乒乓球，艾丽丝喜欢打排球。"
-        },
-        {
-          "speaker": "Kitty",
-          "speakerCn": "吉蒂",
-          "content": "We both love animals. I have a cat and Alice has a dog.",
-          "contentCn": "吉蒂：我们两个都喜爱动物。我有一只猫，艾丽丝有一只狗。"
-        },
-        {
-          "speaker": "Kitty",
-          "speakerCn": "吉蒂",
-          "content": "We both like helping people. We sometimes help old people cross the street. We also help them carry heavy bags.",
-          "contentCn": "吉蒂：我们两个都喜欢帮助别人。我们有时帮助老人穿过马路。我们还帮他们提重袋子。"
-        },
-        {
-          "speaker": "Kitty",
-          "speakerCn": "吉蒂",
-          "content": "We like each other. We're good friends.",
-          "contentCn": "吉蒂：我们喜欢彼此。我们是好朋友。"
-        }
-      ]
-    },
-    {
-      "id": "reading-008",
       "title": "Grandparents",
       "titleCn": "与祖父母的日常",
       "scene": "郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。",
@@ -503,7 +465,7 @@
       ],
       "knowledgePoints": [
         "频率副词排序：`always` (总是) > `usually` (通常) > `often` (经常) > `sometimes` (有时) > `never` (从不)",
-        "重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离……远), `at the weekend` (在周末)",
+        "重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离...远), `at the weekend` (在周末)",
         "语音知识：掌握字母组合 `sh` 的发音，如 `dish` (盘子) 和 `wash` (洗)",
         "文化常识：中国在10月或11月庆祝重阳节 (Double Ninth Festival)；美国在9月的某个周日庆祝祖父母节 (Grandparents' Day)"
       ],
@@ -573,6 +535,139 @@
           "speakerCn": "奶奶",
           "content": "Hello, Mary. Hello, John. Come with me!",
           "contentCn": "奶奶：你们好，玛丽。你好，约翰。跟我来吧！"
+        }
+      ]
+    },
+    {
+      "id": "reading-008",
+      "title": "Friends",
+      "titleCn": "好朋友的共同点",
+      "scene": "Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。",
+      "keySentencePatterns": [
+        {
+          "pattern": "We both like sport.",
+          "meaning": "我们两个都喜欢运动。"
+        },
+        {
+          "pattern": "We're in the same class.",
+          "meaning": "我们在同一个班级。"
+        },
+        {
+          "pattern": "We sometimes help old people cross the street.",
+          "meaning": "我们有时帮助老人穿过马路。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心形容词：`clever` (聪明的), `same` (相同的), `different` (不同的), `heavy` (重的), `bored` (无聊的), `easy` (容易的)",
+        "重点短语：`both` (两个都), `each other` (互相), `cross the street` (穿过马路), `carry heavy bags` (提重袋子), `make phone calls` (打电话)",
+        "语音知识：掌握字母组合 `dr` (dress) 和 `pr` (princess) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I'm Kitty. I have a friend. Her name's Alice. She's clever. We're in the same class.",
+          "contentCn": "吉蒂：我是吉蒂。我有一个朋友。她的名字叫艾丽丝。她很聪明。我们在同一个班级。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "We both like sport. I like playing table tennis and Alice likes playing volleyball.",
+          "contentCn": "吉蒂：我们两个都喜欢运动。我喜欢打乒乓球，艾丽丝喜欢打排球。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "We both love animals. I have a cat and Alice has a dog.",
+          "contentCn": "吉蒂：我们两个都喜爱动物。我有一只猫，艾丽丝有一只狗。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "We both like helping people. We sometimes help old people cross the street. We also help them carry heavy bags.",
+          "contentCn": "吉蒂：我们两个都喜欢帮助别人。我们有时帮助老人穿过马路。我们还帮他们提重袋子。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "We like each other. We're good friends.",
+          "contentCn": "吉蒂：我们喜欢彼此。我们是好朋友。"
+        }
+      ]
+    },
+    {
+      "id": "reading-009",
+      "title": "Family life",
+      "titleCn": "家庭生活",
+      "scene": "描述李老师（Mr Li）一家人在家里不同房间进行的日常活动，以及在“地球一小时”期间大家如何度过夜晚。",
+      "keySentencePatterns": [
+        {
+          "pattern": "I'm doing my homework.",
+          "meaning": "我正在做家庭作业。"
+        },
+        {
+          "pattern": "Where are you?",
+          "meaning": "你在哪儿？"
+        },
+        {
+          "pattern": "Many people turn off their lights.",
+          "meaning": "许多人关掉了灯。"
+        }
+      ],
+      "knowledgePoints": [
+        "现在进行时：掌握 `be + 动词ing` 结构，如 `doing` (正在做), `making` (正在制作), `washing` (正在洗), `cooking` (正在烹饪)",
+        "核心房间类词汇：`living room` (客厅), `bedroom` (卧室), `kitchen` (厨房), `bathroom` (浴室)",
+        "重点短语：`model plane` (飞机模型), `turn off` (关掉), `watch TV` (看电视), `tell a story` (讲故事), `at bedtime` (在就寝时间)",
+        "语音知识：掌握字母组合 `br` (bread) 和 `cr` (ice cream) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I'm in the living room. I'm doing my homework.",
+          "contentCn": "吉蒂：我在客厅。我正在做家庭作业。"
+        },
+        {
+          "speaker": "Ben",
+          "speakerCn": "本",
+          "content": "I'm in my bedroom, Dad. I'm making a model plane.",
+          "contentCn": "本：爸爸，我在我的卧室。我正在制作飞机模型。"
+        },
+        {
+          "speaker": "May",
+          "speakerCn": "梅",
+          "content": "I'm in the bathroom. I'm washing my hair.",
+          "contentCn": "梅：我在浴室。我正在洗头发。"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "I'm in the kitchen. I'm cooking dinner. Come and help me, please.",
+          "contentCn": "爸爸：我在厨房。我正在做晚饭。请来帮帮我。"
+        },
+        {
+          "speaker": "Reporter",
+          "speakerCn": "记者",
+          "content": "It's Earth Hour now. Many people turn off their lights.",
+          "contentCn": "记者：现在是“地球一小时”。许多人关掉了他们的灯。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "I usually watch TV with my parents in the evening, but now we're looking at the stars.",
+          "contentCn": "艾丽丝：我通常在晚上和父母一起看电视，但现在我们正在看星星。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "My brother Ben and I usually read storybooks before bedtime, but now Grandma is telling us a story.",
+          "contentCn": "吉蒂：我哥哥本和我通常在睡前读故事书，但现在奶奶正在给我们讲故事。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "I usually do my homework at night, but now I'm playing word games with my family.",
+          "contentCn": "萨莉：我通常在晚上做作业，但现在我正和家人一起玩单词游戏。"
         }
       ]
     }
