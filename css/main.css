@@ -4444,42 +4444,202 @@ body {
     }
 }
 
-@media (max-width: 480px) {
+/* 工具页面移动端适配 - 平板 */
+@media (max-width: 768px) {
     #page-tool .tool-container {
-        padding: 12px;
+        padding: 16px;
         border-radius: 12px;
     }
     
+    #page-tool .page-header {
+        gap: 6px;
+    }
+    
     #page-tool .page-header h1 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
+    }
+    
+    #page-tool .page-subtitle {
+        font-size: 0.9rem;
     }
     
     #page-tool .upload-area {
         padding: 24px 16px;
+        margin-bottom: 16px;
     }
     
     #page-tool .upload-icon {
-        font-size: 28px;
+        font-size: 32px;
     }
     
     #page-tool .upload-text {
         font-size: 14px;
     }
     
-    #page-tool .tool-tabs {
-        flex-wrap: wrap;
+    #page-tool .upload-hint {
+        font-size: 11px;
+        margin-top: 6px;
+    }
+    
+    #page-tool .upload-section {
+        margin-bottom: 20px;
+    }
+    
+    #page-tool .upload-section h3 {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+    
+    .tool-tabs {
         gap: 8px;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
     }
     
     #page-tool .tool-tab {
-        padding: 8px 12px;
+        padding: 8px 14px;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    #page-tool .format-help {
+        padding: 14px;
+        margin-bottom: 16px;
+        border-radius: 10px;
+    }
+    
+    #page-tool .format-help h4 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+    
+    #page-tool .format-example {
+        padding: 12px;
+        border-radius: 6px;
+    }
+    
+    #page-tool .format-example pre {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+    
+    #page-tool .file-info {
+        padding: 12px;
+        margin-bottom: 16px;
+    }
+    
+    #page-tool .preview {
+        padding: 14px;
+        margin: 16px 0;
+        max-height: 250px;
+    }
+    
+    #page-tool .preview-title {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    #page-tool .wordbook-item,
+    #page-tool .reading-item {
+        padding: 8px;
+    }
+    
+    #page-tool .unit-list {
+        margin-left: 12px;
+        margin-top: 6px;
+    }
+    
+    #page-tool .unit-item {
+        padding: 6px;
+        font-size: 12px;
+    }
+    
+    #page-tool .actions {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    #page-tool .actions.show {
+        display: flex;
+    }
+    
+    #page-tool .btn {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+    
+    #page-tool .status {
+        padding: 14px;
+        margin: 16px 0;
         font-size: 0.85rem;
-        flex: 1 1 40%;
-        text-align: center;
+    }
+}
+
+/* 工具页面移动端适配 - 手机 */
+@media (max-width: 480px) {
+    #page-tool .tool-container {
+        padding: 12px;
+        border-radius: 10px;
+    }
+    
+    #page-tool .page-header h1 {
+        font-size: 1.25rem;
+    }
+    
+    #page-tool .page-subtitle {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    
+    #page-tool .upload-area {
+        padding: 20px 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+    }
+    
+    #page-tool .upload-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+    
+    #page-tool .upload-text {
+        font-size: 13px;
+    }
+    
+    #page-tool .upload-hint {
+        font-size: 10px;
+    }
+    
+    #page-tool .upload-section {
+        margin-bottom: 16px;
+    }
+    
+    #page-tool .upload-section h3 {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+        gap: 6px;
+    }
+    
+    .tool-tabs {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 14px;
+        padding-bottom: 8px;
+    }
+    
+    #page-tool .tool-tab {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        flex: 1 1 45%;
     }
     
     #page-tool .format-help {
         padding: 12px;
+        margin-bottom: 14px;
         border-radius: 8px;
     }
     
@@ -4495,6 +4655,148 @@ body {
     
     #page-tool .format-example pre {
         font-size: 10px;
-        line-height: 1.5;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    
+    #page-tool .file-info {
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+    }
+    
+    #page-tool .file-name {
+        font-size: 0.85rem;
+    }
+    
+    #page-tool .file-size {
+        font-size: 11px;
+    }
+    
+    #page-tool .preview {
+        padding: 12px;
+        margin: 12px 0;
+        max-height: 200px;
+    }
+    
+    #page-tool .preview-title {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+    
+    #page-tool .wordbook-item,
+    #page-tool .reading-item {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+    
+    #page-tool .unit-list {
+        margin-left: 10px;
+        margin-top: 4px;
+    }
+    
+    #page-tool .unit-item {
+        padding: 4px 8px;
+        font-size: 11px;
+        border-radius: 4px;
+    }
+    
+    #page-tool .actions {
+        margin-top: 12px;
+        gap: 6px;
+    }
+    
+    #page-tool .actions.show {
+        display: flex;
+    }
+    
+    #page-tool .btn {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        border-radius: 6px;
+    }
+    
+    #page-tool .status {
+        padding: 12px;
+        margin: 12px 0;
+        font-size: 0.8rem;
+        border-radius: 6px;
+    }
+    
+    #page-tool .status.success {
+        background: #d4edda;
+        padding: 10px 12px;
+    }
+    
+    #page-tool .status.error {
+        background: #f8d7da;
+        padding: 10px 12px;
     }
 }
+
+/* 工具页面移动端适配 - 小屏手机 */
+@media (max-width: 360px) {
+    #page-tool .tool-container {
+        padding: 10px;
+        border-radius: 8px;
+    }
+    
+    #page-tool .page-header h1 {
+        font-size: 1.1rem;
+    }
+    
+    #page-tool .page-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    #page-tool .upload-area {
+        padding: 16px 10px;
+        margin-bottom: 10px;
+    }
+    
+    #page-tool .upload-icon {
+        font-size: 24px;
+    }
+    
+    #page-tool .upload-text {
+        font-size: 12px;
+    }
+    
+    #page-tool .upload-hint {
+        font-size: 9px;
+    }
+    
+    #page-tool .upload-section h3 {
+        font-size: 0.8rem;
+    }
+    
+    #page-tool .tool-tab {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+        flex: 1 1 45%;
+    }
+    
+    #page-tool .format-help {
+        padding: 10px;
+    }
+    
+    #page-tool .format-help h4 {
+        font-size: 0.8rem;
+    }
+    
+    #page-tool .format-example {
+        padding: 8px;
+    }
+    
+    #page-tool .format-example pre {
+        font-size: 9px;
+    }
+    
+    #page-tool .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
+
