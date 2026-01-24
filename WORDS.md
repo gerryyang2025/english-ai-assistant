@@ -177,7 +177,7 @@ Title: My birthday Category: 序数词
   - 记忆：eighteen（十八）+ th = eighteenth（第十八）
 * nineteenth /ˌnaɪnˈtiːnθ/ 第十九
   - 例句：Today is the nineteenth day. (今天是第十九天。)
-  - 记忆：nineteen（十九）→ nineteenth（第十九），去掉 e 加 th
+  - 记忆：nineteen（十九）+ th = nineteenth（第十九）
 * twentieth /ˈtwentiəθ/ 第二十
   - 例句：This is the twentieth question. (这是第二十个问题。)
   - 记忆：twenty（二十）→ twentieth（第二十），y 变 ie 加 th

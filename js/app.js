@@ -1892,24 +1892,24 @@ function removeFromWrongSentences(sentenceId) {
 }
 
 function clearWrongSentences() {
-    if (!confirm('确定要清空所有错句记录吗？此操作不可恢复。')) {
+    if (!confirm('确定要清空错句列表中的所有记录吗？此操作不可恢复。')) {
         return;
     }
     AppState.userProgress.wrongSentences = [];
     saveUserProgress();
     renderWrongbookSentencesTab();
-    alert('错句本已清空');
+    alert('错句列表已清空');
 }
 
 function reviewAllWrongSentences() {
     console.log('reviewAllWrongSentences called');
 
     if (!AppState.userProgress.wrongSentences || AppState.userProgress.wrongSentences.length === 0) {
-        alert('错句本为空，没有需要复习的句子');
+        alert('错句列表为空，没有需要复习的句子');
         return;
     }
 
-    alert('错句复习功能开发中...');
+    alert('错句复习功能正在开发中...');
 }
 
 // ========== 原有错词本函数（保持兼容）==========
@@ -1924,7 +1924,7 @@ function clearWrongbook(type = 'words') {
         return;
     }
 
-    if (confirm('确定要清空所有错词记录吗？此操作不可恢复。')) {
+    if (confirm('确定要清空错词列表中的所有记录吗？此操作不可恢复。')) {
         AppState.userProgress.wrongWords = [];
         saveUserProgress();
         renderWrongbookWordsTab();
@@ -1934,7 +1934,7 @@ function clearWrongbook(type = 'words') {
             reviewWrongBtn.style.display = 'none';
         }
 
-        alert('错词本已清空');
+        alert('错词列表已清空');
     }
 }
 
@@ -2069,7 +2069,7 @@ function reviewWrongWords() {
     // 切换到闪卡测试，只测试错词
     if (!AppState.userProgress.wrongWords || AppState.userProgress.wrongWords.length === 0) {
         console.log('No wrong words to review');
-        alert('错词本为空，没有需要复习的单词');
+        alert('错词列表为空，没有需要复习的单词');
         return;
     }
     
@@ -2104,11 +2104,11 @@ function reviewWrongWords() {
     console.log('Filtered wrong words:', wrongWords.length);
     
     if (wrongWords.length === 0) {
-        alert('错词本为空，或所有错词都已从数据中移除');
+        alert('错词列表为空，或所有错词都已从数据中移除');
         return;
     }
     
-    console.log('Starting flashcard test with', wrongWords.length, 'words');
+    console.log('Starting flashcard test with', wrongWords.length, 'words to review');
     
     // 生成测试题目（默认使用中译英模式）
     const mode = 'zh-to-en';
