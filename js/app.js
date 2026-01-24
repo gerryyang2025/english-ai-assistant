@@ -1846,12 +1846,30 @@ function goToWrongbookSentencesPage(page) {
 
 // 朗读句子
 function speakSentence(english) {
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(english);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
+    if (!english) return;
+    
+    if (!('speechSynthesis' in window)) {
+        console.warn('浏览器不支持语音合成');
+        return;
     }
+    
+    // 取消之前的朗读
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(english);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    
+    // 尝试选择美式英语语音
+    const voices = window.speechSynthesis.getVoices();
+    const americanVoice = voices.find(voice => 
+        voice.lang.startsWith('en-US') && voice.name.includes('Female')
+    );
+    if (americanVoice) {
+        utterance.voice = americanVoice;
+    }
+    
+    window.speechSynthesis.speak(utterance);
 }
 
 // ========== 错句管理函数 ==========
