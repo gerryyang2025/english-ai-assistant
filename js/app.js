@@ -1802,7 +1802,7 @@ function renderWrongbookSentencesTab() {
                 <div class="sentence-card-header">
                     <span class="sentence-index">${sentenceIndex}</span>
                     <div class="sentence-card-actions">
-                        <button class="audio-btn-small" title="朗读句子" onclick="speakSentence('${escapeHtml(item.english)}')">🔊</button>
+                        <button class="audio-btn-small" title="朗读句子" onclick='speakSentence("${escapeHtml(item.english)}")'>🔊</button>
                         <button class="remove-btn-small" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
                     </div>
                 </div>
@@ -1892,12 +1892,13 @@ function removeFromWrongSentences(sentenceId) {
 }
 
 function clearWrongSentences() {
-    if (confirm('确定要清空错句本吗？此操作不可恢复。')) {
-        AppState.userProgress.wrongSentences = [];
-        saveUserProgress();
-        renderWrongbookSentencesTab();
-        alert('错句本已清空');
+    if (!confirm('确定要清空所有错句记录吗？此操作不可恢复。')) {
+        return;
     }
+    AppState.userProgress.wrongSentences = [];
+    saveUserProgress();
+    renderWrongbookSentencesTab();
+    alert('错句本已清空');
 }
 
 function reviewAllWrongSentences() {
@@ -1923,7 +1924,7 @@ function clearWrongbook(type = 'words') {
         return;
     }
 
-    if (confirm('确定要清空错词本吗？此操作不可恢复。')) {
+    if (confirm('确定要清空所有错词记录吗？此操作不可恢复。')) {
         AppState.userProgress.wrongWords = [];
         saveUserProgress();
         renderWrongbookWordsTab();
@@ -2051,22 +2052,6 @@ function renderFavoritesPage() {
 function reviewAllWrongWords() {
     // 复用 reviewWrongWords 的逻辑
     reviewWrongWords();
-}
-
-function clearWrongbook() {
-    if (confirm('确定要清空错词本吗？此操作不可恢复。')) {
-        AppState.userProgress.wrongWords = [];
-        saveUserProgress();
-        renderWrongbookPage();
-        
-        // 同时隐藏闪卡结果页的复习错词按钮
-        const reviewWrongBtn = document.getElementById('review-wrong-btn');
-        if (reviewWrongBtn) {
-            reviewWrongBtn.style.display = 'none';
-        }
-        
-        alert('错词本已清空');
-    }
 }
 
 function removeFromWrongbook(wordId) {
