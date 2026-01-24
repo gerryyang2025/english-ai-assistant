@@ -1666,7 +1666,7 @@ function renderWrongbookWordsTab() {
                             <div class="word-card-main">
                                 <div class="word-text">
                                     ${escapeHtml(word.word || '')}
-                                    <button class="audio-btn-small" title="播放英音" onclick="speakWord('${escapeHtml(word.word || '')}')">🔊</button>
+                                    <button class="audio-btn-small" title="播放英音" onclick="speakWord('${escapeHtml(word.word || '').replace(/'/g, "\\'")}')">🔊</button>
                                 </div>
                                 <div class="word-phonetic">${escapeHtml(word.phonetic || '')}</div>
                                 <div class="word-meaning">${escapeHtml(word.meaning || '')}</div>
@@ -1802,7 +1802,7 @@ function renderWrongbookSentencesTab() {
                 <div class="sentence-card-header">
                     <span class="sentence-index">${sentenceIndex}</span>
                     <div class="sentence-card-actions">
-                        <button class="audio-btn-small" title="朗读句子" onclick='speakSentence("${escapeHtml(item.english)}")'>🔊</button>
+                        <button class="audio-btn-small" title="朗读句子" onclick='speakSentence("${escapeHtml(item.english).replace(/'/g, "\\'")}")'>🔊</button>
                         <button class="remove-btn-small" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
                     </div>
                 </div>
@@ -2028,10 +2028,10 @@ function renderFavoritesPage() {
                     ${word.memoryTip ? `<div class="word-tip">💡 ${escapeHtml(word.memoryTip)}</div>` : ''}
                 </div>
                 <div class="word-actions">
-                    <button class="word-action-btn audio-btn" title="播放英音" onclick="speakWord('${escapeHtml(word.word)}')">
-                        🇬🇧
+                    <button class="word-action-btn audio-btn" title="播放英音" onclick="speakWord('${escapeHtml(word.word).replace(/'/g, "\\'")}')">
+                        🇬�🇧
                     </button>
-                    <button class="word-action-btn audio-btn" title="播放美音" onclick="speakWordUS('${escapeHtml(word.word)}')">
+                    <button class="word-action-btn audio-btn" title="播放美音" onclick="speakWordUS('${escapeHtml(word.word).replace(/'/g, "\\'")}')">
                         🇺🇸
                     </button>
                     <button class="word-action-btn favorite-btn favorited"
