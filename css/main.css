@@ -1582,7 +1582,112 @@ body {
     padding: 40px;
 }
 
-/* 错词本页面 */
+/* 错题本页面 */
+/* 标签页切换 */
+.wrongbook-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0;
+}
+
+.wrongbook-tabs .tab-btn {
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: -2px;
+}
+
+.wrongbook-tabs .tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.wrongbook-tabs .tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* 标签页内容 */
+.wrongbook-tab-content {
+    display: none;
+}
+
+.wrongbook-tab-content.active {
+    display: block;
+}
+
+/* 错句列表项 */
+.wrong-sentence-item {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.wrong-sentence-item:last-child {
+    margin-bottom: 0;
+}
+
+.wrong-sentence-item .sentence-info {
+    margin-bottom: 12px;
+}
+
+.wrong-sentence-item .english {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
+.wrong-sentence-item .chinese {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.wrong-sentence-item .sentence-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.wrong-sentence-item .reading-title {
+    color: var(--primary-color);
+}
+
+.wrong-sentence-item .wrong-count {
+    color: var(--danger-color);
+    font-weight: 500;
+}
+
+.wrong-sentence-item .remove-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+}
+
+.wrong-sentence-item .remove-btn:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
 .wrongbook-stats {
     display: flex;
     gap: 20px;
@@ -3083,8 +3188,35 @@ body {
     .result-actions button {
         width: 100%;
     }
-    
-    /* 错词本页面完整适配 */
+
+    /* 错题本页面完整适配 */
+    .wrongbook-tabs {
+        gap: 4px;
+        margin-bottom: 16px;
+    }
+
+    .wrongbook-tabs .tab-btn {
+        padding: 10px 16px;
+        font-size: 0.95rem;
+    }
+
+    .wrong-sentence-item {
+        padding: 12px;
+    }
+
+    .wrong-sentence-item .english {
+        font-size: 0.95rem;
+    }
+
+    .wrong-sentence-item .chinese {
+        font-size: 0.85rem;
+    }
+
+    .wrong-sentence-item .sentence-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
     #page-wrongbook h2 {
         font-size: 1.3rem;
         text-align: center;
@@ -3280,8 +3412,34 @@ body {
         font-size: 1rem;
         flex-shrink: 0;
     }
-    
-    /* 错词本页面完整适配 */
+
+    /* 错题本页面完整适配 */
+    .wrongbook-tabs {
+        gap: 2px;
+        margin-bottom: 14px;
+    }
+
+    .wrongbook-tabs .tab-btn {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+    }
+
+    .wrong-sentence-item {
+        padding: 10px;
+    }
+
+    .wrong-sentence-item .english {
+        font-size: 0.9rem;
+    }
+
+    .wrong-sentence-item .chinese {
+        font-size: 0.8rem;
+    }
+
+    .wrong-sentence-item .sentence-meta {
+        font-size: 0.8rem;
+    }
+
     #page-wrongbook h2 {
         font-size: 1.2rem;
         margin-bottom: 14px;
@@ -3526,8 +3684,38 @@ body {
         padding: 14px 10px;
         font-size: 0.75rem;
     }
-    
-    /* 错词本页面完整适配 */
+
+    /* 错题本页面完整适配 */
+    .wrongbook-tabs {
+        gap: 0;
+        margin-bottom: 12px;
+    }
+
+    .wrongbook-tabs .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        flex: 1;
+    }
+
+    .wrong-sentence-item {
+        padding: 8px;
+    }
+
+    .wrong-sentence-item .english {
+        font-size: 0.85rem;
+    }
+
+    .wrong-sentence-item .chinese {
+        font-size: 0.75rem;
+    }
+
+    .wrong-sentence-item .sentence-meta {
+        font-size: 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
     #page-wrongbook h2 {
         font-size: 1.1rem;
         margin-bottom: 12px;
@@ -3678,8 +3866,29 @@ body {
     .stat-label {
         font-size: 0.7rem;
     }
-    
-    /* 错词本页面完整适配 */
+
+    /* 错题本页面完整适配 */
+    .wrongbook-tabs {
+        margin-bottom: 10px;
+    }
+
+    .wrongbook-tabs .tab-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .wrong-sentence-item {
+        padding: 6px;
+    }
+
+    .wrong-sentence-item .english {
+        font-size: 0.8rem;
+    }
+
+    .wrong-sentence-item .chinese {
+        font-size: 0.7rem;
+    }
+
     #page-wrongbook h2 {
         font-size: 1rem;
         margin-bottom: 10px;

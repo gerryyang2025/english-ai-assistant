@@ -319,10 +319,15 @@ function loadUserProgress() {
     const saved = localStorage.getItem('wordLearningProgress');
     if (saved) {
         AppState.userProgress = JSON.parse(saved);
+        // 向后兼容：确保 wrongSentences 字段存在
+        if (!AppState.userProgress.wrongSentences) {
+            AppState.userProgress.wrongSentences = [];
+        }
     } else {
         AppState.userProgress = {
             wordProgress: {},
             wrongWords: [],
+            wrongSentences: [],  // 错句列表（v2.9+）
             favoriteWords: [],
             stats: {
                 totalReviewed: 0,
@@ -1257,21 +1262,57 @@ function retryTest() {
     AppState.flashcardSession = null;
 }
 
-// ========== 错词本页面 ==========
+// ========== 错题本页面 ==========
 function renderWrongbookPage() {
+    renderWrongbookWordsTab();
+    renderWrongbookSentencesTab();
+}
+
+// ========== 错题本页面 ==========
+function renderWrongbookPage() {
+    renderWrongbookWordsTab();
+    renderWrongbookSentencesTab();
+}
+
+// 切换错题本标签页
+function switchWrongbookTab(tabName) {
+    // 更新按钮状态
+    document.querySelectorAll('.wrongbook-tabs .tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.tab === tabName) {
+            btn.classList.add('active');
+        }
+    });
+
+    // 更新内容显示
+    document.querySelectorAll('.wrongbook-tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.getElementById('tab-' + tabName).classList.add('active');
+
+    // 切换时刷新当前标签页内容
+    if (tabName === 'words') {
+        renderWrongbookWordsTab();
+    } else {
+        renderWrongbookSentencesTab();
+    }
+}
+
+// 渲染错词标签页
+function renderWrongbookWordsTab() {
     // 确保数据已加载
     if (!AppState.wordData || AppState.wordData.length === 0) {
-        console.log('单词数据未加载，跳过错词本渲染');
+        console.log('单词数据未加载，跳过错词标签页渲染');
         return;
     }
-    
+
     if (!AppState.userProgress) {
-        console.log('用户进度未加载，跳过错词本渲染');
+        console.log('用户进度未加载，跳过错词标签页渲染');
         return;
     }
-    
+
     const progress = AppState.userProgress;
-    
+
     // 收集所有单词
     const allWords = [];
     AppState.wordData.forEach(wordbook => {
@@ -1283,66 +1324,56 @@ function renderWrongbookPage() {
             });
         }
     });
-    
-    console.log('renderWrongbookPage - wrongWords:', progress.wrongWords);
-    console.log('renderWrongbookPage - allWords count:', allWords.length);
-    
+
+    console.log('renderWrongbookWordsTab - wrongWords:', progress.wrongWords);
+
     // 确保 wrongWords 是数组
     if (!Array.isArray(progress.wrongWords)) {
         progress.wrongWords = [];
     }
-    
+
     // 获取所有有效的单词ID
     const validWordIds = new Set(allWords.map(w => w.id));
-    
+
     // 清理无效的错词记录
     const originalCount = progress.wrongWords.length;
     progress.wrongWords = progress.wrongWords.filter(id => validWordIds.has(id));
-    
+
     // 如果有清理掉的记录，更新localStorage
     if (progress.wrongWords.length !== originalCount) {
         const removedCount = originalCount - progress.wrongWords.length;
         console.log(`清理了 ${removedCount} 个无效的错词记录`);
         saveUserProgress();
     }
-    
+
     // 获取错词详情
     const wrongWordDetails = progress.wrongWords.map(id => {
         const word = allWords.find(w => w.id === id);
         const wp = progress.wordProgress ? progress.wordProgress[id] : null;
-        console.log(`Found word for ${id}:`, word ? word.word : 'NOT FOUND');
         return { word, wp, id };
     });
-    
+
     // 更新统计
     document.getElementById('wrongbook-count').textContent = wrongWordDetails.length;
     const masteredCount = wrongWordDetails.filter(item => item.wp && item.wp.masteryLevel >= 4).length;
     document.getElementById('wrongbook-mastery').textContent = masteredCount;
-    
+
     // 渲染错词列表
-    const wrongbookWordsEl = DOM.wrongbookWords || document.getElementById('wrongbook-words');
-    
-    console.log('wrongWordDetails:', wrongWordDetails);
-    console.log('wrongbookWordsEl:', wrongbookWordsEl);
-    console.log('wrongWordDetails.length:', wrongWordDetails.length);
-    
+    const wrongbookWordsEl = document.getElementById('wrongbook-words');
+
     if (wrongWordDetails.length === 0) {
-        wrongbookWordsEl.innerHTML = '<p class="empty-message">🎉 恭喜！错词本为空，继续保持！</p>';
+        wrongbookWordsEl.innerHTML = '<p class="empty-message">🎉 恭喜！错词列表为空，继续保持！</p>';
     } else {
         let html = '';
         wrongWordDetails.forEach(item => {
             const { word, wp, id } = item;
-            
-            // 确保word存在
-            if (!word) {
-                console.warn('Word not found for ID:', id);
-                return;
-            }
-            
+
+            if (!word) return;
+
             const masteryLevel = wp ? wp.masteryLevel : 0;
             const masteryText = masteryLevel >= 4 ? '已掌握' : (masteryLevel >= 2 ? '学习中' : '待复习');
             const wrongCount = wp ? wp.wrongCount : 0;
-            
+
             html += `
                 <div class="wrongbook-word-item" data-word-id="${id}">
                     <div class="word-main">
@@ -1366,12 +1397,8 @@ function renderWrongbookPage() {
                 </div>
             `;
         });
-        
-        console.log('Generated HTML length:', html.length);
-        console.log('Setting innerHTML...');
-        
+
         if (html === '') {
-            // 所有错词都找不到对应的单词
             const missingIds = wrongWordDetails.map(item => item.id).join(', ');
             wrongbookWordsEl.innerHTML = `
                 <p class="empty-message">⚠️ 错词记录与当前单词数据不匹配</p>
@@ -1380,14 +1407,148 @@ function renderWrongbookPage() {
                     记录的数量: ${wrongWordDetails.length} 个<br>
                     缺失的ID: ${missingIds}
                 </p>
-                <button class="btn-primary" style="margin-top: 16px;" onclick="clearWrongbook()">
-                    🗑️ 清空错词本
+                <button class="btn-primary" style="margin-top: 16px;" onclick="clearWrongbook('words')">
+                    🗑️ 清空错词
                 </button>
             `;
         } else {
             wrongbookWordsEl.innerHTML = html;
         }
-        console.log('innerHTML set successfully');
+    }
+}
+
+// 渲染错句标签页
+function renderWrongbookSentencesTab() {
+    if (!AppState.userProgress) {
+        console.log('用户进度未加载，跳过错句标签页渲染');
+        return;
+    }
+
+    const progress = AppState.userProgress;
+
+    // 确保 wrongSentences 是数组
+    if (!Array.isArray(progress.wrongSentences)) {
+        progress.wrongSentences = [];
+    }
+
+    // 更新统计
+    document.getElementById('wrongsentence-count').textContent = progress.wrongSentences.length;
+
+    // 渲染错句列表
+    const wrongbookSentencesEl = document.getElementById('wrongbook-sentences');
+
+    if (progress.wrongSentences.length === 0) {
+        wrongbookSentencesEl.innerHTML = '<p class="empty-message">🎉 恭喜！错句列表为空，继续保持！</p>';
+    } else {
+        let html = '';
+        progress.wrongSentences.forEach(item => {
+            html += `
+                <div class="wrong-sentence-item" data-sentence-id="${item.id}">
+                    <div class="sentence-info">
+                        <div class="english">${item.english}</div>
+                        <div class="chinese">${item.chinese}</div>
+                    </div>
+                    <div class="sentence-meta">
+                        <span class="reading-title">《${item.readingTitleCn}》</span>
+                        <span class="wrong-count">错${item.wrongCount}次</span>
+                        <button class="remove-btn" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
+                    </div>
+                </div>
+            `;
+        });
+        wrongbookSentencesEl.innerHTML = html;
+    }
+}
+
+// ========== 错句管理函数 ==========
+function addWrongSentence(sentenceData) {
+    const progress = AppState.userProgress;
+
+    if (!progress.wrongSentences) {
+        progress.wrongSentences = [];
+    }
+
+    const existing = progress.wrongSentences.find(s => s.id === sentenceData.id);
+
+    if (existing) {
+        existing.wrongCount += 1;
+        existing.lastWrongDate = new Date().toISOString().split('T')[0];
+    } else {
+        progress.wrongSentences.push({
+            ...sentenceData,
+            wrongCount: 1,
+            lastWrongDate: new Date().toISOString().split('T')[0]
+        });
+    }
+
+    saveUserProgress();
+    console.log('添加/更新错句:', sentenceData.id);
+}
+
+function removeFromWrongSentences(sentenceId) {
+    const progress = AppState.userProgress;
+    const index = progress.wrongSentences.findIndex(s => s.id === sentenceId);
+
+    if (index > -1) {
+        progress.wrongSentences.splice(index, 1);
+        saveUserProgress();
+        renderWrongbookSentencesTab();
+        console.log('从错句本移除:', sentenceId);
+    }
+}
+
+function clearWrongSentences() {
+    if (confirm('确定要清空错句本吗？此操作不可恢复。')) {
+        AppState.userProgress.wrongSentences = [];
+        saveUserProgress();
+        renderWrongbookSentencesTab();
+        alert('错句本已清空');
+    }
+}
+
+function reviewAllWrongSentences() {
+    console.log('reviewAllWrongSentences called');
+
+    if (!AppState.userProgress.wrongSentences || AppState.userProgress.wrongSentences.length === 0) {
+        alert('错句本为空，没有需要复习的句子');
+        return;
+    }
+
+    alert('错句复习功能开发中...');
+}
+
+// ========== 原有错词本函数（保持兼容）==========
+function reviewAllWrongWords() {
+    console.log('reviewAllWrongWords called');
+    reviewWrongWords();
+}
+
+function clearWrongbook(type = 'words') {
+    if (type === 'sentences') {
+        clearWrongSentences();
+        return;
+    }
+
+    if (confirm('确定要清空错词本吗？此操作不可恢复。')) {
+        AppState.userProgress.wrongWords = [];
+        saveUserProgress();
+        renderWrongbookWordsTab();
+
+        const reviewWrongBtn = document.getElementById('review-wrong-btn');
+        if (reviewWrongBtn) {
+            reviewWrongBtn.style.display = 'none';
+        }
+
+        alert('错词本已清空');
+    }
+}
+
+function removeFromWrongbook(wordId) {
+    const index = AppState.userProgress.wrongWords.indexOf(wordId);
+    if (index > -1) {
+        AppState.userProgress.wrongWords.splice(index, 1);
+        saveUserProgress();
+        renderWrongbookWordsTab();
     }
 }
 

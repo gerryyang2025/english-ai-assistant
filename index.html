@@ -16,9 +16,9 @@
                 <h1 class="logo">📚 英语学习小精灵 - 记住么</h1>
                 <nav class="nav-menu">
                     <button class="nav-btn active" data-page="home">首页</button>
-                    <button class="nav-btn" data-page="words">单词列表</button>
-                    <button class="nav-btn" data-page="flashcard">闪卡测试</button>
-                    <button class="nav-btn" data-page="wrongbook">错词本</button>
+                    <button class="nav-btn" data-page="words">单词</button>
+                    <button class="nav-btn" data-page="flashcard">闪卡</button>
+                    <button class="nav-btn" data-page="wrongbook">错题本</button>
                     <button class="nav-btn" data-page="favorites">收藏</button>
                     <button class="nav-btn" data-page="readings">阅读</button>
                     <button class="nav-btn" data-page="progress">学习进度</button>
@@ -68,12 +68,12 @@
                 <div class="feature-cards">
                     <div class="feature-card" data-action="go-flashcard">
                         <div class="card-icon">📇</div>
-                        <h3>闪卡测试</h3>
+                        <h3>闪卡</h3>
                         <p>选择单元，进行单词记忆测试</p>
                     </div>
                     <div class="feature-card" data-action="go-words">
                         <div class="card-icon">📚</div>
-                        <h3>单词列表</h3>
+                        <h3>单词</h3>
                         <p>查看所有单元的单词内容</p>
                     </div>
                     <div class="feature-card" data-action="go-progress">
@@ -111,10 +111,10 @@
                 </div>
             </section>
 
-            <!-- 单词列表页 -->
+            <!-- 单词页 -->
             <section id="page-words" class="page">
                 <div class="page-header">
-                    <h2>单词列表</h2>
+                    <h2>单词</h2>
                     <div class="search-box">
                         <input type="text" id="word-search" placeholder="搜索单词或中文含义...">
                         <button class="search-btn">🔍</button>
@@ -140,11 +140,11 @@
                 </div>
             </section>
 
-            <!-- 闪卡测试页 -->
+            <!-- 闪卡页 -->
             <section id="page-flashcard" class="page">
                 <!-- 测试设置区域 -->
                 <div id="flashcard-setup" class="setup-section">
-                    <h2>闪卡测试设置</h2>
+                    <h2>闪卡设置</h2>
                     
                     <!-- 词书/年级选择 -->
                     <div class="setup-group">
@@ -292,52 +292,93 @@
                 </div>
             </section>
 
-            <!-- 错词本页 -->
+            <!-- 错题本页 -->
             <section id="page-wrongbook" class="page">
-                <h2>📝 错词本</h2>
-                
-                <!-- 分类说明 -->
-                <div class="mastery-legend">
-                    <span class="legend-title">分类说明：</span>
-                    <span class="legend-item"><span class="legend-badge mastered">已掌握</span> 熟练度 ≥ 4</span>
-                    <span class="legend-item"><span class="legend-badge learning">学习中</span> 熟练度 2-3</span>
-                    <span class="legend-item"><span class="legend-badge review">待复习</span> 熟练度 0-1</span>
-                    <span class="legend-note">（答对+1，答错-1，最高5级）</span>
+                <h2>📝 错题本</h2>
+
+                <!-- 标签页切换 -->
+                <div class="wrongbook-tabs">
+                    <button class="tab-btn active" data-tab="words" onclick="switchWrongbookTab('words')">错词</button>
+                    <button class="tab-btn" data-tab="sentences" onclick="switchWrongbookTab('sentences')">错句</button>
                 </div>
-                
-                <!-- 错词统计 -->
-                <div class="wrongbook-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">📕</div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="wrongbook-count">0</span>
-                            <span class="stat-desc">当前错词数</span>
+
+                <!-- 错词标签页 -->
+                <div id="tab-words" class="wrongbook-tab-content active">
+                    <!-- 分类说明 -->
+                    <div class="mastery-legend">
+                        <span class="legend-title">分类说明：</span>
+                        <span class="legend-item"><span class="legend-badge mastered">已掌握</span> 熟练度 ≥ 4</span>
+                        <span class="legend-item"><span class="legend-badge learning">学习中</span> 熟练度 2-3</span>
+                        <span class="legend-item"><span class="legend-badge review">待复习</span> 熟练度 0-1</span>
+                        <span class="legend-note">（答对+1，答错-1，最高5级）</span>
+                    </div>
+
+                    <!-- 错词统计 -->
+                    <div class="wrongbook-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">📕</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="wrongbook-count">0</span>
+                                <span class="stat-desc">错词数</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🌟</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="wrongbook-mastery">0</span>
+                                <span class="stat-desc">已掌握词数</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🌟</div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="wrongbook-mastery">0</span>
-                            <span class="stat-desc">已掌握词数</span>
+
+                    <!-- 操作按钮 -->
+                    <div class="wrongbook-actions">
+                        <button class="btn-primary" id="review-all-wrong-btn" onclick="reviewAllWrongWords()">
+                            🔁 复习错词
+                        </button>
+                        <button class="btn-secondary" id="clear-wrongbook-btn" onclick="clearWrongbook('words')">
+                            🗑️ 清空错词
+                        </button>
+                    </div>
+
+                    <!-- 错词列表 -->
+                    <div class="wrongbook-list-section">
+                        <h3>错词列表</h3>
+                        <div class="wrongbook-words" id="wrongbook-words">
+                            <p class="empty-message">🎉 恭喜！错词本为空，继续保持！</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 操作按钮 -->
-                <div class="wrongbook-actions">
-                    <button class="btn-primary" id="review-all-wrong-btn" onclick="reviewAllWrongWords()">
-                        🔁 复习全部错词
-                    </button>
-                    <button class="btn-secondary" id="clear-wrongbook-btn" onclick="clearWrongbook()">
-                        🗑️ 清空错词本
-                    </button>
-                </div>
+                <!-- 错句标签页 -->
+                <div id="tab-sentences" class="wrongbook-tab-content">
+                    <!-- 错句统计 -->
+                    <div class="wrongbook-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="wrongsentence-count">0</span>
+                                <span class="stat-desc">错句数</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- 错词列表 -->
-                <div class="wrongbook-list-section">
-                    <h3>错词列表</h3>
-                    <div class="wrongbook-words" id="wrongbook-words">
-                        <p class="empty-message">🎉 恭喜！错词本为空，继续保持！</p>
+                    <!-- 操作按钮 -->
+                    <div class="wrongbook-actions">
+                        <button class="btn-primary" id="review-all-wrongsentences-btn" onclick="reviewAllWrongSentences()">
+                            🔁 复习错句
+                        </button>
+                        <button class="btn-secondary" id="clear-wrongsentences-btn" onclick="clearWrongbook('sentences')">
+                            🗑️ 清空错句
+                        </button>
+                    </div>
+
+                    <!-- 错句列表 -->
+                    <div class="wrongbook-list-section">
+                        <h3>错句列表</h3>
+                        <div class="wrongbook-sentences" id="wrongbook-sentences">
+                            <p class="empty-message">🎉 恭喜！错句列表为空，继续保持！</p>
+                        </div>
                     </div>
                 </div>
             </section>
