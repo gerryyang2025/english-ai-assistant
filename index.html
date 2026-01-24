@@ -17,10 +17,11 @@
                 <nav class="nav-menu">
                     <button class="nav-btn active" data-page="home">首页</button>
                     <button class="nav-btn" data-page="words">单词</button>
+                    <button class="nav-btn" data-page="sentences">语句</button>
+                    <button class="nav-btn" data-page="readings">阅读</button>
                     <button class="nav-btn" data-page="flashcard">闪卡</button>
                     <button class="nav-btn" data-page="wrongbook">错题本</button>
                     <button class="nav-btn" data-page="favorites">收藏</button>
-                    <button class="nav-btn" data-page="readings">阅读</button>
                     <button class="nav-btn" data-page="progress">学习进度</button>
                     <button class="nav-btn" data-page="tool">工具</button>
                 </nav>
@@ -66,20 +67,35 @@
                 </div>
 
                 <div class="feature-cards">
-                    <div class="feature-card" data-action="go-flashcard">
-                        <div class="card-icon">📇</div>
-                        <h3>闪卡</h3>
-                        <p>选择单元，进行单词记忆测试</p>
-                    </div>
                     <div class="feature-card" data-action="go-words">
                         <div class="card-icon">📚</div>
                         <h3>单词</h3>
                         <p>查看所有单元的单词内容</p>
                     </div>
-                    <div class="feature-card" data-action="go-progress">
-                        <div class="card-icon">📈</div>
-                        <h3>学习进度</h3>
-                        <p>查看你的学习统计和成就</p>
+                    <div class="feature-card" data-action="go-sentences">
+                        <div class="card-icon">💬</div>
+                        <h3>语句</h3>
+                        <p>练习课文句子，强化记忆</p>
+                    </div>
+                    <div class="feature-card" data-action="go-readings">
+                        <div class="card-icon">📖</div>
+                        <h3>阅读</h3>
+                        <p>阅读英文故事，跟读练习</p>
+                    </div>
+                    <div class="feature-card" data-action="go-flashcard">
+                        <div class="card-icon">📇</div>
+                        <h3>闪卡</h3>
+                        <p>选择单元，进行单词记忆测试</p>
+                    </div>
+                    <div class="feature-card" data-action="go-wrongbook">
+                        <div class="card-icon">📝</div>
+                        <h3>错题本</h3>
+                        <p>复习错词错句，巩固记忆</p>
+                    </div>
+                    <div class="feature-card" data-action="go-favorites">
+                        <div class="card-icon">❤️</div>
+                        <h3>收藏</h3>
+                        <p>管理收藏的单词</p>
                     </div>
                 </div>
 
@@ -114,29 +130,223 @@
             <!-- 单词页 -->
             <section id="page-words" class="page">
                 <div class="page-header">
-                    <h2>单词</h2>
-                    <div class="search-box">
-                        <input type="text" id="word-search" placeholder="搜索单词或中文含义...">
-                        <button class="search-btn">🔍</button>
-                    </div>
+                    <h2>单词听写</h2>
+                    <p class="page-subtitle">选择书本和单元，开始单词听写练习</p>
                 </div>
 
-                <!-- 词书/年级选择 -->
+                <!-- 书本选择 -->
                 <div class="wordbook-selector">
-                    <label for="wordbook-select">选择词书：</label>
+                    <label for="wordbook-select">选择书本</label>
                     <select id="wordbook-select">
                         <!-- 选项由 JS 动态生成 -->
                     </select>
                 </div>
 
-                <!-- 单元标签页 -->
-                <div class="unit-tabs" id="unit-tabs">
-                    <!-- 单元标签将由 JS 动态生成 -->
+                <!-- 单元选择 -->
+                <div class="wordbook-selector">
+                    <label for="word-unit-select">选择单元</label>
+                    <select id="word-unit-select">
+                        <!-- 选项由 JS 动态生成 -->
+                    </select>
                 </div>
 
-                <!-- 单词列表 -->
-                <div class="word-list" id="word-list">
-                    <!-- 单词列表将由 JS 动态生成 -->
+                <!-- 开始练习按钮 -->
+                <div class="setup-actions">
+                    <button class="btn-primary" id="start-dictation-btn" onclick="startDictation()">
+                        开始听写
+                    </button>
+                </div>
+            </section>
+
+            <!-- 听写练习页面 -->
+            <section id="page-dictation" class="page">
+                <!-- 进度条 -->
+                <div class="practice-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="dictation-progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="dictation-progress-text">1 / 10</span>
+                </div>
+
+                <!-- 单词内容 -->
+                <div class="dictation-content">
+                    <div class="dictation-word-info">
+                        <div class="dictation-word" id="dictation-word">
+                            <!-- 中文含义将由 JS 动态生成 -->
+                        </div>
+                    </div>
+                    <button class="audio-btn" id="dictation-play-btn" title="播放发音">🔊</button>
+                </div>
+
+                <!-- 单词输入区域 -->
+                <div class="dictation-input-area">
+                    <input type="text" 
+                           id="dictation-input" 
+                           class="dictation-input" 
+                           placeholder="输入单词..."
+                           autocomplete="off"
+                           spellcheck="false">
+                </div>
+
+                <!-- 反馈信息 -->
+                <div class="dictation-feedback" id="dictation-feedback" style="display: none;">
+                    <!-- 反馈信息将由 JS 动态生成 -->
+                </div>
+
+                <!-- 答案显示区域 -->
+                <div class="answer-display" id="dictation-answer-display" style="display: none;">
+                    <!-- 答案将由 JS 动态生成 -->
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="dictation-actions">
+                    <button class="btn-secondary" id="dictation-show-answer-btn">查看答案</button>
+                    <button class="btn-secondary" id="dictation-skip-btn">跳过</button>
+                    <button class="btn-primary" id="dictation-check-btn">检查</button>
+                </div>
+            </section>
+
+            <!-- 听写结果页面 -->
+            <section id="page-dictation-result" class="page">
+                <div class="page-header">
+                    <h2>听写完成！</h2>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-circle">
+                        <span class="result-percent" id="dictation-accuracy">0%</span>
+                    </div>
+                    <div class="result-stats">
+                        <div class="result-stat">
+                            <span class="stat-number" id="dictation-correct">0</span>
+                            <span class="stat-label">正确</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-number" id="dictation-wrong">0</span>
+                            <span class="stat-label">错误</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-number" id="dictation-time">0:00</span>
+                            <span class="stat-label">用时</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn-primary" id="dictation-retry-btn">再练一次</button>
+                    <button class="btn-secondary" id="dictation-back-btn">返回单词</button>
+                </div>
+
+                <!-- 错误单词列表 -->
+                <div class="wrong-words-section" id="dictation-wrong-words" style="display: none;">
+                    <h3>需要再接再厉</h3>
+                    <div class="wrong-words-list" id="dictation-wrong-list">
+                        <!-- 错误单词将由 JS 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 语句页 -->
+            <section id="page-sentences" class="page">
+                <div class="page-header">
+                    <h2>语句练习</h2>
+                    <p class="page-subtitle">选择书本和单元，开始句子练习</p>
+                </div>
+
+                <!-- 书本选择 -->
+                <div class="wordbook-selector">
+                    <label for="sentences-wordbook-select">选择书本</label>
+                    <select id="sentences-wordbook-select">
+                        <!-- 词书选项将由 JS 动态生成 -->
+                    </select>
+                </div>
+
+                <!-- 单元选择 -->
+                <div class="wordbook-selector">
+                    <label for="sentences-unit-select">选择单元</label>
+                    <select id="sentences-unit-select">
+                        <!-- 单元选项将由 JS 动态生成 -->
+                    </select>
+                </div>
+
+                <!-- 开始练习按钮 -->
+                <div class="setup-actions">
+                    <button class="btn-primary" id="start-sentences-btn">
+                        开始练习
+                    </button>
+                </div>
+            </section>
+
+            <!-- 语句练习页面 -->
+            <section id="page-sentence-practice" class="page">
+                <!-- 进度条 -->
+                <div class="practice-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="sentence-progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="sentence-progress-text">1 / 5</span>
+                </div>
+
+                <!-- 句子内容 -->
+                <div class="sentence-content">
+                    <div class="sentence-chinese" id="sentence-chinese">
+                        <!-- 中文翻译将由 JS 动态生成 -->
+                    </div>
+                    <button class="audio-btn play-btn" id="play-sentence-btn" title="播放英文">🔊</button>
+                </div>
+
+                <!-- 单词输入区域 -->
+                <div class="sentence-inputs" id="sentence-inputs">
+                    <!-- 输入框将由 JS 动态生成 -->
+                </div>
+
+                <!-- 答案显示区域 -->
+                <div class="answer-display" id="answer-display" style="display: none;">
+                    <!-- 答案将由 JS 动态生成 -->
+                </div>
+
+                <!-- 反馈信息 -->
+                <div class="sentence-feedback" id="sentence-feedback" style="display: none;">
+                    <!-- 反馈信息将由 JS 动态生成 -->
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="practice-actions">
+                    <button class="btn-secondary" id="show-answer-btn">查看答案</button>
+                    <button class="btn-secondary" id="skip-sentence-btn">跳过</button>
+                    <button class="btn-primary" id="check-sentence-btn">检查</button>
+                </div>
+            </section>
+
+            <!-- 语句测试结果页 -->
+            <section id="page-sentence-result" class="page">
+                <div class="result-container">
+                    <h2>测试完成！</h2>
+
+                    <div class="result-stats">
+                        <div class="result-circle">
+                            <span id="sentence-accuracy">80%</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="result-row correct">
+                                <span class="result-label">正确</span>
+                                <span class="result-value" id="sentence-correct">4</span>
+                            </div>
+                            <div class="result-row wrong">
+                                <span class="result-label">错误</span>
+                                <span class="result-value" id="sentence-wrong">1</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">用时</span>
+                                <span class="result-value" id="sentence-time">02:30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="btn-primary" id="retry-sentence-btn">再测一次</button>
+                        <button class="btn-secondary" id="back-sentences-btn">返回列表</button>
+                    </div>
                 </div>
             </section>
 
@@ -148,7 +358,7 @@
                     
                     <!-- 词书/年级选择 -->
                     <div class="setup-group">
-                        <h3>选择词书</h3>
+                        <h3>选择书本</h3>
                         <div class="wordbook-selector-flashcard">
                             <select id="flashcard-wordbook-select">
                                 <!-- 词书选项将由 JS 动态生成 -->
@@ -214,9 +424,14 @@
                             <div class="flashcard-back">
                                 <!-- 单词来源信息 -->
                                 <div class="answer-source" id="answer-source"></div>
-                                <div class="answer-word" id="answer-word" onclick="speakCurrentWord()" style="cursor: pointer;" title="点击播放英音">
-                                    future
-                                    <span class="speak-hint">🇬🇧</span>
+                                <div class="answer-word-wrapper">
+                                    <div class="answer-word" id="answer-word" onclick="speakCurrentWord()" style="cursor: pointer;" title="点击播放英音">
+                                        future
+                                        <span class="speak-hint">🇬🇧</span>
+                                    </div>
+                                    <button class="favorite-btn" id="favorite-btn" onclick="toggleFavoriteCurrentWord()" title="收藏单词">
+                                        <span class="favorite-icon">🤍</span>
+                                    </button>
                                 </div>
                                 <div class="answer-phonetic-wrapper">
                                     <div class="answer-phonetic" id="answer-phonetic">/ˈfjuːtʃə/</div>
@@ -304,15 +519,6 @@
 
                 <!-- 错词标签页 -->
                 <div id="tab-words" class="wrongbook-tab-content active">
-                    <!-- 分类说明 -->
-                    <div class="mastery-legend">
-                        <span class="legend-title">分类说明：</span>
-                        <span class="legend-item"><span class="legend-badge mastered">已掌握</span> 熟练度 ≥ 4</span>
-                        <span class="legend-item"><span class="legend-badge learning">学习中</span> 熟练度 2-3</span>
-                        <span class="legend-item"><span class="legend-badge review">待复习</span> 熟练度 0-1</span>
-                        <span class="legend-note">（答对+1，答错-1，最高5级）</span>
-                    </div>
-
                     <!-- 错词统计 -->
                     <div class="wrongbook-stats">
                         <div class="stat-card">
@@ -320,13 +526,6 @@
                             <div class="stat-info">
                                 <span class="stat-value" id="wrongbook-count">0</span>
                                 <span class="stat-desc">错词数</span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">🌟</div>
-                            <div class="stat-info">
-                                <span class="stat-value" id="wrongbook-mastery">0</span>
-                                <span class="stat-desc">已掌握词数</span>
                             </div>
                         </div>
                     </div>
@@ -475,7 +674,27 @@
             <section id="page-readings" class="page">
                 <div class="page-header">
                     <h1>📖 英语阅读</h1>
-                    <p class="page-subtitle">选择一篇阅读材料开始跟读练习</p>
+                    <p class="page-subtitle">选择一本阅读材料开始跟读练习</p>
+                </div>
+                
+                <!-- 书本选择 -->
+                <div class="setup-group">
+                    <h3>选择书本</h3>
+                    <div class="wordbook-selector">
+                        <select id="readings-wordbook-select">
+                            <!-- 词书选项将由 JS 动态生成 -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 单元选择 -->
+                <div class="setup-group">
+                    <h3>选择单元</h3>
+                    <div class="wordbook-selector">
+                        <select id="readings-unit-select" disabled>
+                            <!-- 单元选项将由 JS 动态生成 -->
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="readings-grid" id="readings-list">
@@ -551,7 +770,7 @@
                         <div class="format-help">
                             <h4>📋 Markdown 格式要求</h4>
                             <div class="format-example">
-                                <pre># 英语五年级上册单词
+                                <pre># 英语五年级上册
 
 ## Unit 1
 Title:My future Category:职业类
@@ -613,21 +832,28 @@ Title:What subjects do you like? Category:学科类
                         <div class="format-help">
                             <h4>📋 Markdown 格式要求</h4>
                             <div class="format-example">
-                                <pre># 题目：My future (我的未来)
-# 场景：讨论未来的职业理想
+                                <pre># 英语五年级上册
 
-# 重点句型：
+## Unit 1
+
+* 题目：My future (我的未来)
+* 场景：讨论未来的职业理想
+* 重点句型：
   - What do you want to be? (你将来想做什么？)
   - I want to be a doctor. (我想成为一名医生。)
-
-# 知识点：
+* 知识点：
   - **want to be** 表示"想成为"
   - 使用 `code` 标记关键单词
 
-# 对话：
 Teacher: What do you want to be when you grow up? (老师：你长大后想做什么？)
 Tom: I want to be a doctor. (汤姆：我想成为一名医生。)
 
+## Unit 2
+
+* 题目：Going to school (去上学)
+* 场景：讨论上学交通方式
+
+...
 </pre>
                             </div>
                         </div>

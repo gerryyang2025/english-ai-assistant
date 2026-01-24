@@ -1,7 +1,10 @@
 {
+  "bookName": "英语五年级上册",
   "readings": [
     {
       "id": "reading-001",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 1",
       "title": "My future",
       "titleCn": "我的未来",
       "scene": "这段对话发生在教室内，老师询问学生们关于未来的职业理想。",
@@ -67,6 +70,8 @@
     },
     {
       "id": "reading-002",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 1",
       "title": "Froggy's new job",
       "titleCn": "小青蛙的新工作",
       "scene": "这段文本描述了小青蛙寻找适合自己职业的过程。",
@@ -138,6 +143,8 @@
     },
     {
       "id": "reading-003",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 2",
       "title": "Going to school",
       "titleCn": "去上学",
       "scene": "这段对话展示了 Jill 询问几位同学上学的交通方式。",
@@ -242,6 +249,8 @@
     },
     {
       "id": "reading-004",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 2",
       "title": "Ms Guo's journey to work",
       "titleCn": "郭老师的上班之旅",
       "scene": "这段短文描述了郭老师从家到学校的通勤路线。",
@@ -295,6 +304,8 @@
     },
     {
       "id": "reading-005",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 3",
       "title": "My birthday",
       "titleCn": "我的生日",
       "scene": "这段对话发生在 Peter 和 Joe 之间，Peter 邀请 Joe 参加他的生日聚会。",
@@ -376,6 +387,8 @@
     },
     {
       "id": "reading-006",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 3",
       "title": "My birthday",
       "titleCn": "橙色聚会现场",
       "scene": "朋友们带着橙色的物品来到聚会现场。",
@@ -446,6 +459,8 @@
     },
     {
       "id": "reading-007",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 4",
       "title": "Grandparents",
       "titleCn": "与祖父母的日常",
       "scene": "郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。",
@@ -540,6 +555,8 @@
     },
     {
       "id": "reading-008",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 5",
       "title": "Friends",
       "titleCn": "好朋友的共同点",
       "scene": "Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。",
@@ -597,6 +614,8 @@
     },
     {
       "id": "reading-009",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 6",
       "title": "Family life",
       "titleCn": "家庭生活",
       "scene": "描述李老师（Mr Li）一家人在家里不同房间进行的日常活动，以及在“地球一小时”期间大家如何度过夜晚。",

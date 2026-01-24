@@ -18,7 +18,8 @@ const AppState = {
     wordListPage: 1,       // 单词列表当前页码
     wordsPerPage: 20,      // 每页显示单词数量
     currentDialogueIndex: 0, // 当前播放到第几句
-    isPlaying: false       // 是否正在播放
+    isPlaying: false,       // 是否正在播放
+    sentencesSession: null  // 语句练习会话
 };
 
 // ========== DOM 元素缓存 ==========
@@ -27,6 +28,10 @@ const DOM = {};
 // ========== 初始化应用 ==========
 document.addEventListener('DOMContentLoaded', () => {
     initDOMElements();
+
+    // 初始化语音列表（处理异步加载）
+    initSpeechVoices();
+
     // 先检查服务健康状态
     checkServiceHealth().then(healthy => {
         if (!healthy) {
@@ -56,6 +61,65 @@ function initDOMElements() {
     DOM.flashcard = document.getElementById('flashcard');
     DOM.loading = document.getElementById('loading');
     DOM.serviceError = document.getElementById('service-error');
+}
+
+// 播放点击音效（简单的提示音）
+function playClickSound() {
+    // 使用 Web Audio API 播放简单的提示音
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+
+        const audioCtx = new AudioContext();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.1);
+    } catch (e) {
+        // 忽略音频播放错误
+    }
+}
+
+// 初始化语音列表
+function initSpeechVoices() {
+    if (!('speechSynthesis' in window)) {
+        console.warn('浏览器不支持语音合成');
+        return;
+    }
+
+    const synthesis = window.speechSynthesis;
+
+    // 立即尝试获取语音列表（某些浏览器会同步返回）
+    const loadVoices = () => {
+        const voices = synthesis.getVoices();
+        if (voices.length === 0) {
+            // Safari 兼容：尝试触发语音加载
+            const testUtterance = new SpeechSynthesisUtterance(' ');
+            synthesis.speak(testUtterance);
+            synthesis.cancel();
+        }
+    };
+
+    // 立即尝试一次
+    loadVoices();
+
+    // 监听语音列表变化（处理异步加载的情况）
+    synthesis.onvoiceschanged = loadVoices;
+
+    // Safari 兼容：延迟再次尝试加载语音
+    setTimeout(() => {
+        loadVoices();
+    }, 1000);
 }
 
 // 检查服务健康状态
@@ -209,7 +273,10 @@ function bindEvents() {
             const action = card.dataset.action;
             if (action === 'go-flashcard') switchPage('flashcard');
             else if (action === 'go-words') switchPage('words');
-            else if (action === 'go-progress') switchPage('progress');
+            else if (action === 'go-sentences') switchPage('sentences');
+            else if (action === 'go-readings') switchPage('readings');
+            else if (action === 'go-wrongbook') switchPage('wrongbook');
+            else if (action === 'go-favorites') switchPage('favorites');
         });
     });
     
@@ -273,10 +340,7 @@ function switchPage(pageName) {
             renderHomePage();
             break;
         case 'words':
-            // 清空搜索框
-            const searchInput = document.getElementById('word-search');
-            if (searchInput) searchInput.value = '';
-            renderWordListPage();
+            initDictationPage();
             break;
         case 'flashcard':
             renderFlashcardSetup();
@@ -289,6 +353,10 @@ function switchPage(pageName) {
             break;
         case 'readings':
             showReadingsPage();
+            break;
+        case 'dictation':
+        case 'dictation-result':
+            // 这两个页面通过函数内部调用 switchPage，无需特殊初始化
             break;
         case 'progress':
             renderProgressPage();
@@ -501,50 +569,428 @@ function displayCurrentDate() {
     dateElement.style.cssText = 'display: block; font-size: 1rem; font-weight: normal; margin-top: 8px; opacity: 0.9;';
 }
 
-// ========== 单词列表页 ==========
-function renderWordListPage() {
-    // 初始化词书选择器
+// ========== 单词听写页 ==========
+
+// 听写会话状态
+AppState.dictationSession = null;
+
+// 初始化单词听写页面
+function initDictationPage() {
+    // 初始化书本选择器
     initWordBookSelector();
-    
-    // 渲染单元标签
-    renderUnitTabs();
-    
-    // 重置页码并渲染单词列表
-    resetWordListPage();
-    renderWordList();
+
+    // 绑定输入框事件
+    const dictationInput = document.getElementById('dictation-input');
+    if (dictationInput) {
+        dictationInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                checkDictationAnswer();
+            }
+        });
+    }
+
+    // 绑定按钮事件
+    const playBtn = document.getElementById('dictation-play-btn');
+    if (playBtn) {
+        playBtn.addEventListener('click', playDictationWord);
+    }
+
+    // 绑定查看答案按钮
+    const showAnswerBtn = document.getElementById('dictation-show-answer-btn');
+    if (showAnswerBtn) {
+        showAnswerBtn.addEventListener('click', showDictationAnswer);
+    }
+
+    const checkBtn = document.getElementById('dictation-check-btn');
+    if (checkBtn) {
+        checkBtn.addEventListener('click', checkDictationAnswer);
+    }
+
+    const skipBtn = document.getElementById('dictation-skip-btn');
+    if (skipBtn) {
+        skipBtn.addEventListener('click', skipDictationWord);
+    }
+
+    // 绑定结果页按钮
+    const retryBtn = document.getElementById('dictation-retry-btn');
+    if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+            if (AppState.dictationSession) {
+                startDictationWithSession(AppState.dictationSession);
+            }
+        });
+    }
+
+    const backBtn = document.getElementById('dictation-back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => switchPage('words'));
+    }
 }
 
 // 初始化词书选择器
 function initWordBookSelector() {
     const wordbookSelect = document.getElementById('wordbook-select');
     if (!wordbookSelect) return;
-    
-    // 如果已经有选项，直接使用
-    if (wordbookSelect.options.length > 1) return;
-    
-    // 从数据中获取词书列表并填充选择器
+
+    // 清空并重新填充
+    wordbookSelect.innerHTML = '';
+
     AppState.wordData.forEach((wordbook, index) => {
         const option = document.createElement('option');
         option.value = wordbook.id || index;
         option.textContent = wordbook.name;
         wordbookSelect.appendChild(option);
     });
-    
-    // 选择第一个词书
+
+    // 绑定选择变化事件
+    wordbookSelect.onchange = function(e) {
+        handleWordBookChange(e.target.value);
+    };
+
+    // 自动选择第一个书本
     if (AppState.wordData.length > 0) {
         const firstBookId = AppState.wordData[0].id || 0;
         wordbookSelect.value = firstBookId;
-        AppState.currentWordBook = firstBookId;
+        handleWordBookChange(firstBookId);
     }
 }
 
-// 词书选择变化处理
-function handleWordBookChange(e) {
-    AppState.currentWordBook = e.target.value;
-    // 重置页码并重新渲染
-    resetWordListPage();
-    renderUnitTabs();
-    renderWordList();
+// 处理书本选择变化
+function handleWordBookChange(bookId) {
+    const unitSelect = document.getElementById('word-unit-select');
+    if (!unitSelect) return;
+
+    const book = AppState.wordData.find(b => (b.id || AppState.wordData.indexOf(b)) == bookId);
+    if (!book || !book.units) {
+        unitSelect.innerHTML = '<option value="">该书本下暂无数据</option>';
+        unitSelect.disabled = true;
+        return;
+    }
+
+    // 清空并填充单元选择器
+    unitSelect.innerHTML = '';
+    
+    // 添加"全部单元"选项
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = '全部单元';
+    defaultOption.selected = true;
+    unitSelect.appendChild(defaultOption);
+
+    book.units.forEach(unit => {
+        const option = document.createElement('option');
+        option.value = unit.unit;
+        option.textContent = unit.unit;
+        unitSelect.appendChild(option);
+    });
+    unitSelect.disabled = false;
+}
+
+// 开始听写
+function startDictation() {
+    const wordbookSelect = document.getElementById('wordbook-select');
+    const unitSelect = document.getElementById('word-unit-select');
+    
+    const bookId = wordbookSelect?.value;
+    const unitName = unitSelect?.value;
+    
+    if (!bookId) {
+        showToast('请先选择书本');
+        return;
+    }
+    
+    const book = AppState.wordData.find(b => (b.id || AppState.wordData.indexOf(b)) == bookId);
+    if (!book || !book.units) {
+        showToast('没有找到单词数据');
+        return;
+    }
+    
+    // 收集所有单词
+    let allWords = [];
+    book.units.forEach(unit => {
+        // 如果选择了具体单元，只收集该单元的单词
+        if (unitName && unit.unit !== unitName) return;
+        
+        if (unit.words && Array.isArray(unit.words)) {
+            unit.words.forEach(word => {
+                allWords.push({
+                    ...word,
+                    unitName: unit.unit
+                });
+            });
+        }
+    });
+    
+    if (allWords.length === 0) {
+        showToast('没有找到单词');
+        return;
+    }
+    
+    // 随机打乱顺序
+    allWords = allWords.sort(() => Math.random() - 0.5);
+    
+    // 创建会话
+    AppState.dictationSession = {
+        words: allWords,
+        currentIndex: 0,
+        correctCount: 0,
+        wrongCount: 0,
+        wrongWordIds: [],
+        startTime: Date.now(),
+        isPaused: false
+    };
+    
+    // 跳转到听写页面
+    switchPage('dictation');
+    showCurrentWord();
+}
+
+// 显示当前单词
+/**
+ * 问题背景：
+ * 1. 当用户从听写页面切换到其他页面后，如果 still 有 AppState.dictationSession 存在，
+ *    点击"跳过"按钮会触发 skipDictationWord，进而调用 showCurrentWord。
+ *    但此时听写页面（#page-dictation）不是激活状态，DOM 元素可能不存在或不可见，
+ *    导致 document.getElementById() 返回 null。
+ *
+ * 2. HTML 模板中只定义了部分 DOM 元素（如 dictation-word），而代码中可能尝试访问
+ *    不存在的元素（如之前尝试访问的 dictation-phonetic 和 dictation-meaning），
+ *    导致 Cannot set properties of null 错误。
+ *
+ * 解决方案：
+ * 1. 在 showCurrentWord 和 skipDictationWord 中检查听写页面是否激活，
+ *    如果页面未激活则直接返回，不执行后续操作。
+ * 2. 先获取所有需要的 DOM 元素，检查是否存在后再使用，
+ *    如果任何必要元素不存在，直接返回并记录日志。
+ *
+ * 注意事项：
+ * - HTML 模板（index.html）中只有 dictation-word 元素，没有单独的 phonetic 和 meaning 元素
+ * - 如果需要访问某个元素，必须先在 HTML 中定义，或者在代码中进行空值检查
+ */
+function showCurrentWord() {
+    const session = AppState.dictationSession;
+    if (!session) return;
+
+    // 确保听写页面是激活的
+    const dictationPage = document.getElementById('page-dictation');
+    if (!dictationPage || !dictationPage.classList.contains('active')) {
+        console.log('[Dictation] Skip showCurrentWord - page not active');
+        return;
+    }
+
+    const { words, currentIndex } = session;
+
+    if (currentIndex >= words.length) {
+        endDictation();
+        return;
+    }
+
+    const word = words[currentIndex];
+    const total = words.length;
+
+    // 更新进度
+    const progressText = document.getElementById('dictation-progress-text');
+    const progressFill = document.getElementById('dictation-progress-fill');
+    const dictationWord = document.getElementById('dictation-word');
+    const dictationInput = document.getElementById('dictation-input');
+    const feedbackEl = document.getElementById('dictation-feedback');
+
+    // 检查必要元素是否存在
+    if (!progressText || !progressFill || !dictationWord || !dictationInput || !feedbackEl) {
+        console.log('[Dictation] Required elements not found, aborting showCurrentWord');
+        return;
+    }
+
+    progressText.textContent = `${currentIndex + 1} / ${total}`;
+    const progressPercent = ((currentIndex) / total) * 100;
+    progressFill.style.width = `${progressPercent}%`;
+
+    // 只显示中文含义，不显示英文单词和音标（听写时只看中文写英文）
+    dictationWord.textContent = word.meaning || '';
+
+    // 清空输入框和反馈，重置边框颜色
+    dictationInput.value = '';
+    dictationInput.focus();
+    dictationInput.classList.remove('input-error');
+    dictationInput.classList.remove('input-correct');
+    feedbackEl.style.display = 'none';
+    
+    // 清除答案显示区域
+    const answerDisplay = document.getElementById('dictation-answer-display');
+    answerDisplay.style.display = 'none';
+    answerDisplay.innerHTML = '';
+
+    // 自动播放单词发音（延迟执行，确保页面渲染完成）
+    setTimeout(() => {
+        speakWord(word.word);
+    }, 300);
+}
+
+// 播放当前单词发音
+function playDictationWord() {
+    const session = AppState.dictationSession;
+    if (!session) return;
+
+    const { words, currentIndex } = session;
+    if (currentIndex < words.length) {
+        speakWord(words[currentIndex].word);
+    }
+}
+
+// 显示答案
+function showDictationAnswer() {
+    const session = AppState.dictationSession;
+    if (!session) return;
+
+    const { words, currentIndex } = session;
+    if (currentIndex >= words.length) return;
+
+    const word = words[currentIndex];
+    const input = document.getElementById('dictation-input');
+    const feedbackEl = document.getElementById('dictation-feedback');
+    const answerDisplay = document.getElementById('dictation-answer-display');
+
+    // 显示答案
+    answerDisplay.innerHTML = `
+        <div class="answer-label">参考答案：</div>
+        <div class="answer-word">${word.word}</div>
+        ${word.phonetic ? `<div class="answer-phonetic">${word.phonetic}</div>` : ''}
+    `;
+    answerDisplay.style.display = 'block';
+
+    // 隐藏反馈，重置边框颜色
+    feedbackEl.style.display = 'none';
+    input.classList.remove('input-error');
+    input.classList.remove('input-correct');
+}
+
+// 检查答案
+function checkDictationAnswer() {
+    const session = AppState.dictationSession;
+    if (!session) return;
+
+    const { words, currentIndex } = session;
+    if (currentIndex >= words.length) return;
+
+    const word = words[currentIndex];
+    const input = document.getElementById('dictation-input');
+    const userAnswer = input.value.trim().toLowerCase();
+    const correctAnswer = word.word.toLowerCase();
+
+    const feedbackEl = document.getElementById('dictation-feedback');
+
+    if (userAnswer === correctAnswer) {
+        // 正确答案
+        session.correctCount++;
+        feedbackEl.innerHTML = '<span class="feedback-correct">太棒了！</span>';
+        feedbackEl.style.display = 'block';
+        input.classList.add('input-correct');
+        input.classList.remove('input-error');
+
+        setTimeout(() => {
+            session.currentIndex++;
+            showCurrentWord();
+        }, 1000);
+    } else {
+        // 错误答案
+        session.wrongCount++;
+        // 使用纯 word.id（不带索引），以便能正确匹配到错词本中的单词
+        const wordId = word.id;
+
+        if (!session.wrongWordIds.includes(wordId)) {
+            session.wrongWordIds.push(wordId);
+        }
+
+        // 添加到错词本
+        const progress = AppState.userProgress;
+        if (!progress.wrongWords.includes(wordId)) {
+            progress.wrongWords.push(wordId);
+            saveUserProgress();
+        }
+
+        input.classList.add('input-error');
+        input.classList.remove('input-correct');
+        feedbackEl.innerHTML = '<span class="feedback-wrong">加油！</span>';
+        feedbackEl.style.display = 'block';
+    }
+}
+
+// 跳过当前单词
+function skipDictationWord() {
+    const session = AppState.dictationSession;
+    if (!session) return;
+
+    // 确保听写页面是激活的
+    const dictationPage = document.getElementById('page-dictation');
+    if (!dictationPage || !dictationPage.classList.contains('active')) {
+        console.log('[Dictation] Skip skipDictationWord - page not active');
+        return;
+    }
+
+    session.currentIndex++;
+    
+    showCurrentWord();
+}
+
+// 结束听写
+function endDictation() {
+    const session = AppState.dictationSession;
+    if (!session) return;
+
+    const { correctCount, wrongCount, startTime, words, wrongWordIds } = session;
+    const total = correctCount + wrongCount;
+    const accuracy = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+
+    // 计算用时
+    const timeSpent = Math.round((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(timeSpent / 60);
+    const seconds = timeSpent % 60;
+    const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    // 更新结果页面
+    document.getElementById('dictation-accuracy').textContent = accuracy + '%';
+    document.getElementById('dictation-correct').textContent = correctCount;
+    document.getElementById('dictation-wrong').textContent = wrongCount;
+    document.getElementById('dictation-time').textContent = timeStr;
+
+    // 显示错误单词列表
+    const wrongWordsSection = document.getElementById('dictation-wrong-words');
+    const wrongList = document.getElementById('dictation-wrong-list');
+    
+    if (wrongWordIds.length > 0) {
+        wrongWordsSection.style.display = 'block';
+        wrongList.innerHTML = wrongWordIds.map(wordId => {
+            // 通过 word.id 查找对应的单词
+            const word = words.find(w => w.id === wordId);
+            if (!word) return '';
+            return `
+                <div class="wrong-word-item">
+                    <div class="wrong-word-en">${word.word}</div>
+                    <div class="wrong-word-cn">${word.meaning}</div>
+                </div>
+            `;
+        }).join('');
+    } else {
+        wrongWordsSection.style.display = 'none';
+    }
+
+    // 跳转到结果页面
+    switchPage('dictation-result');
+}
+
+// 重新开始听写
+function startDictationWithSession(session) {
+    AppState.dictationSession = {
+        words: session.words,
+        currentIndex: 0,
+        correctCount: 0,
+        wrongCount: 0,
+        wrongWordIds: [],
+        startTime: Date.now(),
+        isPaused: false
+    };
+    switchPage('dictation');
+    showCurrentWord();
 }
 
 // ========== 闪卡词书选择 ==========
@@ -667,265 +1113,6 @@ function flashcardClearUnitSelection() {
     renderFlashcardUnitGrid();
 }
 
-function renderUnitTabs() {
-    // 获取当前选中的词书
-    let currentWordBook = AppState.currentWordBook;
-    
-    // 如果没有选中词书，默认选择第一个
-    if (!currentWordBook && AppState.wordData.length > 0) {
-        const firstWordBook = AppState.wordData[0];
-        currentWordBook = firstWordBook.id || firstWordBook.name;
-        AppState.currentWordBook = currentWordBook;
-        
-        // 更新选择器显示
-        const wordbookSelect = document.getElementById('wordbook-select');
-        if (wordbookSelect) {
-            wordbookSelect.value = currentWordBook;
-        }
-    }
-    
-    // 获取当前词书的单元
-    const currentBook = AppState.wordData.find(book => 
-        (book.id && book.id === currentWordBook) || 
-        (book.name && book.name === currentWordBook)
-    );
-    
-    const units = currentBook ? currentBook.units : [];
-    
-    let html = '<button class="unit-tab active" data-unit="all">全部</button>';
-    
-    units.forEach(unit => {
-        html += `
-            <button class="unit-tab" data-unit="${unit.unit}">
-                ${unit.unit}
-            </button>
-        `;
-    });
-    
-    DOM.unitTabs.innerHTML = html;
-    
-    // 绑定单元标签点击事件
-    DOM.unitTabs.querySelectorAll('.unit-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            DOM.unitTabs.querySelectorAll('.unit-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            AppState.currentUnit = tab.dataset.unit === 'all' ? null : tab.dataset.unit;
-            // 重置页码并渲染
-            resetWordListPage();
-            renderWordList();
-        });
-    });
-}
-
-function renderWordList(filterText = '') {
-    let words = [];
-    
-    // 获取当前选中的词书
-    const currentWordBookId = AppState.currentWordBook;
-    const currentBook = AppState.wordData.find(book => 
-        (book.id && book.id === currentWordBookId) || 
-        (book.name && book.name === currentWordBookId)
-    );
-    
-    // 获取当前词书的单元列表
-    const units = currentBook ? currentBook.units : [];
-    
-    if (AppState.currentUnit) {
-        const unit = units.find(u => u.unit === AppState.currentUnit);
-        if (unit) words = unit.words;
-    } else {
-        units.forEach(unit => {
-            words = words.concat(unit.words);
-        });
-    }
-    
-    // 搜索过滤
-    if (filterText) {
-        const lowerFilter = filterText.toLowerCase();
-        words = words.filter(word => 
-            word.word.toLowerCase().includes(lowerFilter) ||
-            word.meaning.toLowerCase().includes(lowerFilter)
-        );
-    }
-    
-    // 计算分页
-    const totalWords = words.length;
-    const totalPages = Math.ceil(totalWords / AppState.wordsPerPage);
-    
-    // 确保当前页码有效
-    if (AppState.wordListPage > totalPages) {
-        AppState.wordListPage = totalPages > 0 ? 1 : 0;
-    }
-    
-    // 获取当前页的单词
-    const startIndex = (AppState.wordListPage - 1) * AppState.wordsPerPage;
-    const endIndex = startIndex + AppState.wordsPerPage;
-    const currentPageWords = words.slice(startIndex, endIndex);
-    
-    // 渲染单词卡片
-    DOM.wordList.innerHTML = currentPageWords.map(word => `
-        <div class="word-card" data-word-id="${word.id}">
-            <div class="word-main">
-                <div class="word-text">
-                    ${word.word}
-                    ${word.phonetic ? `<span class="word-phonetic">${word.phonetic}</span>` : ''}
-                </div>
-                <div class="word-meaning">${word.meaning}</div>
-                ${word.example ? `
-                    <div class="word-example">
-                        ${word.example}
-                        <button class="audio-btn small" title="播放例句" onclick="speakExample('${escapeHtml(word.example.replace(/'/g, "\\'"))}')">🔊</button>
-                        ${word.translation ? ' — ' + word.translation : ''}
-                    </div>
-                ` : ''}
-                ${word.memoryTip ? `<div class="word-tip">💡 ${word.memoryTip}</div>` : ''}
-            </div>
-            <div class="word-actions">
-                <button class="word-action-btn audio-btn" title="播放英音" onclick="speakWord('${word.word}')">
-                    🇬🇧
-                </button>
-                <button class="word-action-btn audio-btn" title="播放美音" onclick="speakWordUS('${word.word}')">
-                    🇺🇸
-                </button>
-                <button class="word-action-btn favorite-btn ${AppState.userProgress.favoriteWords.includes(word.id) ? 'favorited' : ''}" 
-                        title="收藏" onclick="toggleFavorite('${word.id}')">
-                    ${AppState.userProgress.favoriteWords.includes(word.id) ? '❤️' : '🤍'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-    
-    // 渲染分页控件
-    renderWordListPagination(totalWords, totalPages);
-}
-
-// 渲染单词列表分页控件
-function renderWordListPagination(totalWords, totalPages) {
-    // 检查是否存在分页容器，如果不存在则创建
-    let paginationEl = document.getElementById('word-list-pagination');
-    if (!paginationEl) {
-        paginationEl = document.createElement('div');
-        paginationEl.id = 'word-list-pagination';
-        paginationEl.className = 'pagination';
-        DOM.wordList.parentNode.insertBefore(paginationEl, DOM.wordList.nextSibling);
-    }
-    
-    // 如果没有单词或只有一页，不显示分页
-    if (totalWords === 0 || totalPages <= 1) {
-        paginationEl.innerHTML = '';
-        return;
-    }
-    
-    const currentPage = AppState.wordListPage;
-    
-    paginationEl.innerHTML = `
-        <div class="pagination-info">
-            共 ${totalWords} 个单词，${totalPages} 页
-        </div>
-        <div class="pagination-controls">
-            <button class="pagination-btn" onclick="goToWordListPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-                ← 上一页
-            </button>
-            ${generatePageNumbers(currentPage, totalPages)}
-            <button class="pagination-btn" onclick="goToWordListPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-                下一页 →
-            </button>
-        </div>
-    `;
-}
-
-// 生成分页页码
-function generatePageNumbers(currentPage, totalPages) {
-    let pages = [];
-    const maxVisiblePages = 5; // 最多显示5个页码
-    
-    if (totalPages <= maxVisiblePages) {
-        // 如果总页数少于最大显示数，显示所有页码
-        for (let i = 1; i <= totalPages; i++) {
-            pages.push(i);
-        }
-    } else {
-        // 显示当前页附近的页码
-        let startPage = Math.max(1, currentPage - 2);
-        let endPage = Math.min(totalPages, currentPage + 2);
-        
-        // 确保始终显示5个页码（如果可能）
-        if (endPage - startPage < maxVisiblePages - 1) {
-            if (startPage === 1) {
-                endPage = Math.min(maxVisiblePages, totalPages);
-            } else if (endPage === totalPages) {
-                startPage = Math.max(1, totalPages - maxVisiblePages + 1);
-            }
-        }
-        
-        // 添加第一页和省略号
-        if (startPage > 1) {
-            pages.push(1);
-            if (startPage > 2) {
-                pages.push('...');
-            }
-        }
-        
-        // 添加中间页码
-        for (let i = startPage; i <= endPage; i++) {
-            pages.push(i);
-        }
-        
-        // 添加最后一页和省略号
-        if (endPage < totalPages) {
-            if (endPage < totalPages - 1) {
-                pages.push('...');
-            }
-            pages.push(totalPages);
-        }
-    }
-    
-    return pages.map(page => {
-        if (page === '...') {
-            return `<span class="pagination-ellipsis">...</span>`;
-        }
-        return `<button class="pagination-num ${page === currentPage ? 'active' : ''}" onclick="goToWordListPage(${page})">${page}</button>`;
-    }).join('');
-}
-
-// 跳转到指定页
-function goToWordListPage(page) {
-    const currentWordBookId = AppState.currentWordBook;
-    const currentBook = AppState.wordData.find(book => 
-        (book.id && book.id === currentWordBookId) || 
-        (book.name && book.name === currentWordBookId)
-    );
-    const units = currentBook ? currentBook.units : [];
-    
-    let words = [];
-    if (AppState.currentUnit) {
-        const unit = units.find(u => u.unit === AppState.currentUnit);
-        if (unit) words = unit.words;
-    } else {
-        units.forEach(unit => {
-            words = words.concat(unit.words);
-        });
-    }
-    
-    const totalPages = Math.ceil(words.length / AppState.wordsPerPage);
-    
-    if (page >= 1 && page <= totalPages) {
-        AppState.wordListPage = page;
-        renderWordList();
-    }
-}
-
-// 重置单词列表页码
-function resetWordListPage() {
-    AppState.wordListPage = 1;
-}
-
-function handleWordSearch(e) {
-    const filterText = e.target.value.trim();
-    console.log('搜索关键词:', filterText);
-    renderWordList(filterText);
-}
-
 // ========== 闪卡测试 ==========
 function renderFlashcardSetup() {
     // 初始化词书选择器
@@ -996,13 +1183,14 @@ function startFlashcardTest() {
         if (mode === 'mixed') {
             questionType = Math.random() > 0.5 ? 'en-to-zh' : 'zh-to-en';
         }
-        
+
         return {
             id: `q-${index}`,
             wordId: word.id,
             questionType,
             question: questionType === 'en-to-zh' ? word.word : word.meaning,
             answer: {
+                id: word.id,
                 word: word.word,
                 phonetic: word.phonetic,
                 meaning: word.meaning,
@@ -1061,7 +1249,10 @@ function showQuestion() {
     document.getElementById('answer-word').textContent = question.answer.word;
     document.getElementById('answer-phonetic').textContent = question.answer.phonetic || '';
     document.getElementById('answer-meaning').textContent = question.answer.meaning;
-    
+
+    // 更新收藏按钮状态
+    updateFavoriteButton(question.answer.id);
+
     // 更新来源信息
     const sourceEl = document.getElementById('answer-source');
     if (question.source && (question.source.bookName || question.source.unitName)) {
@@ -1134,8 +1325,52 @@ function speakCurrentWordUS() {
     }
 }
 
+// 更新收藏按钮状态
+function updateFavoriteButton(wordId) {
+    const favoriteBtn = document.getElementById('favorite-btn');
+    if (!favoriteBtn) return;
+
+    const progress = AppState.userProgress;
+    const isFavorited = progress.favoriteWords && progress.favoriteWords.includes(wordId);
+
+    if (isFavorited) {
+        favoriteBtn.classList.add('favorited');
+        favoriteBtn.querySelector('.favorite-icon').textContent = '❤️';
+    } else {
+        favoriteBtn.classList.remove('favorited');
+        favoriteBtn.querySelector('.favorite-icon').textContent = '🤍';
+    }
+}
+
+// 切换收藏当前单词
+function toggleFavoriteCurrentWord() {
+    const session = AppState.flashcardSession;
+    if (!session || !session.questions[session.currentIndex]) return;
+
+    const question = session.questions[session.currentIndex];
+    const wordId = question.answer.id;
+
+    toggleFavorite(wordId);
+    updateFavoriteButton(wordId);
+
+    // 播放收藏音效反馈
+    const isFavorited = AppState.userProgress.favoriteWords.includes(wordId);
+    if (isFavorited) {
+        playClickSound();
+    }
+}
+
 function revealAnswer() {
     DOM.flashcard.classList.add('flipped');
+
+    // 自动播放当前单词发音
+    setTimeout(() => {
+        const session = AppState.flashcardSession;
+        if (session && session.questions[session.currentIndex]) {
+            const question = session.questions[session.currentIndex];
+            speakWord(question.answer.word);
+        }
+    }, 300);
 }
 
 function markAnswer(isCorrect, markReview = false) {
@@ -1325,24 +1560,31 @@ function renderWrongbookWordsTab() {
         }
     });
 
-    console.log('renderWrongbookWordsTab - wrongWords:', progress.wrongWords);
-
     // 确保 wrongWords 是数组
     if (!Array.isArray(progress.wrongWords)) {
         progress.wrongWords = [];
+    }
+
+    // 先清理无效的ID（null, undefined, 空字符串）
+    const originalCount = progress.wrongWords.length;
+    progress.wrongWords = progress.wrongWords.filter(id => id && typeof id === 'string');
+
+    // 如果有清理掉的无效ID，更新localStorage
+    if (progress.wrongWords.length !== originalCount) {
+        const removedCount = originalCount - progress.wrongWords.length;
+        saveUserProgress();
     }
 
     // 获取所有有效的单词ID
     const validWordIds = new Set(allWords.map(w => w.id));
 
     // 清理无效的错词记录
-    const originalCount = progress.wrongWords.length;
+    const afterCleanupCount = progress.wrongWords.length;
     progress.wrongWords = progress.wrongWords.filter(id => validWordIds.has(id));
 
     // 如果有清理掉的记录，更新localStorage
-    if (progress.wrongWords.length !== originalCount) {
-        const removedCount = originalCount - progress.wrongWords.length;
-        console.log(`清理了 ${removedCount} 个无效的错词记录`);
+    if (progress.wrongWords.length !== afterCleanupCount) {
+        const removedCount = afterCleanupCount - progress.wrongWords.length;
         saveUserProgress();
     }
 
@@ -1355,65 +1597,147 @@ function renderWrongbookWordsTab() {
 
     // 更新统计
     document.getElementById('wrongbook-count').textContent = wrongWordDetails.length;
-    const masteredCount = wrongWordDetails.filter(item => item.wp && item.wp.masteryLevel >= 4).length;
-    document.getElementById('wrongbook-mastery').textContent = masteredCount;
 
     // 渲染错词列表
     const wrongbookWordsEl = document.getElementById('wrongbook-words');
 
     if (wrongWordDetails.length === 0) {
         wrongbookWordsEl.innerHTML = '<p class="empty-message">🎉 恭喜！错词列表为空，继续保持！</p>';
-    } else {
-        let html = '';
-        wrongWordDetails.forEach(item => {
+        return;
+    }
+
+    // 分页设置
+    const ITEMS_PER_PAGE = 8;
+    const totalPages = Math.ceil(wrongWordDetails.length / ITEMS_PER_PAGE);
+
+    // 获取当前页码（从 sessionStorage 或 URL 参数获取）
+    let currentPage = 1;
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('wrongbook_page');
+    if (pageParam) {
+        currentPage = Math.max(1, Math.min(parseInt(pageParam) || 1, totalPages));
+    }
+
+    // 获取当前页的错词
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, wrongWordDetails.length);
+    const currentPageItems = wrongWordDetails.slice(startIndex, endIndex);
+
+    let html = '';
+    let missingCount = 0;
+    let renderError = null;
+
+    try {
+        // 渲染分页信息
+        html += `
+            <div class="wrongbook-pagination-info">
+                <span>显示 ${startIndex + 1}-${endIndex} 条，共 ${wrongWordDetails.length} 条错词</span>
+            </div>
+        `;
+
+        // 渲染单词卡片网格
+        html += '<div class="wrongbook-word-grid">';
+
+        currentPageItems.forEach((item, index) => {
             const { word, wp, id } = item;
 
-            if (!word) return;
+                if (!word) {
+                    missingCount++;
+                    return;
+                }
 
-            const masteryLevel = wp ? wp.masteryLevel : 0;
-            const masteryText = masteryLevel >= 4 ? '已掌握' : (masteryLevel >= 2 ? '学习中' : '待复习');
-            const wrongCount = wp ? wp.wrongCount : 0;
+            try {
+                const masteryLevel = wp ? wp.masteryLevel : 0;
+                const masteryText = masteryLevel >= 4 ? '已掌握' : (masteryLevel >= 2 ? '学习中' : '待复习');
+                const wrongCount = wp ? wp.wrongCount : 0;
 
-            html += `
-                <div class="wrongbook-word-item" data-word-id="${id}">
-                    <div class="word-main">
-                        <div>
-                            <div class="word-text">
-                                ${escapeHtml(word.word)}
-                                <button class="audio-btn" title="播放英音" onclick="speakWord('${escapeHtml(word.word)}')">🇬🇧</button>
-                                <button class="audio-btn" title="播放美音" onclick="speakWordUS('${escapeHtml(word.word)}')">🇺🇸</button>
+                // 根据熟练度设置不同的边框颜色
+                let cardClass = 'wrongbook-word-card';
+                if (masteryLevel >= 4) cardClass += ' mastered';
+                else if (masteryLevel >= 2) cardClass += ' learning';
+
+                html += `
+                    <div class="${cardClass}" data-word-id="${id}">
+                        <div class="word-card-header">
+                            <span class="word-index">${startIndex + index + 1}</span>
+                            <button class="remove-btn-small" onclick="removeFromWrongbook('${id}')" title="从错词本移除">✕</button>
+                        </div>
+                        <div class="word-card-content">
+                            <div class="word-card-main">
+                                <div class="word-text">
+                                    ${escapeHtml(word.word || '')}
+                                    <button class="audio-btn-small" title="播放英音" onclick="speakWord('${escapeHtml(word.word || '')}')">🔊</button>
+                                </div>
+                                <div class="word-phonetic">${escapeHtml(word.phonetic || '')}</div>
+                                <div class="word-meaning">${escapeHtml(word.meaning || '')}</div>
                             </div>
-                            <div class="word-phonetic">${escapeHtml(word.phonetic)}</div>
-                            <div class="word-meaning">${escapeHtml(word.meaning)}</div>
-                            ${word.example ? `<div class="wrongbook-example">${escapeHtml(word.example)}${word.translation ? ' — ' + escapeHtml(word.translation) : ''}</div>` : ''}
-                            ${word.memoryTip ? `<div class="wrongbook-memory-tip">💡 ${escapeHtml(word.memoryTip)}</div>` : ''}
+                            ${word.example ? `
+                                <div class="word-card-example">
+                                    <span class="example-label">例句：</span>
+                                    <div class="example-content">${escapeHtml(word.example)}</div>
+                                    ${word.translation ? `<div class="example-translation">${escapeHtml(word.translation)}</div>` : ''}
+                                </div>
+                            ` : ''}
+                            ${word.memoryTip ? `
+                                <div class="word-card-tip">
+                                    <span class="tip-icon">💡</span>
+                                    <span>${escapeHtml(word.memoryTip)}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="word-card-footer">
+                            <span class="mastery-badge ${masteryLevel >= 4 ? 'mastered' : (masteryLevel >= 2 ? 'learning' : 'review')}">${masteryText}</span>
+                            ${wrongCount > 0 ? `<span class="wrong-count-badge">错${wrongCount}次</span>` : ''}
                         </div>
                     </div>
-                    <div class="word-actions">
-                        <span class="mastery-badge">${masteryText}</span>
-                        ${wrongCount > 0 ? `<span style="color: var(--danger-color); font-size: 0.85rem; margin-right: 8px;">错${wrongCount}次</span>` : ''}
-                        <button class="remove-btn" onclick="removeFromWrongbook('${id}')" title="从错词本移除">✕</button>
-                    </div>
-                </div>
-            `;
+                `;
+            } catch (e) {
+                console.error('[Wrongbook] 渲染单词出错:', id, e);
+            }
         });
 
-        if (html === '') {
-            const missingIds = wrongWordDetails.map(item => item.id).join(', ');
-            wrongbookWordsEl.innerHTML = `
-                <p class="empty-message">⚠️ 错词记录与当前单词数据不匹配</p>
-                <p style="text-align: center; color: #999; font-size: 0.85rem; margin-top: 8px;">
-                    可能原因：单词数据已更新，这些错词已不在当前数据中<br>
-                    记录的数量: ${wrongWordDetails.length} 个<br>
-                    缺失的ID: ${missingIds}
-                </p>
-                <button class="btn-primary" style="margin-top: 16px;" onclick="clearWrongbook('words')">
-                    🗑️ 清空错词
-                </button>
+        html += '</div>';
+
+        // 渲染分页导航
+        if (totalPages > 1) {
+            html += `
+                <div class="wrongbook-pagination">
+                    <button class="page-btn" onclick="goToWrongbookPage(1)" ${currentPage === 1 ? 'disabled' : ''}>首页</button>
+                    <button class="page-btn" onclick="goToWrongbookPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>
+                    <span class="page-info">${currentPage} / ${totalPages}</span>
+                    <button class="page-btn" onclick="goToWrongbookPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>
+                    <button class="page-btn" onclick="goToWrongbookPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>末页</button>
+                </div>
             `;
-        } else {
-            wrongbookWordsEl.innerHTML = html;
         }
+
+        // 如果有缺失的错词ID，显示警告信息
+        if (missingCount > 0) {
+            const missingIds = wrongWordDetails
+                .filter(item => !item.word)
+                .map(item => item.id)
+                .join(', ');
+            html += `
+                <div class="wrongbook-warning" style="margin-top: 16px; padding: 12px; background: #fff3cd; border-radius: 8px; color: #856404;">
+                    <p style="margin: 0 0 8px 0; font-weight: bold;">⚠️ 部分错词无法显示</p>
+                    <p style="margin: 0; font-size: 0.85rem;">
+                        有 ${missingCount} 个错词ID在当前单词数据中找不到匹配的单词。<br>
+                        缺失的ID: ${missingIds}
+                    </p>
+                </div>
+            `;
+        }
+    } catch (e) {
+        renderError = e;
+        console.error('[Wrongbook] 渲染错词列表出错:', e);
+    }
+
+    if (renderError) {
+        wrongbookWordsEl.innerHTML = '<p class="empty-message">⚠️ 渲染出错: ' + renderError.message + '</p>';
+    } else if (html === '') {
+        wrongbookWordsEl.innerHTML = '<p class="empty-message">⚠️ 没有可显示的错词</p>';
+    } else {
+        wrongbookWordsEl.innerHTML = html;
     }
 }
 
@@ -1439,24 +1763,94 @@ function renderWrongbookSentencesTab() {
 
     if (progress.wrongSentences.length === 0) {
         wrongbookSentencesEl.innerHTML = '<p class="empty-message">🎉 恭喜！错句列表为空，继续保持！</p>';
-    } else {
-        let html = '';
-        progress.wrongSentences.forEach(item => {
-            html += `
-                <div class="wrong-sentence-item" data-sentence-id="${item.id}">
-                    <div class="sentence-info">
-                        <div class="english">${item.english}</div>
-                        <div class="chinese">${item.chinese}</div>
-                    </div>
-                    <div class="sentence-meta">
-                        <span class="reading-title">《${item.readingTitleCn}》</span>
-                        <span class="wrong-count">错${item.wrongCount}次</span>
-                        <button class="remove-btn" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
+        return;
+    }
+
+    // 分页设置
+    const ITEMS_PER_PAGE = 6;
+    const totalPages = Math.ceil(progress.wrongSentences.length / ITEMS_PER_PAGE);
+
+    // 获取当前页码
+    let currentPage = 1;
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('wrongsentence_page');
+    if (pageParam) {
+        currentPage = Math.max(1, Math.min(parseInt(pageParam) || 1, totalPages));
+    }
+
+    // 获取当前页的错句
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, progress.wrongSentences.length);
+    const currentPageItems = progress.wrongSentences.slice(startIndex, endIndex);
+
+    let html = '';
+
+    // 渲染分页信息
+    html += `
+        <div class="wrongbook-pagination-info">
+            <span>显示 ${startIndex + 1}-${endIndex} 条，共 ${progress.wrongSentences.length} 条错句</span>
+        </div>
+    `;
+
+    // 渲染错句卡片网格
+    html += '<div class="wrongsentence-card-grid">';
+
+    currentPageItems.forEach((item, index) => {
+        const sentenceIndex = startIndex + index + 1;
+        html += `
+            <div class="wrongsentence-card" data-sentence-id="${item.id}">
+                <div class="sentence-card-header">
+                    <span class="sentence-index">${sentenceIndex}</span>
+                    <div class="sentence-card-actions">
+                        <button class="audio-btn-small" title="朗读句子" onclick="speakSentence('${escapeHtml(item.english)}')">🔊</button>
+                        <button class="remove-btn-small" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
                     </div>
                 </div>
-            `;
-        });
-        wrongbookSentencesEl.innerHTML = html;
+                <div class="sentence-card-content">
+                    <div class="sentence-english">${escapeHtml(item.english)}</div>
+                    <div class="sentence-chinese">${escapeHtml(item.chinese)}</div>
+                </div>
+                <div class="sentence-card-footer">
+                    <span class="reading-badge">《${escapeHtml(item.readingTitleCn)}》</span>
+                    <span class="wrong-count-badge">错${item.wrongCount}次</span>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+
+    // 渲染分页导航
+    if (totalPages > 1) {
+        html += `
+            <div class="wrongbook-pagination">
+                <button class="page-btn" onclick="goToWrongbookSentencesPage(1)" ${currentPage === 1 ? 'disabled' : ''}>首页</button>
+                <button class="page-btn" onclick="goToWrongbookSentencesPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span class="page-info">${currentPage} / ${totalPages}</span>
+                <button class="page-btn" onclick="goToWrongbookSentencesPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>
+                <button class="page-btn" onclick="goToWrongbookSentencesPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>末页</button>
+            </div>
+        `;
+    }
+
+    wrongbookSentencesEl.innerHTML = html;
+}
+
+// 错句本分页跳转
+function goToWrongbookSentencesPage(page) {
+    const url = new URL(window.location);
+    url.searchParams.set('wrongsentence_page', page);
+    window.history.pushState({}, '', url);
+    renderWrongbookSentencesTab();
+}
+
+// 朗读句子
+function speakSentence(english) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(english);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
     }
 }
 
@@ -1552,6 +1946,14 @@ function removeFromWrongbook(wordId) {
     }
 }
 
+// 错词本分页跳转
+function goToWrongbookPage(page) {
+    const url = new URL(window.location);
+    url.searchParams.set('wrongbook_page', page);
+    window.history.pushState({}, '', url);
+    renderWrongbookWordsTab();
+}
+
 // ========== 收藏单词页面 ==========
 function renderFavoritesPage() {
     // 确保数据已加载
@@ -1565,14 +1967,21 @@ function renderFavoritesPage() {
     
     // 更新计数
     document.getElementById('favorites-count').textContent = favoriteIds.length;
-    
+
+    // 清理无效的收藏ID
+    const validFavoriteIds = favoriteIds.filter(id => id && typeof id === 'string');
+    if (validFavoriteIds.length !== favoriteIds.length) {
+        progress.favoriteWords = validFavoriteIds;
+        saveUserProgress();
+    }
+
     const favoritesListEl = document.getElementById('favorites-list');
-    
+
     if (favoriteIds.length === 0) {
         favoritesListEl.innerHTML = '<p class="empty-message">📝 还没有收藏任何单词</p>';
         return;
     }
-    
+
     // 收集所有单词
     let allWords = [];
     AppState.wordData.forEach(wordbook => {
@@ -1586,55 +1995,60 @@ function renderFavoritesPage() {
             });
         }
     });
-    
+
     // 筛选收藏的单词
     const favoriteWords = allWords.filter(word => favoriteIds.includes(word.id));
-    
+
     if (favoriteWords.length === 0) {
         favoritesListEl.innerHTML = '<p class="empty-message">📝 收藏的单词不在当前数据中，请重新收藏</p>';
         return;
     }
-    
+
     // 按字母顺序排序
     favoriteWords.sort((a, b) => a.word.localeCompare(b.word));
-    
+
     // 渲染收藏单词列表
-    favoritesListEl.innerHTML = favoriteWords.map(word => `
-        <div class="word-card" data-word-id="${word.id}">
-            <div class="word-main">
-                <div class="word-text">
-                    ${word.word}
-                    ${word.phonetic ? `<span class="word-phonetic">${word.phonetic}</span>` : ''}
-                </div>
-                <div class="word-meaning">${word.meaning}</div>
-                ${word.example ? `
-                    <div class="word-example">
-                        ${word.example}
-                        <button class="audio-btn small" title="播放例句" onclick="speakExample('${escapeHtml(word.example.replace(/'/g, "\\'"))}')">🔊</button>
-                        ${word.translation ? ' — ' + word.translation : ''}
+    try {
+        const html = favoriteWords.map(word => `
+            <div class="word-card" data-word-id="${escapeHtml(word.id)}">
+                <div class="word-main">
+                    <div class="word-text">
+                        ${escapeHtml(word.word)}
+                        ${word.phonetic ? `<span class="word-phonetic">${escapeHtml(word.phonetic)}</span>` : ''}
                     </div>
-                ` : ''}
-                ${word.memoryTip ? `<div class="word-tip">💡 ${word.memoryTip}</div>` : ''}
+                    <div class="word-meaning">${escapeHtml(word.meaning)}</div>
+                    ${word.example ? `
+                        <div class="word-example">
+                            ${escapeHtml(word.example)}
+                            <button class="audio-btn small" title="播放例句" onclick="speakExample('${escapeHtml(word.example.replace(/'/g, "\\'"))}')">🔊</button>
+                            ${word.translation ? ' — ' + escapeHtml(word.translation) : ''}
+                        </div>
+                    ` : ''}
+                    ${word.memoryTip ? `<div class="word-tip">💡 ${escapeHtml(word.memoryTip)}</div>` : ''}
+                </div>
+                <div class="word-actions">
+                    <button class="word-action-btn audio-btn" title="播放英音" onclick="speakWord('${escapeHtml(word.word)}')">
+                        🇬🇧
+                    </button>
+                    <button class="word-action-btn audio-btn" title="播放美音" onclick="speakWordUS('${escapeHtml(word.word)}')">
+                        🇺🇸
+                    </button>
+                    <button class="word-action-btn favorite-btn favorited"
+                            title="取消收藏" onclick="toggleFavorite('${escapeHtml(word.id)}')">
+                        ❤️
+                    </button>
+                </div>
             </div>
-            <div class="word-actions">
-                <button class="word-action-btn audio-btn" title="播放英音" onclick="speakWord('${word.word}')">
-                    🇬🇧
-                </button>
-                <button class="word-action-btn audio-btn" title="播放美音" onclick="speakWordUS('${word.word}')">
-                    🇺🇸
-                </button>
-                <button class="word-action-btn favorite-btn favorited" 
-                        title="取消收藏" onclick="toggleFavorite('${word.id}')">
-                    ❤️
-                </button>
-            </div>
-        </div>
-    `).join('');
+        `).join('');
+
+        favoritesListEl.innerHTML = html;
+    } catch (e) {
+        console.error('[Favorites] 渲染出错:', e);
+        favoritesListEl.innerHTML = '<p class="empty-message">⚠️ 渲染收藏列表出错</p>';
+    }
 }
 
 function reviewAllWrongWords() {
-    console.log('reviewAllWrongWords called');
-    console.log('wrongWords:', AppState.userProgress.wrongWords);
     // 复用 reviewWrongWords 的逻辑
     reviewWrongWords();
 }
@@ -1780,6 +2194,11 @@ async function loadReadingData() {
             return clean;
         });
         console.log('加载阅读数据成功，共 ' + AppState.readings.length + ' 篇阅读材料');
+        
+        // 数据加载完成后，刷新语句页面
+        setTimeout(() => {
+            renderSentencesPage();
+        }, 100);
     } catch (error) {
         console.error('加载阅读数据失败:', error);
         AppState.readings = [];
@@ -1796,6 +2215,12 @@ function showReadingsPage() {
     DOM.navBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === 'readings');
     });
+    
+    // 重置页码并初始化
+    resetReadingsListPage();
+    
+    // 初始化书本选择器
+    initReadingsWordbookSelector();
     
     renderReadingsList();
 }
@@ -1821,28 +2246,298 @@ function showReadingDetail(readingId) {
     renderReadingDetail(reading);
 }
 
+// 每页显示的阅读材料数量
+const READINGS_PAGE_SIZE = 10;
+
+// 阅读列表当前页码
+AppState.readingsPage = 1;
+
 function renderReadingsList() {
     const container = document.getElementById('readings-list');
+    const wordbookSelect = document.getElementById('readings-wordbook-select');
+    const unitSelect = document.getElementById('readings-unit-select');
     const readings = AppState.readings || [];
+    
+    // 获取选中的书本和单元
+    const selectedBook = wordbookSelect?.value || '';
+    const selectedUnit = unitSelect?.value || '';
+    
+    // 过滤阅读材料
+    let filteredReadings = readings;
+    if (selectedBook) {
+        filteredReadings = filteredReadings.filter(r => 
+            (r.bookName || '默认词书') === selectedBook
+        );
+    }
+    if (selectedUnit) {
+        filteredReadings = filteredReadings.filter(r => 
+            (r.unitName || '未分类') === selectedUnit
+        );
+    }
     
     if (readings.length === 0) {
         container.innerHTML = '<p class="empty-message">暂无阅读材料</p>';
+        renderReadingsPagination(0, 0);
         return;
     }
     
-    container.innerHTML = readings.map(reading => `
-        <div class="reading-card" onclick="showReadingDetail('${reading.id}')">
-            <div class="reading-card-icon">📖</div>
-            <div class="reading-card-info">
-                <h3 class="reading-card-title">${reading.title}</h3>
-                <p class="reading-card-title-cn">${reading.titleCn}</p>
-                <p class="reading-card-meta">
-                    ${reading.dialogues.length} 句对话
-                </p>
+    if (filteredReadings.length === 0) {
+        container.innerHTML = '<p class="empty-message">该选择下暂无阅读材料</p>';
+        renderReadingsPagination(0, 0);
+        return;
+    }
+    
+    // 计算分页
+    const totalReadings = filteredReadings.length;
+    const totalPages = Math.ceil(totalReadings / READINGS_PAGE_SIZE);
+    const currentPage = AppState.readingsPage || 1;
+    const startIndex = (currentPage - 1) * READINGS_PAGE_SIZE;
+    const endIndex = startIndex + READINGS_PAGE_SIZE;
+    const pageReadings = filteredReadings.slice(startIndex, endIndex);
+    
+    // 按单元分组显示
+    const unitMap = new Map();
+    pageReadings.forEach(reading => {
+        const unitName = reading.unitName || '未分类';
+        if (!unitMap.has(unitName)) {
+            unitMap.set(unitName, []);
+        }
+        unitMap.get(unitName).push(reading);
+    });
+    
+    let html = '';
+    unitMap.forEach((unitReadings, unitName) => {
+        html += `<div class="readings-unit-section">`;
+        html += `<h3 class="readings-unit-title">${unitName}</h3>`;
+        html += `<div class="readings-grid">`;
+        html += unitReadings.map(reading => `
+            <div class="reading-card" onclick="showReadingDetail('${reading.id}')">
+                <div class="reading-card-icon">📖</div>
+                <div class="reading-card-info">
+                    <h3 class="reading-card-title">${reading.title}</h3>
+                    <p class="reading-card-title-cn">${reading.titleCn}</p>
+                    <p class="reading-card-meta">
+                        ${reading.dialogues.length} 句对话
+                    </p>
+                </div>
+                <div class="reading-card-arrow">›</div>
             </div>
-            <div class="reading-card-arrow">›</div>
+        `).join('');
+        html += `</div>`;
+        html += `</div>`;
+    });
+    
+    container.innerHTML = html;
+    
+    // 渲染分页控件
+    renderReadingsPagination(totalReadings, totalPages);
+}
+
+// 渲染阅读列表分页控件
+function renderReadingsPagination(totalReadings, totalPages) {
+    // 检查是否存在分页容器，如果不存在则创建
+    let paginationEl = document.getElementById('readings-list-pagination');
+    if (!paginationEl) {
+        paginationEl = document.createElement('div');
+        paginationEl.id = 'readings-list-pagination';
+        paginationEl.className = 'pagination';
+        const container = document.getElementById('readings-list');
+        container.parentNode.insertBefore(paginationEl, container.nextSibling);
+    }
+    
+    // 如果没有阅读材料或只有一页，不显示分页
+    if (totalReadings === 0 || totalPages <= 1) {
+        paginationEl.innerHTML = '';
+        return;
+    }
+    
+    const currentPage = AppState.readingsPage || 1;
+    
+    paginationEl.innerHTML = `
+        <div class="pagination-info">
+            共 ${totalReadings} 篇阅读，${totalPages} 页
         </div>
-    `).join('');
+        <div class="pagination-controls">
+            <button class="pagination-btn" onclick="goToReadingsPage(1)" ${currentPage <= 1 ? 'disabled' : ''}>首页</button>
+            <button class="pagination-btn" onclick="goToReadingsPage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>上一页</button>
+            <span class="pagination-nums">
+                ${generateReadingsPaginationNumbers(currentPage, totalPages)}
+            </span>
+            <button class="pagination-btn" onclick="goToReadingsPage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>下一页</button>
+            <button class="pagination-btn" onclick="goToReadingsPage(${totalPages})" ${currentPage >= totalPages ? 'disabled' : ''}>末页</button>
+        </div>
+    `;
+}
+
+// 生成阅读列表分页数字
+function generateReadingsPaginationNumbers(currentPage, totalPages) {
+    let html = '';
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        html += `<button class="pagination-num ${i === currentPage ? 'active' : ''}" onclick="goToReadingsPage(${i})">${i}</button>`;
+    }
+    
+    return html;
+}
+
+// 跳转到阅读列表指定页
+function goToReadingsPage(page) {
+    const wordbookSelect = document.getElementById('readings-wordbook-select');
+    const unitSelect = document.getElementById('readings-unit-select');
+    const readings = AppState.readings || [];
+    
+    const selectedBook = wordbookSelect?.value || '';
+    const selectedUnit = unitSelect?.value || '';
+    
+    let filteredReadings = readings;
+    if (selectedBook) {
+        filteredReadings = filteredReadings.filter(r => 
+            (r.bookName || '默认词书') === selectedBook
+        );
+    }
+    if (selectedUnit) {
+        filteredReadings = filteredReadings.filter(r => 
+            (r.unitName || '未分类') === selectedUnit
+        );
+    }
+    
+    const totalPages = Math.ceil(filteredReadings.length / READINGS_PAGE_SIZE);
+    
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    
+    AppState.readingsPage = page;
+    renderReadingsList();
+}
+
+// 重置阅读列表页码
+function resetReadingsListPage() {
+    AppState.readingsPage = 1;
+}
+
+function initReadingsWordbookSelector() {
+    const wordbookSelect = document.getElementById('readings-wordbook-select');
+    if (!wordbookSelect) return;
+
+    // 从 readings 数据中获取词书列表
+    const readings = AppState.readings || [];
+    if (readings.length === 0) {
+        wordbookSelect.innerHTML = '<option value="">暂无数据</option>';
+        return;
+    }
+
+    // 按词书分组阅读材料
+    const bookMap = new Map();
+    readings.forEach(reading => {
+        const bookName = reading.bookName || '默认词书';
+        if (!bookMap.has(bookName)) {
+            bookMap.set(bookName, { id: bookName, name: bookName, readings: [] });
+        }
+        bookMap.get(bookName).readings.push(reading);
+    });
+
+    // 清空并重新填充选择器
+    wordbookSelect.innerHTML = '';
+
+    // 添加默认选项
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = '请选择书本';
+    wordbookSelect.appendChild(defaultOption);
+
+    // 填充选择器
+    bookMap.forEach((book, bookName) => {
+        const option = document.createElement('option');
+        option.value = bookName;
+        option.textContent = bookName;
+        wordbookSelect.appendChild(option);
+    });
+
+    // 绑定选择变化事件
+    wordbookSelect.onchange = function(e) {
+        handleReadingsWordBookChange(e.target.value);
+    };
+
+    // 自动选择第一个书本并加载单元列表
+    const firstBook = bookMap.keys().next().value;
+    if (firstBook) {
+        wordbookSelect.value = firstBook;
+        handleReadingsWordBookChange(firstBook);
+    }
+}
+
+function handleReadingsWordBookChange(bookName) {
+    // 重置页码
+    resetReadingsListPage();
+    
+    const unitSelect = document.getElementById('readings-unit-select');
+    
+    // 如果没有选择书本，禁用单元选择器
+    if (!bookName) {
+        if (unitSelect) {
+            unitSelect.innerHTML = '<option value="">请先选择书本</option>';
+            unitSelect.disabled = true;
+        }
+        renderReadingsList();
+        return;
+    }
+
+    // 获取该词书下的所有阅读材料
+    const readings = AppState.readings || [];
+    const bookReadings = readings.filter(r => (r.bookName || '默认词书') === bookName);
+
+    if (bookReadings.length === 0) {
+        if (unitSelect) {
+            unitSelect.innerHTML = '<option value="">该书本下暂无数据</option>';
+            unitSelect.disabled = true;
+        }
+        renderReadingsList();
+        return;
+    }
+
+    // 按单元分组
+    const unitMap = new Map();
+    bookReadings.forEach(reading => {
+        const unitName = reading.unitName || '未分类';
+        if (!unitMap.has(unitName)) {
+            unitMap.set(unitName, []);
+        }
+        unitMap.get(unitName).push(reading);
+    });
+
+    // 启用并填充单元选择器
+    if (unitSelect) {
+        // 清空并添加"全部单元"默认选项
+        unitSelect.innerHTML = '';
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '全部单元';
+        defaultOption.selected = true;  // 默认选中
+        unitSelect.appendChild(defaultOption);
+
+        unitMap.forEach((readings, unitName) => {
+            const option = document.createElement('option');
+            option.value = unitName;
+            option.textContent = unitName;
+            unitSelect.appendChild(option);
+        });
+        unitSelect.disabled = false;
+
+        // 绑定单元选择变化事件
+        unitSelect.onchange = function(e) {
+            resetReadingsListPage();
+            renderReadingsList();
+        };
+    }
+
+    renderReadingsList();
 }
 
 function renderReadingDetail(reading) {
@@ -1915,10 +2610,27 @@ function renderReadingDetail(reading) {
     }
 }
 
+/**
+ * 播放指定索引的对话
+ *
+ * 问题背景：
+ * 项目中存在多个使用 .play-btn 类名的元素（如听写页面和阅读页面），
+ * 如果使用 document.querySelectorAll('.play-btn') 获取所有播放按钮，
+ * 会导致索引偏移，点击第 N 个对话的按钮时实际上获取到了错误的按钮。
+ *
+ * 解决方案：
+ * 只在阅读详情页面 (#reading-content) 范围内查找 .play-btn 元素，
+ * 避免与其他页面的播放按钮冲突。
+ *
+ * @param {number} index - 对话列表中的索引
+ */
 function playDialogue(index) {
     const reading = AppState.currentReading;
-    if (!reading || index >= reading.dialogues.length) return;
-    
+
+    if (!reading || index >= reading.dialogues.length) {
+        return;
+    }
+
     const dialogue = reading.dialogues[index];
     highlightDialogue(index);
     speakText(dialogue.content, 'en-US');
@@ -1953,29 +2665,119 @@ function playNextDialogue() {
     });
 }
 
+/**
+ * 播放文本语音
+ *
+ * 问题背景：
+ * 1. Chrome 中 speechSynthesis.speaking 状态不会立即更新
+ * 2. 如果在 synthesis.speaking 仍为 true 时立即调用 doSpeak()，会导致:
+ *    - 前一个语音的 onerror 事件被触发 (error: 'interrupted')
+ *    - 新的语音还没开始播放就被中断
+ * 3. 快速连续点击播放按钮时，这个问题尤为明显
+ *
+ * 解决方案：
+ * 使用递归等待机制，直到 synthesis.speaking 变为 false 后才开始播放
+ * 最多等待 200ms，如果超时则强制 cancel 后再播放
+ *
+ * @param {string} text - 要播放的文本
+ * @param {string} lang - 语言代码，如 'en-US'
+ * @param {Function} onEnd - 播放完成后的回调
+ */
 function speakText(text, lang, onEnd) {
     if (!('speechSynthesis' in window)) {
         showToast('您的浏览器不支持语音播放');
         return;
     }
-    
-    window.speechSynthesis.cancel();
-    
+
+    const synthesis = window.speechSynthesis;
+
+    // 递归等待直到 synthesis 准备好
+    const trySpeak = (attempts = 0) => {
+        const maxAttempts = 20; // 最多等待 200ms (20 * 10ms)
+        const delay = 10;
+
+        if (!synthesis.speaking) {
+            // synthesis 已经准备好，直接播放
+            doSpeak(text, lang, onEnd);
+            return;
+        }
+
+        if (attempts >= maxAttempts) {
+            // 等待超时，强制 cancel 后播放
+            synthesis.cancel();
+            setTimeout(() => {
+                doSpeak(text, lang, onEnd);
+            }, 20);
+            return;
+        }
+
+        // 继续等待
+        attempts++;
+        setTimeout(() => trySpeak(attempts), delay);
+    };
+
+    // 开始等待
+    trySpeak(0);
+}
+
+/**
+ * 执行实际的语音播放
+ *
+ * 注意事项：
+ * 1. 不要在此函数中调用 cancel()，因为 speakText 已经等待 synthesis 准备好
+ * 2. onerror 事件处理中，对于 'canceled' 和 'interrupted' 错误：
+ *    - 不要调用 onEnd()，避免干扰下一个播放任务
+ *    - 这两个错误是用户主动停止或快速切换导致的，属于正常行为
+ *    - 只有其他类型的错误才需要显示提示
+ *
+ * @param {string} text - 要播放的文本
+ * @param {string} lang - 语言代码，如 'en-US'
+ * @param {Function} onEnd - 播放完成后的回调
+ */
+function doSpeak(text, lang, onEnd) {
+    const synthesis = window.speechSynthesis;
+
+    // 强制刷新语音列表
+    const voices = synthesis.getVoices();
+
+    // 找到可用的英语语音
+    const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
     utterance.rate = 0.9;
     utterance.pitch = 1;
-    
+
+    // 优先选择美式英语女性语音，如果没有则使用任何英语语音
+    let selectedVoice = englishVoices.find(v =>
+        v.lang.startsWith('en-US') && v.name.toLowerCase().includes('female')
+    );
+
+    if (!selectedVoice) {
+        selectedVoice = englishVoices.find(v => v.lang.startsWith('en-US'));
+    }
+
+    if (!selectedVoice) {
+        selectedVoice = englishVoices[0]; // 使用第一个英语语音
+    }
+
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    }
+
     utterance.onend = () => {
         if (onEnd) onEnd();
     };
-    
+
     utterance.onerror = (event) => {
-        console.error('语音播放错误:', event);
-        if (onEnd) onEnd();
+        // canceled 和 interrupted 错误是用户主动停止或快速切换导致的，不需要显示提示
+        // 也不要调用 onEnd，避免干扰下一个播放任务
+        if (event.error !== 'canceled' && event.error !== 'interrupted') {
+            showToast('语音播放失败，请检查浏览器设置');
+        }
     };
-    
-    window.speechSynthesis.speak(utterance);
+
+    synthesis.speak(utterance);
 }
 
 function stopPlayback() {
@@ -2031,6 +2833,13 @@ function highlightDialogue(index) {
     if (items[index]) {
         items[index].classList.add('playing');
         items[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+        // 备用方案：使用 data-index 属性查找
+        const targetItem = document.querySelector(`.dialogue-item[data-index="${index}"]`);
+        if (targetItem) {
+            targetItem.classList.add('playing');
+            targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 }
 
@@ -2396,7 +3205,8 @@ async function submitQA() {
 window.speakWord = speakWord;
 window.speakWordUS = speakWordUS;
 window.speakExample = speakExample;
-window.goToWordListPage = goToWordListPage;
+window.playAllDialogues = playAllDialogues;
+window.playDialogue = playDialogue;
 window.toggleFavorite = toggleFavorite;
 window.removeFromWrongbook = removeFromWrongbook;
 window.speakCurrentWord = speakCurrentWord;
@@ -3304,6 +4114,571 @@ function downloadFile(content, filename, mimeType) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+// ========== 语句练习页面 ==========
+/**
+ * 问题背景：
+ * 1. switchPage 函数在每次切换到 'sentences' 页面时会调用 initSentencesPage()
+ * 2. 如果在 HTML 中使用内联 onclick 属性绑定事件，同时在 JS 中使用 addEventListener 绑定，
+ *    会导致事件被触发两次（内联 onclick 执行一次，addEventListener 执行一次）
+ * 3. 这会导致 startSentencePracticeFromSelection 被调用两次，导致语音重复播放
+ *
+ * 解决方案：
+ * 1. 移除 HTML 中的内联 onclick 属性，只使用 addEventListener 绑定事件
+ * 2. 添加 sentencesPageInitialized 标志，防止 initSentencesPage 重复执行
+ *
+ * 注意：其他页面（如闪卡、错题本等）如果有类似的问题，也需要检查并修复
+ */
+let sentencesPageInitialized = false;
+
+function initSentencesPage() {
+    // 防止重复初始化
+    if (sentencesPageInitialized) {
+        return;
+    }
+    sentencesPageInitialized = true;
+
+    // 初始化词书选择器
+    initSentencesWordbookSelector();
+
+    // 绑定开始练习按钮（只通过 addEventListener 绑定，不要在 HTML 中使用 onclick）
+    const startBtn = document.getElementById('start-sentences-btn');
+    if (startBtn) {
+        startBtn.addEventListener('click', startSentencePracticeFromSelection);
+    }
+
+    // 绑定练习页面按钮
+    const playBtn = document.getElementById('play-sentence-btn');
+    if (playBtn) {
+        playBtn.addEventListener('click', playCurrentSentence);
+    }
+
+    const checkBtn = document.getElementById('check-sentence-btn');
+    if (checkBtn) {
+        checkBtn.addEventListener('click', checkSentenceAnswer);
+    }
+
+    const skipBtn = document.getElementById('skip-sentence-btn');
+    if (skipBtn) {
+        skipBtn.addEventListener('click', skipSentence);
+    }
+
+    const showAnswerBtn = document.getElementById('show-answer-btn');
+    if (showAnswerBtn) {
+        showAnswerBtn.addEventListener('click', showAnswer);
+    }
+
+    // 绑定结果页面按钮
+    const retryBtn = document.getElementById('retry-sentence-btn');
+    if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+            if (AppState.sentencesSession) {
+                startSentencePracticeWithSession(AppState.sentencesSession);
+            }
+        });
+    }
+
+    const backBtn = document.getElementById('back-sentences-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => switchPage('sentences'));
+    }
+}
+
+function initSentencesWordbookSelector() {
+    const wordbookSelect = document.getElementById('sentences-wordbook-select');
+    if (!wordbookSelect) return;
+
+    // 从 readings 数据中获取词书列表
+    const readings = AppState.readings || [];
+    if (readings.length === 0) {
+        wordbookSelect.innerHTML = '<option value="">暂无数据</option>';
+        return;
+    }
+
+    // 按词书分组
+    const bookMap = new Map();
+    readings.forEach(reading => {
+        const bookName = reading.bookName || '默认词书';
+        if (!bookMap.has(bookName)) {
+            bookMap.set(bookName, []);
+        }
+        bookMap.get(bookName).push(reading);
+    });
+
+    // 清空并重新填充选择器
+    wordbookSelect.innerHTML = '';
+
+    // 填充选择器
+    bookMap.forEach((readings, bookName) => {
+        const option = document.createElement('option');
+        option.value = bookName;
+        option.textContent = bookName;
+        wordbookSelect.appendChild(option);
+    });
+
+    // 绑定选择变化事件
+    wordbookSelect.onchange = function(e) {
+        handleSentencesWordBookChange(e.target.value);
+    };
+
+    // 自动选择第一个书本并加载单元列表
+    const firstBook = bookMap.keys().next().value;
+    if (firstBook) {
+        wordbookSelect.value = firstBook;
+        handleSentencesWordBookChange(firstBook);
+    }
+}
+
+function handleSentencesWordBookChange(bookName) {
+    // 重置页码
+    AppState.sentencesPage = 1;
+
+    const unitSelect = document.getElementById('sentences-unit-select');
+
+    // 如果没有选择书本，禁用单元选择器
+    if (!bookName) {
+        if (unitSelect) {
+            unitSelect.innerHTML = '<option value="">请先选择书本</option>';
+            unitSelect.disabled = true;
+        }
+        return;
+    }
+
+    // 获取该词书下的所有阅读材料
+    const readings = AppState.readings || [];
+    const bookReadings = readings.filter(r => (r.bookName || '默认词书') === bookName);
+
+    if (bookReadings.length === 0) {
+        if (unitSelect) {
+            unitSelect.innerHTML = '<option value="">该书本下暂无数据</option>';
+            unitSelect.disabled = true;
+        }
+        return;
+    }
+
+    // 按单元分组
+    const unitMap = new Map();
+    bookReadings.forEach(reading => {
+        const unitName = reading.unitName || '未分类';
+        if (!unitMap.has(unitName)) {
+            unitMap.set(unitName, []);
+        }
+        unitMap.get(unitName).push(reading);
+    });
+
+    // 启用并填充单元选择器
+    if (unitSelect) {
+        // 清空并添加"全部单元"默认选项
+        unitSelect.innerHTML = '';
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '全部单元';
+        defaultOption.selected = true;
+        unitSelect.appendChild(defaultOption);
+
+        unitMap.forEach((readings, unitName) => {
+            const option = document.createElement('option');
+            option.value = unitName;
+            option.textContent = unitName;
+            unitSelect.appendChild(option);
+        });
+        unitSelect.disabled = false;
+
+        // 绑定选择变化事件
+        unitSelect.onchange = function(e) {
+            AppState.sentencesPage = 1;
+        };
+    }
+}
+
+function startSentencePracticeFromSelection() {
+    const wordbookSelect = document.getElementById('sentences-wordbook-select');
+    const unitSelect = document.getElementById('sentences-unit-select');
+    
+    const bookName = wordbookSelect?.value;
+    const unitName = unitSelect?.value;
+    
+    if (!bookName) {
+        showToast('请先选择书本');
+        return;
+    }
+    
+    // 获取选中的书本下的所有阅读材料
+    const readings = AppState.readings || [];
+    let selectedReadings = readings.filter(r => (r.bookName || '默认词书') === bookName);
+    
+    // 如果选择了具体单元，过滤该单元的阅读材料
+    if (unitName) {
+        selectedReadings = selectedReadings.filter(r => 
+            (r.unitName || '未分类') === unitName
+        );
+    }
+    
+    if (selectedReadings.length === 0) {
+        showToast('没有找到阅读材料');
+        return;
+    }
+    
+    // 收集所有句子
+    let allDialogues = [];
+    selectedReadings.forEach(reading => {
+        if (reading.dialogues && Array.isArray(reading.dialogues)) {
+            reading.dialogues.forEach(dialogue => {
+                allDialogues.push({
+                    ...dialogue,
+                    sourceTitle: reading.title,
+                    sourceTitleCn: reading.titleCn,
+                    sourceId: reading.id
+                });
+            });
+        }
+    });
+    
+    if (allDialogues.length === 0) {
+        showToast('没有找到句子数据');
+        return;
+    }
+    
+    // 按阅读材料和对话顺序排序
+    allDialogues.sort((a, b) => {
+        if (a.sourceId !== b.sourceId) {
+            return selectedReadings.findIndex(r => r.id === a.sourceId) - 
+                   selectedReadings.findIndex(r => r.id === b.sourceId);
+        }
+        return 0;
+    });
+    
+    // 创建会话
+    AppState.sentencesSession = {
+        dialogues: allDialogues,
+        currentIndex: 0,
+        correctCount: 0,
+        wrongCount: 0,
+        wrongSentenceIds: [],
+        startTime: Date.now(),
+        isPaused: false
+    };
+    
+    // 跳转到练习页面
+    switchPage('sentence-practice');
+    showCurrentSentence();
+}
+
+function showCurrentSentence() {
+    const session = AppState.sentencesSession;
+    if (!session) return;
+
+    const { dialogues, currentIndex } = session;
+
+    if (currentIndex >= dialogues.length) {
+        // 测试完成
+        endSentencePractice();
+        return;
+    }
+
+    const dialogue = dialogues[currentIndex];
+    const total = dialogues.length;
+
+    // 更新进度
+    document.getElementById('sentence-progress-text').textContent = `${currentIndex + 1} / ${total}`;
+    const progressPercent = ((currentIndex) / total) * 100;
+    document.getElementById('sentence-progress-fill').style.width = `${progressPercent}%`;
+
+    // 显示中文
+    document.getElementById('sentence-chinese').textContent = dialogue.contentCn;
+
+    // 生成单词输入框
+    const words = dialogue.content.split(/\s+/);
+    const inputsContainer = document.getElementById('sentence-inputs');
+    inputsContainer.innerHTML = words.map((word, idx) => {
+        const cleanWord = word.replace(/[.,?!]/g, '');
+        const hasPunctuation = word !== cleanWord;
+        return `
+            <div class="word-input-wrapper">
+                <input type="text"
+                    class="sentence-word-input"
+                    data-word-index="${idx}"
+                    data-original-word="${cleanWord}"
+                    data-has-punctuation="${hasPunctuation}"
+                    placeholder=""
+                    autocomplete="off">
+                ${hasPunctuation ? `<span class="punctuation">${word.match(/[.,?!]/g)[0]}</span>` : ''}
+            </div>
+        `;
+    }).join(' ');
+
+    // 绑定输入框事件
+    inputsContainer.querySelectorAll('.sentence-word-input').forEach((input, idx) => {
+        input.addEventListener('input', (e) => {
+            const currentWord = e.target.dataset.originalWord;
+            const userValue = e.target.value.trim();
+
+            // 只有输入完整单词后才跳转到下一个（输入长度达到单词长度时）
+            if (userValue.length >= currentWord.length) {
+                const nextInput = inputsContainer.querySelector(`input[data-word-index="${idx + 1}"]`);
+                if (nextInput) {
+                    nextInput.focus();
+                    // 选中文本方便用户覆盖
+                    nextInput.select();
+                }
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                checkSentenceAnswer();
+            }
+            // 处理 Backspace 跳转到上一个输入框
+            if (e.key === 'Backspace' && e.target.value === '' && idx > 0) {
+                const prevInput = inputsContainer.querySelector(`input[data-word-index="${idx - 1}"]`);
+                if (prevInput) {
+                    prevInput.focus();
+                    // 选中文本方便用户修改
+                    prevInput.select();
+                }
+            }
+            // 阻止方向键跳出范围
+            if (e.key === 'ArrowLeft' && document.activeElement === input && input.selectionStart === 0) {
+                const prevInput = inputsContainer.querySelector(`input[data-word-index="${idx - 1}"]`);
+                if (prevInput) {
+                    e.preventDefault();
+                    prevInput.focus();
+                }
+            }
+            if (e.key === 'ArrowRight' && document.activeElement === input && input.selectionStart === input.value.length) {
+                const nextInput = inputsContainer.querySelector(`input[data-word-index="${idx + 1}"]`);
+                if (nextInput) {
+                    e.preventDefault();
+                    nextInput.focus();
+                }
+            }
+        });
+    });
+
+    // 聚焦第一个输入框
+    const firstInput = inputsContainer.querySelector('.sentence-word-input');
+    if (firstInput) {
+        setTimeout(() => firstInput.focus(), 100);
+    }
+
+    // 隐藏反馈和答案显示
+    document.getElementById('sentence-feedback').style.display = 'none';
+    document.getElementById('answer-display').style.display = 'none';
+
+    // 自动朗读
+    setTimeout(() => {
+        speakText(dialogue.content, 'en-US');
+    }, 500);
+}
+
+function playCurrentSentence() {
+    const session = AppState.sentencesSession;
+    if (!session) return;
+
+    const { dialogues, currentIndex } = session;
+
+    if (currentIndex < dialogues.length) {
+        speakText(dialogues[currentIndex].content, 'en-US');
+    }
+}
+
+function checkSentenceAnswer() {
+    const session = AppState.sentencesSession;
+    if (!session) return;
+
+    const { dialogues, currentIndex } = session;
+
+    if (currentIndex >= dialogues.length) return;
+
+    const dialogue = dialogues[currentIndex];
+    const expectedWords = dialogue.content.split(/\s+/).map(w => w.replace(/[.,?!]/g, ''));
+
+    // 收集用户输入
+    const inputs = document.querySelectorAll('.sentence-word-input');
+    let allCorrect = true;
+    let userWords = [];
+
+    inputs.forEach((input, idx) => {
+        const originalWord = input.dataset.originalWord;
+        const userWord = input.value.trim();
+        userWords.push(userWord);
+
+        // 区分大小写比较
+        if (userWord !== originalWord) {
+            allCorrect = false;
+            input.style.borderColor = 'var(--danger-color)';
+        } else {
+            input.style.borderColor = 'var(--success-color)';
+        }
+    });
+
+    const feedbackEl = document.getElementById('sentence-feedback');
+
+    if (allCorrect && userWords.length === expectedWords.length) {
+        // 正确答案
+        session.correctCount++;
+        feedbackEl.innerHTML = '<span class="feedback-correct">太棒了！</span>';
+        feedbackEl.style.display = 'block';
+
+        setTimeout(() => {
+            session.currentIndex++;
+            showCurrentSentence();
+        }, 1500);
+    } else {
+        // 错误答案
+        session.wrongCount++;
+        const sentenceId = `${dialogue.sourceId}-${currentIndex}`;
+        if (!session.wrongSentenceIds.includes(sentenceId)) {
+            session.wrongSentenceIds.push(sentenceId);
+        }
+
+        // 记录错句
+        addWrongSentence({
+            id: sentenceId,
+            readingId: dialogue.sourceId,
+            readingTitleCn: dialogue.sourceTitleCn,
+            english: dialogue.content,
+            chinese: dialogue.contentCn
+        });
+
+        feedbackEl.innerHTML = '<span class="feedback-wrong">加油！</span>';
+        feedbackEl.style.display = 'block';
+    }
+}
+
+function skipSentence() {
+    const session = AppState.sentencesSession;
+    if (!session) return;
+
+    session.currentIndex++;
+    showCurrentSentence();
+}
+
+function showAnswer() {
+    const session = AppState.sentencesSession;
+    if (!session) return;
+
+    const { dialogues, currentIndex } = session;
+
+    if (currentIndex >= dialogues.length) return;
+
+    const dialogue = dialogues[currentIndex];
+    const words = dialogue.content.split(/\s+/);
+
+    // 在答案显示区域显示答案
+    const answerDisplay = document.getElementById('answer-display');
+    answerDisplay.innerHTML = `
+        <div class="answer-label">参考答案：</div>
+        <div class="answer-words">
+            ${words.map((word, idx) => {
+                const cleanWord = word.replace(/[.,?!]/g, '');
+                const userInput = document.querySelector(`input[data-word-index="${idx}"]`);
+                const userValue = userInput ? userInput.value.trim() : '';
+                // 区分大小写比较
+                const isCorrect = userValue && userValue === cleanWord;
+                return `<span class="answer-word ${isCorrect ? 'correct' : ''}">${word}</span>`;
+            }).join('')}
+        </div>
+    `;
+    answerDisplay.style.display = 'block';
+
+    // 显示提示
+    const feedbackEl = document.getElementById('sentence-feedback');
+    feedbackEl.innerHTML = '<span class="feedback-answer">参考答案已显示，请对照修改</span>';
+    feedbackEl.style.display = 'block';
+}
+
+function endSentencePractice() {
+    const session = AppState.sentencesSession;
+    if (!session) return;
+
+    const { correctCount, wrongCount, startTime } = session;
+    const total = correctCount + wrongCount;
+    const accuracy = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+
+    // 计算用时
+    const timeSpent = Math.round((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(timeSpent / 60);
+    const seconds = timeSpent % 60;
+    const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    // 更新结果页面
+    document.getElementById('sentence-accuracy').textContent = accuracy + '%';
+    document.getElementById('sentence-correct').textContent = correctCount;
+    document.getElementById('sentence-wrong').textContent = wrongCount;
+    document.getElementById('sentence-time').textContent = timeStr;
+
+    // 跳转到结果页面
+    switchPage('sentence-result');
+}
+
+function addWrongSentence(sentenceData) {
+    const progress = AppState.userProgress;
+
+    if (!progress.wrongSentences) {
+        progress.wrongSentences = [];
+    }
+
+    const existing = progress.wrongSentences.find(s => s.id === sentenceData.id);
+
+    if (existing) {
+        existing.wrongCount += 1;
+        existing.lastWrongDate = new Date().toISOString().split('T')[0];
+    } else {
+        progress.wrongSentences.push({
+            ...sentenceData,
+            wrongCount: 1,
+            lastWrongDate: new Date().toISOString().split('T')[0]
+        });
+    }
+
+    saveUserProgress();
+    console.log('添加/更新错句:', sentenceData.id);
+}
+
+function startSentencePracticeWithSession(session) {
+    AppState.sentencesSession = {
+        dialogues: session.dialogues,
+        currentIndex: 0,
+        correctCount: 0,
+        wrongCount: 0,
+        wrongSentenceIds: [],
+        startTime: Date.now(),
+        isPaused: false
+    };
+    switchPage('sentence-practice');
+    showCurrentSentence();
+}
+
+// 页面切换时初始化语句页面
+const originalSwitchPage = switchPage;
+switchPage = function(pageName) {
+    originalSwitchPage(pageName);
+
+    if (pageName === 'sentences') {
+        initSentencesPage();
+        renderSentencesPage();
+    }
+};
+
+function renderSentencesPage() {
+    // 检查阅读数据是否已加载
+    if (!AppState.readings || AppState.readings.length === 0) {
+        // 数据未加载，显示提示
+        const wordbookSelect = document.getElementById('sentences-wordbook-select');
+        const unitSelect = document.getElementById('sentences-unit-select');
+        if (wordbookSelect) {
+            wordbookSelect.innerHTML = '<option value="">加载中...</option>';
+        }
+        if (unitSelect) {
+            unitSelect.innerHTML = '<option value="">请先选择书本</option>';
+            unitSelect.disabled = true;
+        }
+        return;
+    }
+    
+    initSentencesWordbookSelector();
 }
 
 // 导出工具函数

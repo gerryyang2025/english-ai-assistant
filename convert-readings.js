@@ -15,10 +15,26 @@ function parseReadingsMD() {
     let isParsingPatterns = false;
     let isParsingKnowledgePoints = false;
     
+    // 提取书本名称（第一个 # 标题）
+    let bookName = '';
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line.startsWith('# ') && !line.startsWith('# 题目：') && !line.startsWith('# 场景：') && 
+            !line.startsWith('# 重点句型') && !line.startsWith('# 知识点')) {
+            bookName = line.replace(/^#\s*/, '').trim();
+            break;
+        }
+    }
+    
+    // 当前单元名称
+    let currentUnitName = '';
+    
     // 找到第一个题目行的位置
     let startIndex = 0;
     for (let i = 0; i < lines.length; i++) {
-        if (lines[i].trim().startsWith('# 题目：')) {
+        // 支持两种格式：# 题目： 和 * 题目：
+        const line = lines[i].trim();
+        if (line.startsWith('# 题目：') || line.startsWith('* 题目：')) {
             startIndex = i;
             break;
         }
@@ -29,20 +45,51 @@ function parseReadingsMD() {
         const line = rawLine.trim();
         
         // 跳过注释和 JSON 示例
-        if (line.startsWith('<!--') || line.startsWith('```') || line.startsWith('*')) {
+        if (line.startsWith('<!--') || line.startsWith('```')) {
             continue;
         }
         
-        // 检测题目行
-        if (line.startsWith('# 题目：')) {
+        // 检测单元标题行（## 开头的行）
+        if (line.startsWith('## ')) {
+            currentUnitName = line.replace(/^##\s*/, '').trim();
+            continue;
+        }
+        
+        // 检测题目行（支持两种格式：# 题目： 和 * 题目：）
+        if (line.startsWith('# 题目：') || line.startsWith('* 题目：')) {
             // 保存上一个阅读材料
             if (currentReading) {
                 readings.push(currentReading);
             }
             
-            const titleMatch = line.match(/# 题目：(.+?)\s*\(([^)]+)\)/);
+            // 移除 # 或 * 前缀
+            const cleanLine = line.replace(/^[*#]\s*/, '');
+            const titleMatch = cleanLine.match(/题目：(.+?)\s*\(([^)]+)\)/);
+            
+            // 在当前行之前查找最近的单元标题
+            let readingUnitName = '';
+            for (let j = i - 1; j >= 0; j--) {
+                const prevLine = lines[j].trim();
+                if (prevLine.startsWith('## ')) {
+                    readingUnitName = prevLine.replace(/^##\s*/, '').trim();
+                    break;
+                }
+            }
+            // 如果没找到，从文件开头查找最近的单元标题
+            if (!readingUnitName) {
+                for (let j = 0; j < i; j++) {
+                    const prevLine = lines[j].trim();
+                    if (prevLine.startsWith('## ')) {
+                        readingUnitName = prevLine.replace(/^##\s*/, '').trim();
+                        break;
+                    }
+                }
+            }
+            
             currentReading = {
                 id: `reading-${String(readingIndex + 1).padStart(3, '0')}`,
+                bookName: bookName,
+                unitName: readingUnitName,
                 title: titleMatch ? titleMatch[1].trim() : '',
                 titleCn: titleMatch ? titleMatch[2].trim() : '',
                 scene: '',
@@ -61,21 +108,23 @@ function parseReadingsMD() {
             continue;
         }
         
-        // 检测场景行
-        if (line.startsWith('# 场景：')) {
-            currentReading.scene = line.replace('# 场景：', '').trim();
+        // 检测场景行（支持两种格式：# 场景： 和 * 场景：）
+        if (line.startsWith('# 场景：') || line.startsWith('* 场景：')) {
+            currentReading.scene = line.replace(/^[*#]\s*场景：/, '').trim();
             continue;
         }
         
-        // 检测重点句型行
-        if (line.startsWith('# 重点句型：') || line === '# 重点句型') {
+        // 检测重点句型行（支持两种格式：# 重点句型： 和 * 重点句型：）
+        if (line.startsWith('# 重点句型：') || line.startsWith('# 重点句型') || 
+            line.startsWith('* 重点句型：') || line.startsWith('* 重点句型')) {
             isParsingPatterns = true;
             isParsingKnowledgePoints = false;
             continue;
         }
         
-        // 检测知识点行
-        if (line.startsWith('# 知识点：') || line === '# 知识点') {
+        // 检测知识点行（支持两种格式：# 知识点： 和 * 知识点：）
+        if (line.startsWith('# 知识点：') || line.startsWith('# 知识点') || 
+            line.startsWith('* 知识点：') || line.startsWith('* 知识点')) {
             isParsingPatterns = false;
             isParsingKnowledgePoints = true;
             continue;
@@ -148,19 +197,37 @@ function parseReadingsMD() {
         readings.push(currentReading);
     }
     
-    return { readings };
+    return { 
+        bookName: bookName,
+        readings: readings 
+    };
 }
 
 function main() {
     console.log('开始转换 READINGS.md...');
     const data = parseReadingsMD();
     
-    console.log(`\n解析结果：共 ${data.readings.length} 篇阅读材料`);
-    data.readings.forEach((reading, index) => {
-        console.log(`  ${index + 1}. ${reading.title} (${reading.titleCn})`);
-        console.log(`     - 句型: ${reading.keySentencePatterns.length} 个`);
-        console.log(`     - 知识点: ${reading.knowledgePoints.length} 个`);
-        console.log(`     - 对话: ${reading.dialogues.length} 句`);
+    console.log(`\n📖 书本名称: ${data.bookName || '未设置'}`);
+    console.log(`📚 共 ${data.readings.length} 篇阅读材料`);
+    
+    // 按单元分组显示
+    const unitMap = new Map();
+    data.readings.forEach(reading => {
+        const unitName = reading.unitName || '未分类';
+        if (!unitMap.has(unitName)) {
+            unitMap.set(unitName, []);
+        }
+        unitMap.get(unitName).push(reading);
+    });
+    
+    unitMap.forEach((readings, unitName) => {
+        console.log(`\n  【${unitName}】- ${readings.length} 篇`);
+        readings.forEach((reading, index) => {
+            console.log(`    ${index + 1}. ${reading.title} (${reading.titleCn})`);
+            console.log(`       - 句型: ${reading.keySentencePatterns.length} 个`);
+            console.log(`       - 知识点: ${reading.knowledgePoints.length} 个`);
+            console.log(`       - 对话: ${reading.dialogues.length} 句`);
+        });
     });
     
     // 生成 JSON 数据
@@ -169,7 +236,7 @@ function main() {
     // 保存到 data/readings.json
     const outputPath = path.join(__dirname, 'data', 'readings.json');
     fs.writeFileSync(outputPath, jsonOutput, 'utf-8');
-    console.log(`\n数据已保存到: ${outputPath}`);
+    console.log(`\n\n✅ 数据已保存到: ${outputPath}`);
     
     console.log('\n转换完成！');
 }

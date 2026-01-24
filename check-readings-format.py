@@ -18,6 +18,7 @@ class ReadingsFormatChecker:
     def __init__(self):
         self.errors: List[str] = []
         self.warnings: List[str] = []
+        self.book_name: str = ''
         self.stats = {
             'total_readings': 0,
             'valid_readings': 0,
@@ -46,10 +47,25 @@ class ReadingsFormatChecker:
         """检查格式"""
         lines = content.split('\n')
         
-        # 跳过注释部分，找到第一个题目行
+        # 提取书本名称（第一个 # 标题）
+        book_name = ''
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            if stripped.startswith('# ') and not stripped.startswith('# 题目：') and \
+               not stripped.startswith('# 场景：') and not stripped.startswith('# 重点句型') and \
+               not stripped.startswith('# 知识点'):
+                book_name = re.sub(r'^#\s*', '', stripped)
+                self.book_name = book_name
+                break
+        
+        # 当前单元名称
+        current_unit_name = ''
+        
+        # 跳过注释部分，找到第一个题目行（支持两种格式：# 题目： 和 * 题目：）
         start_index = 0
         for i, line in enumerate(lines):
-            if line.strip().startswith('# 题目：'):
+            stripped = line.strip()
+            if stripped.startswith('# 题目：') or stripped.startswith('* 题目：'):
                 start_index = i
                 break
         
@@ -66,8 +82,17 @@ class ReadingsFormatChecker:
             if not line:
                 continue
             
-            # 检测题目行
-            if line.startswith('# 题目：'):
+            # 跳过 JSON 示例代码块
+            if line.startswith('```'):
+                continue
+            
+            # 检测单元标题行（## 开头的行）
+            if line.startswith('## '):
+                current_unit_name = re.sub(r'^##\s*', '', line)
+                continue
+            
+            # 检测题目行（支持两种格式：# 题目： 和 * 题目：）
+            if line.startswith('# 题目：') or line.startswith('* 题目：'):
                 # 保存上一个阅读材料
                 if current_reading:
                     self.validate_reading(current_reading)
@@ -77,6 +102,8 @@ class ReadingsFormatChecker:
                     'index': reading_index,
                     'line_number': i + 1,
                     'title_line': line,
+                    'book_name': book_name,
+                    'unit_name': current_unit_name,
                     'has_scene': False,
                     'has_patterns': False,
                     'has_content': False,
@@ -86,35 +113,41 @@ class ReadingsFormatChecker:
                 }
                 self.stats['total_readings'] += 1
                 
+                # 移除 # 或 * 前缀
+                clean_line = re.sub(r'^[*#]\s*', '', line)
+                
                 # 解析标题
-                title_match = re.match(r'# 题目：(.+?)\s*\(([^)]+)\)', line)
+                title_match = re.match(r'题目：(.+?)\s*\(([^)]+)\)', clean_line)
                 if title_match:
                     current_reading['title'] = title_match.group(1).strip()
                     current_reading['title_cn'] = title_match.group(2).strip()
                 else:
-                    self.errors.append(f"第 {i + 1} 行：标题格式错误，应为 \"# 题目：English Title (中文标题)\"")
+                    self.errors.append(f"第 {i + 1} 行：标题格式错误，应为 \"* 题目：English Title (中文标题)\"")
                 continue
             
             # 如果没有当前阅读材料，跳过
             if not current_reading:
                 continue
             
-            # 检测场景行
-            if line.startswith('# 场景：'):
+            # 检测场景行（支持两种格式：# 场景： 和 * 场景：）
+            if line.startswith('# 场景：') or line.startswith('* 场景：'):
                 current_reading['has_scene'] = True
-                current_reading['scene'] = line.replace('# 场景：', '').strip()
+                scene_content = re.sub(r'^[*#]\s*场景：', '', line)
+                current_reading['scene'] = scene_content.strip()
                 if not current_reading['scene']:
                     self.warnings.append(f"第 {i + 1} 行：场景描述为空")
                 continue
             
-            # 检测重点句型行
-            if line.startswith('# 重点句型：') or line == '# 重点句型':
+            # 检测重点句型行（支持多种格式）
+            if (line.startswith('# 重点句型：') or line.startswith('# 重点句型') or 
+                line.startswith('* 重点句型：') or line.startswith('* 重点句型')):
                 is_parsing_patterns = True
                 is_parsing_knowledge_points = False
                 continue
             
-            # 检测知识点行
-            if line.startswith('# 知识点：') or line == '# 知识点':
+            # 检测知识点行（支持多种格式）
+            if (line.startswith('# 知识点：') or line.startswith('# 知识点') or 
+                line.startswith('* 知识点：') or line.startswith('* 知识点')):
                 is_parsing_patterns = False
                 is_parsing_knowledge_points = True
                 continue
@@ -230,6 +263,10 @@ class ReadingsFormatChecker:
         print('\n' + '=' * 60)
         print('📚 READINGS.md 格式检查报告')
         print('=' * 60)
+        
+        # 书本名称
+        if self.book_name:
+            print(f'\n📖 书本名称: {self.book_name}')
         
         # 统计信息
         print('\n📊 统计信息：')

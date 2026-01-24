@@ -4,9 +4,12 @@
 
 ```json
 {
+  "bookName": "英语五年级上册",
   "readings": [
     {
       "id": "reading-001",
+      "bookName": "英语五年级上册",
+      "unitName": "Unit 1",
       "title": "My future",
       "titleCn": "我的未来",
       "scene": "这段对话发生在教室内，老师询问学生们关于未来的职业理想。",
@@ -38,16 +41,19 @@
 ```
 -->
 
+# 英语五年级上册
 
-# 题目：My future (我的未来)
-# 场景：这段对话发生在教室内，老师询问学生们关于未来的职业理想。
-# 重点句型：
+## Unit 1
+
+* 题目：My future (我的未来)
+* 场景：这段对话发生在教室内，老师询问学生们关于未来的职业理想。
+* 重点句型：
   - What do you want to be? (你将来想做什么？)
   - I want to be a/an... (我想成为一名...)
   - I want to be a pilot. (我想成为一名飞行员。)
   - I want to fly a plane in the sky. (我想在天空中开飞机。)
   - I want to help people. (我想帮助别人。)
-# 知识点：
+* 知识点：
   - 核心职业名词：`pilot` (飞行员), `cook` (厨师/烹饪), `taxi driver` (出租车司机), `singer` (歌手), `lifeguard` (救生员), `teacher` (教师), `doctor` (医生)
   - 核心动词与短语：`future` (将来), `want` (想要), `teach` (教), `save` (救), `become` (变成), `(be) good at` (擅长)
   - 语音知识：掌握字母组合 `sk` 的发音，如 `desk` (书桌) 和 `mask` (面具)
@@ -59,9 +65,9 @@ Alice: I want to be a teacher. I want to teach English in a school. (艾丽丝�
 Peter: I want to be a cook. I want to cook nice food. (彼得：我想成为一名厨师。我想烹饪美味的食物。)
 
 
-# 题目：Froggy's new job (小青蛙的新工作)
-# 场景：这段文本描述了小青蛙寻找适合自己职业的过程。
-# 重点句型：
+* 题目：Froggy's new job (小青蛙的新工作)
+* 场景：这段文本描述了小青蛙寻找适合自己职业的过程。
+* 重点句型：
   - Do you want to be...? (你想成为...吗？)
   - Yes, I do! (是的，我想！)
   - be good at... (擅长...)
@@ -76,9 +82,11 @@ Froggy: Yes, I do! (小青蛙：是的，我想！)
 Narrator: Froggy becomes a lifeguard. He likes his new job. (旁白：小青蛙成为了一名救生员。他喜欢他的新工作。)
 
 
-# 题目：Going to school (去上学) 
-# 场景：这段对话展示了 Jill 询问几位同学上学的交通方式。
-# 重点句型：
+## Unit 2
+
+* 题目：Going to school (去上学) 
+* 场景：这段对话展示了 Jill 询问几位同学上学的交通方式。
+* 重点句型：
   - How do you come to school? (你怎么来学校？)
   - How does ... go to school/work? (某人怎么去学校/上班？)
   - I come to school on foot. (我步行来学校。)
@@ -89,7 +97,7 @@ Narrator: Froggy becomes a lifeguard. He likes his new job. (旁白：小青蛙�
   - by bike (骑自行车)
   - by car (乘小汽车)
   - on foot (步行)
-# 知识点：
+* 知识点：
   - 交通方式表达：`by bus` (乘公交), `by bike` (骑车), `by car` (乘私家车), `by underground` (乘地铁), `on foot` (步行) 
   - 核心动作短语：`walk to...` (步行去...), `take the bus/train` (乘公交/火车), `get off` (下车), `far from` (离...远) 
   - 地点名词：`station` (车站), `bus stop` (公交站), `primary school` (小学)
@@ -105,9 +113,9 @@ Narrator: Ms Guo is a teacher. She walks to the underground station and takes th
 Narrator: Then she takes Bus No. 12 to Spring Street. She gets off at the bus stop and walks to her school. (旁白：然后她乘坐12路公交车到春晓街。她在公交站下车，然后步行去学校。) 
 
 
-# 题目：Ms Guo's journey to work (郭老师的上班之旅) 
-# 场景：这段短文描述了郭老师从家到学校的通勤路线。
-# 重点句型：
+* 题目：Ms Guo's journey to work (郭老师的上班之旅) 
+* 场景：这段短文描述了郭老师从家到学校的通勤路线。
+* 重点句型：
   - take the train (搭乘火车。在英语中，take 也常用于乘坐交通工具)
   - get off (下车。对应“上车”为 get on，课本侧重下车地点的描述)
   - walk to ... (走路去某地)
@@ -119,14 +127,17 @@ Text: Then she takes Bus No. 12 to Spring Street. (正文：然后她搭乘12路
 Text: After half an hour, she gets off at Spring Street Bus Stop. Then she walks to her school. (正文：半小时后，她在春街公交站下车。然后她走去学校。)
 
 
-# 题目：My birthday (我的生日) 
-# 场景：这段对话发生在 Peter 和 Joe 之间，Peter 邀请 Joe 参加他的生日聚会。
-# 重点句型：
+## Unit 3
+
+
+* 题目：My birthday (我的生日) 
+* 场景：这段对话发生在 Peter 和 Joe 之间，Peter 邀请 Joe 参加他的生日聚会。
+* 重点句型：
   - When's your birthday? (你的生日是什么时候？)
   - It's on 26th September. (在9月26日。注：日期使用“on + 序数词 + 月份”。) 
   - What time does the party begin? (聚会几点开始？) 
   - Can you bring some orange things to the party? (你能带一些橙色的东西来聚会吗？) 
-# 知识点：
+* 知识点：
   - 核心名词：`party` (聚会), `hat` (帽子), `thing` (东西), `favourite` (最喜欢的)
   - 核心短语：`begin` (开始), `bring` (带来), `have fun` (尽情玩), `can't wait` (等不及了) 
   - 序数词：掌握从 `first` (第一) 到 `thirty-first` (第三十一) 的表达方式及缩写规律（如 1st, 2nd, 3rd, 4th...） 
@@ -143,12 +154,12 @@ Peter: Can you bring some orange things to the party? It's an "orange party". Or
 Joe: An "orange party"? That sounds interesting. I can't wait!  (乔：一个“橙色聚会”？听起来很有趣。我等不及了！)
 
 
-# 题目：My birthday (橙色聚会现场) 
-# 场景：朋友们带着橙色的物品来到聚会现场。
-# 重点句型：
+* 题目：My birthday (橙色聚会现场) 
+* 场景：朋友们带着橙色的物品来到聚会现场。
+* 重点句型：
   - What orange things do you have? (你有什么橙色的东西？)
   - I have an orange hat. (我有一个橙色的帽子。)
-# 知识点：
+* 知识点：
   - 序数词。规律口诀：first, second, third 特殊记，fourth 开始加 `th`。注意 twelfth (第十二，基数词 twelve 结尾的 `ve` 变 `f` 再加 `th`)
   - 长单词：thirteenth (第十三), twenty-first (第二十一)
 
@@ -163,13 +174,15 @@ Alice: Look, Peter! I have an orange card for you. (艾丽丝：看，彼得！�
 Peter: Thank you so much. Look at the table. Here are some orange things for you. They're oranges, orange juice and an orange cake. Let's have some fun! (彼得：非常感谢。看桌子。这儿有一些给你们的橙色东西。它们是橙子、橙汁和橙色蛋糕。让我们尽情玩吧！)
 
 
-# 题目：Grandparents (与祖父母的日常) 
-# 场景：郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。
-# 重点句型：
+## Unit 4
+
+* 题目：Grandparents (与祖父母的日常) 
+* 场景：郭老师在课堂上询问学生们平时如何与祖父母互动，随后是玛丽和约翰与奶奶的一次购物约定。
+* 重点句型：
   - What do you usually do with your grandparents? (你通常和你的祖父母做什么？) 
   - I usually play chess with my grandpa. (我通常和我爷爷下棋。) 
   - Grandma is never late. (奶奶从不迟到。) 
-# 知识点：
+* 知识点：
   - 频率副词排序：`always` (总是) > `usually` (通常) > `often` (经常) > `sometimes` (有时) > `never` (从不) 
   - 重点短语：`play chess` (下棋), `write emails` (写邮件), `visit them` (看望他们), `go shopping` (去购物), `far from` (离...远), `at the weekend` (在周末) 
   - 语音知识：掌握字母组合 `sh` 的发音，如 `dish` (盘子) 和 `wash` (洗) 
@@ -189,13 +202,15 @@ John: Grandma is never late. (约翰：奶奶从不迟到。)
 Grandma: Hello, Mary. Hello, John. Come with me! (奶奶：你们好，玛丽。你好，约翰。跟我来吧！) 
 
 
-# 题目：Friends (好朋友的共同点) 
-# 场景：Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。
-# 重点句型：
+## Unit 5
+
+* 题目：Friends (好朋友的共同点) 
+* 场景：Kitty 正在介绍她的好朋友 Alice，并描述她们的性格、共同爱好以及经常一起做的事情。
+* 重点句型：
   - We both like sport. (我们两个都喜欢运动。)
   - We're in the same class. (我们在同一个班级。)
   - We sometimes help old people cross the street. (我们有时帮助老人穿过马路。) 
-# 知识点：
+* 知识点：
   - 核心形容词：`clever` (聪明的), `same` (相同的), `different` (不同的), `heavy` (重的), `bored` (无聊的), `easy` (容易的)
   - 重点短语：`both` (两个都), `each other` (互相), `cross the street` (穿过马路), `carry heavy bags` (提重袋子), `make phone calls` (打电话)
   - 语音知识：掌握字母组合 `dr` (dress) 和 `pr` (princess) 的发音
@@ -208,13 +223,15 @@ Kitty: We both like helping people. We sometimes help old people cross the stree
 Kitty: We like each other. We're good friends. (吉蒂：我们喜欢彼此。我们是好朋友。)
 
 
-# 题目：Family life (家庭生活) 
-# 场景：描述李老师（Mr Li）一家人在家里不同房间进行的日常活动，以及在“地球一小时”期间大家如何度过夜晚。
-# 重点句型：
+## Unit 6
+
+* 题目：Family life (家庭生活) 
+* 场景：描述李老师（Mr Li）一家人在家里不同房间进行的日常活动，以及在“地球一小时”期间大家如何度过夜晚。
+* 重点句型：
   - I'm doing my homework. (我正在做家庭作业。) 
   - Where are you? (你在哪儿？) 
   - Many people turn off their lights. (许多人关掉了灯。) 
-# 知识点：
+* 知识点：
   - 现在进行时：掌握 `be + 动词ing` 结构，如 `doing` (正在做), `making` (正在制作), `washing` (正在洗), `cooking` (正在烹饪) 
   - 核心房间类词汇：`living room` (客厅), `bedroom` (卧室), `kitchen` (厨房), `bathroom` (浴室) 
   - 重点短语：`model plane` (飞机模型), `turn off` (关掉), `watch TV` (看电视), `tell a story` (讲故事), `at bedtime` (在就寝时间) 

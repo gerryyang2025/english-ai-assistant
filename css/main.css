@@ -239,6 +239,105 @@ body {
     font-size: 0.95rem;
 }
 
+/* 阅读列表样式 */
+.readings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.readings-unit-section {
+    margin-bottom: 24px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.readings-unit-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.readings-unit-section .reading-card {
+    margin-bottom: 0;
+    background: var(--bg-card);
+}
+
+.readings-unit-section .reading-card:last-child {
+    margin-bottom: 0;
+}
+
+.reading-card {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--border-color);
+}
+
+.reading-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(4px);
+}
+
+.reading-card-icon {
+    font-size: 2rem;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.reading-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.reading-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.reading-card-title-cn {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.reading-card-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.reading-card-arrow {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+/* 阅读页面样式 */
+#page-readings {
+    padding: 24px;
+}
+
+#page-readings .page-header {
+    margin-bottom: 24px;
+}
+
+#page-readings .page-subtitle {
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
 /* 今日统计 */
 .today-stats {
     background: var(--bg-card);
@@ -623,6 +722,247 @@ body {
     cursor: not-allowed;
 }
 
+/* 语句页面按钮区域 */
+#page-sentences .setup-actions {
+    margin-top: 24px;
+}
+
+#page-sentences .setup-actions .btn-primary {
+    width: 100%;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+/* 听写页面样式 */
+#page-dictation {
+    padding: 24px;
+}
+
+#page-dictation-result {
+    padding: 24px;
+}
+
+.dictation-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+    gap: 20px;
+}
+
+.dictation-word-info {
+    flex: 1;
+    text-align: left;
+}
+
+.dictation-word {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.dictation-content .audio-btn {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.dictation-content .audio-btn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+.dictation-input-area {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.dictation-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 16px 24px;
+    font-size: 1.5rem;
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: border-color var(--transition-fast);
+    /* 确保默认边框颜色正确 */
+    color: var(--text-primary);
+    background: var(--bg-primary);
+}
+
+.dictation-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* 输入框错误状态 - 明确使用 !important 确保优先级 */
+.dictation-input.input-error {
+    border-color: var(--danger-color) !important;
+}
+
+/* 输入框正确状态 */
+.dictation-input.input-correct {
+    border-color: var(--success-color) !important;
+}
+
+.dictation-feedback {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.dictation-feedback .feedback-correct {
+    font-size: 1.3rem;
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.dictation-feedback .feedback-wrong {
+    font-size: 1.1rem;
+    color: var(--danger-color);
+}
+
+/* 听写页面答案显示 */
+#dictation-answer-display {
+    text-align: center;
+}
+
+#dictation-answer-display .answer-word {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 12px 0;
+}
+
+#dictation-answer-display .answer-phonetic {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.dictation-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.dictation-skip {
+    text-align: center;
+}
+
+.dictation-skip .btn-text {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: color var(--transition-fast);
+}
+
+.dictation-skip .btn-text:hover {
+    color: var(--primary-color);
+}
+
+/* 听写结果页面 */
+.result-card {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.result-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 24px;
+}
+
+.result-stat {
+    text-align: center;
+}
+
+.result-stat .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.result-stat .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.result-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.result-actions .btn-primary,
+.result-actions .btn-secondary {
+    min-width: 150px;
+}
+
+/* 错误单词列表 */
+.wrong-words-section {
+    margin-top: 32px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.wrong-words-section h3 {
+    font-size: 1.1rem;
+    color: var(--danger-color);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.wrong-words-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wrong-word-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--danger-color);
+}
+
+.wrong-word-en {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.wrong-word-cn {
+    color: var(--text-secondary);
+}
+
 /* 闪卡词书选择器 */
 .wordbook-selector-flashcard {
     margin-bottom: 20px;
@@ -976,6 +1316,272 @@ body {
     border-color: var(--primary-color);
     color: var(--primary-color);
     font-weight: 600;
+}
+
+/* 语句练习页面 */
+#page-sentences {
+    padding: 24px;
+}
+
+#page-sentence-practice {
+    padding: 24px;
+}
+
+#page-sentence-result {
+    padding: 24px;
+}
+
+.sentence-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+    gap: 16px;
+}
+
+.sentence-chinese {
+    flex: 1;
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+.sentence-content .play-btn {
+    flex-shrink: 0;
+}
+
+.sentence-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    justify-content: center;
+}
+
+.word-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sentence-word-input {
+    width: 100px;
+    padding: 12px 16px;
+    font-size: 1.1rem;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.sentence-word-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.sentence-word-input.correct {
+    border-color: var(--success-color);
+    background: var(--success-light);
+}
+
+.sentence-word-input.wrong {
+    border-color: var(--danger-color);
+    background: var(--danger-light);
+}
+
+.word-input-wrapper .punctuation {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.sentence-feedback {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    min-height: 40px;
+}
+
+.feedback-correct {
+    color: var(--success-color);
+}
+
+.feedback-wrong {
+    color: var(--danger-color);
+}
+
+.feedback-answer {
+    color: var(--primary-color);
+}
+
+.answer-display {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    border: 2px dashed var(--primary-color);
+}
+
+.answer-label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.answer-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.answer-word {
+    padding: 8px 16px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.answer-word.correct {
+    background: var(--success-light);
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+/* 闪卡答案单词包装器 */
+.answer-word-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 收藏按钮 */
+.favorite-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.favorite-btn:hover {
+    border-color: var(--danger-color);
+    transform: scale(1.1);
+}
+
+.favorite-btn.favorited {
+    border-color: var(--danger-color);
+    background: #FFEBEE;
+}
+
+.favorite-btn.favorited .favorite-icon {
+    color: var(--danger-color);
+}
+
+.practice-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.practice-progress {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary-color);
+    width: 0%;
+    transition: width var(--transition-normal);
+}
+
+.progress-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.result-container {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.result-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 32px;
+    color: var(--text-primary);
+}
+
+.sentence-result .result-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.sentence-result .result-row {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sentence-result .result-label {
+    color: var(--text-secondary);
+}
+
+.sentence-result .result-value {
+    font-weight: 600;
+}
+
+.sentence-result .result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sentence-result .result-actions .btn {
+    width: 100%;
+}
+
+.unit-select-grid .unit-name {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.unit-select-grid .unit-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
 
 /* 测试区域 */
@@ -1778,8 +2384,379 @@ body {
 }
 
 .wrongbook-words {
-    max-height: 500px;
-    overflow-y: auto;
+    min-height: 100px;
+}
+
+/* 分页信息 */
+.wrongbook-pagination-info {
+    text-align: center;
+    padding: 12px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+}
+
+/* 单词卡片网格布局 */
+.wrongbook-word-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 8px 0;
+}
+
+/* 错词卡片样式 */
+.wrongbook-word-card {
+    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+    border: 2px solid #90CAF9;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: all var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wrongbook-word-card:hover {
+    border-color: #64B5F6;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.wrongbook-word-card.mastered {
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    border-color: #81C784;
+}
+
+.wrongbook-word-card.learning {
+    background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+    border-color: #FFD54F;
+}
+
+/* 卡片头部 */
+.word-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.word-index {
+    background: var(--primary-light);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* 移除按钮（小） */
+.remove-btn-small {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all var(--transition-fast);
+}
+
+.remove-btn-small:hover {
+    background: var(--danger-light);
+    color: white;
+}
+
+/* 卡片内容 */
+.word-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.word-card-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.word-card-main .word-text {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.word-card-main .word-phonetic {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+}
+
+.word-card-main .word-meaning {
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* 发音按钮（小） */
+.audio-btn-small {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-light);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    transition: all var(--transition-fast);
+}
+
+.audio-btn-small:hover {
+    background: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* 例句样式 */
+.word-card-example {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary-light);
+    margin-top: 4px;
+}
+
+.word-card-example .example-label {
+    font-weight: 500;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+}
+
+.word-card-example .example-content {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.word-card-example .example-translation {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    padding-left: 12px;
+}
+
+/* 记忆提示样式 */
+.word-card-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    background: #FFF8F0;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid #E67E22;
+    font-size: 0.85rem;
+    color: #E67E22;
+    line-height: 1.4;
+}
+
+.word-card-tip .tip-icon {
+    flex-shrink: 0;
+}
+
+/* 卡片底部 */
+.word-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* 熟练度徽章 */
+.mastery-badge {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.mastery-badge.mastered {
+    background: var(--success-color);
+    color: white;
+}
+
+.mastery-badge.learning {
+    background: #FFA000;
+    color: white;
+}
+
+.mastery-badge.review {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* 错词次数徽章 */
+.wrong-count-badge {
+    background: var(--bg-primary);
+    color: var(--danger-color);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* 错句卡片网格 */
+.wrongsentence-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 8px 0;
+}
+
+/* 错句卡片样式 */
+.wrongsentence-card {
+    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+    border: 2px solid #90CAF9;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: all var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wrongsentence-card:hover {
+    border-color: #64B5F6;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 错句卡片头部 */
+.sentence-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.sentence-index {
+    background: #1976D2;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.sentence-card-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* 错句卡片内容 */
+.sentence-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sentence-english {
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.sentence-chinese {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding-left: 12px;
+    border-left: 3px solid #90CAF9;
+}
+
+/* 错句卡片底部 */
+.sentence-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-color);
+    flex-wrap: wrap;
+}
+
+/* 阅读来源徽章 */
+.reading-badge {
+    background: rgba(25, 118, 210, 0.1);
+    color: #1976D2;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* 分页导航 */
+.wrongbook-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.page-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background: white;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+}
+
+.page-btn:hover:not(:disabled) {
+    background: var(--primary-light);
+    border-color: var(--primary-light);
+    color: white;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    padding: 8px 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--text-primary);
 }
 
 .wrongbook-word-item {
@@ -2190,6 +3167,48 @@ body {
         width: 100%;
     }
     
+    /* 阅读列表样式 */
+    .reading-card {
+        padding: 12px 16px;
+    }
+    
+    .reading-card-icon {
+        font-size: 1.5rem;
+        margin-right: 12px;
+    }
+    
+    .reading-card-title {
+        font-size: 1rem;
+    }
+    
+    .reading-card-title-cn {
+        font-size: 0.9rem;
+    }
+    
+    .reading-card-arrow {
+        font-size: 1.2rem;
+    }
+    
+    /* 单元分组样式 */
+    .readings-unit-section {
+        margin-bottom: 16px;
+        padding: 12px;
+    }
+    
+    .readings-unit-title {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+    }
+    
+    .readings-grid {
+        gap: 8px;
+    }
+    
+    #page-readings {
+        padding: 16px;
+    }
+    
     /* 页面头部 */
     .page-header {
         flex-direction: column;
@@ -2566,7 +3585,82 @@ body {
     .result-percent {
         font-size: 2rem;
     }
-    
+
+    /* 语句练习页面 */
+    #page-sentences {
+        padding: 16px;
+    }
+
+    #page-sentence-practice {
+        padding: 16px;
+    }
+
+    #page-sentence-result {
+        padding: 16px;
+    }
+
+    .sentence-content {
+        flex-direction: column;
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .sentence-chinese {
+        font-size: 1.2rem;
+    }
+
+    .sentence-word-input {
+        width: 70px;
+        padding: 10px 12px;
+        font-size: 1rem;
+    }
+
+    .sentence-inputs {
+        gap: 8px;
+    }
+
+    .word-input-wrapper .punctuation {
+        font-size: 1rem;
+    }
+
+    .sentence-feedback {
+        font-size: 1.1rem;
+    }
+
+    .practice-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .practice-actions .btn {
+        width: 100%;
+    }
+
+    /* 答案显示区域 */
+    .answer-display {
+        padding: 16px;
+    }
+
+    .answer-words {
+        gap: 6px;
+    }
+
+    .answer-word {
+        padding: 6px 12px;
+        font-size: 1rem;
+    }
+
+    .answer-word-wrapper {
+        flex-direction: row;
+        gap: 6px;
+    }
+
+    .favorite-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
     /* 学习进度 */
     .overall-stats {
         grid-template-columns: repeat(2, 1fr);
@@ -2628,6 +3722,81 @@ body {
     .btn-large {
         padding: 16px 36px;
         font-size: 1.1rem;
+    }
+
+    /* 听写页面 */
+    #page-dictation {
+        padding: 16px;
+    }
+
+    .dictation-content {
+        flex-direction: column;
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .dictation-word-info {
+        text-align: center;
+    }
+
+    .dictation-word {
+        font-size: 1.8rem;
+    }
+
+    .dictation-content .audio-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        margin: 0 auto;
+    }
+
+    .dictation-input {
+        padding: 12px 16px;
+        font-size: 1.2rem;
+    }
+
+    .dictation-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .dictation-actions .btn {
+        width: 100%;
+    }
+
+    /* 听写结果页面 */
+    #page-dictation-result {
+        padding: 16px;
+    }
+
+    .result-card {
+        padding: 24px 16px;
+    }
+
+    .result-stats {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .result-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .result-actions .btn {
+        width: 100%;
+    }
+
+    .wrong-words-section {
+        padding: 16px;
+    }
+
+    .wrong-words-list {
+        gap: 8px;
+    }
+
+    .wrong-word-item {
+        padding: 12px;
     }
 }
 
@@ -2719,6 +3888,39 @@ body {
     #qa-submit-btn {
         padding: 10px 20px;
         font-size: 0.95rem;
+    }
+    
+    /* 阅读列表样式 */
+    .reading-card {
+        padding: 10px 12px;
+    }
+    
+    .reading-card-icon {
+        font-size: 1.3rem;
+        margin-right: 10px;
+    }
+    
+    .reading-card-title {
+        font-size: 0.9rem;
+    }
+    
+    .reading-card-title-cn {
+        font-size: 0.85rem;
+    }
+    
+    .readings-unit-title {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+    }
+    
+    .readings-unit-section {
+        margin-bottom: 12px;
+        padding: 10px;
+    }
+    
+    .readings-grid {
+        gap: 6px;
     }
     
     /* 页面头部 */
@@ -3060,7 +4262,18 @@ body {
         margin-bottom: 10px;
         width: 100%;
     }
-    
+
+    .answer-word-wrapper {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .favorite-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+    }
+
     .answer-actions {
         gap: 6px;
         width: 100%;
@@ -3187,6 +4400,41 @@ body {
     
     .result-actions button {
         width: 100%;
+    }
+
+    /* 语句练习页面 */
+    .sentence-chinese {
+        font-size: 1.1rem;
+    }
+
+    .sentence-word-input {
+        width: 55px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    .word-input-wrapper {
+        gap: 2px;
+    }
+
+    .sentence-content {
+        padding: 12px;
+        margin-bottom: 24px;
+    }
+
+    .practice-progress {
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    /* 答案显示区域 */
+    .answer-display {
+        padding: 12px;
+    }
+
+    .answer-word {
+        padding: 5px 10px;
+        font-size: 0.9rem;
     }
 
     /* 错题本页面完整适配 */
@@ -3411,6 +4659,64 @@ body {
         border-radius: 50%;
         font-size: 1rem;
         flex-shrink: 0;
+    }
+
+    /* 错词卡片布局响应式 */
+    .wrongbook-word-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .wrongbook-word-card {
+        padding: 14px;
+    }
+
+    .wrongbook-word-card .word-text {
+        font-size: 1.1rem;
+    }
+
+    .wrongbook-word-card .word-phonetic {
+        font-size: 0.85rem;
+    }
+
+    .wrongbook-word-card .word-meaning {
+        font-size: 0.95rem;
+    }
+
+    .wrongbook-pagination {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .page-info {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        order: -1;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 错句卡片响应式 */
+    .wrongsentence-card-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .wrongsentence-card {
+        padding: 14px;
+    }
+
+    .sentence-english {
+        font-size: 0.95rem;
+    }
+
+    .sentence-chinese {
+        font-size: 0.85rem;
     }
 
     /* 错题本页面完整适配 */
@@ -3867,6 +5173,31 @@ body {
         font-size: 0.7rem;
     }
 
+    /* 语句练习页面 */
+    .sentence-word-input {
+        width: 45px;
+        padding: 6px 8px;
+        font-size: 0.85rem;
+    }
+
+    .sentence-inputs {
+        gap: 6px;
+    }
+
+    .sentence-chinese {
+        font-size: 1rem;
+    }
+
+    /* 答案显示区域 */
+    .answer-display {
+        padding: 10px;
+    }
+
+    .answer-word {
+        padding: 4px 8px;
+        font-size: 0.85rem;
+    }
+
     /* 错题本页面完整适配 */
     .wrongbook-tabs {
         margin-bottom: 10px;
@@ -4025,7 +5356,117 @@ body {
         height: 32px;
         font-size: 0.8rem;
     }
-    
+
+    /* 错词卡片布局移动端适配 */
+    .wrongbook-pagination-info {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    .wrongbook-word-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .wrongbook-word-card {
+        padding: 12px;
+    }
+
+    .word-card-header {
+        padding-bottom: 6px;
+        margin-bottom: 8px;
+    }
+
+    .word-index {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .wrongbook-word-card .word-text {
+        font-size: 1rem;
+    }
+
+    .wrongbook-word-card .word-phonetic {
+        font-size: 0.8rem;
+    }
+
+    .wrongbook-word-card .word-meaning {
+        font-size: 0.9rem;
+    }
+
+    .word-card-example {
+        padding: 8px;
+    }
+
+    .word-card-example .example-label {
+        font-size: 0.8rem;
+    }
+
+    .word-card-example .example-content {
+        font-size: 0.85rem;
+    }
+
+    .word-card-example .example-translation {
+        font-size: 0.8rem;
+    }
+
+    .word-card-tip {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    .wrongbook-pagination {
+        margin-top: 16px;
+        padding-top: 12px;
+        gap: 4px;
+    }
+
+    .page-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .page-info {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    /* 错句卡片移动端适配 */
+    .wrongsentence-pagination-info {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    .wrongsentence-card-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .wrongsentence-card {
+        padding: 12px;
+    }
+
+    .sentence-index {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .sentence-english {
+        font-size: 0.9rem;
+    }
+
+    .sentence-chinese {
+        font-size: 0.8rem;
+        padding-left: 10px;
+    }
+
+    .reading-badge {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+
     /* 闪卡答案页面完整适配 */
     .flashcard-back {
         padding: 12px 10px;
@@ -4942,6 +6383,36 @@ body {
     #page-tool .status.error {
         background: #f8d7da;
         padding: 10px 12px;
+    }
+
+    /* 听写页面 - 小屏幕手机 */
+    .dictation-word {
+        font-size: 1.6rem;
+    }
+
+    .dictation-word-info {
+        text-align: center;
+    }
+
+    .dictation-content {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .dictation-content .audio-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        margin: 0 auto;
+    }
+
+    .dictation-input {
+        padding: 10px 12px;
+        font-size: 1.1rem;
+    }
+
+    .dictation-content {
+        padding: 16px 12px;
     }
 }
 
