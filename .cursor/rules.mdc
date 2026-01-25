@@ -1,0 +1,145 @@
+# Cursor Rules for English AI Assistant
+
+## Project Overview
+
+English learning web application built with vanilla HTML/CSS/JavaScript and Python Flask backend. Features flashcard tests, word browsing, reading exercises, AI assistant, progress tracking, and mistake notebook. Optimized for Chrome browser with full iPad Chrome APP mode support.
+
+## Tech Stack
+
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+)
+- **Backend**: Python Flask (API proxy, static file serving)
+- **Storage**: JSON files (static data) + localStorage (user progress)
+- **APIs**: MiniMax AI (via Flask proxy), Chuck Norris Jokes API
+- **Speech**: Web Speech API (English TTS with GB/US accents)
+
+## File Structure
+
+```
+english-ai-assistant/
+├── index.html              # Main HTML (all pages in one file)
+├── server.py               # Flask backend
+├── css/
+│   ├── main.css            # Main styles (6000+ lines, responsive design)
+│   └── readings.css        # Reading page specific styles
+├── js/
+│   └── app.js              # Main application (5000+ lines, monolithic)
+└── data/
+    ├── words.json          # Word data
+    └── readings.json       # Reading materials
+```
+
+## Coding Conventions
+
+### HTML
+- All pages in single `index.html` using `<section id="page-xxx" class="page">`
+- Pages shown via CSS class `.active`
+- Inline onclick handlers used (e.g., `onclick="submitQA()"`)
+
+### CSS
+- CSS variables in `:root` for colors, radii, shadows
+- Mobile-first responsive design with 5 breakpoints:
+  - Default: Desktop (>768px)
+  - iPad: 768px-1024px
+  - Tablet: max-width 768px
+  - Phone: max-width 480px
+  - Small: max-width 360px
+- Use `min-height` instead of `height` for flexible containers
+- iPad optimizations:
+  - `height: 100dvh` / `100svh` for viewport units
+  - `env(safe-area-inset-*)` for safe area适配
+  - `padding-bottom: 100px+` for fixed bottom controls
+
+### JavaScript
+- Global state object: `AppState`
+- DOM caching: `const DOM = {}`
+- Functions for all page operations (no classes)
+- Event binding via `addEventListener` in `bindEvents()`
+- Inline event handlers call global functions by name
+
+## Key Functions
+
+### App Initialization
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+    initDOMElements();
+    initSpeechVoices();
+    checkServiceHealth().then(() => {
+        loadWordData().then(() => {
+            loadReadingData();
+            loadUserProgress();
+            bindEvents();
+            renderHomePage();
+            loadDailyJoke();
+        });
+    });
+});
+```
+
+### State Management
+- `AppState.wordData` - Word book data
+- `AppState.readings` - Reading materials
+- `AppState.userProgress` - User progress (localStorage)
+- `AppState.sentencesSession` - Current practice session
+- `AppState.flashcardSession` - Flashcard test session
+
+### Page Navigation
+```javascript
+function switchPage(pageName) {
+    DOM.pages.forEach(p => p.classList.remove('active'));
+    document.getElementById(`page-${pageName}`).classList.add('active');
+    // Trigger page-specific initialization
+}
+```
+
+### Speech Synthesis
+```javascript
+function speakWord(text) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-GB';
+    window.speechSynthesis.speak(utterance);
+}
+```
+
+## iPad Chrome APP Mode Requirements
+
+When modifying CSS/JS, ensure:
+
+1. **Viewport**: Use `viewport-fit=cover` in meta tag
+2. **Height**: Use `100dvh` + `100svh` for iOS Safari
+3. **Safe Area**: Add `env(safe-area-inset-*)` padding
+4. **Scroll**: Ensure `.main-content` has `overflow-y: auto`
+5. **Fixed Bottom**: Add `padding-bottom: 100px+` to content areas
+6. **Web Speech**: Add error handling for async response errors
+
+## Common Issues & Solutions
+
+### Web Speech API Error
+```
+"Uncaught (in promise) Error: A listener indicated an asynchronous 
+response by returning true, but the message channel closed..."
+```
+- Add visibilitychange and beforeunload handlers to cancel speech
+- Wrap speech synthesis in try-catch
+- Add onerror handler to utterance
+
+### iPad Scroll Not Working
+- Ensure `html, body` have `height: 100%` and `overflow: hidden`
+- Make `.main-content` the scroll container with `overflow-y: auto`
+- Add `min-height: 0` to flex children
+
+### Content Overflow on Flashcard
+- Use `min-height` instead of fixed `height`
+- Add `overflow-y: auto` to `.flashcard-back`
+- Add `.scrolling` class when content overflows
+
+### Bottom Controls Hidden
+- Increase `.main-content` `padding-bottom` to 100px+
+- Add `env(safe-area-inset-bottom)` to `.reading-controls`
+
+## Development Notes
+
+- Run server: `./run.sh start`
+- Access: http://localhost:8082
+- Force refresh after code changes: `Cmd+Shift+R`
+- API config: Copy `api_config.example.py` to `api_config.py`
