@@ -1796,13 +1796,13 @@ function renderWrongbookSentencesTab() {
     html += '<div class="wrongsentence-card-grid">';
 
     currentPageItems.forEach((item, index) => {
-        const sentenceIndex = startIndex + index + 1;
+        const globalIndex = startIndex + index;
         html += `
             <div class="wrongsentence-card" data-sentence-id="${item.id}">
                 <div class="sentence-card-header">
-                    <span class="sentence-index">${sentenceIndex}</span>
+                    <span class="sentence-index">${globalIndex + 1}</span>
                     <div class="sentence-card-actions">
-                        <button class="audio-btn-small" title="朗读句子" onclick='speakSentence("${(item.english || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}")'>🔊</button>
+                        <button class="audio-btn-small" title="朗读句子" onclick="playWrongSentence(${globalIndex})">🔊</button>
                         <button class="remove-btn-small" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
                     </div>
                 </div>
@@ -1842,6 +1842,18 @@ function goToWrongbookSentencesPage(page) {
     url.searchParams.set('wrongsentence_page', page);
     window.history.pushState({}, '', url);
     renderWrongbookSentencesTab();
+}
+
+// 播放错句本中的句子（通过索引）
+function playWrongSentence(globalIndex) {
+    const progress = AppState.userProgress;
+    if (!progress.wrongSentences || globalIndex >= progress.wrongSentences.length) {
+        return;
+    }
+    const sentence = progress.wrongSentences[globalIndex];
+    if (sentence && sentence.english) {
+        speakSentence(sentence.english);
+    }
 }
 
 // 朗读句子
