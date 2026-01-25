@@ -74,29 +74,65 @@ function playDialogue(index) {
 ## 语句听写页面空格键滚动问题
 
 ### 问题描述
-在语句听写页面的单词输入框中输入时，按空格键会导致页面自动下拉，影响输入体验。
+在语句听写页面的单词输入框中输入时，按空格键或某些字母会导致页面自动下拉，影响输入体验。
 
 ### 问题原因
-输入框的 `keydown` 事件处理中未阻止空格键的默认行为。空格键在浏览器中默认会触发页面滚动。
+1. 空格键在浏览器中默认会触发页面滚动
+2. 输入框的 `keydown` 事件处理中未阻止空格键的默认行为
+3. macOS 上可能存在其他按键触发的滚动行为
+4. 页面使用了 `scroll-behavior: smooth`，任何意外的滚动都会产生明显效果
 
 ### 解决方案
-在 `keydown` 事件处理中添加对空格键的阻止：
+1. 在 `keydown` 事件处理中添加对空格键和修饰键的阻止
+2. 在 `input` 和 `keydown` 事件中添加滚动位置锁定机制
 
-**修改内容（第 4444-4447 行）：**
+**修改内容：**
+
+1. 在 `keydown` 事件中添加按键阻止逻辑（第 4447-4455 行）：
 ```javascript
 input.addEventListener('keydown', (e) => {
+    // 确保按键时滚动位置不变
+    inputsContainer.scrollTop = inputsScrollTop;
+    
     // 阻止空格键的默认行为（避免页面滚动）
     if (e.key === ' ') {
+        e.preventDefault();
+    }
+    // 阻止 Command 键相关的默认行为（macOS 上 Cmd+I 等快捷键）
+    if (e.metaKey || e.ctrlKey) {
         e.preventDefault();
     }
     // ... 其他处理
 });
 ```
 
+2. 在 `input` 事件中添加滚动位置锁定（第 4432 行）：
+```javascript
+input.addEventListener('input', (e) => {
+    // 确保输入时滚动位置不变
+    inputsContainer.scrollTop = inputsScrollTop;
+    // ... 其他处理
+});
+```
+
+3. 保存并恢复滚动位置（第 4410-4411 行、第 4492-4493 行）：
+```javascript
+// 生成单词输入框前保存滚动位置
+const inputsScrollTop = inputsContainer.scrollTop;
+
+// 聚焦第一个输入框后恢复滚动位置
+setTimeout(() => {
+    firstInput.focus();
+    inputsContainer.scrollTop = inputsScrollTop;
+}, 100);
+```
+
 ### 经验总结
 1. 在输入框中处理特殊按键时，需要考虑是否需要阻止默认行为
 2. 常见需要阻止默认行为的按键：空格（避免页面滚动）、方向键（避免光标移出输入框）
 3. 使用 `e.preventDefault()` 可以阻止按键的默认浏览器行为
+4. 对于复杂的交互场景，需要同时处理事件阻止和滚动位置锁定
+5. macOS 上可能存在特殊的按键行为（如 Command 键组合），需要额外处理
 
 ### 修改文件
-- `js/app.js`：第 4443-4451 行（添加空格键阻止逻辑）
+- `js/app.js`：第 4410-4411 行（保存滚动位置）、第 4432 行（input 事件锁定滚动）、第 4449-4455 行（keydown 事件处理）、第 4490-4494 行（恢复滚动位置）
