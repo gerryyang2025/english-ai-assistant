@@ -364,27 +364,32 @@
     right: 0;
     background: white;
     padding: 16px 20px;
-    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+    padding-bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px));
     padding-left: max(20px, env(safe-area-inset-left, 20px));
     padding-right: max(20px, env(safe-area-inset-right, 20px));
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 16px;
     z-index: 100;
     backdrop-filter: blur(10px);
+    /* 确保在 iPad 上有足够的高度 */
+    min-height: 70px;
 }
 
 .reading-controls .btn-primary,
 .reading-controls .btn-secondary {
-    padding: 12px 32px;
+    padding: 14px 32px;
     font-size: 16px;
     border-radius: 25px;
     font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .reading-controls .btn-tertiary {
-    padding: 12px 24px;
+    padding: 14px 24px;
     font-size: 15px;
     border-radius: 25px;
     background: #f0f0f0;
@@ -392,6 +397,8 @@
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .reading-controls .btn-tertiary:hover {
@@ -585,8 +592,9 @@
     
     .reading-controls {
         padding: 14px 16px;
-        padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
+        padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 14px));
         gap: 12px;
+        min-height: 70px;
     }
     
     .reading-controls .btn-primary,
@@ -604,21 +612,22 @@
 /* iPad 专用适配 (768px - 1024px) */
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
     .reading-controls {
-        padding: 16px 24px;
-        padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+        padding: 18px 24px;
+        padding-bottom: max(28px, calc(env(safe-area-inset-bottom, 0px) + 18px));
         gap: 20px;
+        min-height: 80px;
     }
 
     .reading-controls .btn-primary,
     .reading-controls .btn-secondary {
-        padding: 14px 36px;
-        font-size: 16px;
+        padding: 16px 40px;
+        font-size: 17px;
         border-radius: 30px;
     }
 
     .reading-controls .btn-tertiary {
-        padding: 14px 28px;
-        font-size: 15px;
+        padding: 16px 32px;
+        font-size: 16px;
         border-radius: 30px;
     }
 }
@@ -830,9 +839,11 @@
     
     .reading-controls {
         padding: 12px 10px;
-        padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+        padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 12px));
         gap: 10px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        min-height: 65px;
+        flex-wrap: wrap;
     }
     
     .reading-controls .btn-primary,
@@ -918,8 +929,9 @@
     
     .reading-controls {
         padding: 10px 8px;
-        padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+        padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 10px));
         gap: 8px;
+        min-height: 60px;
     }
     
     .reading-controls .btn-primary,

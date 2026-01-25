@@ -155,7 +155,7 @@ body {
     padding: 24px;
     padding-left: max(24px, env(safe-area-inset-left));
     padding-right: max(24px, env(safe-area-inset-right));
-    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    padding-bottom: max(120px, calc(env(safe-area-inset-bottom, 0px) + 100px));
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -3148,6 +3148,7 @@ body {
     
     .main-content {
         padding: 20px 24px;
+        padding-bottom: max(100px, calc(env(safe-area-inset-bottom, 0px) + 80px));
     }
     
     .feature-cards {
@@ -3227,6 +3228,7 @@ body {
     /* 主内容区域 */
     .main-content {
         padding: 16px 12px;
+        padding-bottom: max(100px, calc(env(safe-area-inset-bottom, 0px) + 80px));
     }
     
     /* 首页 */
@@ -3968,6 +3970,7 @@ body {
     /* 内容区域 */
     .main-content {
         padding: 12px 10px;
+        padding-bottom: max(90px, calc(env(safe-area-inset-bottom, 0px) + 70px));
     }
     
     /* 首页 */
