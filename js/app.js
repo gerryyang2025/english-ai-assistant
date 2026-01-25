@@ -2047,7 +2047,7 @@ function renderFavoritesPage() {
                 </div>
                 <div class="word-actions">
                     <button class="word-action-btn audio-btn" title="播放英音" onclick="speakWord('${escapeHtml(word.word).replace(/'/g, "\\'")}')">
-                        🇬�🇧
+                        🇬🇧
                     </button>
                     <button class="word-action-btn audio-btn" title="播放美音" onclick="speakWordUS('${escapeHtml(word.word).replace(/'/g, "\\'")}')">
                         🇺🇸

@@ -334,7 +334,7 @@ body {
 }
 
 #page-readings .page-subtitle {
-    color: var(--text-secondary);
+    color: var(--text-white);
     margin-top: 8px;
 }
 
@@ -5786,7 +5786,7 @@ body {
 }
 
 #page-tool .page-subtitle {
-    color: #333;
+    color: var(--text-white);
     font-size: 0.95rem;
     margin: 0;
     line-height: 1.5;
