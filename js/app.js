@@ -4441,6 +4441,11 @@ function showCurrentSentence() {
         });
 
         input.addEventListener('keydown', (e) => {
+            // 阻止空格键的默认行为（避免页面滚动）
+            if (e.key === ' ') {
+                e.preventDefault();
+            }
+            
             if (e.key === 'Enter') {
                 checkSentenceAnswer();
             }
