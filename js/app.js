@@ -1802,7 +1802,7 @@ function renderWrongbookSentencesTab() {
                 <div class="sentence-card-header">
                     <span class="sentence-index">${sentenceIndex}</span>
                     <div class="sentence-card-actions">
-                        <button class="audio-btn-small" title="朗读句子" onclick='speakSentence("${escapeHtml(item.english).replace(/'/g, "\\'")}")'>🔊</button>
+                        <button class="audio-btn-small" title="朗读句子" onclick='speakSentence("${(item.english || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}")'>🔊</button>
                         <button class="remove-btn-small" onclick="removeFromWrongSentences('${item.id}')" title="从错句本移除">✕</button>
                     </div>
                 </div>
