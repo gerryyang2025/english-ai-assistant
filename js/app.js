@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化语音列表（处理异步加载）
     initSpeechVoices();
 
+    // 初始化音频上下文（为音效播放做准备）
+    initAudioContext();
+
     // 先检查服务健康状态
     checkServiceHealth().then(healthy => {
         if (!healthy) {
@@ -63,28 +66,47 @@ function initDOMElements() {
     DOM.serviceError = document.getElementById('service-error');
 }
 
+// ========== 音频上下文（用于播放音效） ==========
+let audioContext = null;
+
+// 初始化音频上下文
+function initAudioContext() {
+    if (!audioContext) {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+        } catch (e) {
+            console.warn('Web Audio API 不可用');
+        }
+    }
+    // 确保 AudioContext 处于 running 状态
+    if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume().catch(() => {});
+    }
+    return audioContext;
+}
+
 // 播放点击音效（简单的提示音）
 function playClickSound() {
-    // 使用 Web Audio API 播放简单的提示音
-    try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
+    // 首先尝试初始化/恢复 AudioContext
+    const ctx = initAudioContext();
+    if (!ctx) return;
 
-        const audioCtx = new AudioContext();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
+    try {
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
 
         oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+        gainNode.connect(ctx.destination);
 
         oscillator.frequency.value = 800;
         oscillator.type = 'sine';
 
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
 
-        oscillator.start(audioCtx.currentTime);
-        oscillator.stop(audioCtx.currentTime + 0.1);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.1);
     } catch (e) {
         // 忽略音频播放错误
     }
