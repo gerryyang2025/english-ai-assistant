@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化语音列表（处理异步加载）
     initSpeechVoices();
 
+    // 检查浏览器类型并显示 Chrome 使用建议
+    checkBrowserAndShowNotice();
+
     // 先检查服务健康状态
     checkServiceHealth().then(healthy => {
         if (!healthy) {
@@ -49,6 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// 检测浏览器类型并显示 Chrome 使用建议
+function checkBrowserAndShowNotice() {
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    const noticeElement = document.getElementById('chrome-browser-notice');
+    
+    if (noticeElement && !isChrome) {
+        noticeElement.style.display = 'flex';
+    }
+}
 
 // 初始化 DOM 元素引用
 function initDOMElements() {
