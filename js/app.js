@@ -1933,13 +1933,43 @@ function clearWrongSentences() {
 
 function reviewAllWrongSentences() {
     console.log('reviewAllWrongSentences called');
-
-    if (!AppState.userProgress.wrongSentences || AppState.userProgress.wrongSentences.length === 0) {
+    
+    const progress = AppState.userProgress;
+    if (!progress.wrongSentences || progress.wrongSentences.length === 0) {
         alert('错句列表为空，没有需要复习的句子');
         return;
     }
-
-    alert('错句复习功能正在开发中...');
+    
+    console.log('Number of wrong sentences:', progress.wrongSentences.length);
+    
+    // 将错句转换为对话格式，用于复用现有的句子练习界面
+    const dialogues = progress.wrongSentences.map((sentence) => ({
+        id: sentence.id,  // 保留原始错句 ID，用于排重
+        content: sentence.english,
+        contentCn: sentence.chinese,
+        speaker: '',
+        speakerCn: '',
+        sourceId: sentence.readingTitleCn || ''
+    }));
+    
+    // 创建练习会话
+    AppState.sentencesSession = {
+        dialogues: shuffleArray(dialogues),
+        currentIndex: 0,
+        correctCount: 0,
+        wrongCount: 0,
+        wrongSentenceIds: [],
+        startTime: Date.now(),
+        isPaused: false
+    };
+    
+    // 切换到语句练习页面
+    switchPage('sentence-practice');
+    
+    // 延迟一下确保页面切换完成
+    setTimeout(() => {
+        showCurrentSentence();
+    }, 100);
 }
 
 // ========== 原有错词本函数（保持兼容）==========
@@ -4163,26 +4193,8 @@ function initSentencesPage() {
         startBtn.addEventListener('click', startSentencePracticeFromSelection);
     }
 
-    // 绑定练习页面按钮
-    const playBtn = document.getElementById('play-sentence-btn');
-    if (playBtn) {
-        playBtn.addEventListener('click', playCurrentSentence);
-    }
-
-    const checkBtn = document.getElementById('check-sentence-btn');
-    if (checkBtn) {
-        checkBtn.addEventListener('click', checkSentenceAnswer);
-    }
-
-    const skipBtn = document.getElementById('skip-sentence-btn');
-    if (skipBtn) {
-        skipBtn.addEventListener('click', skipSentence);
-    }
-
-    const showAnswerBtn = document.getElementById('show-answer-btn');
-    if (showAnswerBtn) {
-        showAnswerBtn.addEventListener('click', showAnswer);
-    }
+    // 绑定练习页面按钮（使用通用函数）
+    bindSentencePracticeButtons();
 
     // 绑定结果页面按钮
     const retryBtn = document.getElementById('retry-sentence-btn');
@@ -4566,7 +4578,8 @@ function checkSentenceAnswer() {
     } else {
         // 错误答案
         session.wrongCount++;
-        const sentenceId = `${dialogue.sourceId}-${currentIndex}`;
+        // 使用对话的原始 id（如果有），否则回退到动态生成的 id
+        const sentenceId = dialogue.id || `${dialogue.sourceId}-${currentIndex}`;
         if (!session.wrongSentenceIds.includes(sentenceId)) {
             session.wrongSentenceIds.push(sentenceId);
         }
@@ -4574,8 +4587,8 @@ function checkSentenceAnswer() {
         // 记录错句
         addWrongSentence({
             id: sentenceId,
-            readingId: dialogue.sourceId,
-            readingTitleCn: dialogue.sourceTitleCn,
+            readingId: dialogue.sourceId || '',
+            readingTitleCn: dialogue.sourceId || '',
             english: dialogue.content,
             chinese: dialogue.contentCn
         });
@@ -4697,8 +4710,43 @@ switchPage = function(pageName) {
     if (pageName === 'sentences') {
         initSentencesPage();
         renderSentencesPage();
+    } else if (pageName === 'sentence-practice') {
+        // 确保练习页面的按钮事件已绑定
+        bindSentencePracticeButtons();
     }
 };
+
+// 绑定语句练习页面按钮事件（可重复调用）
+function bindSentencePracticeButtons() {
+    // 绑定播放按钮
+    const playBtn = document.getElementById('play-sentence-btn');
+    if (playBtn) {
+        // 移除旧的事件监听器，防止重复
+        playBtn.removeEventListener('click', playCurrentSentence);
+        playBtn.addEventListener('click', playCurrentSentence);
+    }
+
+    // 绑定检查按钮
+    const checkBtn = document.getElementById('check-sentence-btn');
+    if (checkBtn) {
+        checkBtn.removeEventListener('click', checkSentenceAnswer);
+        checkBtn.addEventListener('click', checkSentenceAnswer);
+    }
+
+    // 绑定跳过按钮
+    const skipBtn = document.getElementById('skip-sentence-btn');
+    if (skipBtn) {
+        skipBtn.removeEventListener('click', skipSentence);
+        skipBtn.addEventListener('click', skipSentence);
+    }
+
+    // 绑定查看答案按钮
+    const showAnswerBtn = document.getElementById('show-answer-btn');
+    if (showAnswerBtn) {
+        showAnswerBtn.removeEventListener('click', showAnswer);
+        showAnswerBtn.addEventListener('click', showAnswer);
+    }
+}
 
 function renderSentencesPage() {
     // 检查阅读数据是否已加载

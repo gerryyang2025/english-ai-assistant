@@ -136,3 +136,73 @@ setTimeout(() => {
 
 ### 修改文件
 - `js/app.js`：第 4410-4411 行（保存滚动位置）、第 4432 行（input 事件锁定滚动）、第 4449-4455 行（keydown 事件处理）、第 4490-4494 行（恢复滚动位置）
+
+---
+
+## 错句复习重复添加问题
+
+### 问题描述
+在复习错句功能中，如果对同一个句子重复回答错误，会多次将该句子添加到错句列表中，导致数据重复。
+
+### 问题原因
+复习错句时，将错句转换为对话格式用于练习界面，但没有保留原始错句的 `id`。在 `checkSentenceAnswer` 中，句子 ID 是动态生成的（`${dialogue.sourceId}-${currentIndex}`），导致每次回答错误时都生成新的 ID，无法触发 `addWrongSentence` 中的排重逻辑。
+
+**问题代码（第 1946-1952 行，修改前）：**
+```javascript
+const dialogues = progress.wrongSentences.map((sentence, index) => ({
+    content: sentence.english,
+    contentCn: sentence.chinese,
+    speaker: '',
+    speakerCn: '',
+    sourceId: sentence.readingTitleCn || ''
+}));
+```
+
+**`checkSentenceAnswer` 中动态生成的 ID（第 4581 行）：**
+```javascript
+const sentenceId = `${dialogue.sourceId}-${currentIndex}`;
+```
+
+### 解决方案
+1. 在将错句转换为对话格式时，保留原始错句的 `id`
+2. 在检查答案时，使用对话的原始 `id` 进行排重
+
+**修改内容：**
+
+1. **`reviewAllWrongSentences` 函数（第 1946 行）：**
+```javascript
+const dialogues = progress.wrongSentences.map((sentence) => ({
+    id: sentence.id,  // 保留原始错句 ID，用于排重
+    content: sentence.english,
+    contentCn: sentence.chinese,
+    speaker: '',
+    speakerCn: '',
+    sourceId: sentence.readingTitleCn || ''
+}));
+```
+
+2. **`checkSentenceAnswer` 函数（第 4581-4592 行）：**
+```javascript
+const sentenceId = dialogue.id || `${dialogue.sourceId}-${currentIndex}`;
+if (!session.wrongSentenceIds.includes(sentenceId)) {
+    session.wrongSentenceIds.push(sentenceId);
+}
+
+// 记录错句（使用原始 ID 触发排重逻辑）
+addWrongSentence({
+    id: sentenceId,
+    readingId: dialogue.sourceId || '',
+    readingTitleCn: dialogue.sourceId || '',
+    english: dialogue.content,
+    chinese: dialogue.contentCn
+});
+```
+
+### 经验总结
+1. 在复习场景中，需要保留原始数据的唯一标识符（`id`）
+2. 与错词复习对比：错词复习在生成题目时已保留 `word.id`，所以天然支持排重
+3. 复习功能的会话数据应该尽量复用原始数据的标识系统
+4. 任何涉及"去重"的场景，都应优先使用原始数据的唯一标识
+
+### 修改文件
+- `js/app.js`：第 1946 行（添加 `id` 字段）、第 4581-4592 行（使用原始 `id`）
