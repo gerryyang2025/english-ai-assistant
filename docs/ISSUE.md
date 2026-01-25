@@ -18,6 +18,18 @@
 
 **解决：** 在 keydown 和 input 事件中调用 preventDefault() 阻止默认行为，并保存/恢复滚动位置。
 
+**完整优化（2026-01-25）：**
+
+1. **扩展按键阻止范围** - 新增 Home、End、PageUp、PageDown、ArrowUp、ArrowDown 键的阻止
+2. **保存页面级滚动位置** - 同时保存 `window.scrollY` 和容器 `scrollTop`
+3. **安全聚焦函数** - 创建 `safeFocusAndSelect()` 辅助函数，在聚焦前后恢复滚动位置
+4. **处理粘贴事件** - 阻止 paste 默认行为，手动处理粘贴文本并恢复滚动位置
+5. **处理 Tab 键** - 实现 Tab 键循环切换输入框功能
+6. **添加焦点事件监听** - 在 focus 事件中恢复滚动位置
+7. **使用 requestAnimationFrame** - 确保渲染完成后才执行聚焦操作
+8. **禁用浏览器自动功能** - 添加 `autocapitalize="off"` 和 `spellcheck="false"` 属性
+9. **阻止 Command/Ctrl 组合键** - 防止系统级快捷键触发滚动
+
 ---
 
 ## 3. 错句复习重复添加

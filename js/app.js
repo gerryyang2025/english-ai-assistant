@@ -4418,10 +4418,12 @@ function showCurrentSentence() {
     // 生成单词输入框
     const words = dialogue.content.split(/\s+/);
     const inputsContainer = document.getElementById('sentence-inputs');
-    
-    // 保存当前滚动位置
+
+    // 保存当前滚动位置（在渲染前保存容器滚动位置）
     const inputsScrollTop = inputsContainer.scrollTop;
-    
+    // 保存页面滚动位置
+    const pageScrollY = window.scrollY || window.pageYOffset;
+
     inputsContainer.innerHTML = words.map((word, idx) => {
         const cleanWord = word.replace(/[.,?!]/g, '');
         const hasPunctuation = word !== cleanWord;
@@ -4433,18 +4435,48 @@ function showCurrentSentence() {
                     data-original-word="${cleanWord}"
                     data-has-punctuation="${hasPunctuation}"
                     placeholder=""
-                    autocomplete="off">
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false">
                 ${hasPunctuation ? `<span class="punctuation">${word.match(/[.,?!]/g)[0]}</span>` : ''}
             </div>
         `;
     }).join(' ');
 
+    // 辅助函数：安全聚焦并选中文本，不触发滚动
+    function safeFocusAndSelect(input) {
+        if (!input) return;
+        // 先保存当前滚动位置
+        inputsContainer.scrollTop = inputsScrollTop;
+        window.scrollTo(0, pageScrollY);
+        // 聚焦
+        input.focus();
+        // 选中文本
+        input.select();
+        // 再次恢复滚动位置（focus 可能触发滚动）
+        inputsContainer.scrollTop = inputsScrollTop;
+        window.scrollTo(0, pageScrollY);
+    }
+
+    // 需要阻止的滚动触发按键列表
+    const scrollTriggerKeys = [
+        ' ',        // 空格键
+        'Home',     // 跳转到顶部
+        'End',      // 跳转到底部
+        'PageUp',   // 向上翻页
+        'PageDown', // 向下翻页
+        'ArrowUp',  // 向上箭头
+        'ArrowDown' // 向下箭头
+    ];
+
     // 绑定输入框事件
     inputsContainer.querySelectorAll('.sentence-word-input').forEach((input, idx) => {
+        // input 事件：处理用户输入
         input.addEventListener('input', (e) => {
             // 确保输入时滚动位置不变
             inputsContainer.scrollTop = inputsScrollTop;
-            
+            window.scrollTo(0, pageScrollY);
+
             const currentWord = e.target.dataset.originalWord;
             const userValue = e.target.value.trim();
 
@@ -4452,26 +4484,27 @@ function showCurrentSentence() {
             if (userValue.length >= currentWord.length) {
                 const nextInput = inputsContainer.querySelector(`input[data-word-index="${idx + 1}"]`);
                 if (nextInput) {
-                    nextInput.focus();
-                    // 选中文本方便用户覆盖
-                    nextInput.select();
+                    safeFocusAndSelect(nextInput);
                 }
             }
         });
 
+        // keydown 事件：处理按键
         input.addEventListener('keydown', (e) => {
             // 确保按键时滚动位置不变
             inputsContainer.scrollTop = inputsScrollTop;
-            
-            // 阻止空格键的默认行为（避免页面滚动）
-            if (e.key === ' ') {
+            window.scrollTo(0, pageScrollY);
+
+            // 阻止所有可能触发页面滚动的按键
+            if (scrollTriggerKeys.includes(e.key)) {
                 e.preventDefault();
             }
+
             // 阻止 Command 键相关的默认行为（macOS 上 Cmd+I 等快捷键）
             if (e.metaKey || e.ctrlKey) {
                 e.preventDefault();
             }
-            
+
             if (e.key === 'Enter') {
                 checkSentenceAnswer();
             }
@@ -4479,9 +4512,7 @@ function showCurrentSentence() {
             if (e.key === 'Backspace' && e.target.value === '' && idx > 0) {
                 const prevInput = inputsContainer.querySelector(`input[data-word-index="${idx - 1}"]`);
                 if (prevInput) {
-                    prevInput.focus();
-                    // 选中文本方便用户修改
-                    prevInput.select();
+                    safeFocusAndSelect(prevInput);
                 }
             }
             // 阻止方向键跳出范围
@@ -4489,27 +4520,67 @@ function showCurrentSentence() {
                 const prevInput = inputsContainer.querySelector(`input[data-word-index="${idx - 1}"]`);
                 if (prevInput) {
                     e.preventDefault();
-                    prevInput.focus();
+                    safeFocusAndSelect(prevInput);
                 }
             }
             if (e.key === 'ArrowRight' && document.activeElement === input && input.selectionStart === input.value.length) {
                 const nextInput = inputsContainer.querySelector(`input[data-word-index="${idx + 1}"]`);
                 if (nextInput) {
                     e.preventDefault();
-                    nextInput.focus();
+                    safeFocusAndSelect(nextInput);
+                }
+            }
+            // 处理 Tab 键循环切换
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const direction = e.shiftKey ? -1 : 1;
+                const totalInputs = words.length;
+                let targetIdx = idx + direction;
+                if (targetIdx < 0) targetIdx = totalInputs - 1;
+                if (targetIdx >= totalInputs) targetIdx = 0;
+                const targetInput = inputsContainer.querySelector(`input[data-word-index="${targetIdx}"]`);
+                if (targetInput) {
+                    safeFocusAndSelect(targetInput);
                 }
             }
         });
+
+        // paste 事件：处理粘贴，防止粘贴触发滚动
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text');
+            // 插入粘贴的文本
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const currentValue = input.value;
+            const newValue = currentValue.substring(0, start) + text + currentValue.substring(end);
+            input.value = newValue;
+            // 将光标移动到粘贴内容之后
+            const newCursorPos = start + text.length;
+            input.setSelectionRange(newCursorPos, newCursorPos);
+            // 触发 input 事件
+            input.dispatchEvent(new Event('input'));
+            // 确保滚动位置不变
+            inputsContainer.scrollTop = inputsScrollTop;
+            window.scrollTo(0, pageScrollY);
+        });
+
+        // focus 事件：聚焦时恢复滚动位置
+        input.addEventListener('focus', () => {
+            inputsContainer.scrollTop = inputsScrollTop;
+            window.scrollTo(0, pageScrollY);
+        });
     });
 
-    // 聚焦第一个输入框
+    // 聚焦第一个输入框（使用 requestAnimationFrame 确保渲染完成）
     const firstInput = inputsContainer.querySelector('.sentence-word-input');
     if (firstInput) {
-        setTimeout(() => {
-            firstInput.focus();
-            // 恢复滚动位置
+        requestAnimationFrame(() => {
+            safeFocusAndSelect(firstInput);
+            // 再次确认滚动位置
             inputsContainer.scrollTop = inputsScrollTop;
-        }, 100);
+            window.scrollTo(0, pageScrollY);
+        });
     }
 
     // 隐藏反馈和答案显示
