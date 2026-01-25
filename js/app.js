@@ -63,53 +63,28 @@ function initDOMElements() {
     DOM.serviceError = document.getElementById('service-error');
 }
 
-// ========== 音频上下文（用于播放音效） ==========
-let audioContext = null;
-
-// 获取或创建音频上下文
-function getOrCreateAudioContext() {
-    if (!audioContext) {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContext();
-        } catch (e) {
-            console.warn('Web Audio API 不可用');
-            return null;
-        }
-    }
-    return audioContext;
-}
-
 // 播放点击音效（简单的提示音）
 function playClickSound() {
-    let ctx = getOrCreateAudioContext();
-    if (!ctx) return;
-
-    // 如果上下文处于 suspended 状态，创建一个新的（最可靠的方案）
-    if (ctx.state === 'suspended') {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            ctx = new AudioContext();
-        } catch (e) {
-            return;
-        }
-    }
-
+    // 使用 Web Audio API 播放简单的提示音
     try {
-        const oscillator = ctx.createOscillator();
-        const gainNode = ctx.createGain();
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+
+        const audioCtx = new AudioContext();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
 
         oscillator.connect(gainNode);
-        gainNode.connect(ctx.destination);
+        gainNode.connect(audioCtx.destination);
 
         oscillator.frequency.value = 800;
         oscillator.type = 'sine';
 
-        gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
 
-        oscillator.start(ctx.currentTime);
-        oscillator.stop(ctx.currentTime + 0.1);
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.1);
     } catch (e) {
         // 忽略音频播放错误
     }
