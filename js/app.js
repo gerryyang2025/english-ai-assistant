@@ -4406,6 +4406,10 @@ function showCurrentSentence() {
     // 生成单词输入框
     const words = dialogue.content.split(/\s+/);
     const inputsContainer = document.getElementById('sentence-inputs');
+    
+    // 保存当前滚动位置
+    const inputsScrollTop = inputsContainer.scrollTop;
+    
     inputsContainer.innerHTML = words.map((word, idx) => {
         const cleanWord = word.replace(/[.,?!]/g, '');
         const hasPunctuation = word !== cleanWord;
@@ -4426,6 +4430,9 @@ function showCurrentSentence() {
     // 绑定输入框事件
     inputsContainer.querySelectorAll('.sentence-word-input').forEach((input, idx) => {
         input.addEventListener('input', (e) => {
+            // 确保输入时滚动位置不变
+            inputsContainer.scrollTop = inputsScrollTop;
+            
             const currentWord = e.target.dataset.originalWord;
             const userValue = e.target.value.trim();
 
@@ -4441,8 +4448,15 @@ function showCurrentSentence() {
         });
 
         input.addEventListener('keydown', (e) => {
+            // 确保按键时滚动位置不变
+            inputsContainer.scrollTop = inputsScrollTop;
+            
             // 阻止空格键的默认行为（避免页面滚动）
             if (e.key === ' ') {
+                e.preventDefault();
+            }
+            // 阻止 Command 键相关的默认行为（macOS 上 Cmd+I 等快捷键）
+            if (e.metaKey || e.ctrlKey) {
                 e.preventDefault();
             }
             
@@ -4479,7 +4493,11 @@ function showCurrentSentence() {
     // 聚焦第一个输入框
     const firstInput = inputsContainer.querySelector('.sentence-word-input');
     if (firstInput) {
-        setTimeout(() => firstInput.focus(), 100);
+        setTimeout(() => {
+            firstInput.focus();
+            // 恢复滚动位置
+            inputsContainer.scrollTop = inputsScrollTop;
+        }, 100);
     }
 
     // 隐藏反馈和答案显示
