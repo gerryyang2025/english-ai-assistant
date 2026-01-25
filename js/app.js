@@ -32,6 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化语音列表（处理异步加载）
     initSpeechVoices();
 
+    // 添加页面可见性变化处理（减少语音播放导致的错误）
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // 页面隐藏时取消所有语音播放
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+    });
+
+    // 页面卸载前取消语音播放
+    window.addEventListener('beforeunload', () => {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    });
+
     // 先检查服务健康状态
     checkServiceHealth().then(healthy => {
         if (!healthy) {
@@ -1363,14 +1380,25 @@ function toggleFavoriteCurrentWord() {
 function revealAnswer() {
     DOM.flashcard.classList.add('flipped');
 
-    // 自动播放当前单词发音
+    // 检测内容是否溢出，添加滚动样式
     setTimeout(() => {
+        const flashcardBack = DOM.flashcard.querySelector('.flashcard-back');
+        if (flashcardBack) {
+            // 检查内容是否溢出
+            if (flashcardBack.scrollHeight > flashcardBack.clientHeight) {
+                flashcardBack.classList.add('scrolling');
+            } else {
+                flashcardBack.classList.remove('scrolling');
+            }
+        }
+
+        // 自动播放当前单词发音
         const session = AppState.flashcardSession;
         if (session && session.questions[session.currentIndex]) {
             const question = session.questions[session.currentIndex];
             speakWord(question.answer.word);
         }
-    }, 300);
+    }, 100);
 }
 
 function markAnswer(isCorrect, markReview = false) {
@@ -1766,6 +1794,14 @@ function renderWrongbookSentencesTab() {
         return;
     }
 
+    // 创建阅读材料映射，用于根据 ID 查找标题
+    const readingsMap = {};
+    if (AppState.readings) {
+        AppState.readings.forEach(reading => {
+            readingsMap[reading.id] = reading;
+        });
+    }
+
     // 分页设置
     const ITEMS_PER_PAGE = 6;
     const totalPages = Math.ceil(progress.wrongSentences.length / ITEMS_PER_PAGE);
@@ -1797,6 +1833,21 @@ function renderWrongbookSentencesTab() {
 
     currentPageItems.forEach((item, index) => {
         const globalIndex = startIndex + index;
+
+        // 获取标题：优先使用 readingTitleCn，如果是以 reading- 开头则尝试查找
+        let displayTitle = item.readingTitleCn || '';
+        if (displayTitle && displayTitle.startsWith('reading-')) {
+            // 旧数据格式，尝试从阅读材料中查找标题
+            const reading = readingsMap[item.readingId] || readingsMap[item.readingTitleCn];
+            if (reading) {
+                displayTitle = reading.titleCn || reading.title || displayTitle;
+            } else {
+                // 如果找不到，提取单元编号显示更友好的格式
+                const unitNum = displayTitle.replace('reading-', '');
+                displayTitle = `阅读材料 ${unitNum}`;
+            }
+        }
+
         html += `
             <div class="wrongsentence-card" data-sentence-id="${item.id}">
                 <div class="sentence-card-header">
@@ -1811,7 +1862,7 @@ function renderWrongbookSentencesTab() {
                     <div class="sentence-chinese">${escapeHtml(item.chinese)}</div>
                 </div>
                 <div class="sentence-card-footer">
-                    <span class="reading-badge">《${escapeHtml(item.readingTitleCn)}》</span>
+                    <span class="reading-badge">《${escapeHtml(displayTitle)}》</span>
                     <span class="wrong-count-badge">错${item.wrongCount}次</span>
                 </div>
             </div>
@@ -1859,29 +1910,42 @@ function playWrongSentence(globalIndex) {
 // 朗读句子
 function speakSentence(english) {
     if (!english) return;
-    
+
     if (!('speechSynthesis' in window)) {
         console.warn('浏览器不支持语音合成');
         return;
     }
-    
+
     // 取消之前的朗读
-    window.speechSynthesis.cancel();
-    
+    try {
+        window.speechSynthesis.cancel();
+    } catch (e) {
+        // 忽略取消时的错误
+    }
+
     const utterance = new SpeechSynthesisUtterance(english);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
-    
+
+    // 添加错误处理
+    utterance.onerror = (event) => {
+        // 对于 'canceled' 和 'interrupted' 错误，不做处理
+    };
+
     // 尝试选择美式英语语音
-    const voices = window.speechSynthesis.getVoices();
-    const americanVoice = voices.find(voice => 
-        voice.lang.startsWith('en-US') && voice.name.includes('Female')
-    );
-    if (americanVoice) {
-        utterance.voice = americanVoice;
+    try {
+        const voices = window.speechSynthesis.getVoices();
+        const americanVoice = voices.find(voice =>
+            voice.lang.startsWith('en-US') && voice.name.includes('Female')
+        );
+        if (americanVoice) {
+            utterance.voice = americanVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+    } catch (e) {
+        // 忽略语音播放时的错误
     }
-    
-    window.speechSynthesis.speak(utterance);
 }
 
 // ========== 错句管理函数 ==========
@@ -2780,49 +2844,62 @@ function speakText(text, lang, onEnd) {
  * @param {Function} onEnd - 播放完成后的回调
  */
 function doSpeak(text, lang, onEnd) {
-    const synthesis = window.speechSynthesis;
+    try {
+        const synthesis = window.speechSynthesis;
 
-    // 强制刷新语音列表
-    const voices = synthesis.getVoices();
+        // 强制刷新语音列表
+        const voices = synthesis.getVoices();
 
-    // 找到可用的英语语音
-    const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+        // 找到可用的英语语音
+        const englishVoices = voices.filter(v => v.lang.startsWith('en'));
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
 
-    // 优先选择美式英语女性语音，如果没有则使用任何英语语音
-    let selectedVoice = englishVoices.find(v =>
-        v.lang.startsWith('en-US') && v.name.toLowerCase().includes('female')
-    );
+        // 优先选择美式英语女性语音，如果没有则使用任何英语语音
+        let selectedVoice = englishVoices.find(v =>
+            v.lang.startsWith('en-US') && v.name.toLowerCase().includes('female')
+        );
 
-    if (!selectedVoice) {
-        selectedVoice = englishVoices.find(v => v.lang.startsWith('en-US'));
-    }
-
-    if (!selectedVoice) {
-        selectedVoice = englishVoices[0]; // 使用第一个英语语音
-    }
-
-    if (selectedVoice) {
-        utterance.voice = selectedVoice;
-    }
-
-    utterance.onend = () => {
-        if (onEnd) onEnd();
-    };
-
-    utterance.onerror = (event) => {
-        // canceled 和 interrupted 错误是用户主动停止或快速切换导致的，不需要显示提示
-        // 也不要调用 onEnd，避免干扰下一个播放任务
-        if (event.error !== 'canceled' && event.error !== 'interrupted') {
-            showToast('语音播放失败，请检查浏览器设置');
+        if (!selectedVoice) {
+            selectedVoice = englishVoices.find(v => v.lang.startsWith('en-US'));
         }
-    };
 
-    synthesis.speak(utterance);
+        if (!selectedVoice) {
+            selectedVoice = englishVoices[0]; // 使用第一个英语语音
+        }
+
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+        }
+
+        utterance.onend = () => {
+            if (onEnd) {
+                try {
+                    onEnd();
+                } catch (e) {
+                    // 忽略回调中的错误
+                }
+            }
+        };
+
+        utterance.onerror = (event) => {
+            // canceled 和 interrupted 错误是用户主动停止或快速切换导致的，不需要显示提示
+            // 也不要调用 onEnd，避免干扰下一个播放任务
+            if (event.error !== 'canceled' && event.error !== 'interrupted') {
+                // 只在非交互模式下显示提示
+                if (!AppState.isPlaying) {
+                    showToast('语音播放失败，请检查浏览器设置');
+                }
+            }
+        };
+
+        synthesis.speak(utterance);
+    } catch (e) {
+        // 忽略语音播放时的任何错误
+    }
 }
 
 function stopPlayback() {
@@ -3057,25 +3134,41 @@ function speakWord(text) {
         console.warn('浏览器不支持语音合成');
         return;
     }
-    
+
+    if (!text) return;
+
     // 取消之前的朗读
-    window.speechSynthesis.cancel();
-    
+    try {
+        window.speechSynthesis.cancel();
+    } catch (e) {
+        // 忽略取消时的错误
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-GB';
     utterance.rate = 0.8;
     utterance.pitch = 1.0;
-    
+
+    // 添加错误处理
+    utterance.onerror = (event) => {
+        // 对于 'canceled' 和 'interrupted' 错误，不做处理（正常行为）
+        // 其他错误可能是临时性问题，不需要特别处理
+    };
+
     // 尝试选择英语语音
-    const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(voice => 
-        voice.lang.startsWith('en') && voice.name.includes('Female')
-    );
-    if (englishVoice) {
-        utterance.voice = englishVoice;
+    try {
+        const voices = window.speechSynthesis.getVoices();
+        const englishVoice = voices.find(voice =>
+            voice.lang.startsWith('en') && voice.name.includes('Female')
+        );
+        if (englishVoice) {
+            utterance.voice = englishVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+    } catch (e) {
+        // 忽略语音播放时的错误
     }
-    
-    window.speechSynthesis.speak(utterance);
 }
 
 // 单词发音（美音）
@@ -3084,53 +3177,81 @@ function speakWordUS(text) {
         console.warn('浏览器不支持语音合成');
         return;
     }
-    
+
+    if (!text) return;
+
     // 取消之前的朗读
-    window.speechSynthesis.cancel();
-    
+    try {
+        window.speechSynthesis.cancel();
+    } catch (e) {
+        // 忽略取消时的错误
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
     utterance.rate = 0.8;
     utterance.pitch = 1.0;
-    
+
+    // 添加错误处理
+    utterance.onerror = (event) => {
+        // 对于 'canceled' 和 'interrupted' 错误，不做处理
+    };
+
     // 尝试选择美式英语语音
-    const voices = window.speechSynthesis.getVoices();
-    const americanVoice = voices.find(voice => 
-        voice.lang.startsWith('en-US') && voice.name.includes('Female')
-    );
-    if (americanVoice) {
-        utterance.voice = americanVoice;
+    try {
+        const voices = window.speechSynthesis.getVoices();
+        const americanVoice = voices.find(voice =>
+            voice.lang.startsWith('en-US') && voice.name.includes('Female')
+        );
+        if (americanVoice) {
+            utterance.voice = americanVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+    } catch (e) {
+        // 忽略语音播放时的错误
     }
-    
-    window.speechSynthesis.speak(utterance);
 }
 
 // 例句发音
 function speakExample(text) {
     if (!text) return;
-    
+
     if (!('speechSynthesis' in window)) {
         console.warn('浏览器不支持语音合成');
         return;
     }
-    
+
     // 取消之前的朗读
-    window.speechSynthesis.cancel();
-    
+    try {
+        window.speechSynthesis.cancel();
+    } catch (e) {
+        // 忽略取消时的错误
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
     utterance.rate = 0.9; // 稍微放慢语速，便于理解
-    
+
+    // 添加错误处理
+    utterance.onerror = (event) => {
+        // 对于 'canceled' 和 'interrupted' 错误，不做处理
+    };
+
     // 尝试选择美式英语语音
-    const voices = window.speechSynthesis.getVoices();
-    const americanVoice = voices.find(voice => 
-        voice.lang.startsWith('en-US') && voice.name.includes('Female')
-    );
-    if (americanVoice) {
-        utterance.voice = americanVoice;
+    try {
+        const voices = window.speechSynthesis.getVoices();
+        const americanVoice = voices.find(voice =>
+            voice.lang.startsWith('en-US') && voice.name.includes('Female')
+        );
+        if (americanVoice) {
+            utterance.voice = americanVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+    } catch (e) {
+        // 忽略语音播放时的错误
     }
-    
-    window.speechSynthesis.speak(utterance);
 }
 
 // 切换收藏
@@ -4752,7 +4873,7 @@ function checkSentenceAnswer() {
         addWrongSentence({
             id: sentenceId,
             readingId: dialogue.sourceId || '',
-            readingTitleCn: dialogue.sourceId || '',
+            readingTitleCn: dialogue.sourceTitleCn || dialogue.sourceId || '',
             english: dialogue.content,
             chinese: dialogue.contentCn
         });
