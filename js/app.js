@@ -32,9 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化语音列表（处理异步加载）
     initSpeechVoices();
 
-    // 初始化音频上下文（为音效播放做准备）
-    initAudioContext();
-
     // 先检查服务健康状态
     checkServiceHealth().then(healthy => {
         if (!healthy) {
@@ -69,28 +66,29 @@ function initDOMElements() {
 // ========== 音频上下文（用于播放音效） ==========
 let audioContext = null;
 
-// 初始化音频上下文
-function initAudioContext() {
+// 初始化音频上下文（懒加载，在用户交互时初始化）
+function getOrCreateAudioContext() {
     if (!audioContext) {
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             audioContext = new AudioContext();
         } catch (e) {
             console.warn('Web Audio API 不可用');
+            return null;
         }
-    }
-    // 确保 AudioContext 处于 running 状态
-    if (audioContext && audioContext.state === 'suspended') {
-        audioContext.resume().catch(() => {});
     }
     return audioContext;
 }
 
 // 播放点击音效（简单的提示音）
 function playClickSound() {
-    // 首先尝试初始化/恢复 AudioContext
-    const ctx = initAudioContext();
+    const ctx = getOrCreateAudioContext();
     if (!ctx) return;
+
+    // 确保 AudioContext 处于 running 状态（在用户手势中调用）
+    if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => {});
+    }
 
     try {
         const oscillator = ctx.createOscillator();
