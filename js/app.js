@@ -66,7 +66,7 @@ function initDOMElements() {
 // ========== 音频上下文（用于播放音效） ==========
 let audioContext = null;
 
-// 初始化音频上下文（懒加载，在用户交互时初始化）
+// 获取或创建音频上下文
 function getOrCreateAudioContext() {
     if (!audioContext) {
         try {
@@ -82,37 +82,36 @@ function getOrCreateAudioContext() {
 
 // 播放点击音效（简单的提示音）
 function playClickSound() {
-    const ctx = getOrCreateAudioContext();
+    let ctx = getOrCreateAudioContext();
     if (!ctx) return;
 
-    // 确保 AudioContext 处于 running 状态（在用户手势中调用）
-    const playSound = () => {
-        try {
-            const oscillator = ctx.createOscillator();
-            const gainNode = ctx.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(ctx.destination);
-
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-
-            gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-
-            oscillator.start(ctx.currentTime);
-            oscillator.stop(ctx.currentTime + 0.1);
-        } catch (e) {
-            // 忽略音频播放错误
-        }
-    };
-
+    // 如果上下文处于 suspended 状态，创建一个新的（最可靠的方案）
     if (ctx.state === 'suspended') {
-        // 异步 resume，等完成后再播放
-        ctx.resume().then(playSound).catch(() => {});
-    } else {
-        // 已经处于 running 状态，直接播放
-        playSound();
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            ctx = new AudioContext();
+        } catch (e) {
+            return;
+        }
+    }
+
+    try {
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.1);
+    } catch (e) {
+        // 忽略音频播放错误
     }
 }
 
