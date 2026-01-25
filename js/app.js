@@ -86,27 +86,33 @@ function playClickSound() {
     if (!ctx) return;
 
     // 确保 AudioContext 处于 running 状态（在用户手势中调用）
+    const playSound = () => {
+        try {
+            const oscillator = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(ctx.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+
+            oscillator.start(ctx.currentTime);
+            oscillator.stop(ctx.currentTime + 0.1);
+        } catch (e) {
+            // 忽略音频播放错误
+        }
+    };
+
     if (ctx.state === 'suspended') {
-        ctx.resume().catch(() => {});
-    }
-
-    try {
-        const oscillator = ctx.createOscillator();
-        const gainNode = ctx.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(ctx.destination);
-
-        oscillator.frequency.value = 800;
-        oscillator.type = 'sine';
-
-        gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-
-        oscillator.start(ctx.currentTime);
-        oscillator.stop(ctx.currentTime + 0.1);
-    } catch (e) {
-        // 忽略音频播放错误
+        // 异步 resume，等完成后再播放
+        ctx.resume().then(playSound).catch(() => {});
+    } else {
+        // 已经处于 running 状态，直接播放
+        playSound();
     }
 }
 
