@@ -48,6 +48,9 @@
     /* 字体 */
     --font-primary: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
     --font-english: Arial, Helvetica, sans-serif;
+    
+    /* iPad 底部安全区域 */
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* ========== 基础重置 ========== */
@@ -55,11 +58,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* 移除 iOS 点击高亮 */
+    tap-highlight-color: transparent;
 }
 
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%; /* 防止 iOS 字体自动调整 */
 }
 
 body {
@@ -68,12 +74,17 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for iOS */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 #app {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for iOS */
+    overflow-x: hidden;
 }
 
 /* ========== 头部导航 ========== */
@@ -82,8 +93,11 @@ body {
     padding: 0 24px;
     box-shadow: var(--shadow-md);
     position: sticky;
+    position: -webkit-sticky;
     top: 0;
     z-index: 100;
+    -webkit-backface-visibility: hidden; /* Fix iOS rendering */
+    backface-visibility: hidden;
 }
 
 .header-content {
@@ -136,7 +150,11 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 24px;
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
     width: 100%;
+    overflow-x: hidden;
 }
 
 .page {
@@ -2952,6 +2970,9 @@ body {
 .footer {
     background: var(--bg-secondary);
     padding: 20px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
     text-align: center;
     color: var(--text-light);
     font-size: 0.9rem;
@@ -3060,6 +3081,63 @@ body {
 }
 
 /* ========== 响应式设计 ========== */
+
+/* iPad 专用优化 */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    /* iPad 竖屏和横屏优化 */
+    .header-content {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    .main-content {
+        padding: 20px 24px;
+    }
+    
+    .feature-cards {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    /* 优化导航菜单在 iPad 上的显示 */
+    .nav-menu {
+        gap: 4px;
+    }
+    
+    .nav-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    /* 统计网格优化 */
+    .stats-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+    }
+    
+    .stat-item {
+        padding: 20px 12px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+}
+
+/* iPad Pro 专用优化 */
+@media only screen and (min-width: 1024px) and (max-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+    .main-content {
+        max-width: 1000px;
+        padding: 28px 32px;
+    }
+    
+    .hero-section {
+        padding: 48px 32px;
+    }
+    
+    .hero-section h2 {
+        font-size: 1.8rem;
+    }
+}
 
 /* 平板设备 (768px 以下) */
 @media (max-width: 768px) {
