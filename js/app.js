@@ -4459,17 +4459,110 @@ function showCurrentSentence() {
     // 辅助函数：安全聚焦并选中文本，不触发滚动
     function safeFocusAndSelect(input) {
         if (!input) return;
-        // 先保存当前滚动位置
-        inputsContainer.scrollTop = inputsScrollTop;
-        window.scrollTo(0, pageScrollY);
-        // 聚焦
-        input.focus();
-        // 选中文本
-        input.select();
-        // 再次恢复滚动位置（focus 可能触发滚动）
-        inputsContainer.scrollTop = inputsScrollTop;
-        window.scrollTo(0, pageScrollY);
+
+        // 检测是否为 iOS 设备
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        // 检测是否在 Web App 模式（添加到主屏幕）
+        const isWebApp = window.navigator.standalone === true || 
+                        window.matchMedia('(display-mode: standalone)').matches;
+
+        if (isIOS && isWebApp) {
+            // iOS Web App 模式专用处理
+            // Web App 模式下虚拟键盘行为特殊，需要更激进的锁定策略
+
+            // 1. 保存当前页面滚动位置
+            const currentPageY = window.scrollY || window.pageYOffset;
+
+            // 2. 锁定页面滚动（Web App 模式）
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${currentPageY}px`;
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+
+            // 3. 计算目标位置（相对于容器）
+            const offsetTop = input.offsetTop;
+            const inputHeight = input.offsetHeight;
+            const containerHeight = inputsContainer.offsetHeight;
+            const targetScrollTop = offsetTop - (containerHeight / 2) + (inputHeight / 2);
+
+            // 4. 设置容器滚动位置
+            inputsContainer.scrollTop = Math.max(0, targetScrollTop);
+
+            // 5. 聚焦（使用 preventScroll 选项）
+            input.focus({ preventScroll: true });
+
+            // 6. 延迟选中文本
+            setTimeout(() => {
+                input.select();
+            }, 150);
+
+            // 7. 恢复页面滚动锁定状态
+            requestAnimationFrame(() => {
+                inputsContainer.scrollTop = Math.max(0, targetScrollTop);
+            });
+
+        } else if (isIOS) {
+            // iOS 普通模式（不是 Web App）
+            // 1. 先滚动到目标位置
+            const inputRect = input.getBoundingClientRect();
+            const containerRect = inputsContainer.getBoundingClientRect();
+            const offsetTop = input.offsetTop;
+
+            // 2. 计算目标位置
+            const targetScrollTop = offsetTop - (containerRect.height / 2) + (inputRect.height / 2);
+
+            // 3. 使用 scrollTop 设置位置
+            inputsContainer.scrollTop = targetScrollTop;
+
+            // 4. 聚焦但不选中文本（iOS 上 select() 可能触发滚动）
+            input.focus({ preventScroll: true });
+
+            // 5. 延迟选中文本（等虚拟键盘稳定后）
+            setTimeout(() => {
+                input.select();
+            }, 100);
+
+            // 6. 再次确认滚动位置
+            requestAnimationFrame(() => {
+                inputsContainer.scrollTop = targetScrollTop;
+            });
+        } else {
+            // 非 iOS 设备：使用原来的逻辑
+            // 先保存当前滚动位置
+            inputsContainer.scrollTop = inputsScrollTop;
+            window.scrollTo(0, pageScrollY);
+            // 聚焦
+            input.focus();
+            // 选中文本
+            input.select();
+            // 再次恢复滚动位置（focus 可能触发滚动）
+            inputsContainer.scrollTop = inputsScrollTop;
+            window.scrollTo(0, pageScrollY);
+        }
     }
+
+    // 辅助函数：移除 Web App 滚动锁定
+    function removeWebAppScrollLock() {
+        if (!isWebAppMode) return;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+    }
+
+    // 检测 Web App 模式
+    const isWebAppMode = window.navigator.standalone === true || 
+                         window.matchMedia('(display-mode: standalone)').matches;
+
+    // 在页面隐藏/显示时处理滚动锁定
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && isWebAppMode) {
+            // 页面重新可见时，恢复滚动位置
+            setTimeout(() => {
+                window.scrollTo(0, pageScrollY);
+            }, 100);
+        }
+    });
 
     // 需要阻止的滚动触发按键列表
     const scrollTriggerKeys = [
