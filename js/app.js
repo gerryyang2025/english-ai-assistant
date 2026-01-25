@@ -55,10 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 检测浏览器类型并显示 Chrome 使用建议
 function checkBrowserAndShowNotice() {
-    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    const ua = navigator.userAgent;
+    
+    // 检测 Chrome（包含 iOS Chrome - 使用 CriOS）
+    const isChrome = /Chrome|CriOS/.test(ua) && /Google Inc/.test(navigator.vendor);
+    // 额外检测：如果是 Chrome 但 vendor 检测失败（某些移动设备上）
+    const isLikelyChrome = /Chrome|CriOS/.test(ua) && !/Safari/.test(ua.split('Version/')[0]);
+
     const noticeElement = document.getElementById('chrome-browser-notice');
     
-    if (noticeElement && !isChrome) {
+    if (noticeElement && !isChrome && !isLikelyChrome) {
         noticeElement.style.display = 'flex';
     }
 }
