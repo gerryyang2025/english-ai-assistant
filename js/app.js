@@ -3647,37 +3647,52 @@ function unlockAudioContext() {
     const silentAudio = new Audio();
     silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
     silentAudio.volume = 0;
+    silentAudio.muted = true;
 
-    return silentAudio.play().then(() => {
-        console.log('[Voice Clone] 已解锁浏览器自动播放限制');
-        silentAudio.remove();
-        return true;
-    }).catch(() => {
-        // 如果无法播放，尝试使用 AudioContext
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (AudioContext) {
-                const audioCtx = new AudioContext();
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
+    // 移动端浏览器需要在用户交互后才能播放音频
+    // 我们尝试播放，如果失败会在 play() 的 catch 中处理
+    return silentAudio.play()
+        .then(() => {
+            console.log('[Voice Clone] 已解锁浏览器自动播放限制');
+            silentAudio.pause();
+            silentAudio.src = '';
+            return true;
+        })
+        .catch((e) => {
+            console.warn('[Voice Clone] 音频播放受限:', e.name, e.message);
 
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
+            // 尝试使用 AudioContext
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    // 检查是否需要用户交互才能创建 AudioContext
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-                oscillator.frequency.value = 0;
-                gainNode.gain.value = 0;
+                    // 如果 AudioContext 处于 suspended 状态，尝试 resume
+                    if (audioCtx.state === 'suspended') {
+                        const resumePromise = audioCtx.resume();
 
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.01);
+                        if (resumePromise !== undefined) {
+                            return resumePromise
+                                .then(() => {
+                                    console.log('[Voice Clone] 已通过 AudioContext.resume() 解锁');
+                                    return true;
+                                })
+                                .catch((resumeError) => {
+                                    console.warn('[Voice Clone] AudioContext.resume() 失败:', resumeError);
+                                    return false;
+                                });
+                        }
+                    }
 
-                console.log('[Voice Clone] 已通过 AudioContext 解锁浏览器自动播放限制');
-                return true;
+                    console.log('[Voice Clone] AudioContext 已创建，状态:', audioCtx.state);
+                    return audioCtx.state !== 'suspended';
+                }
+            } catch (e) {
+                console.warn('[Voice Clone] 无法使用 AudioContext:', e);
             }
-        } catch (e) {
-            console.warn('[Voice Clone] 无法解锁自动播放限制:', e);
-        }
-        return false;
-    });
+            return false;
+        });
 }
 
 // 使用音色复刻播放
@@ -3747,8 +3762,11 @@ async function playSpeechWithVoiceClone(content) {
     // 重置暂停状态
     AppState.speechPaused = false;
 
-    // 显示持久提示
-    showPersistentToast('正在生成音色复刻音频...');
+    // 显示持久提示（带取消按钮）
+    showPersistentToast('正在生成音色复刻音频...', {
+        showCancel: true,
+        cancelText: '停止'
+    });
 
     try {
         // 先解锁浏览器自动播放限制
@@ -3773,20 +3791,58 @@ async function playSpeechWithVoiceClone(content) {
             console.log('[Voice Clone] ✗ 缓存未命中，调用 API 生成新音频');
             console.log('[Voice Clone] content 长度:', content.length);
             console.log('[Voice Clone] content 前 50 字:', content.substring(0, 50));
-            audioUrl = await callVoiceCloneAPI(content);
 
-            // 缓存结果（设置 30 分钟过期时间）
-            const cacheTimeout = 30 * 60 * 1000;
-            AppState.speechCloneAudioCache.set(contentHash, {
-                url: audioUrl,
-                timestamp: Date.now(),
-                timeout: cacheTimeout
-            });
-            console.log('[Voice Clone] 已保存缓存，key:', contentHash);
+            // 创建 AbortController 用于取消请求
+            const abortController = new AbortController();
 
-            // 定期清理过期缓存（每 10 次播放检查一次）
-            if (Math.random() < 0.1) {
-                cleanupExpiredCache();
+            // 设置超时警告（30秒后显示）
+            let showTimeoutWarning = false;
+            const timeoutWarningId = setTimeout(() => {
+                showTimeoutWarning = true;
+                if (persistentToast) {
+                    const messageEl = persistentToast.querySelector('.toast-message');
+                    if (messageEl) {
+                        messageEl.textContent = '正在生成音色复刻音频... 较慢，请稍候';
+                    }
+                }
+            }, 30000);
+
+            try {
+                audioUrl = await callVoiceCloneAPI(content, {
+                    signal: abortController.signal,
+                    timeout: 90000 // 90秒超时
+                });
+
+                // 清除超时警告
+                clearTimeout(timeoutWarningId);
+                hidePersistentToast();
+
+                // 缓存结果（设置 30 分钟过期时间）
+                const cacheTimeout = 30 * 60 * 1000;
+                AppState.speechCloneAudioCache.set(contentHash, {
+                    url: audioUrl,
+                    timestamp: Date.now(),
+                    timeout: cacheTimeout
+                });
+                console.log('[Voice Clone] 已保存缓存，key:', contentHash);
+
+                // 定期清理过期缓存（每 10 次播放检查一次）
+                if (Math.random() < 0.1) {
+                    cleanupExpiredCache();
+                }
+            } catch (error) {
+                // 关闭持久提示和超时警告
+                clearTimeout(timeoutWarningId);
+                hidePersistentToast();
+
+                // 处理用户取消或超时
+                if (error.name === 'AbortError') {
+                    console.log('[Voice Clone] 请求被取消或超时');
+                    showToast('生成已取消');
+                    return;
+                }
+
+                throw error;
             }
         }
 
@@ -4021,24 +4077,49 @@ function clearAudioCache() {
 }
 
 // 调用音色复刻 API
-async function callVoiceCloneAPI(text) {
-    const response = await fetch('/api/voice-clone', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            text: text
-        })
-    });
+async function callVoiceCloneAPI(text, options = {}) {
+    const { timeout = 60000, signal } = options; // 默认 60 秒超时
 
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || '音色复刻请求失败');
+    // 创建 AbortController（如果未提供）
+    const controller = signal || new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+        const response = await fetch('/api/voice-clone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: text
+            }),
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || '音色复刻请求失败');
+        }
+
+        const data = await response.json();
+        return data.audio_url;
+    } catch (error) {
+        clearTimeout(timeoutId);
+
+        // 处理超时错误
+        if (error.name === 'AbortError') {
+            throw new Error('请求超时，请稍后重试');
+        }
+
+        // 处理网络错误
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            throw new Error('网络连接失败，请检查网络设置');
+        }
+
+        throw error;
     }
-
-    const data = await response.json();
-    return data.audio_url;
 }
 
 // 播放音色复刻音频
@@ -4069,12 +4150,28 @@ function playVoiceCloneAudio(audioUrl) {
                 return;
             } catch (e) {
                 // 处理浏览器自动播放限制
-                if (e.name === 'NotAllowedError') {
-                    console.warn('[Voice Clone] 播放被浏览器自动播放策略限制');
-                    showToast('请再次点击播放按钮（需要用户交互）');
+                const isAutoplayError = e.name === 'NotAllowedError' ||
+                    e.name === 'AbortError' ||
+                    e.message?.includes('user gesture') ||
+                    e.message?.includes('not allowed');
+
+                if (isAutoplayError) {
+                    console.warn('[Voice Clone] 播放被浏览器自动播放策略限制:', e.message);
+
+                    // 再次尝试解锁音频上下文
+                    unlockAudioContext().then((unlocked) => {
+                        if (unlocked) {
+                            // 解锁成功，提示用户再次点击
+                            showToast('请再次点击播放按钮', 2000);
+                        } else {
+                            // 无法解锁，提示用户需要在页面交互后播放
+                            showToast('请点击页面任意位置后再播放', 3000);
+                        }
+                    });
                 } else {
                     console.error('[Voice Clone] play error:', e);
                 }
+
                 // 不清除 Audio 对象，保留状态
                 AppState.speechIsPlaying = false;
                 AppState.speechPaused = false;
@@ -4184,19 +4281,52 @@ function playVoiceCloneAudio(audioUrl) {
     try {
         audio.play().catch(e => {
             console.error('播放失败:', e);
+
+            // 检查是否是自动播放限制
+            const isAutoplayError = e.name === 'NotAllowedError' ||
+                e.name === 'AbortError' ||
+                e.message?.includes('user gesture') ||
+                e.message?.includes('not allowed') ||
+                e.message?.includes('The request is not allowed');
+
+            if (isAutoplayError) {
+                console.warn('[Voice Clone] 自动播放被限制:', e.message);
+
+                // 尝试解锁音频上下文
+                unlockAudioContext().then((unlocked) => {
+                    if (unlocked) {
+                        showToast('请再次点击播放按钮', 2000);
+                    } else {
+                        showToast('请点击页面任意位置后再播放', 3000);
+                    }
+                });
+            } else {
+                showToast('播放失败，请重试');
+            }
+
             // 如果播放失败，恢复状态
             AppState.speechIsPlaying = false;
             AppState.speechPaused = false;
             updatePlayButton();
-            showToast('播放失败: ' + e.message);
         });
     } catch (e) {
         console.error('播放异常:', e);
+
+        // 检查是否是自动播放限制
+        const isAutoplayError = e.name === 'NotAllowedError' ||
+            e.message?.includes('user gesture') ||
+            e.message?.includes('not allowed');
+
+        if (isAutoplayError) {
+            showToast('请点击页面任意位置后再播放', 3000);
+        } else {
+            showToast('播放异常，请重试');
+        }
+
         // 如果播放异常，恢复状态
         AppState.speechIsPlaying = false;
         AppState.speechPaused = false;
         updatePlayButton();
-        showToast('播放异常: ' + e.message);
     }
 }
 
@@ -4381,21 +4511,35 @@ function showToast(message, duration = 2000) {
 
 // 持久提示（不自动消失，需要手动关闭）
 let persistentToast = null;
+let persistentToastResolve = null; // 用于存储 Promise 的 resolve 函数
 
-function showPersistentToast(message) {
+function showPersistentToast(message, options = {}) {
+    const { showCancel = false, cancelText = '取消' } = options;
+
     // 如果已有持久提示，先关闭
     if (persistentToast) {
-        persistentToast.remove();
-        persistentToast = null;
+        hidePersistentToast();
     }
 
     // 创建 toast 元素
     const toast = document.createElement('div');
-    toast.className = 'toast toast-loading';
-    toast.innerHTML = `
-        <span class="toast-spinner"></span>
-        <span>${message}</span>
+    toast.className = 'toast toast-loading toast-persistent';
+
+    // 构建 toast 内容
+    let html = `
+        <div class="toast-loading-content">
+            <span class="toast-spinner"></span>
+            <span class="toast-message">${message}</span>
+        </div>
     `;
+
+    if (showCancel) {
+        html += `
+            <button class="toast-cancel-btn" id="toast-cancel-btn">${cancelText}</button>
+        `;
+    }
+
+    toast.innerHTML = html;
 
     // 添加到页面
     document.body.appendChild(toast);
@@ -4406,7 +4550,22 @@ function showPersistentToast(message) {
     });
 
     persistentToast = toast;
-    return toast;
+
+    // 返回 Promise，用于等待用户操作
+    return new Promise((resolve) => {
+        persistentToastResolve = resolve;
+
+        // 绑定取消按钮事件
+        if (showCancel) {
+            const cancelBtn = toast.querySelector('#toast-cancel-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    hidePersistentToast();
+                    resolve({ cancelled: true });
+                });
+            }
+        }
+    });
 }
 
 function hidePersistentToast(message = null) {

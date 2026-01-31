@@ -976,15 +976,64 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 14px 20px;
+}
+
+.toast-loading-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .toast-loading .toast-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
     border-top-color: white;
     border-radius: 50%;
     animation: toast-spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* 持久提示（带取消按钮） */
+.toast-persistent {
+    background: rgba(102, 126, 234, 0.98);
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
+.toast-persistent .toast-loading-content {
+    flex: 1;
+}
+
+.toast-cancel-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.toast-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.toast-cancel-btn:active {
+    transform: scale(0.95);
 }
 
 @keyframes toast-spin {
@@ -1007,4 +1056,52 @@
 
 #mark-read-btn.btn-completed:hover {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+/* 移动端持久提示适配 */
+@media (max-width: 480px) {
+    .toast-persistent {
+        width: 90%;
+        max-width: none;
+        left: 5%;
+        transform: translateX(0) translateY(20px);
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .toast-persistent.show {
+        transform: translateX(0) translateY(0);
+    }
+
+    .toast-persistent .toast-spinner {
+        width: 18px;
+        height: 18px;
+    }
+
+    .toast-persistent .toast-message {
+        font-size: 14px;
+    }
+
+    .toast-persistent .toast-cancel-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .toast-persistent {
+        padding: 10px 12px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .toast-persistent .toast-loading-content {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .toast-persistent .toast-cancel-btn {
+        width: 100%;
+        padding: 8px;
+    }
 }
