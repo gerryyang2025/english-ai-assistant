@@ -23,12 +23,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # 导入 API 配置
 try:
-    from api_config import MINIMAX_API_KEY as API_KEY, MINIMAX_API_URL, MINIMAX_MODEL, RATE_LIMIT
+    from api_config import MINIMAX_API_KEY as API_KEY, MINIMAX_API_URL, MINIMAX_MODEL, RATE_LIMIT, MINIMAX_VOICE_CLONE_FILE_ID
 except ImportError:
     # 如果配置文件不存在，使用环境变量和默认值
     API_KEY = os.environ.get('MINIMAX_API_KEY', '')
     MINIMAX_API_URL = 'https://api.minimax.chat/v1/text/chatcompletion_v2'
     MINIMAX_MODEL = 'MiniMax-M2.1'
+    # 默认音色复刻配置
+    MINIMAX_VOICE_CLONE_FILE_ID = int(os.environ.get('MINIMAX_VOICE_CLONE_FILE_ID', '0'))
     # 默认速率限制配置
     RATE_LIMIT = {
         'requests_per_hour': 20,
@@ -294,7 +296,11 @@ def api_status():
     return jsonify({
         'status': 'ok',
         'api_configured': bool(API_KEY),
-        'rate_limit': RATE_LIMIT
+        'rate_limit': RATE_LIMIT,
+        'voice_clone': {
+            'file_id': MINIMAX_VOICE_CLONE_FILE_ID,
+            'configured': MINIMAX_VOICE_CLONE_FILE_ID > 0
+        }
     })
 
 @app.route('/api/health', methods=['GET'])
@@ -307,6 +313,140 @@ def health_check():
     })
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
+
+@app.route('/api/voice-clone', methods=['POST', 'OPTIONS'])
+def voice_clone_api():
+    """音色复刻 API 代理"""
+
+    # 处理 CORS 预检请求
+    if request.method == 'OPTIONS':
+        response = make_response()
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+        return response
+
+    # 获取客户端 IP
+    client_ip = request.remote_addr or 'unknown'
+
+    # 检查速率限制
+    allowed, message = check_rate_limit(client_ip)
+    if not allowed:
+        logger.warning(f"音色复刻速率限制触发 - IP: {client_ip}, 原因: {message}")
+        response = jsonify({'error': message})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 429
+
+    # 检查音色复刻配置
+    if not MINIMAX_VOICE_CLONE_FILE_ID or MINIMAX_VOICE_CLONE_FILE_ID == 0:
+        response = jsonify({
+            'error': '音色复刻未配置',
+            'help': '请在 api_config.py 中设置 MINIMAX_VOICE_CLONE_FILE_ID'
+        })
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 400
+
+    # 解析请求
+    data = request.get_json()
+    if not data:
+        response = jsonify({'error': '请提供请求数据'})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 400
+
+    text = data.get('text', '').strip()
+
+    if not text:
+        response = jsonify({'error': '请提供要合成的声音文本'})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 400
+
+    # 文本长度校验（MiniMax 同步语音合成单次最长 10,000 字符）
+    MAX_TEXT_LENGTH = 10000
+    if len(text) > MAX_TEXT_LENGTH:
+        response = jsonify({
+            'error': '文本长度超过限制',
+            'details': f'当前长度: {len(text)} 字符, 最大允许: {MAX_TEXT_LENGTH} 字符',
+            'suggestion': '请分段朗读或选择较短的章节'
+        })
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 400
+
+    # 生成唯一的 voice_id（基于时间戳和随机数）
+    import uuid
+    voice_id = f"voice-{int(time.time())}-{str(uuid.uuid4())[:8]}"
+
+    # 记录请求
+    logger.info(f"音色复刻请求 - IP: {client_ip}, 文本长度: {len(text)}, voice_id: {voice_id}")
+
+    try:
+        # 检查 API Key
+        if not API_KEY:
+            response = jsonify({
+                'error': '服务器未配置 API Key',
+                'help': '请设置环境变量 MINIMAX_API_KEY 或编辑 server.py'
+            })
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            return response, 500
+
+        # 调用 MiniMax 音色复刻 API
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {API_KEY}'
+        }
+
+        # 构建请求数据（使用配置文件中的 file_id，每次生成唯一的 voice_id）
+        clone_data = {
+            'file_id': MINIMAX_VOICE_CLONE_FILE_ID,
+            'voice_id': voice_id,
+            'text': text,
+            'model': 'speech-2.8-hd'  # 使用高质量模型
+        }
+
+        logger.info(f"调用 MiniMax 音色复刻 API - voice_id: {voice_id}")
+
+        response = requests.post(
+            'https://api.minimaxi.com/v1/voice_clone',
+            headers=headers,
+            json=clone_data,
+            timeout=60  # 音色复刻可能需要更长时间
+        )
+        response.raise_for_status()
+        result = response.json()
+
+        logger.info(f"MiniMax 音色复刻 API 响应: {result}")
+
+        # 检查响应
+        if result.get('base_resp', {}).get('status_msg') != 'success':
+            error_msg = result.get('base_resp', {}).get('status_msg', '未知错误')
+            raise Exception(f"音色复刻失败: {error_msg}")
+
+        # 返回音频 URL
+        audio_url = result.get('demo_audio', '')
+        if not audio_url:
+            raise Exception('音色复刻 API 未返回音频 URL')
+
+        response_data = {
+            'audio_url': audio_url,
+            'text': text
+        }
+
+        logger.info(f"音色复刻成功 - IP: {client_ip}")
+        response = jsonify(response_data)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+
+    except requests.exceptions.HTTPError as e:
+        logger.error(f"MiniMax 音色复刻 API HTTP 错误: {e}")
+        error_data = e.response.json() if e.response else {}
+        error_msg = error_data.get('base_resp', {}).get('msg', str(e))
+        response = jsonify({'error': f'API 请求失败: {error_msg}'})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 500
+    except Exception as e:
+        logger.error(f"音色复刻错误 - IP: {client_ip}, 错误: {str(e)}")
+        response = jsonify({'error': str(e)})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 500
 
 # ========== 静态文件服务 ==========
 

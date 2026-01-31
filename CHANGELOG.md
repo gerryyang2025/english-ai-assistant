@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.3] - 2026-01-26
+## [3.4] - 2026-01-31
+
+### Added
+- Added mobile responsive optimization for speech page (listening page)
+- Added 768px, 480px, and 360px breakpoint styles for speech page
+- Added speech selector styles for tablet and mobile devices
+- Added speech card grid layout for mobile devices
+
+### Fixed
+- Fixed voice playback issue where switching chapters would play previous chapter content (voice clone mode)
+- Fixed auto-play issue when switching chapters in speech page
+- Improved stopSpeech() function to properly clear all playback states
+- Improved playSpeechWithSystem() to prevent incorrect resume attempts after cancellation
+- Enhanced voice clone mode state management to prevent recovering old content
 
 ### Added
 - Added Chinese description of learning content (words and readings)
@@ -150,7 +163,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User progress tracking
 - Basic responsive design
 
-[Unreleased]: https://github.com/gerryyang/english-ai-assistant/compare/v3.3...HEAD
+[Unreleased]: https://github.com/gerryyang/english-ai-assistant/compare/v3.4...HEAD
+[3.4]: https://github.com/gerryyang/english-ai-assistant/compare/v3.3...v3.4
 [3.3]: https://github.com/gerryyang/english-ai-assistant/compare/v3.2...v3.3
 [3.2]: https://github.com/gerryyang/english-ai-assistant/compare/v3.1...v3.2
 [3.1]: https://github.com/gerryyang/english-ai-assistant/compare/v3.0...v3.1

@@ -970,6 +970,34 @@
     transform: translateX(-50%) translateY(0);
 }
 
+/* 加载中的持久提示 */
+.toast-loading {
+    background: rgba(102, 126, 234, 0.95);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-loading .toast-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: toast-spin 0.8s linear infinite;
+}
+
+@keyframes toast-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 成功提示 */
+.toast-success {
+    background: rgba(40, 167, 69, 0.95);
+}
+
 /* 标记已读按钮完成状态 */
 #mark-read-btn.btn-completed {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);

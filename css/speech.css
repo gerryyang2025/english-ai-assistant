@@ -272,11 +272,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
     z-index: 100;
     backdrop-filter: blur(10px);
     min-height: 80px;
-    height: auto;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
 }
@@ -321,53 +319,34 @@
     background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
 }
 
-/* 播放进度条 */
-.speech-progress {
-    padding: 0 20px 20px;
-    background: #f8f9fa;
-    margin: -20px -20px 0 -20px;
-}
-
-.speech-progress-bar {
-    height: 4px;
-    background: #e0e0e0;
-    border-radius: 2px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.speech-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
-    transition: width 0.1s linear;
-    width: 0%;
-}
-
-.speech-progress-text {
-    text-align: center;
-    font-size: 12px;
-    color: #999;
-    margin-top: 8px;
-}
-
-/* 播放速度控制 */
-.speech-speed-control {
+/* 设置区域（语音模式 + 播放速度） */
+.speech-settings {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 12px 20px;
+    gap: 16px;
+    padding: 12px 16px;
     background: #f8f9fa;
+    flex-wrap: wrap;
 }
 
+.speech-voice-mode,
+.speech-speed-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.speech-voice-mode label,
 .speech-speed-control label {
-    font-size: 14px;
+    font-size: 13px;
     color: #666;
+    white-space: nowrap;
 }
 
+.speech-voice-mode select,
 .speech-speed-control select {
-    padding: 8px 16px;
+    padding: 8px 12px;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 14px;
@@ -377,13 +356,19 @@
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
+    background-position: right 10px center;
+    padding-right: 28px;
 }
 
+.speech-voice-mode select:focus,
 .speech-speed-control select:focus {
     outline: none;
     border-color: #667eea;
+}
+
+.voice-clone-status {
+    font-size: 12px;
+    color: #28a745;
 }
 
 /* 空状态 */
@@ -424,33 +409,18 @@
         margin: -16px -16px 16px -16px;
     }
 
+    .speech-selector .selector-group {
+        margin-bottom: 12px;
+    }
+
+    .speech-selector label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
     .speech-selector select {
         padding: 10px 14px;
         font-size: 15px;
-    }
-
-    .speech-list {
-        padding: 16px;
-    }
-
-    .speech-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .speech-card {
-        padding: 16px;
-    }
-
-    .speech-card-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 24px;
-        margin-right: 12px;
-    }
-
-    .speech-card-title {
-        font-size: 16px;
     }
 
     .speech-header {
@@ -528,6 +498,22 @@
         height: 64px;
         font-size: 28px;
     }
+
+    .speech-settings {
+        padding: 10px 16px;
+        gap: 12px;
+    }
+
+    .speech-voice-mode label,
+    .speech-speed-control label {
+        font-size: 13px;
+    }
+
+    .speech-voice-mode select,
+    .speech-speed-control select {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
 }
 
 /* 手机设备 (480px) */
@@ -562,6 +548,7 @@
 
     .speech-grid {
         padding: 12px;
+        grid-template-columns: 1fr;
         gap: 10px;
     }
 
@@ -657,12 +644,57 @@
         height: 48px;
         font-size: 18px;
     }
+
+    .speech-settings {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .speech-voice-mode label,
+    .speech-speed-control label {
+        font-size: 12px;
+    }
+
+    .speech-voice-mode select,
+    .speech-speed-control select {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .voice-clone-status {
+        font-size: 11px;
+    }
 }
 
 /* 小屏手机 (360px) */
 @media (max-width: 360px) {
     .speech-page-header h1 {
         font-size: 20px;
+    }
+
+    .speech-selector {
+        padding: 10px;
+        margin: -10px -10px 10px -10px;
+    }
+
+    .speech-selector .selector-group {
+        margin-bottom: 10px;
+    }
+
+    .speech-selector label {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .speech-selector select {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .speech-grid {
+        padding: 10px;
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
 
     .speech-card {
@@ -692,6 +724,22 @@
     .speech-controls .btn-primary,
     .speech-controls .btn-secondary {
         padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .speech-settings {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .speech-voice-mode label,
+    .speech-speed-control label {
+        font-size: 12px;
+    }
+
+    .speech-voice-mode select,
+    .speech-speed-control select {
+        padding: 6px 10px;
         font-size: 12px;
     }
 }

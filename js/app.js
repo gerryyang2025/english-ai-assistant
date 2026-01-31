@@ -25,7 +25,14 @@ const AppState = {
     sentencesSession: null,  // 语句练习会话
     speechUtterance: null,   // 当前语音合成实例
     speechIsPlaying: false,   // 朗读是否正在播放
-    speechPlaybackSpeed: 1.0   // 朗读播放速度
+    speechPaused: false,      // 朗读是否暂停
+    speechPlaybackSpeed: 1.0,   // 朗读播放速度
+    speechVoiceMode: 'system',   // 朗读语音模式: 'system' 或 'clone'
+    speechCloneAudioUrl: null,   // 音色复刻生成的音频 URL
+    speechCloneFileId: null,     // 音色复刻音频文件 ID（从服务器获取）
+    speechCloneVoiceId: null,    // 音色复刻 voice_id（从服务器获取）
+    speechCloneCurrentTime: 0,   // 音色复刻音频的播放位置（秒）
+    speechPaused: false,          // 朗读是否暂停
 };
 
 // ========== DOM 元素缓存 ==========
@@ -61,6 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showServiceError();
             return;
         }
+    // 获取服务器配置
+    fetchVoiceCloneConfig();
     showLoading();
     loadWordData().then(() => {
             loadReadingData(); // 加载阅读数据
@@ -163,6 +172,27 @@ async function checkServiceHealth() {
     } catch (error) {
         console.error('Service health check failed:', error);
         return false;
+    }
+}
+
+// 获取服务器配置
+async function fetchVoiceCloneConfig() {
+    try {
+        const response = await fetch('/api/status');
+        if (!response.ok) throw new Error('获取配置失败');
+        
+        const data = await response.json();
+        
+        // 更新音色复刻配置
+        if (data.voice_clone) {
+            AppState.speechCloneFileId = data.voice_clone.file_id;
+            
+            console.log('[Voice Clone] 配置已加载:');
+            console.log('  - file_id:', AppState.speechCloneFileId);
+            console.log('  - configured:', data.voice_clone.configured);
+        }
+    } catch (error) {
+        console.error('获取音色复刻配置失败:', error);
     }
 }
 
@@ -3087,33 +3117,20 @@ function handleSpeechArticleChange() {
 function handleSpeechChapterChange() {
     const articleSelect = document.getElementById('speech-article-select');
     const chapterSelect = document.getElementById('speech-chapter-select');
-    
-    if (!articleSelect || !chapterSelect) return;
-    
+
+    if (!articleSelect || !chapterSelect) {
+        console.error('handleSpeechChapterChange: 选择器元素不存在');
+        return;
+    }
+
     const articleId = articleSelect.value;
     const chapterValue = chapterSelect.value;
-    
-    if (!articleId || !chapterValue) return;
-    
-    const speech = AppState.speechData.find(s => s.id === articleId);
-    if (!speech) return;
-    
-    // 设置当前文章和章节
-    AppState.currentSpeech = speech;
-    
-    if (chapterValue === 'summary') {
-        // 显示概要
-        AppState.currentSpeechChapter = {
-            title: `${speech.title} - 概要`,
-            content: speech.summary
-        };
-    } else {
-        const chapterIndex = parseInt(chapterValue, 10);
-        if (speech.chapters[chapterIndex]) {
-            AppState.currentSpeechChapter = speech.chapters[chapterIndex];
-        }
+
+    if (!articleId || !chapterValue) {
+        // 如果没有选择完整，返回，不显示详情页
+        return;
     }
-    
+
     // 跳转到详情页并显示内容
     showSpeechDetailWithChapter(articleId, chapterValue);
 }
@@ -3157,11 +3174,16 @@ function filterSpeechByArticle(articleId) {
 
 // 跳转到文章详情页并显示指定章节
 function showSpeechDetailWithChapter(articleId, chapterValue) {
+    console.log('showSpeechDetailWithChapter:', articleId, chapterValue);
+
     const speech = AppState.speechData.find(s => s.id === articleId);
-    if (!speech) return;
-    
+    if (!speech) {
+        console.error('未找到文章:', articleId);
+        return;
+    }
+
     AppState.currentSpeech = speech;
-    
+
     // 设置当前章节
     if (chapterValue === 'summary' && speech.summary) {
         AppState.currentSpeechChapter = {
@@ -3176,33 +3198,37 @@ function showSpeechDetailWithChapter(articleId, chapterValue) {
             AppState.currentSpeechChapter = speech.chapters[0];
         } else {
             AppState.currentSpeechChapter = null;
+            console.warn('文章没有章节内容:', speech.title);
         }
     }
-    
+
     // 停止当前播放
     stopSpeech();
-    
+
     // 切换到详情页面
     DOM.pages.forEach(page => {
         page.classList.toggle('active', page.id === 'page-speech-detail');
     });
-    
+
     // 更新导航按钮状态
     DOM.navBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === 'speech');
     });
-    
+
     // 更新页面标题
-    document.getElementById('speech-title').textContent = speech.title;
-    
+    const titleEl = document.getElementById('speech-title');
+    if (titleEl) {
+        titleEl.textContent = speech.title;
+    }
+
     // 渲染章节导航
     renderSpeechChapterNav();
-    
+
     // 渲染章节内容
     renderSpeechChapter();
-    
-    // 重置进度
-    updateSpeechProgress(0);
+
+    // 滚动到页面顶部
+    window.scrollTo(0, 0);
 }
 
 function renderSpeechList() {
@@ -3365,9 +3391,6 @@ function showSpeechDetail(speechId) {
     
     // 渲染章节内容
     renderSpeechChapter();
-    
-    // 重置进度条
-    updateSpeechProgress(0);
 }
 
 function renderSpeechChapterNav() {
@@ -3444,16 +3467,28 @@ function selectSpeechChapter(speechId, chapterIndex) {
     
     // 渲染章节内容
     renderSpeechChapter();
-    
-    // 重置进度条
-    updateSpeechProgress(0);
 }
 
 function renderSpeechChapter() {
     const content = document.getElementById('speech-content');
     const chapter = AppState.currentSpeechChapter;
-    if (!content || !chapter) return;
-    
+
+    // 如果没有内容元素，直接返回
+    if (!content) {
+        console.error('renderSpeechChapter: speech-content 元素不存在');
+        return;
+    }
+
+    // 如果没有章节数据，显示提示信息
+    if (!chapter) {
+        content.innerHTML = `
+            <h2 class="speech-chapter-title">暂无内容</h2>
+            <div class="speech-text">请选择一篇文章和章节来查看内容</div>
+        `;
+        return;
+    }
+
+    // 正常渲染章节内容
     content.innerHTML = `
         <h2 class="speech-chapter-title">${chapter.title}</h2>
         <div class="speech-text">${chapter.content}</div>
@@ -3475,109 +3510,554 @@ function playSpeech() {
         showToast('请先选择一篇听书材料');
         return;
     }
-    
+
+    // 检查语音模式
+    if (AppState.speechVoiceMode === 'clone') {
+        // 使用音色复刻模式
+        playSpeechWithVoiceClone(chapter.content);
+        return;
+    }
+
+    // 使用系统默认语音
+    playSpeechWithSystem(chapter.content);
+}
+
+// 使用系统默认语音播放
+function playSpeechWithSystem(content) {
+    // 检查是否可以恢复已暂停的语音（用户主动暂停）
+    // 注意：cancel() 后 paused 状态不可靠，所以还需要检查 speaking 状态
+    if (window.speechSynthesis.paused && window.speechSynthesis.speaking) {
+        try {
+            window.speechSynthesis.resume();
+            AppState.speechIsPlaying = true;
+            AppState.speechPaused = false;
+            updatePlayButton();
+            console.log('[System Voice] resumed from paused state');
+            return;
+        } catch (e) {
+            console.error('[System Voice] resume error:', e);
+        }
+    }
+
+    // 如果不是暂停状态，创建新的语音实例
     // 取消之前的播放
     if (AppState.speechUtterance) {
         window.speechSynthesis.cancel();
     }
-    
-    const utterance = new SpeechSynthesisUtterance(chapter.content);
+
+    // 重置暂停状态
+    AppState.speechPaused = false;
+    AppState.speechIsPlaying = false;
+
+    const utterance = new SpeechSynthesisUtterance(content);
     utterance.lang = 'zh-CN';
     utterance.rate = AppState.speechPlaybackSpeed;
     utterance.pitch = 1;
-    
+
     // 尝试获取中文语音
     const voices = window.speechSynthesis.getVoices();
-    const chineseVoice = voices.find(voice => 
+    const chineseVoice = voices.find(voice =>
         voice.lang.includes('zh') || voice.lang.includes('cmn')
     );
     if (chineseVoice) {
         utterance.voice = chineseVoice;
     }
-    
+
     utterance.onstart = () => {
         AppState.speechIsPlaying = true;
+        AppState.speechPaused = false;
         updatePlayButton();
         showToast('开始播放');
     };
-    
+
     utterance.onend = () => {
         AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
         updatePlayButton();
-        updateSpeechProgress(100);
         showToast('播放完成');
     };
-    
+
     utterance.onerror = (event) => {
-        console.error('语音播放错误:', event);
-        // canceled 和 interrupted 错误是用户主动停止或快速切换导致的，不需要显示提示
+        // canceled 和 interrupted 错误是用户主动停止或快速切换导致的，属于正常行为
         if (event.error !== 'canceled' && event.error !== 'interrupted') {
+            console.error('语音播放错误:', event);
             AppState.speechIsPlaying = false;
+            AppState.speechPaused = false;
             updatePlayButton();
             showToast('播放出错');
         } else {
             // 对于取消和中断错误，只更新状态，不显示提示
             AppState.speechIsPlaying = false;
+            AppState.speechPaused = false;
             updatePlayButton();
         }
     };
-    
+
     utterance.onpause = () => {
         AppState.speechIsPlaying = false;
+        AppState.speechPaused = true;
         updatePlayButton();
+        console.log('[System Voice] paused');
     };
-    
+
     utterance.onresume = () => {
         AppState.speechIsPlaying = true;
+        AppState.speechPaused = false;
         updatePlayButton();
+        console.log('[System Voice] resumed');
     };
-    
+
     AppState.speechUtterance = utterance;
     window.speechSynthesis.speak(utterance);
-    
-    // 更新进度条
-    updateSpeechProgress(0);
 }
 
-function pauseSpeech() {
-    if (window.speechSynthesis.speaking) {
-        if (window.speechSynthesis.paused) {
-            window.speechSynthesis.resume();
+// 解锁浏览器的自动播放限制
+function unlockAudioContext() {
+    // 创建一个静音的音频来解锁
+    const silentAudio = new Audio();
+    silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
+    silentAudio.volume = 0;
+
+    return silentAudio.play().then(() => {
+        console.log('[Voice Clone] 已解锁浏览器自动播放限制');
+        silentAudio.remove();
+        return true;
+    }).catch(() => {
+        // 如果无法播放，尝试使用 AudioContext
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                const audioCtx = new AudioContext();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.frequency.value = 0;
+                gainNode.gain.value = 0;
+
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.01);
+
+                console.log('[Voice Clone] 已通过 AudioContext 解锁浏览器自动播放限制');
+                return true;
+            }
+        } catch (e) {
+            console.warn('[Voice Clone] 无法解锁自动播放限制:', e);
+        }
+        return false;
+    });
+}
+
+// 使用音色复刻播放
+async function playSpeechWithVoiceClone(content) {
+    // 停止系统语音
+    window.speechSynthesis.cancel();
+
+    // 检查是否有保存的 Audio 对象
+    if (AppState.speechUtterance instanceof Audio) {
+        const audio = AppState.speechUtterance;
+        const startTime = AppState.speechCloneCurrentTime;
+
+        console.log('[Voice Clone] check resume: speechCloneAudioUrl:', !!AppState.speechCloneAudioUrl, 'startTime:', startTime, 'audio.paused:', audio.paused);
+
+        // 检查是否是同一个内容（通过比较 URL）
+        // 如果是同一个内容且有保存的位置（大于 0），恢复播放
+        if (AppState.speechCloneAudioUrl &&
+            audio.src === AppState.speechCloneAudioUrl &&
+            startTime > 0 &&
+            startTime < audio.duration) {
+
+            console.log('[Voice Clone] will resume from position:', startTime);
+            audio.currentTime = startTime;
+
+            try {
+                audio.play();
+                AppState.speechIsPlaying = true;
+                AppState.speechPaused = false;
+                updatePlayButton();
+                console.log('[Voice Clone] resume from:', startTime);
+                return;
+            } catch (e) {
+                console.error('[Voice Clone] resume error:', e);
+                // 恢复失败，继续生成新音频
+            }
         } else {
-            window.speechSynthesis.pause();
+            console.log('[Voice Clone] cannot resume: conditions not met');
+        }
+
+        // 如果内容已改变或无法恢复，停止并清除旧的 Audio 对象
+        // 但保留 speechCloneCurrentTime，因为用户可能只是暂停了
+        // 只在真正需要清除时才清除（例如内容改变）
+        const isSameContent = AppState.speechCloneAudioUrl && audio.src === AppState.speechCloneAudioUrl;
+        if (!isSameContent) {
+            audio.pause();
+            audio.currentTime = 0;
+            AppState.speechUtterance = null;
+            AppState.speechCloneCurrentTime = 0;
+        }
+    }
+
+    // 重置暂停状态（如果是章节切换，需要重置；如果是暂停后恢复，不应该重置）
+    // 但恢复播放的逻辑在上面已经处理了，所以这里可以安全重置
+    AppState.speechPaused = false;
+
+    // 显示持久提示
+    showPersistentToast('正在生成音色复刻音频...');
+
+    try {
+        // 先解锁浏览器自动播放限制
+        await unlockAudioContext();
+
+        // 调用音色复刻 API
+        const audioUrl = await callVoiceCloneAPI(content);
+        AppState.speechCloneAudioUrl = audioUrl;
+
+        // 播放音频（提示会在 onplay 事件中自动关闭）
+        playVoiceCloneAudio(audioUrl);
+    } catch (error) {
+        // 关闭持久提示
+        hidePersistentToast();
+
+        console.error('音色复刻失败:', error);
+
+        // 检查是否是配置问题
+        const errorMessage = error.message || '未知错误';
+        const isConfigError = errorMessage.includes('未配置') || errorMessage.includes('未提供');
+
+        if (isConfigError) {
+            // 配置问题，不自动切换，给用户提示
+            showToast('音色复刻未配置，请切换到系统模式使用');
+            // 重置为系统模式但不自动播放
+            AppState.speechVoiceMode = 'system';
+            document.getElementById('speech-voice-mode-select').value = 'system';
+        } else {
+            // 其他错误，询问用户是否切换
+            const userConfirmed = confirm(`音色复刻失败: ${errorMessage}\n\n是否切换到系统语音继续播放？`);
+
+            if (userConfirmed) {
+                AppState.speechVoiceMode = 'system';
+                document.getElementById('speech-voice-mode-select').value = 'system';
+                playSpeechWithSystem(content);
+            }
         }
     }
 }
 
+// 停止语音播放
 function stopSpeech() {
-    if (AppState.speechUtterance) {
-        AppState.speechUtterance = null;
+    // 停止系统语音合成
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
     }
-    window.speechSynthesis.cancel();
+
+    // 停止 Audio 对象（音色复刻）
+    if (AppState.speechUtterance instanceof Audio) {
+        try {
+            AppState.speechUtterance.pause();
+            AppState.speechUtterance.currentTime = 0;
+            // 完全清除 Audio 对象，防止章节切换后恢复旧内容
+            AppState.speechUtterance = null;
+        } catch (e) {
+            console.error('stopSpeech audio error:', e);
+            AppState.speechUtterance = null;
+        }
+    }
+
+    // 清除音色复刻相关的状态，防止恢复旧内容
+    AppState.speechCloneAudioUrl = null;
+    AppState.speechCloneCurrentTime = 0;
+
+    // 重置播放状态 - 关键：必须将 paused 状态也重置为 false
+    // 这样下次点击播放时不会错误地尝试"恢复"已取消的语音
     AppState.speechIsPlaying = false;
+    AppState.speechPaused = false;
+    AppState.speechUtterance = null;
+
+    // 更新播放按钮
     updatePlayButton();
-    updateSpeechProgress(0);
 }
 
-function replaySpeech() {
-    stopSpeech();
-    setTimeout(() => {
-        playSpeech();
-    }, 100);
+function pauseSpeech() {
+    // 如果是 Audio 对象（音色复刻）
+    if (AppState.speechUtterance instanceof Audio) {
+        try {
+            const audio = AppState.speechUtterance;
+            console.log('[Voice Clone] pauseSpeech called, audio.paused:', audio.paused);
+
+            if (audio.paused) {
+                // 暂停中，恢复播放
+                AppState.speechIsPlaying = true;
+                AppState.speechPaused = false;
+                updatePlayButton();
+                audio.play();
+                console.log('[Voice Clone] resumed playback');
+            } else {
+                // 播放中，暂停
+                // 立即保存位置，确保状态同步
+                AppState.speechCloneCurrentTime = audio.currentTime;
+                audio.pause();
+                // 状态更新由 onpause 事件处理
+                console.log('[Voice Clone] pause requested, saved position:', AppState.speechCloneCurrentTime);
+            }
+        } catch (e) {
+            console.error('pauseSpeech error:', e);
+        }
+        return;
+    }
+
+    // 系统语音合成
+    if (window.speechSynthesis.speaking) {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+            AppState.speechIsPlaying = true;
+            AppState.speechPaused = false;
+            updatePlayButton();
+        } else {
+            window.speechSynthesis.pause();
+            AppState.speechIsPlaying = false;
+            AppState.speechPaused = true;
+            updatePlayButton();
+        }
+    }
 }
 
 function changeSpeechSpeed(speed) {
     AppState.speechPlaybackSpeed = parseFloat(speed);
-    
-    // 如果正在播放，重新开始播放
-    if (AppState.speechIsPlaying) {
+
+    // 停止当前播放（如果有）
+    if (AppState.speechIsPlaying || AppState.speechPaused) {
         stopSpeech();
-        setTimeout(() => {
-            playSpeech();
-        }, 100);
     }
-    
-    showToast(`播放速度: ${speed}x`);
+
+    // 只更新速度设置，不自动播放
+    showToast(`播放速度: ${speed}x (点击播放按钮开始)`);
+}
+
+// 切换语音模式
+function changeVoiceMode(mode) {
+    AppState.speechVoiceMode = mode;
+
+    const statusEl = document.getElementById('voice-clone-status');
+    if (mode === 'clone') {
+        // 检查是否配置了 file_id
+        if (!AppState.speechCloneFileId || AppState.speechCloneFileId === 0) {
+            statusEl.innerHTML = '<span class="warning">⚠️ 请在 api_config.py 中配置</span>';
+            showToast('音色复刻未配置');
+
+            // 在控制台显示配置说明
+            console.log('%c音色复刻配置说明', 'font-size: 16px; font-weight: bold; color: #667eea;');
+            console.log('要使用音色复刻功能，请：');
+            console.log('1. 在 https://platform.minimaxi.com/user-center/files 上传参考音频');
+            console.log('2. 获取 file_id');
+            console.log('3. 在 api_config.py 中设置 MINIMAX_VOICE_CLONE_FILE_ID = your_file_id');
+        } else {
+            statusEl.innerHTML = '<span class="success">🎙️ 音色复刻已启用</span>';
+            showToast('已切换到音色复刻模式');
+        }
+    } else {
+        statusEl.innerHTML = '';
+        showToast('已切换到系统默认语音');
+    }
+
+    // 切换模式时，只停止当前播放，不自动播放
+    // 用户点击播放按钮时才会开始转换
+    const chapter = AppState.currentSpeechChapter;
+    if (chapter) {
+        // 重置播放状态
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
+        AppState.speechCloneCurrentTime = 0;
+
+        // 清除 Audio 对象
+        if (AppState.speechUtterance) {
+            if (AppState.speechUtterance instanceof Audio) {
+                // 先移除所有事件监听器，防止触发 error 等事件
+                AppState.speechUtterance.oncanplay = null;
+                AppState.speechUtterance.onplay = null;
+                AppState.speechUtterance.onpause = null;
+                AppState.speechUtterance.onended = null;
+                AppState.speechUtterance.onerror = null;
+                // 暂停并清除 src
+                AppState.speechUtterance.pause();
+                AppState.speechUtterance.src = '';
+                // 延迟清除对象，确保事件不会触发
+                setTimeout(() => {
+                    AppState.speechUtterance = null;
+                }, 100);
+            } else {
+                AppState.speechUtterance = null;
+            }
+        }
+
+        // 停止系统语音
+        window.speechSynthesis.cancel();
+
+        updatePlayButton();
+
+        // 只更新提示，告知用户已切换模式
+        if (mode === 'clone') {
+            showToast('已切换到音色复刻模式，点击播放开始转换');
+        } else {
+            showToast('已切换到系统默认语音');
+        }
+    }
+}
+
+// 调用音色复刻 API
+async function callVoiceCloneAPI(text) {
+    const response = await fetch('/api/voice-clone', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            text: text
+        })
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || '音色复刻请求失败');
+    }
+
+    const data = await response.json();
+    return data.audio_url;
+}
+
+// 播放音色复刻音频
+function playVoiceCloneAudio(audioUrl) {
+    // 如果已经有 Audio 对象且有保存的位置，直接从保存的位置播放
+    if (AppState.speechUtterance instanceof Audio) {
+        const audio = AppState.speechUtterance;
+        const startTime = AppState.speechCloneCurrentTime;
+
+        if (startTime > 0 && startTime < audio.duration) {
+            audio.currentTime = startTime;
+        }
+
+        // 确保 playbackRate 正确设置
+        audio.playbackRate = AppState.speechPlaybackSpeed;
+
+        try {
+            audio.play();
+            AppState.speechIsPlaying = true;
+            AppState.speechPaused = false;
+            updatePlayButton();
+            console.log('[Voice Clone] resume from:', startTime, 'playbackRate:', audio.playbackRate);
+        } catch (e) {
+            // 处理浏览器自动播放限制
+            if (e.name === 'NotAllowedError') {
+                console.warn('[Voice Clone] 播放被浏览器自动播放策略限制');
+                showToast('请再次点击播放按钮（需要用户交互）');
+                AppState.speechIsPlaying = false;
+                AppState.speechPaused = false;
+                updatePlayButton();
+            } else {
+                console.error('[Voice Clone] play error:', e);
+            }
+        }
+        return;
+    }
+
+    // 重置暂停状态
+    AppState.speechPaused = false;
+
+    // 停止之前的播放
+    stopSpeech();
+
+    const audio = new Audio();
+    audio.src = audioUrl;
+    AppState.speechUtterance = audio;
+    audio.playbackRate = AppState.speechPlaybackSpeed;
+
+    // 标记音频正在加载
+    let audioLoaded = false;
+
+    audio.oncanplay = () => {
+        console.log('[Voice Clone] audio can play');
+        // 注意：音频已准备好，这里不更新状态
+        // 因为可能音频已经开始播放了
+        // 状态由 onplay 和 onpause 事件来管理
+    };
+
+    audio.onerror = (e) => {
+        console.error('[Voice Clone] audio load error:', e);
+        showToast('音频加载失败');
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
+        updatePlayButton();
+    };
+
+    audio.onplay = () => {
+        AppState.speechIsPlaying = true;
+        AppState.speechPaused = false;
+        updatePlayButton();
+
+        // 关闭持久提示并显示成功提示
+        hidePersistentToast('正在生成音色复刻音频');
+        showSuccessToast('开始播放');
+    };
+
+    audio.onpause = () => {
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = true;
+        AppState.speechCloneCurrentTime = audio.currentTime;
+        updatePlayButton();
+        console.log('[Voice Clone] paused at:', AppState.speechCloneCurrentTime);
+    };
+
+    audio.onresume = () => {
+        AppState.speechIsPlaying = true;
+        AppState.speechPaused = false;
+        updatePlayButton();
+    };
+
+    audio.onended = () => {
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
+        updatePlayButton();
+
+        // 重置播放位置
+        AppState.speechCloneCurrentTime = 0;
+
+        // 听书模块直接提示播放完成，不自动切换章节
+        showToast('播放完成');
+    };
+
+    audio.onerror = (e) => {
+        console.error('音频播放错误:', e);
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
+        updatePlayButton();
+        showToast('音频播放失败');
+    };
+
+    AppState.speechUtterance = audio;
+
+    // 在播放前先更新状态，确保图标显示为暂停样式
+    AppState.speechIsPlaying = true;
+    AppState.speechPaused = false;
+    updatePlayButton();
+
+    try {
+        audio.play().catch(e => {
+            console.error('播放失败:', e);
+            // 如果播放失败，恢复状态
+            AppState.speechIsPlaying = false;
+            AppState.speechPaused = false;
+            updatePlayButton();
+            showToast('播放失败: ' + e.message);
+        });
+    } catch (e) {
+        console.error('播放异常:', e);
+        // 如果播放异常，恢复状态
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
+        updatePlayButton();
+        showToast('播放异常: ' + e.message);
+    }
 }
 
 function updatePlayButton() {
@@ -3591,22 +4071,6 @@ function updatePlayButton() {
         btn.innerHTML = '▶';
         btn.classList.remove('playing');
     }
-}
-
-function updateSpeechProgress(percent) {
-    const fill = document.getElementById('speech-progress-fill');
-    const text = document.getElementById('speech-progress-text');
-    if (fill) fill.style.width = percent + '%';
-    if (text) text.textContent = percent + '%';
-}
-
-function seekSpeech(event) {
-    // 由于语音合成的进度无法精确控制，这里仅作为UI演示
-    showToast('点击进度条可重新开始播放');
-    stopSpeech();
-    setTimeout(() => {
-        playSpeech();
-    }, 100);
 }
 
 function highlightDialogue(index) {
@@ -3750,21 +4214,89 @@ function shuffleArray(array) {
 }
 
 // Toast 提示
-function showToast(message) {
+function showToast(message, duration = 2000) {
     // 创建 toast 元素
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.textContent = message;
-    
+
     // 添加到页面
     document.body.appendChild(toast);
-    
+
     // 显示动画
     requestAnimationFrame(() => {
         toast.classList.add('show');
     });
-    
-    // 2秒后移除
+
+    // 设置定时器移除
+    toast.timer = setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, duration);
+
+    return toast;
+}
+
+// 持久提示（不自动消失，需要手动关闭）
+let persistentToast = null;
+
+function showPersistentToast(message) {
+    // 如果已有持久提示，先关闭
+    if (persistentToast) {
+        persistentToast.remove();
+        persistentToast = null;
+    }
+
+    // 创建 toast 元素
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-loading';
+    toast.innerHTML = `
+        <span class="toast-spinner"></span>
+        <span>${message}</span>
+    `;
+
+    // 添加到页面
+    document.body.appendChild(toast);
+
+    // 显示动画
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+
+    persistentToast = toast;
+    return toast;
+}
+
+function hidePersistentToast(message = null) {
+    if (!persistentToast) return;
+
+    // 如果指定了消息，检查是否匹配
+    if (message && !persistentToast.textContent.includes(message)) {
+        return;
+    }
+
+    persistentToast.classList.remove('show');
+    setTimeout(() => {
+        if (persistentToast) {
+            persistentToast.remove();
+            persistentToast = null;
+        }
+    }, 300);
+}
+
+function showSuccessToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-success';
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => {
