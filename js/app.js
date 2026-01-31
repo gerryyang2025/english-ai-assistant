@@ -3762,10 +3762,10 @@ async function playSpeechWithVoiceClone(content) {
     // 重置暂停状态
     AppState.speechPaused = false;
 
-    // 显示持久提示（带取消按钮）
-    showPersistentToast('正在生成音色复刻音频...', {
-        showCancel: true,
-        cancelText: '停止'
+    // 显示持久提示（30秒后自动隐藏）
+    showPersistentToast('正在生成克隆声音...', {
+        autoHide: true,
+        hideAfter: 30000 // 30秒超时
     });
 
     try {
@@ -3792,25 +3792,23 @@ async function playSpeechWithVoiceClone(content) {
             console.log('[Voice Clone] content 长度:', content.length);
             console.log('[Voice Clone] content 前 50 字:', content.substring(0, 50));
 
-            // 创建 AbortController 用于取消请求
+            // 创建 AbortController 用于超时控制
             const abortController = new AbortController();
 
-            // 设置超时警告（30秒后显示）
-            let showTimeoutWarning = false;
+            // 设置超时警告（15秒后显示）
             const timeoutWarningId = setTimeout(() => {
-                showTimeoutWarning = true;
                 if (persistentToast) {
                     const messageEl = persistentToast.querySelector('.toast-message');
                     if (messageEl) {
-                        messageEl.textContent = '正在生成音色复刻音频... 较慢，请稍候';
+                        messageEl.textContent = '正在生成克隆声音... 较慢，请稍候';
                     }
                 }
-            }, 30000);
+            }, 15000);
 
             try {
                 audioUrl = await callVoiceCloneAPI(content, {
                     signal: abortController.signal,
-                    timeout: 90000 // 90秒超时
+                    timeout: 30000 // 30秒超时
                 });
 
                 // 清除超时警告
@@ -3835,10 +3833,10 @@ async function playSpeechWithVoiceClone(content) {
                 clearTimeout(timeoutWarningId);
                 hidePersistentToast();
 
-                // 处理用户取消或超时
-                if (error.name === 'AbortError') {
-                    console.log('[Voice Clone] 请求被取消或超时');
-                    showToast('生成已取消');
+                // 处理超时
+                if (error.name === 'AbortError' || error.message.includes('超时')) {
+                    console.log('[Voice Clone] 请求超时');
+                    showToast('生成超时，请重试');
                     return;
                 }
 
@@ -4232,7 +4230,7 @@ function playVoiceCloneAudio(audioUrl) {
         updatePlayButton();
 
         // 关闭持久提示并显示成功提示
-        hidePersistentToast('正在生成音色复刻音频');
+        hidePersistentToast('正在生成克隆声音');
         showSuccessToast('开始播放');
     };
 
@@ -4509,12 +4507,12 @@ function showToast(message, duration = 2000) {
     return toast;
 }
 
-// 持久提示（不自动消失，需要手动关闭）
+// 持久提示（带自动超时）
 let persistentToast = null;
-let persistentToastResolve = null; // 用于存储 Promise 的 resolve 函数
+let persistentToastTimeout = null; // 超时定时器
 
 function showPersistentToast(message, options = {}) {
-    const { showCancel = false, cancelText = '取消' } = options;
+    const { autoHide = false, hideAfter = 0 } = options;
 
     // 如果已有持久提示，先关闭
     if (persistentToast) {
@@ -4524,22 +4522,12 @@ function showPersistentToast(message, options = {}) {
     // 创建 toast 元素
     const toast = document.createElement('div');
     toast.className = 'toast toast-loading toast-persistent';
-
-    // 构建 toast 内容
-    let html = `
+    toast.innerHTML = `
         <div class="toast-loading-content">
             <span class="toast-spinner"></span>
             <span class="toast-message">${message}</span>
         </div>
     `;
-
-    if (showCancel) {
-        html += `
-            <button class="toast-cancel-btn" id="toast-cancel-btn">${cancelText}</button>
-        `;
-    }
-
-    toast.innerHTML = html;
 
     // 添加到页面
     document.body.appendChild(toast);
@@ -4551,21 +4539,14 @@ function showPersistentToast(message, options = {}) {
 
     persistentToast = toast;
 
-    // 返回 Promise，用于等待用户操作
-    return new Promise((resolve) => {
-        persistentToastResolve = resolve;
+    // 如果设置了自动隐藏
+    if (autoHide && hideAfter > 0) {
+        persistentToastTimeout = setTimeout(() => {
+            hidePersistentToast();
+        }, hideAfter);
+    }
 
-        // 绑定取消按钮事件
-        if (showCancel) {
-            const cancelBtn = toast.querySelector('#toast-cancel-btn');
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', () => {
-                    hidePersistentToast();
-                    resolve({ cancelled: true });
-                });
-            }
-        }
-    });
+    return toast;
 }
 
 function hidePersistentToast(message = null) {
@@ -4574,6 +4555,12 @@ function hidePersistentToast(message = null) {
     // 如果指定了消息，检查是否匹配
     if (message && !persistentToast.textContent.includes(message)) {
         return;
+    }
+
+    // 清除超时定时器
+    if (persistentToastTimeout) {
+        clearTimeout(persistentToastTimeout);
+        persistentToastTimeout = null;
     }
 
     persistentToast.classList.remove('show');

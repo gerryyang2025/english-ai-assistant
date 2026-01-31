@@ -395,21 +395,21 @@ def voice_clone_api():
         }
 
         # 构建请求数据（使用配置文件中的 file_id，每次生成唯一的 voice_id）
-        # 使用 speech-2.1-turbo 模型以获得更快的响应速度
+        # 使用 speech-2.6-turbo 极速版，更快更优惠，适用于语音聊天和数字人场景
         clone_data = {
             'file_id': MINIMAX_VOICE_CLONE_FILE_ID,
             'voice_id': voice_id,
             'text': text,
-            'model': 'speech-2.1-turbo'  # 使用快速模型，响应更快
+            'model': 'speech-2.6-turbo'  # 极速版，更快更优惠
         }
 
-        logger.info(f"调用 MiniMax 音色复刻 API - voice_id: {voice_id}, 模型: speech-2.1-turbo")
+        logger.info(f"调用 MiniMax 音色复刻 API - voice_id: {voice_id}, 模型: speech-2.6-turbo")
 
         response = requests.post(
             'https://api.minimaxi.com/v1/voice_clone',
             headers=headers,
             json=clone_data,
-            timeout=45  # 快速模型使用较短的超时时间
+            timeout=30  # 30秒超时
         )
         response.raise_for_status()
         result = response.json()
@@ -420,16 +420,16 @@ def voice_clone_api():
         if result.get('base_resp', {}).get('status_msg') != 'success':
             error_msg = result.get('base_resp', {}).get('status_msg', '未知错误')
 
-            # 如果快速模型失败，尝试使用高质量模型作为备选
-            if 'speech-2.1-turbo' in clone_data.get('model', ''):
-                logger.warning(f"快速模型失败，尝试使用高质量模型 - voice_id: {voice_id}")
+            # 如果极速版模型失败，尝试使用高质量模型作为备选
+            if 'speech-2.6-turbo' in clone_data.get('model', ''):
+                logger.warning(f"极速版模型失败，尝试使用高质量模型 - voice_id: {voice_id}")
                 clone_data['model'] = 'speech-2.8-hd'
 
                 response = requests.post(
                     'https://api.minimaxi.com/v1/voice_clone',
                     headers=headers,
                     json=clone_data,
-                    timeout=120  # 高质量模型需要更长时间
+                    timeout=30  # 保持一致的超时时间
                 )
                 response.raise_for_status()
                 result = response.json()
