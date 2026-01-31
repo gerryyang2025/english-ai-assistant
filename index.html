@@ -10,6 +10,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/readings.css">
+    <link rel="stylesheet" href="css/speech.css">
 </head>
 <body>
     <div id="app">
@@ -22,6 +23,7 @@
                     <button class="nav-btn" data-page="words">单词</button>
                     <button class="nav-btn" data-page="sentences">语句</button>
                     <button class="nav-btn" data-page="readings">阅读</button>
+                    <button class="nav-btn" data-page="speech">听书</button>
                     <button class="nav-btn" data-page="flashcard">闪卡</button>
                     <button class="nav-btn" data-page="wrongbook">错题本</button>
                     <button class="nav-btn" data-page="favorites">收藏</button>
@@ -744,6 +746,80 @@
                 </div>
             </section>
             
+            <!-- 听书列表页面 -->
+            <section id="page-speech" class="page">
+                <div class="speech-page-header">
+                    <h1>🎧 听书练习</h1>
+                    <p class="speech-page-subtitle">选择一篇文章进行听书练习</p>
+                </div>
+                
+                <!-- 文章和章节选择器 -->
+                <div class="speech-selector">
+                    <div class="selector-group">
+                        <label for="speech-article-select">选择文章</label>
+                        <select id="speech-article-select" onchange="handleSpeechArticleChange()">
+                            <option value="">-- 请选择文章 --</option>
+                        </select>
+                    </div>
+                    <div class="selector-group">
+                        <label for="speech-chapter-select">选择章节</label>
+                        <select id="speech-chapter-select" onchange="handleSpeechChapterChange()" disabled>
+                            <option value="">-- 请先选择文章 --</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="speech-list">
+                    <div class="speech-grid" id="speech-list">
+                        <!-- 听书卡片由 JS 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 听书详情页面 -->
+            <section id="page-speech-detail" class="page">
+                <div class="speech-header">
+                    <button class="speech-back-btn" onclick="showSpeechPage()">
+                        <span class="speech-back-icon">←</span> 返回列表
+                    </button>
+                    <h1 class="speech-title" id="speech-title">Title</h1>
+                    <div class="speech-chapter-nav" id="speech-chapter-nav">
+                        <!-- 章节导航由 JS 动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 播放进度条 -->
+                <div class="speech-progress">
+                    <div class="speech-progress-bar" id="speech-progress-bar" onclick="seekSpeech(event)">
+                        <div class="speech-progress-fill" id="speech-progress-fill"></div>
+                    </div>
+                    <div class="speech-progress-text" id="speech-progress-text">0%</div>
+                </div>
+                
+                <!-- 播放速度控制 -->
+                <div class="speech-speed-control">
+                    <label for="speech-speed-select">播放速度:</label>
+                    <select id="speech-speed-select" onchange="changeSpeechSpeed(this.value)">
+                        <option value="0.5">0.5x</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1.0x (正常)</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2.0x</option>
+                    </select>
+                </div>
+                
+                <div class="speech-content" id="speech-content">
+                    <!-- 朗读内容由 JS 动态生成 -->
+                </div>
+                
+                <div class="speech-controls">
+                    <button class="btn-secondary" onclick="stopSpeech()">⏹ 停止</button>
+                    <button class="btn-play" id="speech-play-btn" onclick="toggleSpeechPlayback()">▶</button>
+                    <button class="btn-secondary" onclick="replaySpeech()">🔄 重播</button>
+                </div>
+            </section>
+            
             <!-- 工具页面 -->
             <section id="page-tool" class="page">
                 <div class="page-header">
@@ -755,6 +831,7 @@
                     <div class="tool-tabs">
                         <button class="tool-tab active" data-tab="words">单词数据</button>
                         <button class="tool-tab" data-tab="readings">阅读数据</button>
+                        <button class="tool-tab" data-tab="speech">听书数据</button>
                     </div>
                     
                     <!-- 单词数据 -->
@@ -884,6 +961,64 @@ Tom: I want to be a doctor. (汤姆：我想成为一名医生。)
                             <button class="btn btn-secondary" id="readingsCopyBtn">复制 JSON 到剪贴板</button>
                         </div>
                         <div class="status" id="readingsStatus"></div>
+                    </div>
+                    
+                    <!-- 听书数据 -->
+                    <div class="tool-content" id="tool-speech">
+                        <div class="upload-section">
+                            <h3>🎧 上传 Markdown 文件</h3>
+                            <div class="upload-area reading" id="speechMdUploadArea">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">点击或拖拽 LISTEN.md 文件到此处</div>
+                                <div class="upload-hint">支持 .md 格式的文件</div>
+                            </div>
+                            <input type="file" id="speechMdFileInput" accept=".md,.txt" style="display: none;">
+                        </div>
+                        
+                        <!-- 格式说明 -->
+                        <div class="format-help">
+                            <h4>📋 Markdown 格式要求</h4>
+                            <div class="format-example">
+                                <pre># 文章题目
+
+## 文章概要
+
+文章概要内容...
+
+## 第一章
+
+第一章内容...
+
+## 第二章
+
+第二章内容...
+</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="upload-section json-upload">
+                            <h3>⚡ 上传 JSON 文件（实时生效）</h3>
+                            <div class="upload-area json reading" id="speechJsonUploadArea">
+                                <div class="upload-icon">🎵</div>
+                                <div class="upload-text">点击或拖拽 listen.json 文件到此处</div>
+                                <div class="upload-hint">上传后立即生效，无需刷新页面</div>
+                            </div>
+                            <input type="file" id="speechJsonFileInput" accept=".json" style="display: none;">
+                        </div>
+                        
+                        <div class="file-info" id="speechFileInfo" style="display: none;">
+                            <div class="file-name reading" id="speechFileName"></div>
+                            <div class="file-size" id="speechFileSize"></div>
+                        </div>
+                        <div class="preview" id="speechPreview" style="display: none;">
+                            <div class="preview-title">数据预览：</div>
+                            <ul class="reading-list" id="speechList"></ul>
+                        </div>
+                        <div class="actions" id="speechActions" style="display: none;">
+                            <button class="btn btn-reading" id="speechGenerateBtn">生成并下载 listen.json</button>
+                            <button class="btn btn-secondary" id="speechCopyBtn">复制 JSON 到剪贴板</button>
+                        </div>
+                        <div class="status" id="speechStatus"></div>
                     </div>
                 </div>
             </section>

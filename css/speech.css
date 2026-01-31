@@ -1,0 +1,697 @@
+/* 听书页面样式 */
+
+/* 听书列表页面 */
+.speech-page-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin: -20px -20px 20px -20px;
+}
+
+.speech-page-header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.speech-page-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* 选择器区域 */
+.speech-selector {
+    padding: 20px;
+    background: #f8f9fa;
+    margin: -20px -20px 20px -20px;
+    border-bottom: 1px solid #eee;
+}
+
+.speech-selector .selector-group {
+    margin-bottom: 16px;
+}
+
+.speech-selector .selector-group:last-child {
+    margin-bottom: 0;
+}
+
+.speech-selector label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.speech-selector select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #333;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+.speech-selector select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.speech-selector select:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 听书卡片网格 */
+.speech-list {
+    padding: 20px;
+}
+
+.speech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.speech-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.speech-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.speech-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.speech-card:hover::after {
+    opacity: 1;
+}
+
+.speech-card.selected {
+    border: 2px solid #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.speech-card-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.speech-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.speech-card-title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.speech-card-meta {
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.speech-card-arrow {
+    font-size: 24px;
+    color: #ccc;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+/* 听书详情页面 */
+.speech-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin: -20px -20px 20px -20px;
+    flex-shrink: 0;
+}
+
+.speech-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+    backdrop-filter: blur(4px);
+}
+
+.speech-back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.speech-back-btn:active {
+    transform: scale(0.95);
+}
+
+.speech-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+    padding-left: 0;
+    font-weight: 600;
+}
+
+.speech-chapter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.speech-chapter-btn {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.speech-chapter-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.speech-chapter-btn.active {
+    background: white;
+    color: #667eea;
+    font-weight: 600;
+}
+
+/* 听书内容区域 */
+.speech-content {
+    padding: 20px;
+    padding-bottom: 120px;
+}
+
+.speech-chapter-title {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #667eea;
+}
+
+.speech-text {
+    font-size: 18px;
+    line-height: 2;
+    color: #333;
+    text-align: justify;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* 听书播放控制区域 */
+.speech-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px 20px;
+    padding-bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 20px));
+    padding-left: max(20px, env(safe-area-inset-left, 20px));
+    padding-right: max(20px, env(safe-area-inset-right, 20px));
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    min-height: 80px;
+    height: auto;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+.speech-controls .btn-primary,
+.speech-controls .btn-secondary {
+    padding: 14px 32px;
+    font-size: 16px;
+    border-radius: 25px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.speech-controls .btn-play {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.speech-controls .btn-play:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.speech-controls .btn-play:active {
+    transform: scale(0.95);
+}
+
+.speech-controls .btn-play.playing {
+    background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+}
+
+/* 播放进度条 */
+.speech-progress {
+    padding: 0 20px 20px;
+    background: #f8f9fa;
+    margin: -20px -20px 0 -20px;
+}
+
+.speech-progress-bar {
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.speech-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+    transition: width 0.1s linear;
+    width: 0%;
+}
+
+.speech-progress-text {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
+}
+
+/* 播放速度控制 */
+.speech-speed-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: #f8f9fa;
+}
+
+.speech-speed-control label {
+    font-size: 14px;
+    color: #666;
+}
+
+.speech-speed-control select {
+    padding: 8px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.speech-speed-control select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* 空状态 */
+.speech-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 16px;
+}
+
+.speech-empty::before {
+    content: '🎧';
+    display: block;
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* 响应式设计 */
+
+/* 平板设备 (768px) */
+@media (max-width: 768px) {
+    .speech-page-header {
+        padding: 24px 16px;
+        margin: -16px -16px 16px -16px;
+    }
+
+    .speech-page-header h1 {
+        font-size: 24px;
+    }
+
+    .speech-page-subtitle {
+        font-size: 13px;
+    }
+
+    .speech-selector {
+        padding: 16px;
+        margin: -16px -16px 16px -16px;
+    }
+
+    .speech-selector select {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    .speech-list {
+        padding: 16px;
+    }
+
+    .speech-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .speech-card {
+        padding: 16px;
+    }
+
+    .speech-card-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+        margin-right: 12px;
+    }
+
+    .speech-card-title {
+        font-size: 16px;
+    }
+
+    .speech-header {
+        padding: 16px;
+        margin: -16px -16px 16px -16px;
+    }
+
+    .speech-back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    .speech-title {
+        font-size: 20px;
+    }
+
+    .speech-chapter-nav {
+        gap: 6px;
+    }
+
+    .speech-chapter-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .speech-content {
+        padding: 16px;
+        padding-bottom: 100px;
+    }
+
+    .speech-text {
+        font-size: 16px;
+        padding: 16px;
+    }
+
+    .speech-controls {
+        padding: 14px 16px;
+        padding-bottom: max(45px, calc(env(safe-area-inset-bottom, 0px) + 20px));
+        gap: 12px;
+        min-height: 80px;
+    }
+
+    .speech-controls .btn-primary,
+    .speech-controls .btn-secondary {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+
+    .speech-controls .btn-play {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+}
+
+/* iPad 专用适配 (768px - 1024px) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    .speech-controls {
+        padding: 18px 24px;
+        padding-bottom: max(50px, calc(env(safe-area-inset-bottom, 0px) + 24px));
+        gap: 20px;
+        min-height: 90px;
+    }
+
+    .speech-controls .btn-primary,
+    .speech-controls .btn-secondary {
+        padding: 16px 40px;
+        font-size: 17px;
+        border-radius: 30px;
+    }
+
+    .speech-controls .btn-play {
+        width: 64px;
+        height: 64px;
+        font-size: 28px;
+    }
+}
+
+/* 手机设备 (480px) */
+@media (max-width: 480px) {
+    .speech-page-header {
+        padding: 20px 12px;
+        margin: -12px -12px 12px -12px;
+        border-radius: 0;
+    }
+
+    .speech-page-header h1 {
+        font-size: 22px;
+    }
+
+    .speech-page-subtitle {
+        font-size: 12px;
+    }
+
+    .speech-selector {
+        padding: 12px;
+        margin: -12px -12px 12px -12px;
+    }
+
+    .speech-selector select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .speech-list {
+        padding: 12px;
+    }
+
+    .speech-grid {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .speech-card {
+        padding: 14px 12px;
+        border-radius: 10px;
+    }
+
+    .speech-card-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+        margin-right: 10px;
+        border-radius: 10px;
+    }
+
+    .speech-card-title {
+        font-size: 15px;
+        margin-bottom: 2px;
+    }
+
+    .speech-card-meta {
+        font-size: 11px;
+    }
+
+    .speech-card-arrow {
+        font-size: 20px;
+    }
+
+    .speech-header {
+        padding: 14px 12px;
+        margin: -12px -12px 12px -12px;
+        border-radius: 0;
+    }
+
+    .speech-back-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 16px;
+        margin-bottom: 10px;
+    }
+
+    .speech-back-icon {
+        font-size: 14px;
+    }
+
+    .speech-title {
+        font-size: 18px;
+    }
+
+    .speech-chapter-nav {
+        gap: 6px;
+        margin-top: 12px;
+    }
+
+    .speech-chapter-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 14px;
+    }
+
+    .speech-content {
+        padding: 12px;
+        padding-bottom: 95px;
+    }
+
+    .speech-text {
+        font-size: 15px;
+        padding: 14px;
+        line-height: 1.8;
+    }
+
+    .speech-controls {
+        padding: 12px 10px;
+        padding-bottom: max(45px, calc(env(safe-area-inset-bottom, 0px) + 16px));
+        gap: 10px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        min-height: 75px;
+        flex-wrap: wrap;
+    }
+
+    .speech-controls .btn-primary,
+    .speech-controls .btn-secondary {
+        padding: 10px 16px;
+        font-size: 13px;
+        border-radius: 20px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .speech-controls .btn-play {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+}
+
+/* 小屏手机 (360px) */
+@media (max-width: 360px) {
+    .speech-page-header h1 {
+        font-size: 20px;
+    }
+
+    .speech-card {
+        padding: 12px 10px;
+    }
+
+    .speech-card-icon {
+        display: none;
+    }
+
+    .speech-title {
+        font-size: 17px;
+    }
+
+    .speech-text {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .speech-controls {
+        padding: 10px 8px;
+        padding-bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+        gap: 8px;
+        min-height: 70px;
+    }
+
+    .speech-controls .btn-primary,
+    .speech-controls .btn-secondary {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}

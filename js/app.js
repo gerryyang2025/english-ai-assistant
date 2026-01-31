@@ -7,7 +7,10 @@
 const AppState = {
     wordData: [],          // 单词数据（词书列表）
     readings: [],          // 阅读数据（阅读材料列表）
+    speechData: [],        // 朗读数据（朗读材料列表）
     currentReading: null,  // 当前阅读材料
+    currentSpeech: null,   // 当前朗读材料
+    currentSpeechChapter: null, // 当前朗读章节
     currentWordBook: null, // 当前选中的词书
     selectedUnits: [],     // 选中的单元
     currentUnit: null,     // 当前查看的单元
@@ -19,7 +22,10 @@ const AppState = {
     wordsPerPage: 20,      // 每页显示单词数量
     currentDialogueIndex: 0, // 当前播放到第几句
     isPlaying: false,       // 是否正在播放
-    sentencesSession: null  // 语句练习会话
+    sentencesSession: null,  // 语句练习会话
+    speechUtterance: null,   // 当前语音合成实例
+    speechIsPlaying: false,   // 朗读是否正在播放
+    speechPlaybackSpeed: 1.0   // 朗读播放速度
 };
 
 // ========== DOM 元素缓存 ==========
@@ -58,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showLoading();
     loadWordData().then(() => {
             loadReadingData(); // 加载阅读数据
+            loadSpeechData(); // 加载听书数据
         loadUserProgress();
         bindEvents();
         renderHomePage();
@@ -370,6 +377,9 @@ function switchPage(pageName) {
             break;
         case 'readings':
             showReadingsPage();
+            break;
+        case 'speech':
+            showSpeechPage();
             break;
         case 'dictation':
         case 'dictation-result':
@@ -2314,6 +2324,20 @@ async function loadReadingData() {
     }
 }
 
+// 加载听书数据
+async function loadSpeechData() {
+    try {
+        const response = await fetch('data/listen.json');
+        if (!response.ok) throw new Error('加载听书数据失败');
+        const data = await response.json();
+        AppState.speechData = data.speeches || [];
+        console.log('加载听书数据成功，共 ' + AppState.speechData.length + ' 篇听书材料');
+    } catch (error) {
+        console.error('加载听书数据失败:', error);
+        AppState.speechData = [];
+    }
+}
+
 function showReadingsPage() {
     // 直接切换页面显示，避免与 switchPage 形成递归调用
     DOM.pages.forEach(page => {
@@ -2949,6 +2973,642 @@ function markCurrentReadingCompleted() {
     document.getElementById('today-readings').textContent = todayReadings;
 }
 
+// ========== 听书模块 ==========
+const SPEECH_PAGE_SIZE = 6;
+
+// 听书列表当前页码
+AppState.speechPage = 1;
+function showSpeechPage() {
+    // 直接切换页面显示，避免与 switchPage 形成递归调用
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-speech');
+    });
+    
+    // 更新导航按钮状态
+    DOM.navBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === 'speech');
+    });
+    
+    // 重置页码并初始化
+    resetSpeechListPage();
+    
+    // 初始化文章选择器
+    initSpeechArticleSelector();
+    
+    // 重置章节选择器
+    initSpeechChapterSelector('');
+    
+    // 渲染听书列表
+    renderSpeechList();
+}
+
+// 初始化文章选择器
+function initSpeechArticleSelector() {
+    const select = document.getElementById('speech-article-select');
+    if (!select) return;
+    
+    // 获取所有文章
+    const options = AppState.speechData.map(speech => 
+        `<option value="${speech.id}">${speech.title}</option>`
+    ).join('');
+    
+    select.innerHTML = options 
+        ? `<option value="">-- 请选择文章 --</option>${options}`
+        : '<option value="">暂无可用听书材料</option>';
+    
+    select.disabled = AppState.speechData.length === 0;
+}
+
+// 初始化章节选择器
+function initSpeechChapterSelector(articleId) {
+    const select = document.getElementById('speech-chapter-select');
+    const articleSelect = document.getElementById('speech-article-select');
+    
+    if (!select) return;
+    
+    // 如果没有选择文章，禁用章节选择器
+    if (!articleId) {
+        select.innerHTML = '<option value="">-- 请先选择文章 --</option>';
+        select.disabled = true;
+        return;
+    }
+    
+    const speech = AppState.speechData.find(s => s.id === articleId);
+    if (!speech) {
+        select.innerHTML = '<option value="">-- 请先选择文章 --</option>';
+        select.disabled = true;
+        return;
+    }
+    
+    // 构建章节选项
+    let options = '<option value="">-- 请选择章节 --</option>';
+    
+    // 如果有概要，添加概要作为第一个选项
+    if (speech.summary) {
+        options += `<option value="summary">📋 ${speech.title} - 概要</option>`;
+    }
+    
+    // 添加所有章节
+    speech.chapters.forEach((chapter, index) => {
+        options += `<option value="${index}">${chapter.title}</option>`;
+    });
+    
+    select.innerHTML = options;
+    select.disabled = false;
+}
+
+// 处理文章选择变化
+function handleSpeechArticleChange() {
+    const articleSelect = document.getElementById('speech-article-select');
+    const chapterSelect = document.getElementById('speech-chapter-select');
+    
+    if (!articleSelect) return;
+    
+    const selectedArticleId = articleSelect.value;
+    
+    // 初始化章节选择器
+    initSpeechChapterSelector(selectedArticleId);
+    
+    // 重置章节选择
+    if (chapterSelect) {
+        chapterSelect.value = '';
+    }
+    
+    // 如果选择了文章，更新列表显示
+    if (selectedArticleId) {
+        // 高亮选中的文章卡片
+        highlightSpeechCard(selectedArticleId);
+        // 滚动到选中的卡片
+        scrollToSpeechCard(selectedArticleId);
+    }
+}
+
+// 处理章节选择变化
+function handleSpeechChapterChange() {
+    const articleSelect = document.getElementById('speech-article-select');
+    const chapterSelect = document.getElementById('speech-chapter-select');
+    
+    if (!articleSelect || !chapterSelect) return;
+    
+    const articleId = articleSelect.value;
+    const chapterValue = chapterSelect.value;
+    
+    if (!articleId || !chapterValue) return;
+    
+    const speech = AppState.speechData.find(s => s.id === articleId);
+    if (!speech) return;
+    
+    // 设置当前文章和章节
+    AppState.currentSpeech = speech;
+    
+    if (chapterValue === 'summary') {
+        // 显示概要
+        AppState.currentSpeechChapter = {
+            title: `${speech.title} - 概要`,
+            content: speech.summary
+        };
+    } else {
+        const chapterIndex = parseInt(chapterValue, 10);
+        if (speech.chapters[chapterIndex]) {
+            AppState.currentSpeechChapter = speech.chapters[chapterIndex];
+        }
+    }
+    
+    // 跳转到详情页并显示内容
+    showSpeechDetailWithChapter(articleId, chapterValue);
+}
+
+// 高亮选中的文章卡片
+function highlightSpeechCard(articleId) {
+    // 移除所有卡片的选中状态
+    document.querySelectorAll('.speech-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // 高亮选中的卡片
+    const selectedCard = document.querySelector(`.speech-card[data-id="${articleId}"]`);
+    if (selectedCard) {
+        selectedCard.classList.add('selected');
+    }
+}
+
+// 滚动到选中的卡片
+function scrollToSpeechCard(articleId) {
+    const selectedCard = document.querySelector(`.speech-card[data-id="${articleId}"]`);
+    if (selectedCard) {
+        selectedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// 根据选择的文章筛选
+function filterSpeechByArticle(articleId) {
+    if (!articleId) {
+        // 未选择文章，显示空状态
+        const container = document.getElementById('speech-list');
+        if (container) {
+            container.innerHTML = '<p class="speech-empty">请先选择一篇文章</p>';
+        }
+        return;
+    }
+    
+    // 直接跳转到文章详情
+    showSpeechDetail(articleId);
+}
+
+// 跳转到文章详情页并显示指定章节
+function showSpeechDetailWithChapter(articleId, chapterValue) {
+    const speech = AppState.speechData.find(s => s.id === articleId);
+    if (!speech) return;
+    
+    AppState.currentSpeech = speech;
+    
+    // 设置当前章节
+    if (chapterValue === 'summary' && speech.summary) {
+        AppState.currentSpeechChapter = {
+            title: `${speech.title} - 概要`,
+            content: speech.summary
+        };
+    } else {
+        const chapterIndex = parseInt(chapterValue, 10);
+        if (speech.chapters[chapterIndex]) {
+            AppState.currentSpeechChapter = speech.chapters[chapterIndex];
+        } else if (speech.chapters.length > 0) {
+            AppState.currentSpeechChapter = speech.chapters[0];
+        } else {
+            AppState.currentSpeechChapter = null;
+        }
+    }
+    
+    // 停止当前播放
+    stopSpeech();
+    
+    // 切换到详情页面
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-speech-detail');
+    });
+    
+    // 更新导航按钮状态
+    DOM.navBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === 'speech');
+    });
+    
+    // 更新页面标题
+    document.getElementById('speech-title').textContent = speech.title;
+    
+    // 渲染章节导航
+    renderSpeechChapterNav();
+    
+    // 渲染章节内容
+    renderSpeechChapter();
+    
+    // 重置进度
+    updateSpeechProgress(0);
+}
+
+function renderSpeechList() {
+    const container = document.getElementById('speech-list');
+    if (!container) return;
+    
+    const speeches = AppState.speechData || [];
+    
+    if (speeches.length === 0) {
+        container.innerHTML = '<p class="speech-empty">暂无可用听书材料</p>';
+        // 移除分页容器
+        const paginationEl = document.getElementById('speech-list-pagination');
+        if (paginationEl) paginationEl.remove();
+        return;
+    }
+    
+    // 计算分页
+    const totalSpeeches = speeches.length;
+    const totalPages = Math.ceil(totalSpeeches / SPEECH_PAGE_SIZE);
+    const currentPage = AppState.speechPage || 1;
+    const startIndex = (currentPage - 1) * SPEECH_PAGE_SIZE;
+    const endIndex = startIndex + SPEECH_PAGE_SIZE;
+    const pageSpeeches = speeches.slice(startIndex, endIndex);
+    
+    container.innerHTML = pageSpeeches.map(speech => `
+        <div class="speech-card" data-id="${speech.id}" onclick="showSpeechDetail('${speech.id}')">
+            <div class="speech-card-icon">🎧</div>
+            <div class="speech-card-info">
+                <h3 class="speech-card-title">${speech.title}</h3>
+                <p class="speech-card-meta">
+                    ${speech.chapters.length} 个章节
+                </p>
+            </div>
+            <div class="speech-card-arrow">›</div>
+        </div>
+    `).join('');
+    
+    // 渲染分页控件
+    renderSpeechPagination(totalSpeeches, totalPages);
+}
+
+// 渲染听书列表分页控件
+function renderSpeechPagination(totalSpeeches, totalPages) {
+    // 检查是否存在分页容器，如果不存在则创建
+    let paginationEl = document.getElementById('speech-list-pagination');
+    if (!paginationEl) {
+        paginationEl = document.createElement('div');
+        paginationEl.id = 'speech-list-pagination';
+        paginationEl.className = 'pagination';
+        const container = document.getElementById('speech-list');
+        container.parentNode.insertBefore(paginationEl, container.nextSibling);
+    }
+    
+    // 如果没有听书材料或只有一页，不显示分页
+    if (totalSpeeches === 0 || totalPages <= 1) {
+        paginationEl.innerHTML = '';
+        return;
+    }
+    
+    const currentPage = AppState.speechPage || 1;
+    
+    paginationEl.innerHTML = `
+        <div class="pagination-info">
+            共 ${totalSpeeches} 篇听书，${totalPages} 页
+        </div>
+        <div class="pagination-controls">
+            <button class="pagination-btn" onclick="goToSpeechPage(1)" ${currentPage <= 1 ? 'disabled' : ''}>首页</button>
+            <button class="pagination-btn" onclick="goToSpeechPage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>上一页</button>
+            <span class="pagination-nums">
+                ${generateSpeechPaginationNumbers(currentPage, totalPages)}
+            </span>
+            <button class="pagination-btn" onclick="goToSpeechPage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>下一页</button>
+            <button class="pagination-btn" onclick="goToSpeechPage(${totalPages})" ${currentPage >= totalPages ? 'disabled' : ''}>末页</button>
+        </div>
+    `;
+}
+
+// 生成听书列表分页数字
+function generateSpeechPaginationNumbers(currentPage, totalPages) {
+    let html = '';
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        if (i === currentPage) {
+            html += `<span class="pagination-num active">${i}</span>`;
+        } else {
+            html += `<button class="pagination-num" onclick="goToSpeechPage(${i})">${i}</button>`;
+        }
+    }
+    
+    return html;
+}
+
+// 跳转到听书列表指定页
+function goToSpeechPage(page) {
+    const speeches = AppState.speechData || [];
+    const totalPages = Math.ceil(speeches.length / SPEECH_PAGE_SIZE);
+    
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    
+    AppState.speechPage = page;
+    renderSpeechList();
+    
+    // 滚动到列表顶部
+    const container = document.getElementById('speech-list');
+    if (container) {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// 重置听书列表页码
+function resetSpeechListPage() {
+    AppState.speechPage = 1;
+}
+
+function showSpeechDetail(speechId) {
+    const speech = AppState.speechData.find(s => s.id === speechId);
+    if (!speech) return;
+    
+    AppState.currentSpeech = speech;
+    
+    // 如果有概要，设置为概要；否则设置为第一个章节
+    if (speech.summary) {
+        AppState.currentSpeechChapter = {
+            title: '文章概要',
+            content: speech.summary,
+            isSummary: true
+        };
+    } else if (speech.chapters.length > 0) {
+        AppState.currentSpeechChapter = speech.chapters[0];
+    } else {
+        AppState.currentSpeechChapter = null;
+    }
+    
+    // 停止当前的朗读
+    stopSpeech();
+    
+    // 直接切换页面显示
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-speech-detail');
+    });
+    
+    // 更新导航按钮状态
+    DOM.navBtns.forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // 更新标题
+    document.getElementById('speech-title').textContent = speech.title;
+    
+    // 渲染章节导航
+    renderSpeechChapterNav();
+    
+    // 渲染章节内容
+    renderSpeechChapter();
+    
+    // 重置进度条
+    updateSpeechProgress(0);
+}
+
+function renderSpeechChapterNav() {
+    const nav = document.getElementById('speech-chapter-nav');
+    const speech = AppState.currentSpeech;
+    if (!nav || !speech) return;
+    
+    // 构建章节列表（包含概要和所有章节）
+    const chapters = [];
+    
+    // 添加概要作为第一个选项
+    if (speech.summary) {
+        chapters.push({
+            title: '文章概要',
+            content: speech.summary,
+            isSummary: true
+        });
+    }
+    
+    // 添加所有章节
+    speech.chapters.forEach((chapter, index) => {
+        chapters.push({
+            ...chapter,
+            isSummary: false,
+            originalIndex: index
+        });
+    });
+    
+    nav.innerHTML = chapters.map((chapter, index) => `
+        <button class="speech-chapter-btn ${chapter === AppState.currentSpeechChapter ? 'active' : ''}" 
+                onclick="selectSpeechChapter('${speech.id}', ${index})">
+            ${chapter.title}
+        </button>
+    `).join('');
+}
+
+function selectSpeechChapter(speechId, chapterIndex) {
+    const speech = AppState.speechData.find(s => s.id === speechId);
+    if (!speech) return;
+    
+    // 停止当前朗读
+    stopSpeech();
+    
+    AppState.currentSpeech = speech;
+    
+    // 构建章节列表（包含概要和所有章节）
+    const chapters = [];
+    
+    // 添加概要作为第一个选项
+    if (speech.summary) {
+        chapters.push({
+            title: '文章概要',
+            content: speech.summary,
+            isSummary: true
+        });
+    }
+    
+    // 添加所有章节
+    speech.chapters.forEach((chapter, index) => {
+        chapters.push({
+            ...chapter,
+            isSummary: false,
+            originalIndex: index
+        });
+    });
+    
+    // 设置当前选中的章节
+    AppState.currentSpeechChapter = chapters[chapterIndex];
+    
+    // 更新章节导航状态
+    document.querySelectorAll('.speech-chapter-btn').forEach((btn, index) => {
+        btn.classList.toggle('active', index === chapterIndex);
+    });
+    
+    // 渲染章节内容
+    renderSpeechChapter();
+    
+    // 重置进度条
+    updateSpeechProgress(0);
+}
+
+function renderSpeechChapter() {
+    const content = document.getElementById('speech-content');
+    const chapter = AppState.currentSpeechChapter;
+    if (!content || !chapter) return;
+    
+    content.innerHTML = `
+        <h2 class="speech-chapter-title">${chapter.title}</h2>
+        <div class="speech-text">${chapter.content}</div>
+    `;
+}
+
+// 听书播放控制
+function toggleSpeechPlayback() {
+    if (AppState.speechIsPlaying) {
+        pauseSpeech();
+    } else {
+        playSpeech();
+    }
+}
+
+function playSpeech() {
+    const chapter = AppState.currentSpeechChapter;
+    if (!chapter) {
+        showToast('请先选择一篇听书材料');
+        return;
+    }
+    
+    // 取消之前的播放
+    if (AppState.speechUtterance) {
+        window.speechSynthesis.cancel();
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(chapter.content);
+    utterance.lang = 'zh-CN';
+    utterance.rate = AppState.speechPlaybackSpeed;
+    utterance.pitch = 1;
+    
+    // 尝试获取中文语音
+    const voices = window.speechSynthesis.getVoices();
+    const chineseVoice = voices.find(voice => 
+        voice.lang.includes('zh') || voice.lang.includes('cmn')
+    );
+    if (chineseVoice) {
+        utterance.voice = chineseVoice;
+    }
+    
+    utterance.onstart = () => {
+        AppState.speechIsPlaying = true;
+        updatePlayButton();
+        showToast('开始播放');
+    };
+    
+    utterance.onend = () => {
+        AppState.speechIsPlaying = false;
+        updatePlayButton();
+        updateSpeechProgress(100);
+        showToast('播放完成');
+    };
+    
+    utterance.onerror = (event) => {
+        console.error('语音播放错误:', event);
+        // canceled 和 interrupted 错误是用户主动停止或快速切换导致的，不需要显示提示
+        if (event.error !== 'canceled' && event.error !== 'interrupted') {
+            AppState.speechIsPlaying = false;
+            updatePlayButton();
+            showToast('播放出错');
+        } else {
+            // 对于取消和中断错误，只更新状态，不显示提示
+            AppState.speechIsPlaying = false;
+            updatePlayButton();
+        }
+    };
+    
+    utterance.onpause = () => {
+        AppState.speechIsPlaying = false;
+        updatePlayButton();
+    };
+    
+    utterance.onresume = () => {
+        AppState.speechIsPlaying = true;
+        updatePlayButton();
+    };
+    
+    AppState.speechUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+    
+    // 更新进度条
+    updateSpeechProgress(0);
+}
+
+function pauseSpeech() {
+    if (window.speechSynthesis.speaking) {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        } else {
+            window.speechSynthesis.pause();
+        }
+    }
+}
+
+function stopSpeech() {
+    if (AppState.speechUtterance) {
+        AppState.speechUtterance = null;
+    }
+    window.speechSynthesis.cancel();
+    AppState.speechIsPlaying = false;
+    updatePlayButton();
+    updateSpeechProgress(0);
+}
+
+function replaySpeech() {
+    stopSpeech();
+    setTimeout(() => {
+        playSpeech();
+    }, 100);
+}
+
+function changeSpeechSpeed(speed) {
+    AppState.speechPlaybackSpeed = parseFloat(speed);
+    
+    // 如果正在播放，重新开始播放
+    if (AppState.speechIsPlaying) {
+        stopSpeech();
+        setTimeout(() => {
+            playSpeech();
+        }, 100);
+    }
+    
+    showToast(`播放速度: ${speed}x`);
+}
+
+function updatePlayButton() {
+    const btn = document.getElementById('speech-play-btn');
+    if (!btn) return;
+    
+    if (AppState.speechIsPlaying) {
+        btn.innerHTML = '⏸';
+        btn.classList.add('playing');
+    } else {
+        btn.innerHTML = '▶';
+        btn.classList.remove('playing');
+    }
+}
+
+function updateSpeechProgress(percent) {
+    const fill = document.getElementById('speech-progress-fill');
+    const text = document.getElementById('speech-progress-text');
+    if (fill) fill.style.width = percent + '%';
+    if (text) text.textContent = percent + '%';
+}
+
+function seekSpeech(event) {
+    // 由于语音合成的进度无法精确控制，这里仅作为UI演示
+    showToast('点击进度条可重新开始播放');
+    stopSpeech();
+    setTimeout(() => {
+        playSpeech();
+    }, 100);
+}
+
 function highlightDialogue(index) {
     clearHighlights();
     const items = document.querySelectorAll('.dialogue-item');
@@ -3382,6 +4042,7 @@ window.submitQA = submitQA;
 // ========== 工具页面 ==========
 let parsedWordsData = null;
 let parsedReadingsData = null;
+let parsedSpeechData = null;
 
 function initToolPage() {
     // 初始化标签切换
@@ -3399,6 +4060,9 @@ function initToolPage() {
     
     // 初始化阅读文件上传
     initReadingsUpload();
+    
+    // 初始化朗读文件上传
+    initSpeechUpload();
 }
 
 // ========== 安全检查函数 ==========
@@ -3992,6 +4656,310 @@ function initReadingsUpload() {
             showReadingsStatus('复制失败：' + err.message, 'error');
         });
     });
+}
+
+// 初始化朗读文件上传
+function initSpeechUpload() {
+    // Markdown 文件上传
+    const mdUploadArea = document.getElementById('speechMdUploadArea');
+    const mdFileInput = document.getElementById('speechMdFileInput');
+    
+    // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
+    mdFileInput.addEventListener('click', (e) => e.stopPropagation());
+    
+    mdUploadArea.addEventListener('click', () => mdFileInput.click());
+    mdUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        mdUploadArea.classList.add('dragover');
+    });
+    mdUploadArea.addEventListener('dragleave', () => {
+        mdUploadArea.classList.remove('dragover');
+    });
+    mdUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        mdUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.md')) handleSpeechMdFile(file);
+    });
+    mdFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleSpeechMdFile(file);
+    });
+    
+    // JSON 文件上传（实时生效）
+    const jsonUploadArea = document.getElementById('speechJsonUploadArea');
+    const jsonFileInput = document.getElementById('speechJsonFileInput');
+    
+    // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
+    jsonFileInput.addEventListener('click', (e) => e.stopPropagation());
+    
+    jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
+    jsonUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        jsonUploadArea.classList.add('dragover');
+    });
+    jsonUploadArea.addEventListener('dragleave', () => {
+        jsonUploadArea.classList.remove('dragover');
+    });
+    jsonUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        jsonUploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.json')) handleSpeechJsonFile(file);
+    });
+    jsonFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleSpeechJsonFile(file);
+    });
+    
+    const fileInfo = document.getElementById('speechFileInfo');
+    const fileName = document.getElementById('speechFileName');
+    const fileSize = document.getElementById('speechFileSize');
+    const preview = document.getElementById('speechPreview');
+    const speechList = document.getElementById('speechList');
+    const actions = document.getElementById('speechActions');
+    const status = document.getElementById('speechStatus');
+    
+    function resetFileInput() {
+        // 重置 file input，允许再次选择同一文件
+        mdFileInput.value = '';
+        jsonFileInput.value = '';
+    }
+    
+    function handleSpeechMdFile(file) {
+        // 安全检查
+        const validation = validateUploadFile(file, 'markdown');
+        if (!validation.isValid) {
+            showSpeechStatus('文件验证失败：' + validation.errors.join('；'), 'error');
+            resetFileInput();
+            return;
+        }
+        
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.style.display = 'block';
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            try {
+                // 扫描危险内容
+                const safetyCheck = scanContentForDangerousPatterns(content);
+                if (!safetyCheck.isSafe) {
+                    showSpeechStatus('文件内容存在安全隐患：' + safetyCheck.findings.join('；'), 'error');
+                    resetFileInput();
+                    return;
+                }
+                
+                parsedSpeechData = parseSpeechMD(content);
+                showSpeechPreview(parsedSpeechData);
+                showSpeechStatus('文件解析成功！', 'success');
+                actions.style.display = 'block';
+            } catch (error) {
+                showSpeechStatus('文件解析失败：' + error.message, 'error');
+                console.error(error);
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    function handleSpeechJsonFile(file) {
+        // 安全检查
+        const validation = validateUploadFile(file, 'json');
+        if (!validation.isValid) {
+            showSpeechStatus('文件验证失败：' + validation.errors.join('；'), 'error');
+            resetFileInput();
+            return;
+        }
+        
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        fileInfo.style.display = 'block';
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            try {
+                // 扫描危险内容
+                const safetyCheck = scanContentForDangerousPatterns(content);
+                if (!safetyCheck.isSafe) {
+                    showSpeechStatus('文件内容存在安全隐患：' + safetyCheck.findings.join('；'), 'error');
+                    resetFileInput();
+                    return;
+                }
+                
+                const jsonData = JSON.parse(content);
+                parsedSpeechData = jsonData.speeches || [];
+                
+                // 直接应用到应用状态
+                AppState.speechData = parsedSpeechData;
+                console.log('朗读数据已实时更新，共 ' + parsedSpeechData.length + ' 篇');
+                
+                showSpeechPreview(parsedSpeechData);
+                showSpeechStatus('✅ 数据已实时更新到应用！', 'success');
+                actions.style.display = 'block';
+            } catch (error) {
+                showSpeechStatus('JSON 解析失败：' + error.message, 'error');
+                console.error(error);
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    function showSpeechPreview(data) {
+        speechList.innerHTML = '';
+        
+        data.forEach((speech, index) => {
+            const speechItem = document.createElement('li');
+            speechItem.className = 'reading-item';
+            speechItem.innerHTML = `
+                <strong>${speech.title}</strong>
+                <div class="unit-list">
+                    <div class="unit-item">
+                        章节数: ${speech.chapters ? speech.chapters.length : 0} 个
+                    </div>
+                </div>
+            `;
+            speechList.appendChild(speechItem);
+        });
+        
+        preview.style.display = 'block';
+    }
+    
+    function generateSpeechJSON() {
+        if (!parsedSpeechData) return null;
+        return JSON.stringify({ speeches: parsedSpeechData }, null, 2);
+    }
+    
+    function showSpeechStatus(message, type) {
+        status.innerHTML = message;
+        status.className = 'status ' + type;
+    }
+    
+    document.getElementById('speechGenerateBtn').addEventListener('click', () => {
+        const json = generateSpeechJSON();
+        if (!json) {
+            showSpeechStatus('没有可生成的数据', 'error');
+            return;
+        }
+        downloadFile(json, 'speech.json', 'application/json');
+        showSpeechStatus('✅ speech.json 已下载！', 'success');
+    });
+    
+    document.getElementById('speechCopyBtn').addEventListener('click', () => {
+        const json = generateSpeechJSON();
+        if (!json) {
+            showSpeechStatus('没有可复制的数据', 'error');
+            return;
+        }
+        navigator.clipboard.writeText(json).then(() => {
+            showSpeechStatus('JSON 数据已复制到剪贴板！', 'success');
+        }).catch(err => {
+            showSpeechStatus('复制失败：' + err.message, 'error');
+        });
+    });
+}
+
+// 解析朗读 Markdown 文件
+function parseSpeechMD(content) {
+    const lines = content.split('\n');
+    const speeches = [];
+    let currentSpeech = null;
+    let speechIndex = 0;
+    let currentChapter = null;
+    let chapterContent = [];
+    let isFirstChapter = true;
+    let isParsingSummary = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+        const rawLine = lines[i];
+        const line = rawLine.trim();
+        
+        // 跳过注释和代码块
+        if (line.startsWith('<!--') || line.startsWith('```')) {
+            continue;
+        }
+        
+        // 检测文章标题 (# 开头且不在章节内)
+        if (rawLine.startsWith('# ') && !currentSpeech) {
+            const title = line.replace('# ', '').trim();
+            currentSpeech = {
+                id: `speech-${String(speechIndex + 1).padStart(3, '0')}`,
+                title: title,
+                bookName: '听书素材',
+                summary: '',
+                chapters: []
+            };
+            isFirstChapter = true;
+            isParsingSummary = false;
+            continue;
+        }
+        
+        if (!currentSpeech) continue;
+        
+        // 检测章节 (## 开头)
+        if (rawLine.startsWith('## ')) {
+            const chapterTitle = line.replace('## ', '').trim();
+            
+            // 保存上一个章节（如果不是第一个）
+            if (!isFirstChapter && currentChapter) {
+                currentSpeech.chapters.push({
+                    ...currentChapter,
+                    content: chapterContent.join('\n').trim()
+                });
+            }
+            
+            // 检查是否是文章概要
+            if (chapterTitle === '文章概要') {
+                isParsingSummary = true;
+                currentChapter = null;
+                chapterContent = [];
+            } else {
+                isParsingSummary = false;
+                currentChapter = {
+                    title: chapterTitle
+                };
+                chapterContent = [];
+            }
+            isFirstChapter = false;
+            continue;
+        }
+        
+        // 收集内容
+        if (isParsingSummary && currentSpeech) {
+            // 跳过空的行（文章概要标题后的第一个空行）
+            if (chapterContent.length === 0 && !line) {
+                continue;
+            }
+            chapterContent.push(rawLine);
+        } else if (currentChapter) {
+            // 跳过空的行（章节标题后的第一个空行）
+            if (chapterContent.length === 0 && !line) {
+                continue;
+            }
+            chapterContent.push(rawLine);
+        }
+    }
+    
+    // 保存最后一个章节或概要
+    if (currentSpeech) {
+        if (isParsingSummary && chapterContent.length > 0) {
+            currentSpeech.summary = chapterContent.join('\n').trim();
+        } else if (currentChapter) {
+            currentSpeech.chapters.push({
+                ...currentChapter,
+                content: chapterContent.join('\n').trim()
+            });
+        }
+    }
+    
+    // 添加到结果列表
+    if (currentSpeech && currentSpeech.chapters.length > 0) {
+        speeches.push(currentSpeech);
+        speechIndex++;
+    }
+    
+    return speeches;
 }
 
 function parseWordsMD(content) {

@@ -1,0 +1,189 @@
+#!/usr/bin/env node
+/**
+ * 听书数据转换脚本：将 LISTEN.md 转换为 JSON 格式
+ * 运行方式：node convert-listen.js
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+function parseListenMD() {
+    const listenMdPath = path.join(__dirname, 'LISTEN.md');
+    const content = fs.readFileSync(listenMdPath, 'utf-8');
+    
+    const lines = content.split('\n');
+    const speeches = [];
+    let currentSpeech = null;
+    let speechIndex = 0;
+    let currentChapter = null;
+    let chapterContent = [];
+    let isFirstChapter = true;
+    let isParsingSummary = false;
+    
+    // 提取书本名称（第一个 # 标题）
+    let bookName = '听书素材';
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line.startsWith('# ') && !line.startsWith('## ')) {
+            bookName = line.replace(/^#\s*/, '').trim();
+            break;
+        }
+    }
+    
+    for (let i = 0; i < lines.length; i++) {
+        const rawLine = lines[i];
+        const line = rawLine.trim();
+        
+        // 跳过注释和代码块
+        if (line.startsWith('<!--') || line.startsWith('```')) {
+            continue;
+        }
+        
+        // 检测文章标题 (# 开头且不在章节内)
+        if (rawLine.startsWith('# ') && !currentSpeech) {
+            const title = line.replace('# ', '').trim();
+            currentSpeech = {
+                id: `speech-${String(speechIndex + 1).padStart(3, '0')}`,
+                title: title,
+                bookName: bookName,
+                summary: '',
+                chapters: []
+            };
+            isFirstChapter = true;
+            isParsingSummary = false;
+            continue;
+        }
+        
+        if (!currentSpeech) continue;
+        
+        // 检测章节 (## 开头)
+        if (rawLine.startsWith('## ')) {
+            const chapterTitle = line.replace('## ', '').trim();
+            
+            // 检查是否是文章概要
+            if (chapterTitle === '文章概要') {
+                // 保存上一个章节（如果有）
+                if (!isFirstChapter && currentChapter) {
+                    currentSpeech.chapters.push({
+                        ...currentChapter,
+                        content: chapterContent.join('\n').trim()
+                    });
+                } else if (isFirstChapter && currentChapter && chapterContent.length > 0) {
+                    // 第一个章节的情况
+                    currentSpeech.chapters.push({
+                        ...currentChapter,
+                        content: chapterContent.join('\n').trim()
+                    });
+                }
+                
+                // 保存文章概要
+                if (isParsingSummary && chapterContent.length > 0) {
+                    currentSpeech.summary = chapterContent.join('\n').trim();
+                }
+                
+                // 重置状态，开始解析概要
+                isParsingSummary = true;
+                isFirstChapter = false;
+                currentChapter = null;
+                chapterContent = [];
+            } else {
+                // 这是一个普通章节
+                // 如果之前在解析概要，先保存概要
+                if (isParsingSummary && chapterContent.length > 0) {
+                    currentSpeech.summary = chapterContent.join('\n').trim();
+                }
+                
+                // 保存上一个章节（如果有）
+                if (!isFirstChapter && currentChapter) {
+                    currentSpeech.chapters.push({
+                        ...currentChapter,
+                        content: chapterContent.join('\n').trim()
+                    });
+                } else if (isFirstChapter && currentChapter && chapterContent.length > 0) {
+                    // 第一个章节的情况
+                    currentSpeech.chapters.push({
+                        ...currentChapter,
+                        content: chapterContent.join('\n').trim()
+                    });
+                }
+                
+                // 开始新章节
+                isParsingSummary = false;
+                currentChapter = {
+                    title: chapterTitle
+                };
+                chapterContent = [];
+                isFirstChapter = false;
+            }
+            continue;
+        }
+        
+        // 收集内容
+        if (isParsingSummary && currentSpeech) {
+            // 跳过空的行（文章概要标题后的第一个空行）
+            if (chapterContent.length === 0 && !line) {
+                continue;
+            }
+            chapterContent.push(rawLine);
+        } else if (currentChapter) {
+            // 跳过空的行（章节标题后的第一个空行）
+            if (chapterContent.length === 0 && !line) {
+                continue;
+            }
+            chapterContent.push(rawLine);
+        }
+    }
+    
+    // 保存最后一个章节或概要
+    if (currentSpeech) {
+        if (isParsingSummary && chapterContent.length > 0) {
+            currentSpeech.summary = chapterContent.join('\n').trim();
+        } else if (currentChapter) {
+            currentSpeech.chapters.push({
+                ...currentChapter,
+                content: chapterContent.join('\n').trim()
+            });
+        }
+    }
+    
+    // 添加到结果列表
+    if (currentSpeech && currentSpeech.chapters.length > 0) {
+        speeches.push(currentSpeech);
+        speechIndex++;
+    }
+    
+    return {
+        bookName: bookName,
+        speeches: speeches
+    };
+}
+
+function main() {
+    console.log('开始转换 LISTEN.md...');
+    const data = parseListenMD();
+    
+    console.log(`\n📖 书本名称: ${data.bookName || '未设置'}`);
+    console.log(`🎧 共 ${data.speeches.length} 篇听书材料`);
+    
+    data.speeches.forEach((speech, index) => {
+        console.log(`\n  【${speech.title}】`);
+        console.log(`    - 概要: ${speech.summary ? speech.summary.substring(0, 50) + '...' : '未设置'}`);
+        console.log(`    - 章节数: ${speech.chapters.length} 个`);
+        speech.chapters.forEach((chapter, chapterIndex) => {
+            const contentLength = chapter.content ? chapter.content.length : 0;
+            console.log(`      ${chapterIndex + 1}. ${chapter.title} (${contentLength} 字)`);
+        });
+    });
+    
+    // 生成 JSON 数据
+    const jsonOutput = JSON.stringify(data, null, 2);
+    
+    // 保存到 data/listen.json
+    const outputPath = path.join(__dirname, 'data', 'listen.json');
+    fs.writeFileSync(outputPath, jsonOutput, 'utf-8');
+    console.log(`\n\n✅ 数据已保存到: ${outputPath}`);
+    
+    console.log('\n转换完成！');
+}
+
+main();

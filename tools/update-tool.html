@@ -372,6 +372,7 @@
             <div class="tabs">
                 <div class="tab active" data-tab="words">单词数据</div>
                 <div class="tab" data-tab="readings">阅读数据</div>
+                <div class="tab" data-tab="speech">听书数据</div>
                 <div class="tab" data-tab="help">使用帮助</div>
             </div>
             
@@ -429,12 +430,39 @@
                 <div class="status" id="readingsStatus"></div>
             </div>
             
+            <!-- 听书数据标签页 -->
+            <div class="tab-content" id="tab-speech">
+                <div class="upload-area reading" id="speechUploadArea">
+                    <div class="upload-icon">🎤</div>
+                    <div class="upload-text">点击或拖拽 LISTEN.md 文件到此处</div>
+                    <div class="upload-hint">支持 .md 格式的文件</div>
+                </div>
+                <input type="file" id="speechFileInput" accept=".md,.txt">
+                
+                <div class="file-info" id="speechFileInfo">
+                    <div class="file-name reading" id="speechFileName"></div>
+                    <div class="file-size" id="speechFileSize"></div>
+                </div>
+                
+                <div class="preview" id="speechPreview">
+                    <div class="preview-title">数据预览：</div>
+                    <ul class="reading-list" id="speechList"></ul>
+                </div>
+                
+                <div class="actions" id="speechActions">
+                    <button class="btn btn-reading" id="speechGenerateBtn">生成并下载 listen.json</button>
+                    <button class="btn btn-secondary" id="speechCopyBtn">复制 JSON 到剪贴板</button>
+                </div>
+                
+                <div class="status" id="speechStatus"></div>
+            </div>
+            
             <!-- 帮助标签页 -->
             <div class="tab-content" id="tab-help">
                 <div class="help-section">
                     <div class="help-title">📖 使用方法</div>
                     <div class="help-content">
-                        <p>1. <strong>选择数据类型</strong>：点击上方标签切换"单词数据"或"阅读数据"</p>
+                        <p>1. <strong>选择数据类型</strong>：点击上方标签切换"单词数据"、"阅读数据"或"听书数据"</p>
                         <p>2. <strong>上传文件</strong>：点击上方区域或拖拽对应的 .md 文件</p>
                         <p>3. <strong>预览数据</strong>：查看解析后的数据结构是否正确</p>
                         <p>4. <strong>生成数据</strong>：点击按钮生成 JSON 数据</p>
@@ -449,6 +477,10 @@ js/app.js (EMBEDDED_WORD_DATA 常量)</div>
                         <div class="help-code">
 data/readings.json
 js/app.js (EMBEDDED_READING_DATA 常量)</div>
+                        <p style="margin-top: 10px;">听书数据：</p>
+                        <div class="help-code">
+data/listen.json
+js/app.js (EMBEDDED_SPEECH_DATA 常量)</div>
                         
                         <div class="help-title" style="margin-top: 20px;">💡 提示</div>
                         <p>• 如果使用本地服务器（http://），只需更新对应的 <code>data/*.json</code> 文件</p>
@@ -1011,6 +1043,271 @@ const EMBEDDED_READING_DATA = ${json};`;
                 showReadingsStatus('JSON 数据已复制到剪贴板！', 'success');
             }).catch(err => {
                 showReadingsStatus('复制失败：' + err.message, 'error');
+            });
+        });
+        
+        // ========== 听书数据处理 ==========
+        const speechUploadArea = document.getElementById('speechUploadArea');
+        const speechFileInput = document.getElementById('speechFileInput');
+        const speechFileInfo = document.getElementById('speechFileInfo');
+        const speechFileName = document.getElementById('speechFileName');
+        const speechFileSize = document.getElementById('speechFileSize');
+        const speechPreview = document.getElementById('speechPreview');
+        const speechList = document.getElementById('speechList');
+        const speechActions = document.getElementById('speechActions');
+        const speechGenerateBtn = document.getElementById('speechGenerateBtn');
+        const speechCopyBtn = document.getElementById('speechCopyBtn');
+        const speechStatus = document.getElementById('speechStatus');
+        
+        let parsedSpeechData = null;
+        
+        speechUploadArea.addEventListener('click', () => speechFileInput.click());
+        
+        speechUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            speechUploadArea.classList.add('dragover');
+        });
+        
+        speechUploadArea.addEventListener('dragleave', () => {
+            speechUploadArea.classList.remove('dragover');
+        });
+        
+        speechUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            speechUploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleSpeechFile(file);
+        });
+        
+        speechFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleSpeechFile(file);
+        });
+        
+        function handleSpeechFile(file) {
+            if (!file.name.endsWith('.md')) {
+                showSpeechStatus('请上传 .md 格式的文件', 'error');
+                return;
+            }
+            
+            speechFileName.textContent = file.name;
+            speechFileSize.textContent = formatFileSize(file.size);
+            speechFileInfo.classList.add('show');
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                try {
+                    parsedSpeechData = parseSpeechMD(content);
+                    showSpeechPreview(parsedSpeechData);
+                    showSpeechStatus('文件解析成功！', 'success');
+                    speechActions.classList.add('show');
+                } catch (error) {
+                    showSpeechStatus('文件解析失败：' + error.message, 'error');
+                    console.error(error);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        function parseSpeechMD(content) {
+            const lines = content.split('\n');
+            const speeches = [];
+            let currentSpeech = null;
+            let speechIndex = 0;
+            let currentChapter = null;
+            let chapterContent = [];
+            let isFirstChapter = true;
+            let isParsingSummary = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const rawLine = lines[i];
+                const line = rawLine.trim();
+                
+                // 跳过注释和代码块
+                if (line.startsWith('<!--') || line.startsWith('```')) {
+                    continue;
+                }
+                
+                // 检测文章标题 (# 开头且不在章节内)
+                if (rawLine.startsWith('# ') && !currentSpeech) {
+                    const title = line.replace('# ', '').trim();
+                    currentSpeech = {
+                        id: `speech-${String(speechIndex + 1).padStart(3, '0')}`,
+                        title: title,
+                        bookName: '听书素材',
+                        summary: '',
+                        chapters: []
+                    };
+                    isFirstChapter = true;
+                    isParsingSummary = false;
+                    continue;
+                }
+                
+                if (!currentSpeech) continue;
+                
+                // 检测章节 (## 开头)
+                if (rawLine.startsWith('## ')) {
+                    const chapterTitle = line.replace('## ', '').trim();
+                    
+                    // 检查是否是文章概要
+                    if (chapterTitle === '文章概要') {
+                        // 保存上一个章节（如果有）
+                        if (!isFirstChapter && currentChapter) {
+                            currentSpeech.chapters.push({
+                                ...currentChapter,
+                                content: chapterContent.join('\n').trim()
+                            });
+                        } else if (isFirstChapter && currentChapter && chapterContent.length > 0) {
+                            // 第一个章节的情况
+                            currentSpeech.chapters.push({
+                                ...currentChapter,
+                                content: chapterContent.join('\n').trim()
+                            });
+                        }
+                        
+                        // 保存文章概要
+                        if (isParsingSummary && chapterContent.length > 0) {
+                            currentSpeech.summary = chapterContent.join('\n').trim();
+                        }
+                        
+                        // 重置状态，开始解析概要
+                        isParsingSummary = true;
+                        isFirstChapter = false;
+                        currentChapter = null;
+                        chapterContent = [];
+                    } else {
+                        // 这是一个普通章节
+                        // 如果之前在解析概要，先保存概要
+                        if (isParsingSummary && chapterContent.length > 0) {
+                            currentSpeech.summary = chapterContent.join('\n').trim();
+                        }
+                        
+                        // 保存上一个章节（如果有）
+                        if (!isFirstChapter && currentChapter) {
+                            currentSpeech.chapters.push({
+                                ...currentChapter,
+                                content: chapterContent.join('\n').trim()
+                            });
+                        } else if (isFirstChapter && currentChapter && chapterContent.length > 0) {
+                            // 第一个章节的情况
+                            currentSpeech.chapters.push({
+                                ...currentChapter,
+                                content: chapterContent.join('\n').trim()
+                            });
+                        }
+                        
+                        // 开始新章节
+                        isParsingSummary = false;
+                        currentChapter = {
+                            title: chapterTitle
+                        };
+                        chapterContent = [];
+                        isFirstChapter = false;
+                    }
+                    continue;
+                }
+                
+                // 收集内容
+                if (isParsingSummary && currentSpeech) {
+                    // 跳过空的行（文章概要标题后的第一个空行）
+                    if (chapterContent.length === 0 && !line) {
+                        continue;
+                    }
+                    chapterContent.push(rawLine);
+                } else if (currentChapter) {
+                    // 跳过空的行（章节标题后的第一个空行）
+                    if (chapterContent.length === 0 && !line) {
+                        continue;
+                    }
+                    chapterContent.push(rawLine);
+                }
+            }
+            
+            // 保存最后一个章节或概要
+            if (currentSpeech) {
+                if (isParsingSummary && chapterContent.length > 0) {
+                    currentSpeech.summary = chapterContent.join('\n').trim();
+                } else if (currentChapter) {
+                    currentSpeech.chapters.push({
+                        ...currentChapter,
+                        content: chapterContent.join('\n').trim()
+                    });
+                }
+            }
+            
+            // 添加到结果列表
+            if (currentSpeech && currentSpeech.chapters.length > 0) {
+                speeches.push(currentSpeech);
+                speechIndex++;
+            }
+            
+            return speeches;
+        }
+        
+        function showSpeechPreview(data) {
+            speechList.innerHTML = '';
+            
+            data.forEach((speech, index) => {
+                const speechItem = document.createElement('li');
+                speechItem.className = 'reading-item';
+                speechItem.innerHTML = `
+                    <strong>${speech.title}</strong>
+                    <div class="unit-list">
+                        <div class="unit-item">
+                            章节数: ${speech.chapters ? speech.chapters.length : 0} 个
+                        </div>
+                    </div>
+                `;
+                speechList.appendChild(speechItem);
+            });
+            
+            speechPreview.classList.add('show');
+        }
+        
+        function generateSpeechJSON() {
+            if (!parsedSpeechData) return null;
+            return JSON.stringify({ speeches: parsedSpeechData }, null, 2);
+        }
+        
+        function showSpeechStatus(message, type) {
+            speechStatus.innerHTML = message;
+            speechStatus.className = 'status ' + type;
+        }
+        
+        speechGenerateBtn.addEventListener('click', () => {
+            const json = generateSpeechJSON();
+            if (!json) {
+                showSpeechStatus('没有可生成的数据', 'error');
+                return;
+            }
+            
+            downloadFile(json, 'listen.json', 'application/json');
+            
+            const embeddedData = `// ========== 内嵌听书数据（当 fetch 失败时使用）==========
+const EMBEDDED_SPEECH_DATA = ${json};`;
+            
+            downloadFile(embeddedData, 'app.js-speech-data.txt', 'text/plain');
+            
+            showSpeechStatus(`
+                ✅ 听书数据生成成功！<br><br>
+                已下载两个文件：<br>
+                1. <code>data/listen.json</code><br>
+                2. <code>app.js-speech-data.txt</code> - 用于离线使用
+            `, 'success');
+        });
+        
+        speechCopyBtn.addEventListener('click', () => {
+            const json = generateSpeechJSON();
+            if (!json) {
+                showSpeechStatus('没有可复制的数据', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(json).then(() => {
+                showSpeechStatus('JSON 数据已复制到剪贴板！', 'success');
+            }).catch(err => {
+                showSpeechStatus('复制失败：' + err.message, 'error');
             });
         });
         
