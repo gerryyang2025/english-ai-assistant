@@ -33,6 +33,7 @@ const AppState = {
     speechCloneVoiceId: null,    // 音色复刻 voice_id（从服务器获取）
     speechCloneCurrentTime: 0,   // 音色复刻音频的播放位置（秒）
     speechPaused: false,          // 朗读是否暂停
+    speechCloneAudioCache: new Map(), // 音色复刻音频缓存：key=内容hash, value={url, timestamp}
 };
 
 // ========== DOM 元素缓存 ==========
@@ -3497,6 +3498,35 @@ function renderSpeechChapter() {
 
 // 听书播放控制
 function toggleSpeechPlayback() {
+    // 如果是音色复刻模式且有 Audio 对象
+    if (AppState.speechVoiceMode === 'clone' && AppState.speechUtterance instanceof Audio) {
+        const audio = AppState.speechUtterance;
+
+        // 根据音频的实际状态来决定是暂停还是恢复
+        if (audio.paused) {
+            // 音频已暂停，尝试恢复播放
+            try {
+                audio.play();
+                AppState.speechIsPlaying = true;
+                AppState.speechPaused = false;
+                updatePlayButton();
+                return;
+            } catch (e) {
+                console.error('[Voice Clone] play error:', e);
+                // 播放失败，继续执行正常的播放流程
+            }
+        } else {
+            // 音频正在播放，暂停它
+            AppState.speechIsPlaying = false;
+            AppState.speechPaused = true;
+            AppState.speechCloneCurrentTime = audio.currentTime;
+            audio.pause();
+            updatePlayButton();
+            return;
+        }
+    }
+
+    // 系统语音模式或音色复刻模式但没有 Audio 对象的处理
     if (AppState.speechIsPlaying) {
         pauseSpeech();
     } else {
@@ -3660,7 +3690,13 @@ async function playSpeechWithVoiceClone(content) {
         const audio = AppState.speechUtterance;
         const startTime = AppState.speechCloneCurrentTime;
 
-        console.log('[Voice Clone] check resume: speechCloneAudioUrl:', !!AppState.speechCloneAudioUrl, 'startTime:', startTime, 'audio.paused:', audio.paused);
+        console.log('[Voice Clone] ===== 检查恢复播放 =====');
+        console.log('[Voice Clone] speechCloneAudioUrl:', AppState.speechCloneAudioUrl);
+        console.log('[Voice Clone] audio.src:', audio.src);
+        console.log('[Voice Clone] URL 相等:', audio.src === AppState.speechCloneAudioUrl);
+        console.log('[Voice Clone] speechCloneCurrentTime:', startTime);
+        console.log('[Voice Clone] audio.paused:', audio.paused);
+        console.log('[Voice Clone] audio.duration:', audio.duration);
 
         // 检查是否是同一个内容（通过比较 URL）
         // 如果是同一个内容且有保存的位置（大于 0），恢复播放
@@ -3669,7 +3705,7 @@ async function playSpeechWithVoiceClone(content) {
             startTime > 0 &&
             startTime < audio.duration) {
 
-            console.log('[Voice Clone] will resume from position:', startTime);
+            console.log('[Voice Clone] 从保存的位置恢复播放:', startTime);
             audio.currentTime = startTime;
 
             try {
@@ -3677,30 +3713,38 @@ async function playSpeechWithVoiceClone(content) {
                 AppState.speechIsPlaying = true;
                 AppState.speechPaused = false;
                 updatePlayButton();
-                console.log('[Voice Clone] resume from:', startTime);
                 return;
             } catch (e) {
                 console.error('[Voice Clone] resume error:', e);
-                // 恢复失败，继续生成新音频
+                // 恢复失败，继续尝试其他方式
             }
-        } else {
-            console.log('[Voice Clone] cannot resume: conditions not met');
         }
 
-        // 如果内容已改变或无法恢复，停止并清除旧的 Audio 对象
-        // 但保留 speechCloneCurrentTime，因为用户可能只是暂停了
-        // 只在真正需要清除时才清除（例如内容改变）
-        const isSameContent = AppState.speechCloneAudioUrl && audio.src === AppState.speechCloneAudioUrl;
-        if (!isSameContent) {
-            audio.pause();
-            audio.currentTime = 0;
-            AppState.speechUtterance = null;
-            AppState.speechCloneCurrentTime = 0;
+        // 如果没有恢复成功，检查是否是同一个内容（可以继续播放但不使用保存的位置）
+        if (AppState.speechCloneAudioUrl && audio.src === AppState.speechCloneAudioUrl) {
+            // 内容相同，直接从当前位置播放（不从头开始）
+            console.log('[Voice Clone] 从当前位置继续播放');
+            try {
+                audio.play();
+                AppState.speechIsPlaying = true;
+                AppState.speechPaused = false;
+                updatePlayButton();
+                return;
+            } catch (e) {
+                console.error('[Voice Clone] play error:', e);
+                // 如果播放失败，清除对象重新生成
+            }
         }
+
+        // 内容已改变或无法恢复，停止并清除旧的 Audio 对象
+        console.log('[Voice Clone] 内容已改变或无法恢复，清除旧的 Audio 对象');
+        audio.pause();
+        audio.currentTime = 0;
+        AppState.speechUtterance = null;
+        // 注意：保留 speechCloneCurrentTime，因为可能用户切换章节后还想从之前的位置开始
     }
 
-    // 重置暂停状态（如果是章节切换，需要重置；如果是暂停后恢复，不应该重置）
-    // 但恢复播放的逻辑在上面已经处理了，所以这里可以安全重置
+    // 重置暂停状态
     AppState.speechPaused = false;
 
     // 显示持久提示
@@ -3710,8 +3754,42 @@ async function playSpeechWithVoiceClone(content) {
         // 先解锁浏览器自动播放限制
         await unlockAudioContext();
 
-        // 调用音色复刻 API
-        const audioUrl = await callVoiceCloneAPI(content);
+        // 生成内容的 hash 作为缓存键
+        const contentHash = hashString(content);
+        console.log('[Voice Clone] ===== 缓存检查 =====');
+        console.log('[Voice Clone] contentHash:', contentHash);
+        console.log('[Voice Clone] 缓存大小:', AppState.speechCloneAudioCache.size);
+
+        // 检查缓存中是否已有该内容的音频
+        const cachedResult = AppState.speechCloneAudioCache.get(contentHash);
+        let audioUrl;
+
+        if (cachedResult) {
+            // 使用缓存的音频 URL
+            console.log('[Voice Clone] ✓ 缓存命中，使用已有音频 URL:', cachedResult.url);
+            audioUrl = cachedResult.url;
+        } else {
+            // 调用音色复刻 API
+            console.log('[Voice Clone] ✗ 缓存未命中，调用 API 生成新音频');
+            console.log('[Voice Clone] content 长度:', content.length);
+            console.log('[Voice Clone] content 前 50 字:', content.substring(0, 50));
+            audioUrl = await callVoiceCloneAPI(content);
+
+            // 缓存结果（设置 30 分钟过期时间）
+            const cacheTimeout = 30 * 60 * 1000;
+            AppState.speechCloneAudioCache.set(contentHash, {
+                url: audioUrl,
+                timestamp: Date.now(),
+                timeout: cacheTimeout
+            });
+            console.log('[Voice Clone] 已保存缓存，key:', contentHash);
+
+            // 定期清理过期缓存（每 10 次播放检查一次）
+            if (Math.random() < 0.1) {
+                cleanupExpiredCache();
+            }
+        }
+
         AppState.speechCloneAudioUrl = audioUrl;
 
         // 播放音频（提示会在 onplay 事件中自动关闭）
@@ -3768,6 +3846,9 @@ function stopSpeech() {
     // 清除音色复刻相关的状态，防止恢复旧内容
     AppState.speechCloneAudioUrl = null;
     AppState.speechCloneCurrentTime = 0;
+
+    // 不在这里清除缓存，因为 stopSpeech 也可能在播放新内容前被调用
+    // 缓存由 playSpeechWithVoiceClone 中的逻辑管理
 
     // 重置播放状态 - 关键：必须将 paused 状态也重置为 false
     // 这样下次点击播放时不会错误地尝试"恢复"已取消的语音
@@ -3905,6 +3986,40 @@ function changeVoiceMode(mode) {
     }
 }
 
+// 生成字符串的哈希值（用于缓存键）
+function hashString(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // 转换为 32 位整数
+    }
+    return hash.toString(16);
+}
+
+// 清理过期的缓存条目
+function cleanupExpiredCache() {
+    const now = Date.now();
+    let removedCount = 0;
+
+    for (const [key, value] of AppState.speechCloneAudioCache) {
+        if (now - value.timestamp > value.timeout) {
+            AppState.speechCloneAudioCache.delete(key);
+            removedCount++;
+        }
+    }
+
+    if (removedCount > 0) {
+        console.log(`[Voice Clone] 清理了 ${removedCount} 个过期的音频缓存`);
+    }
+}
+
+// 清除所有音频缓存
+function clearAudioCache() {
+    AppState.speechCloneAudioCache.clear();
+    console.log('[Voice Clone] 已清除所有音频缓存');
+}
+
 // 调用音色复刻 API
 async function callVoiceCloneAPI(text) {
     const response = await fetch('/api/voice-clone', {
@@ -3928,44 +4043,68 @@ async function callVoiceCloneAPI(text) {
 
 // 播放音色复刻音频
 function playVoiceCloneAudio(audioUrl) {
-    // 如果已经有 Audio 对象且有保存的位置，直接从保存的位置播放
+    // 如果已经有 Audio 对象
     if (AppState.speechUtterance instanceof Audio) {
         const audio = AppState.speechUtterance;
-        const startTime = AppState.speechCloneCurrentTime;
 
-        if (startTime > 0 && startTime < audio.duration) {
-            audio.currentTime = startTime;
-        }
+        // 检查是否是同一个内容（通过比较 URL）
+        if (audio.src === audioUrl) {
+            // 同一个内容，复用现有 Audio 对象
+            console.log('[Voice Clone] 复用已有的 Audio 对象，URL:', audioUrl);
 
-        // 确保 playbackRate 正确设置
-        audio.playbackRate = AppState.speechPlaybackSpeed;
+            const startTime = AppState.speechCloneCurrentTime;
+            if (startTime > 0 && startTime < audio.duration) {
+                audio.currentTime = startTime;
+            }
 
-        try {
-            audio.play();
-            AppState.speechIsPlaying = true;
-            AppState.speechPaused = false;
-            updatePlayButton();
-            console.log('[Voice Clone] resume from:', startTime, 'playbackRate:', audio.playbackRate);
-        } catch (e) {
-            // 处理浏览器自动播放限制
-            if (e.name === 'NotAllowedError') {
-                console.warn('[Voice Clone] 播放被浏览器自动播放策略限制');
-                showToast('请再次点击播放按钮（需要用户交互）');
+            // 确保 playbackRate 正确设置
+            audio.playbackRate = AppState.speechPlaybackSpeed;
+
+            try {
+                audio.play();
+                AppState.speechIsPlaying = true;
+                AppState.speechPaused = false;
+                updatePlayButton();
+                console.log('[Voice Clone] 从位置播放:', audio.currentTime);
+                return;
+            } catch (e) {
+                // 处理浏览器自动播放限制
+                if (e.name === 'NotAllowedError') {
+                    console.warn('[Voice Clone] 播放被浏览器自动播放策略限制');
+                    showToast('请再次点击播放按钮（需要用户交互）');
+                } else {
+                    console.error('[Voice Clone] play error:', e);
+                }
+                // 不清除 Audio 对象，保留状态
                 AppState.speechIsPlaying = false;
                 AppState.speechPaused = false;
                 updatePlayButton();
-            } else {
-                console.error('[Voice Clone] play error:', e);
+                return;
             }
         }
-        return;
+
+        // 内容不同，停止旧的播放
+        console.log('[Voice Clone] 内容不同，停止旧的 Audio 对象');
+        try {
+            audio.pause();
+            audio.currentTime = 0;
+        } catch (e) {
+            console.error('[Voice Clone] 停止旧音频失败:', e);
+        }
     }
 
     // 重置暂停状态
     AppState.speechPaused = false;
 
-    // 停止之前的播放
-    stopSpeech();
+    // 停止之前的播放（如果还有旧的 Audio 对象）
+    if (AppState.speechUtterance instanceof Audio) {
+        try {
+            AppState.speechUtterance.pause();
+            AppState.speechUtterance.currentTime = 0;
+        } catch (e) {
+            console.error('[Voice Clone] 停止旧音频失败:', e);
+        }
+    }
 
     const audio = new Audio();
     audio.src = audioUrl;
@@ -4019,8 +4158,9 @@ function playVoiceCloneAudio(audioUrl) {
         AppState.speechPaused = false;
         updatePlayButton();
 
-        // 重置播放位置
-        AppState.speechCloneCurrentTime = 0;
+        // 不重置播放位置，保留当前位置以便用户可以继续从结束位置播放
+        // 如果需要从头开始播放，用户可以点击停止按钮
+        console.log('[Voice Clone] 播放完成，保留位置:', AppState.speechCloneCurrentTime);
 
         // 听书模块直接提示播放完成，不自动切换章节
         showToast('播放完成');
