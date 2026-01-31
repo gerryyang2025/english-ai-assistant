@@ -272,6 +272,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
     z-index: 100;
     backdrop-filter: blur(10px);
     min-height: 80px;
@@ -290,8 +291,8 @@
 }
 
 .speech-controls .btn-play {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
@@ -299,7 +300,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 28px;
     transition: all 0.3s;
     flex-shrink: 0;
     color: white;
@@ -307,7 +308,7 @@
 }
 
 .speech-controls .btn-play:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
@@ -335,6 +336,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
+    min-width: 0;
 }
 
 .speech-voice-mode label,
@@ -342,6 +345,7 @@
     font-size: 13px;
     color: #666;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .speech-voice-mode select,
@@ -358,6 +362,9 @@
     background-repeat: no-repeat;
     background-position: right 10px center;
     padding-right: 28px;
+    flex-shrink: 0;
+    min-width: 80px;
+    max-width: 120px;
 }
 
 .speech-voice-mode select:focus,
@@ -369,6 +376,11 @@
 .voice-clone-status {
     font-size: 12px;
     color: #28a745;
+    flex-shrink: 0;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* 空状态 */
@@ -460,7 +472,7 @@
     .speech-controls {
         padding: 14px 16px;
         padding-bottom: max(45px, calc(env(safe-area-inset-bottom, 0px) + 20px));
-        gap: 12px;
+        gap: 16px;
         min-height: 80px;
     }
 
@@ -471,9 +483,9 @@
     }
 
     .speech-controls .btn-play {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
     }
 }
 
@@ -624,10 +636,9 @@
     .speech-controls {
         padding: 12px 10px;
         padding-bottom: max(45px, calc(env(safe-area-inset-bottom, 0px) + 16px));
-        gap: 10px;
+        gap: 12px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         min-height: 75px;
-        flex-wrap: wrap;
     }
 
     .speech-controls .btn-primary,
@@ -635,19 +646,23 @@
         padding: 10px 16px;
         font-size: 13px;
         border-radius: 20px;
-        flex: 1;
-        min-width: 0;
     }
 
     .speech-controls .btn-play {
-        width: 48px;
-        height: 48px;
-        font-size: 18px;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
     }
 
     .speech-settings {
         padding: 10px 12px;
-        gap: 10px;
+        gap: 8px;
+        justify-content: space-between;
+    }
+
+    .speech-voice-mode,
+    .speech-speed-control {
+        gap: 6px;
     }
 
     .speech-voice-mode label,
@@ -659,10 +674,13 @@
     .speech-speed-control select {
         padding: 6px 10px;
         font-size: 12px;
+        min-width: 70px;
+        max-width: 100px;
     }
 
     .voice-clone-status {
         font-size: 11px;
+        max-width: 80px;
     }
 }
 
@@ -717,7 +735,7 @@
     .speech-controls {
         padding: 10px 8px;
         padding-bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 12px));
-        gap: 8px;
+        gap: 10px;
         min-height: 70px;
     }
 
@@ -727,19 +745,39 @@
         font-size: 12px;
     }
 
+    .speech-controls .btn-play {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+
     .speech-settings {
         padding: 8px 10px;
-        gap: 8px;
+        gap: 6px;
+        justify-content: space-around;
+    }
+
+    .speech-voice-mode,
+    .speech-speed-control {
+        gap: 4px;
     }
 
     .speech-voice-mode label,
     .speech-speed-control label {
-        font-size: 12px;
+        font-size: 11px;
+        color: #888;
     }
 
     .speech-voice-mode select,
     .speech-speed-control select {
-        padding: 6px 10px;
-        font-size: 12px;
+        padding: 5px 8px;
+        font-size: 11px;
+        min-width: 60px;
+        max-width: 80px;
+    }
+
+    .voice-clone-status {
+        font-size: 10px;
+        max-width: 60px;
     }
 }
