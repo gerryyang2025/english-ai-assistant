@@ -405,16 +405,37 @@ def voice_clone_api():
 
         logger.info(f"调用 MiniMax 音色复刻 API - voice_id: {voice_id}, 模型: speech-2.6-turbo")
 
-        response = requests.post(
-            'https://api.minimaxi.com/v1/voice_clone',
-            headers=headers,
-            json=clone_data,
-            timeout=30  # 30秒超时
-        )
-        response.raise_for_status()
-        result = response.json()
+        # 添加重试机制
+        max_retries = 2
+        retry_count = 0
+        last_error = None
 
-        logger.info(f"MiniMax 音色复刻 API 响应: {result}")
+        while retry_count <= max_retries:
+            try:
+                response = requests.post(
+                    'https://api.minimaxi.com/v1/voice_clone',
+                    headers=headers,
+                    json=clone_data,
+                    timeout=45,  # 45秒超时（给 iOS 更多时间）
+                    verify=True  # SSL 验证
+                )
+                response.raise_for_status()
+                result = response.json()
+
+                logger.info(f"MiniMax 音色复刻 API 响应: {result}")
+                break  # 成功，跳出重试循环
+
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+                retry_count += 1
+                last_error = e
+                logger.warning(f"MiniMax API 第 {retry_count} 次重试失败: {e}")
+
+                if retry_count > max_retries:
+                    logger.error(f"MiniMax API 重试次数耗尽: {e}")
+                    raise Exception(f"网络连接超时，请检查网络设置 ({retry_count} 次尝试)")
+                else:
+                    # 等待后重试
+                    time.sleep(1)
 
         # 检查响应
         if result.get('base_resp', {}).get('status_msg') != 'success':
@@ -429,7 +450,7 @@ def voice_clone_api():
                     'https://api.minimaxi.com/v1/voice_clone',
                     headers=headers,
                     json=clone_data,
-                    timeout=30  # 保持一致的超时时间
+                    timeout=60  # 高质量模型需要更长时间
                 )
                 response.raise_for_status()
                 result = response.json()
@@ -457,15 +478,40 @@ def voice_clone_api():
         return response
 
     except requests.exceptions.HTTPError as e:
-        logger.error(f"MiniMax 音色复刻 API HTTP 错误: {e}")
+        logger.error(f"MiniMax 音色复刻 API HTTP 错误 - IP: {client_ip}, 错误: {e}")
         error_data = e.response.json() if e.response else {}
         error_msg = error_data.get('base_resp', {}).get('msg', str(e))
-        response = jsonify({'error': f'API 请求失败: {error_msg}'})
+        response = jsonify({
+            'error': f'API 请求失败: {error_msg}',
+            'details': str(e),
+            'client_ip': client_ip
+        })
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response, 500
+    except requests.exceptions.Timeout as e:
+        logger.error(f"MiniMax 音色复刻超时 - IP: {client_ip}, 错误: {e}")
+        response = jsonify({
+            'error': '请求超时，请稍后重试',
+            'details': 'API 服务器响应时间过长',
+            'retryable': True
+        })
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 504
+    except requests.exceptions.ConnectionError as e:
+        logger.error(f"MiniMax 音色复刻连接错误 - IP: {client_ip}, 错误: {e}")
+        response = jsonify({
+            'error': '网络连接失败',
+            'details': '无法连接到 API 服务器，请检查网络设置',
+            'retryable': True
+        })
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response, 502
     except Exception as e:
         logger.error(f"音色复刻错误 - IP: {client_ip}, 错误: {str(e)}")
-        response = jsonify({'error': str(e)})
+        response = jsonify({
+            'error': str(e),
+            'client_ip': client_ip
+        })
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response, 500
 
