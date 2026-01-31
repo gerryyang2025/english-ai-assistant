@@ -467,6 +467,20 @@ def voice_clone_api():
         if not audio_url:
             raise Exception('音色复刻 API 未返回音频 URL')
 
+        # 处理 HTTP/HTTPS 问题（iOS 需要 HTTPS）
+        if audio_url.startswith('http://'):
+            # 尝试转换为 HTTPS
+            https_url = audio_url.replace('http://', 'https://')
+            # 记录原始 URL 和转换后的 URL
+            logger.info(f"原始音频 URL (HTTP): {audio_url}")
+            logger.info(f"转换后音频 URL (HTTPS): {https_url}")
+            # 使用 HTTPS URL
+            audio_url = https_url
+        elif audio_url.startswith('https://'):
+            logger.info(f"音频 URL (HTTPS): {audio_url}")
+        else:
+            logger.warning(f"音频 URL 格式异常: {audio_url}")
+
         response_data = {
             'audio_url': audio_url,
             'text': text

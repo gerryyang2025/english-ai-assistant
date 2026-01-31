@@ -3641,58 +3641,116 @@ function playSpeechWithSystem(content) {
     window.speechSynthesis.speak(utterance);
 }
 
+// 检测是否为 Safari 浏览器
+function isSafari() {
+    const ua = navigator.userAgent;
+    return /Safari/i.test(ua) && !/Chrome/i.test(ua);
+}
+
+// 检测是否为 iOS Safari
+function isIOSSafari() {
+    const ua = navigator.userAgent;
+    return /iPad|iPhone|iPod/.test(ua) && /Safari/i.test(ua);
+}
+
 // 解锁浏览器的自动播放限制
-function unlockAudioContext() {
-    // 创建一个静音的音频来解锁
-    const silentAudio = new Audio();
-    silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
-    silentAudio.volume = 0;
-    silentAudio.muted = true;
+async function unlockAudioContext() {
+    const isSafariBrowser = isSafari();
+    const isIOSSafariBrowser = isIOSSafari();
 
-    // 移动端浏览器需要在用户交互后才能播放音频
-    // 我们尝试播放，如果失败会在 play() 的 catch 中处理
-    return silentAudio.play()
-        .then(() => {
-            console.log('[Voice Clone] 已解锁浏览器自动播放限制');
-            silentAudio.pause();
-            silentAudio.src = '';
-            return true;
-        })
-        .catch((e) => {
-            console.warn('[Voice Clone] 音频播放受限:', e.name, e.message);
+    console.log('[Voice Clone] 浏览器检测:', {
+        isSafari: isSafariBrowser,
+        isIOS: isIOSSafariBrowser,
+        userAgent: navigator.userAgent.substring(0, 100)
+    });
 
-            // 尝试使用 AudioContext
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (AudioContext) {
-                    // 检查是否需要用户交互才能创建 AudioContext
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Safari 需要多次用户交互来解锁
+    // 我们尝试多种方法
 
-                    // 如果 AudioContext 处于 suspended 状态，尝试 resume
-                    if (audioCtx.state === 'suspended') {
-                        const resumePromise = audioCtx.resume();
+    // 方法 1：创建静音音频并播放
+    try {
+        const silentAudio = new Audio();
+        silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
+        silentAudio.volume = 0;
+        silentAudio.muted = true;
+        silentAudio.preload = 'none';
 
-                        if (resumePromise !== undefined) {
-                            return resumePromise
-                                .then(() => {
-                                    console.log('[Voice Clone] 已通过 AudioContext.resume() 解锁');
-                                    return true;
-                                })
-                                .catch((resumeError) => {
-                                    console.warn('[Voice Clone] AudioContext.resume() 失败:', resumeError);
-                                    return false;
-                                });
+        await silentAudio.play();
+        console.log('[Voice Clone] 静音音频解锁成功');
+        silentAudio.src = '';
+        return true;
+    } catch (e) {
+        console.warn('[Voice Clone] 静音音频播放失败:', e.name);
+    }
+
+    // 方法 2：使用 AudioContext
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+            const audioCtx = new AudioContext();
+
+            // Safari 可能需要多次 resume
+            if (audioCtx.state === 'suspended') {
+                try {
+                    await audioCtx.resume();
+                    console.log('[Voice Clone] AudioContext.resume() 成功，状态:', audioCtx.state);
+                } catch (resumeError) {
+                    console.warn('[Voice Clone] AudioContext.resume() 失败:', resumeError);
+
+                    // Safari 可能需要临时创建一个振荡器来解锁
+                    if (isSafariBrowser) {
+                        try {
+                            const oscillator = audioCtx.createOscillator();
+                            const gainNode = audioCtx.createGain();
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioCtx.destination);
+                            oscillator.frequency.value = 0;
+                            gainNode.gain.value = 0;
+                            oscillator.start();
+                            oscillator.stop(audioCtx.currentTime + 0.01);
+                            console.log('[Voice Clone] 使用振荡器解锁 Safari');
+                            return true;
+                        } catch (oscError) {
+                            console.warn('[Voice Clone] 振荡器解锁失败:', oscError);
                         }
                     }
-
-                    console.log('[Voice Clone] AudioContext 已创建，状态:', audioCtx.state);
-                    return audioCtx.state !== 'suspended';
                 }
-            } catch (e) {
-                console.warn('[Voice Clone] 无法使用 AudioContext:', e);
             }
-            return false;
-        });
+
+            return audioCtx.state === 'running';
+        }
+    } catch (e) {
+        console.warn('[Voice Clone] AudioContext 失败:', e);
+    }
+
+    // 方法 3：Safari 特定的解锁方式
+    if (isSafariBrowser) {
+        console.log('[Voice Clone] 尝试 Safari 特定的解锁方式');
+
+        // Safari 需要页面有实际的音频交互
+        // 创建一个隐藏的 audio 元素并预加载
+        try {
+            const safariAudio = new Audio();
+            safariAudio.controls = false;
+            safariAudio.preload = 'auto';
+
+            // 尝试加载一个小音频文件来解锁
+            safariAudio.src = 'data:audio/mp3;base64,//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
+            safariAudio.volume = 0.01;
+
+            await safariAudio.load();
+            await safariAudio.play();
+            safariAudio.pause();
+            safariAudio.src = '';
+            console.log('[Voice Clone] Safari 音频解锁成功');
+            return true;
+        } catch (safariError) {
+            console.warn('[Voice Clone] Safari 音频解锁失败:', safariError);
+        }
+    }
+
+    console.warn('[Voice Clone] 无法完全解锁自动播放限制');
+    return false;
 }
 
 // 使用音色复刻播放
@@ -4211,17 +4269,73 @@ function playVoiceCloneAudio(audioUrl) {
 
     audio.oncanplay = () => {
         console.log('[Voice Clone] audio can play');
+        console.log('[Voice Clone] audio.src:', audio.src);
+        console.log('[Voice Clone] audio.protocol:', audio.src.startsWith('https') ? 'HTTPS' : 'HTTP');
+        console.log('[Voice Clone] isSafari:', isSafari());
+        console.log('[Voice Clone] isIOSSafari:', isIOSSafari());
         // 注意：音频已准备好，这里不更新状态
         // 因为可能音频已经开始播放了
         // 状态由 onplay 和 onpause 事件来管理
     };
 
     audio.onerror = (e) => {
+        const isSafariBrowser = isSafari();
+        const isIOSSafariBrowser = isIOSSafari();
+
         console.error('[Voice Clone] audio load error:', e);
-        showToast('音频加载失败');
+        console.error('[Voice Clone] audio.error:', audio.error);
+        console.error('[Voice Clone] audio.errorCode:', audio.error ? audio.error.code : 'N/A');
+        console.error('[Voice Clone] audio.errorMessage:', audio.error ? audio.error.message : 'N/A');
+        console.error('[Voice Clone] audio.src:', audio.src);
+        console.error('[Voice Clone] audio.readyState:', audio.readyState);
+        console.error('[Voice Clone] isSafari:', isSafariBrowser);
+
+        // 根据错误代码提供更详细的错误信息
+        let errorMsg = '音频加载失败';
+        let errorDetails = '';
+
+        if (audio.error) {
+            switch (audio.error.code) {
+                case MediaError.MEDIA_ERR_ABORTED:
+                    errorMsg = '音频加载被中断';
+                    break;
+                case MediaError.MEDIA_ERR_NETWORK:
+                    errorMsg = '网络错误，无法加载音频';
+                    errorDetails = '可能是 HTTP/HTTPS 混合内容问题，或 CORS 限制';
+                    if (isSafariBrowser) {
+                        errorDetails = 'Safari 对音频格式要求更严格，请尝试切换到系统语音';
+                    }
+                    break;
+                case MediaError.MEDIA_ERR_DECODE:
+                    errorMsg = '音频解码失败';
+                    errorDetails = '音频格式可能不被 Safari 支持';
+                    if (isSafariBrowser || isIOSSafariBrowser) {
+                        errorMsg = 'Safari 不支持此音频格式';
+                        errorDetails = 'MiniMax 返回的音频格式可能与 Safari 不兼容，建议切换到系统语音';
+                    }
+                    break;
+                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                    errorMsg = '音频格式不支持';
+                    errorDetails = '检查 URL 是否为 HTTPS';
+                    if (isSafariBrowser) {
+                        errorDetails = 'Safari 可能需要特定的音频编码格式';
+                    }
+                    break;
+                default:
+                    errorMsg = `音频加载错误 (代码: ${audio.error.code})`;
+            }
+        }
+
+        console.error('[Voice Clone] 错误详情:', errorDetails);
+        showToast(errorMsg);
         AppState.speechIsPlaying = false;
         AppState.speechPaused = false;
         updatePlayButton();
+
+        // Safari 特定的处理建议
+        if (isSafariBrowser || isIOSSafariBrowser) {
+            console.log('[Voice Clone] Safari 用户建议切换到系统语音');
+        }
     };
 
     audio.onplay = () => {
