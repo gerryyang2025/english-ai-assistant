@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.5] - 2026-02-01
+
+### Added
+- Added support for configuring multiple voice clone file IDs
+- Added description field for each voice in the voice selection dropdown
+- Added dynamic voice dropdown generation based on server configuration
+
+### Changed
+- Updated voice dropdown display from "复刻 (name)" to "音色 (name)"
+- Updated speech page UI: "选择文章" to "选择书本"
+- Updated dropdown default options for better clarity
+- Default voice mode changed to "system" instead of "clone"
+
+### Fixed
+- Fixed voice cache not being cleared when switching between different voice clones
+- Fixed playback not resetting when changing voice mode
+- Improved voice switching logic to properly clear audio cache and reset playback state
+
 ## [3.4] - 2026-01-31
 
 ### Added
@@ -163,7 +181,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User progress tracking
 - Basic responsive design
 
-[Unreleased]: https://github.com/gerryyang/english-ai-assistant/compare/v3.4...HEAD
+[Unreleased]: https://github.com/gerryyang/english-ai-assistant/compare/v3.5...HEAD
+[3.5]: https://github.com/gerryyang/english-ai-assistant/compare/v3.4...v3.5
 [3.4]: https://github.com/gerryyang/english-ai-assistant/compare/v3.3...v3.4
 [3.3]: https://github.com/gerryyang/english-ai-assistant/compare/v3.2...v3.3
 [3.2]: https://github.com/gerryyang/english-ai-assistant/compare/v3.1...v3.2
