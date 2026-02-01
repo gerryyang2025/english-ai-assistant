@@ -3712,6 +3712,16 @@ function isIOSBrowser() {
     return /iPad|iPhone|iPod/.test(ua);
 }
 
+// 带超时的 Promise 包装
+function withTimeout(promise, ms, name) {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => 
+            setTimeout(() => reject(new Error(`${name} 超时 (${ms}ms)`)), ms)
+        )
+    ]);
+}
+
 // 解锁浏览器的自动播放限制
 async function unlockAudioContext() {
     const isSafariBrowser = isSafari();
@@ -3719,18 +3729,13 @@ async function unlockAudioContext() {
     const isIOSChromeBrowser = isIOSChrome();
     const isIOSAnyBrowser = isIOSBrowser();
 
-    console.log('[Voice Clone] 浏览器检测:', {
-        isSafari: isSafariBrowser,
-        isIOSSafari: isIOSSafariBrowser,
-        isIOSChrome: isIOSChromeBrowser,
-        isIOSAny: isIOSAnyBrowser,
-        userAgent: navigator.userAgent.substring(0, 120)
-    });
+    addVoiceCloneLog('unlockAudioContext', `iOS: ${isIOSAnyBrowser}, Safari: ${isSafariBrowser}`);
 
     // iOS 设备（无论是 Safari 还是 Chrome）都需要特殊的解锁方式
     // 因为 iOS 有严格的自动播放策略
 
     // 方法 1：创建静音音频并播放（对 iOS 可能无效，但尝试一下）
+    addVoiceCloneLog('方法1', '尝试静音音频...');
     try {
         const silentAudio = new Audio();
         silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
@@ -3738,30 +3743,34 @@ async function unlockAudioContext() {
         silentAudio.muted = true;
         silentAudio.preload = 'none';
 
-        await silentAudio.play();
-        console.log('[Voice Clone] 静音音频解锁成功');
+        await withTimeout(silentAudio.play(), 2000, '静音音频播放');
+        addVoiceCloneLog('方法1成功', '静音音频播放成功');
         silentAudio.src = '';
         return true;
     } catch (e) {
-        console.warn('[Voice Clone] 静音音频播放失败:', e.name);
+        addVoiceCloneLog('方法1失败', e.message || e.name);
     }
 
     // 方法 2：使用 AudioContext（这是 iOS 设备最可靠的方法）
+    addVoiceCloneLog('方法2', '尝试 AudioContext...');
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (AudioContext) {
+            addVoiceCloneLog('方法2', '创建 AudioContext...');
             const audioCtx = new AudioContext();
 
             // iOS 设备需要多次 resume 尝试
             if (audioCtx.state === 'suspended') {
+                addVoiceCloneLog('方法2', `state=suspended, 尝试 resume...`);
                 try {
-                    await audioCtx.resume();
-                    console.log('[Voice Clone] AudioContext.resume() 成功，状态:', audioCtx.state);
+                    await withTimeout(audioCtx.resume(), 2000, 'AudioContext.resume');
+                    addVoiceCloneLog('方法2成功', `AudioContext.state: ${audioCtx.state}`);
                 } catch (resumeError) {
-                    console.warn('[Voice Clone] AudioContext.resume() 失败:', resumeError);
+                    addVoiceCloneLog('方法2失败', resumeError.message || resumeError.name);
 
                     // Safari 或 iOS Chrome 可能需要临时创建一个振荡器来解锁
                     if (isSafariBrowser || isIOSAnyBrowser) {
+                        addVoiceCloneLog('方法2备选', '尝试振荡器...');
                         try {
                             const oscillator = audioCtx.createOscillator();
                             const gainNode = audioCtx.createGain();
@@ -3771,32 +3780,26 @@ async function unlockAudioContext() {
                             gainNode.gain.value = 0;
                             oscillator.start();
                             oscillator.stop(audioCtx.currentTime + 0.01);
-                            console.log('[Voice Clone] 使用振荡器解锁浏览器');
+                            addVoiceCloneLog('方法2备选成功', '振荡器解锁成功');
                             return true;
                         } catch (oscError) {
-                            console.warn('[Voice Clone] 振荡器解锁失败:', oscError);
+                            addVoiceCloneLog('方法2备选失败', oscError.name);
                         }
                     }
                 }
-            }
-
-            // 对于 iOS 设备，即使 resume 成功，也可能需要额外的交互
-            if (isIOSAnyBrowser && audioCtx.state === 'running') {
-                console.log('[Voice Clone] AudioContext 已在 iOS 设备上运行');
+            } else {
+                addVoiceCloneLog('方法2', `state=${audioCtx.state}, 无需 resume`);
             }
 
             return audioCtx.state === 'running';
         }
     } catch (e) {
-        console.warn('[Voice Clone] AudioContext 失败:', e);
+        addVoiceCloneLog('方法2异常', e.name);
     }
 
     // 方法 3：Safari 或 iOS 特定的解锁方式
+    addVoiceCloneLog('方法3', '尝试 Safari/iOS 特定方式...');
     if (isSafariBrowser || isIOSAnyBrowser) {
-        console.log('[Voice Clone] 尝试 iOS/Safari 特定的解锁方式');
-
-        // iOS 需要页面有实际的音频交互
-        // 创建一个隐藏的 audio 元素并预加载
         try {
             const safariAudio = new Audio();
             safariAudio.controls = false;
@@ -3806,18 +3809,20 @@ async function unlockAudioContext() {
             safariAudio.src = 'data:audio/mp3;base64,//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//uQxAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
             safariAudio.volume = 0.01;
 
-            await safariAudio.load();
-            await safariAudio.play();
+            addVoiceCloneLog('方法3', '加载音频...');
+            await withTimeout(safariAudio.load(), 3000, '音频加载');
+            addVoiceCloneLog('方法3', '播放音频...');
+            await withTimeout(safariAudio.play(), 2000, '音频播放');
             safariAudio.pause();
             safariAudio.src = '';
-            console.log('[Voice Clone] iOS/Safari 音频解锁成功');
+            addVoiceCloneLog('方法3成功', 'iOS/Safari 音频解锁成功');
             return true;
         } catch (safariError) {
-            console.warn('[Voice Clone] iOS/Safari 音频解锁失败:', safariError);
+            addVoiceCloneLog('方法3失败', safariError.message || safariError.name);
         }
     }
 
-    console.warn('[Voice Clone] 无法完全解锁自动播放限制');
+    addVoiceCloneLog('unlockAudioContext', '所有方法都失败，返回 false');
     return false;
 }
 
@@ -3898,13 +3903,13 @@ async function playSpeechWithVoiceClone(content) {
 
     try {
         // 先解锁浏览器自动播放限制
-        await unlockAudioContext();
+        addVoiceCloneLog('开始 unlockAudioContext', '等待解锁...');
+        const unlocked = await unlockAudioContext();
+        addVoiceCloneLog('unlockAudioContext 完成', `结果: ${unlocked}`);
 
         // 生成内容的 hash 作为缓存键
         const contentHash = hashString(content);
-        console.log('[Voice Clone] ===== 缓存检查 =====');
-        console.log('[Voice Clone] contentHash:', contentHash);
-        console.log('[Voice Clone] 缓存大小:', AppState.speechCloneAudioCache.size);
+        addVoiceCloneLog('计算缓存 key', `hash: ${contentHash.substring(0, 8)}..., 缓存数: ${AppState.speechCloneAudioCache.size}`);
 
         // 检查缓存中是否已有该内容的音频
         const cachedResult = AppState.speechCloneAudioCache.get(contentHash);
