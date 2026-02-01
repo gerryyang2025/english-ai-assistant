@@ -816,7 +816,14 @@
                 </div>
                 
                 <div class="speech-controls">
-                    <button class="btn-play" id="speech-play-btn" onclick="toggleSpeechPlayback()">▶</button>
+                    <button class="btn-play" id="speech-play-btn" onclick="toggleSpeechPlayback()">
+                        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" width="28" height="28" style="display:none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    </button>
                 </div>
                 
                 <!-- 调试状态显示区域 -->

@@ -4647,12 +4647,17 @@ function playVoiceCloneAudio(audioUrl) {
 function updatePlayButton() {
     const btn = document.getElementById('speech-play-btn');
     if (!btn) return;
-    
+
+    const playIcon = btn.querySelector('.play-icon');
+    const pauseIcon = btn.querySelector('.pause-icon');
+
     if (AppState.speechIsPlaying) {
-        btn.innerHTML = '⏸';
+        if (playIcon) playIcon.style.display = 'none';
+        if (pauseIcon) pauseIcon.style.display = 'block';
         btn.classList.add('playing');
     } else {
-        btn.innerHTML = '▶';
+        if (playIcon) playIcon.style.display = 'block';
+        if (pauseIcon) pauseIcon.style.display = 'none';
         btn.classList.remove('playing');
     }
 }
