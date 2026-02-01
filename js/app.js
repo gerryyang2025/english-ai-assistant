@@ -3650,24 +3650,40 @@ function isSafari() {
 // 检测是否为 iOS Safari
 function isIOSSafari() {
     const ua = navigator.userAgent;
-    return /iPad|iPhone|iPod/.test(ua) && /Safari/i.test(ua);
+    return /iPad|iPhone|iPod/.test(ua) && /Safari/i.test(ua) && !/CriOS/.test(ua);
+}
+
+// 检测是否为 iOS Chrome
+function isIOSChrome() {
+    const ua = navigator.userAgent;
+    return /iPad|iPhone|iPod/.test(ua) && /CriOS/.test(ua);
+}
+
+// 检测是否为任何 iOS 浏览器（Safari 或 Chrome）
+function isIOSBrowser() {
+    const ua = navigator.userAgent;
+    return /iPad|iPhone|iPod/.test(ua);
 }
 
 // 解锁浏览器的自动播放限制
 async function unlockAudioContext() {
     const isSafariBrowser = isSafari();
     const isIOSSafariBrowser = isIOSSafari();
+    const isIOSChromeBrowser = isIOSChrome();
+    const isIOSAnyBrowser = isIOSBrowser();
 
     console.log('[Voice Clone] 浏览器检测:', {
         isSafari: isSafariBrowser,
-        isIOS: isIOSSafariBrowser,
-        userAgent: navigator.userAgent.substring(0, 100)
+        isIOSSafari: isIOSSafariBrowser,
+        isIOSChrome: isIOSChromeBrowser,
+        isIOSAny: isIOSAnyBrowser,
+        userAgent: navigator.userAgent.substring(0, 120)
     });
 
-    // Safari 需要多次用户交互来解锁
-    // 我们尝试多种方法
+    // iOS 设备（无论是 Safari 还是 Chrome）都需要特殊的解锁方式
+    // 因为 iOS 有严格的自动播放策略
 
-    // 方法 1：创建静音音频并播放
+    // 方法 1：创建静音音频并播放（对 iOS 可能无效，但尝试一下）
     try {
         const silentAudio = new Audio();
         silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
@@ -3683,13 +3699,13 @@ async function unlockAudioContext() {
         console.warn('[Voice Clone] 静音音频播放失败:', e.name);
     }
 
-    // 方法 2：使用 AudioContext
+    // 方法 2：使用 AudioContext（这是 iOS 设备最可靠的方法）
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (AudioContext) {
             const audioCtx = new AudioContext();
 
-            // Safari 可能需要多次 resume
+            // iOS 设备需要多次 resume 尝试
             if (audioCtx.state === 'suspended') {
                 try {
                     await audioCtx.resume();
@@ -3697,8 +3713,8 @@ async function unlockAudioContext() {
                 } catch (resumeError) {
                     console.warn('[Voice Clone] AudioContext.resume() 失败:', resumeError);
 
-                    // Safari 可能需要临时创建一个振荡器来解锁
-                    if (isSafariBrowser) {
+                    // Safari 或 iOS Chrome 可能需要临时创建一个振荡器来解锁
+                    if (isSafariBrowser || isIOSAnyBrowser) {
                         try {
                             const oscillator = audioCtx.createOscillator();
                             const gainNode = audioCtx.createGain();
@@ -3708,7 +3724,7 @@ async function unlockAudioContext() {
                             gainNode.gain.value = 0;
                             oscillator.start();
                             oscillator.stop(audioCtx.currentTime + 0.01);
-                            console.log('[Voice Clone] 使用振荡器解锁 Safari');
+                            console.log('[Voice Clone] 使用振荡器解锁浏览器');
                             return true;
                         } catch (oscError) {
                             console.warn('[Voice Clone] 振荡器解锁失败:', oscError);
@@ -3717,17 +3733,22 @@ async function unlockAudioContext() {
                 }
             }
 
+            // 对于 iOS 设备，即使 resume 成功，也可能需要额外的交互
+            if (isIOSAnyBrowser && audioCtx.state === 'running') {
+                console.log('[Voice Clone] AudioContext 已在 iOS 设备上运行');
+            }
+
             return audioCtx.state === 'running';
         }
     } catch (e) {
         console.warn('[Voice Clone] AudioContext 失败:', e);
     }
 
-    // 方法 3：Safari 特定的解锁方式
-    if (isSafariBrowser) {
-        console.log('[Voice Clone] 尝试 Safari 特定的解锁方式');
+    // 方法 3：Safari 或 iOS 特定的解锁方式
+    if (isSafariBrowser || isIOSAnyBrowser) {
+        console.log('[Voice Clone] 尝试 iOS/Safari 特定的解锁方式');
 
-        // Safari 需要页面有实际的音频交互
+        // iOS 需要页面有实际的音频交互
         // 创建一个隐藏的 audio 元素并预加载
         try {
             const safariAudio = new Audio();
@@ -3742,10 +3763,10 @@ async function unlockAudioContext() {
             await safariAudio.play();
             safariAudio.pause();
             safariAudio.src = '';
-            console.log('[Voice Clone] Safari 音频解锁成功');
+            console.log('[Voice Clone] iOS/Safari 音频解锁成功');
             return true;
         } catch (safariError) {
-            console.warn('[Voice Clone] Safari 音频解锁失败:', safariError);
+            console.warn('[Voice Clone] iOS/Safari 音频解锁失败:', safariError);
         }
     }
 
@@ -4214,16 +4235,26 @@ function playVoiceCloneAudio(audioUrl) {
                 if (isAutoplayError) {
                     console.warn('[Voice Clone] 播放被浏览器自动播放策略限制:', e.message);
 
-                    // 再次尝试解锁音频上下文
-                    unlockAudioContext().then((unlocked) => {
-                        if (unlocked) {
-                            // 解锁成功，提示用户再次点击
-                            showToast('请再次点击播放按钮', 2000);
-                        } else {
-                            // 无法解锁，提示用户需要在页面交互后播放
-                            showToast('请点击页面任意位置后再播放', 3000);
-                        }
-                    });
+                    // 检测是否是 iOS 设备
+                    const isIOS = isIOSBrowser();
+                    const isIOSChrome = isIOSChrome();
+
+                    // iOS 设备需要更详细的提示
+                    if (isIOS) {
+                        console.log('[Voice Clone] iOS 设备检测到自动播放限制');
+                        showToast('iOS 限制音频自动播放，请点击播放按钮开始', 4000);
+                    } else {
+                        // 再次尝试解锁音频上下文
+                        unlockAudioContext().then((unlocked) => {
+                            if (unlocked) {
+                                // 解锁成功，提示用户再次点击
+                                showToast('请再次点击播放按钮', 2000);
+                            } else {
+                                // 无法解锁，提示用户需要在页面交互后播放
+                                showToast('请点击页面任意位置后再播放', 3000);
+                            }
+                        });
+                    }
                 } else {
                     console.error('[Voice Clone] play error:', e);
                 }
@@ -4288,7 +4319,11 @@ function playVoiceCloneAudio(audioUrl) {
         console.error('[Voice Clone] audio.errorMessage:', audio.error ? audio.error.message : 'N/A');
         console.error('[Voice Clone] audio.src:', audio.src);
         console.error('[Voice Clone] audio.readyState:', audio.readyState);
-        console.error('[Voice Clone] isSafari:', isSafariBrowser);
+        console.error('[Voice Clone] 浏览器检测:', {
+            isSafari: isSafariBrowser,
+            isIOSSafari: isIOSSafariBrowser,
+            isIOSChrome: isIOSChromeBrowser
+        });
 
         // 根据错误代码提供更详细的错误信息
         let errorMsg = '音频加载失败';
@@ -4302,23 +4337,23 @@ function playVoiceCloneAudio(audioUrl) {
                 case MediaError.MEDIA_ERR_NETWORK:
                     errorMsg = '网络错误，无法加载音频';
                     errorDetails = '可能是 HTTP/HTTPS 混合内容问题，或 CORS 限制';
-                    if (isSafariBrowser) {
-                        errorDetails = 'Safari 对音频格式要求更严格，请尝试切换到系统语音';
+                    if (isSafariBrowser || isIOSSafariBrowser || isIOSChromeBrowser) {
+                        errorDetails = 'iOS 设备对音频格式要求更严格，请尝试切换到系统语音';
                     }
                     break;
                 case MediaError.MEDIA_ERR_DECODE:
                     errorMsg = '音频解码失败';
-                    errorDetails = '音频格式可能不被 Safari 支持';
-                    if (isSafariBrowser || isIOSSafariBrowser) {
-                        errorMsg = 'Safari 不支持此音频格式';
-                        errorDetails = 'MiniMax 返回的音频格式可能与 Safari 不兼容，建议切换到系统语音';
+                    errorDetails = '音频格式可能不被支持';
+                    if (isSafariBrowser || isIOSSafariBrowser || isIOSChromeBrowser) {
+                        errorMsg = 'iOS 不支持此音频格式';
+                        errorDetails = 'MiniMax 返回的音频格式可能与 iOS 不兼容，建议切换到系统语音';
                     }
                     break;
                 case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
                     errorMsg = '音频格式不支持';
                     errorDetails = '检查 URL 是否为 HTTPS';
-                    if (isSafariBrowser) {
-                        errorDetails = 'Safari 可能需要特定的音频编码格式';
+                    if (isSafariBrowser || isIOSSafariBrowser || isIOSChromeBrowser) {
+                        errorDetails = 'iOS 设备可能需要特定的音频编码格式';
                     }
                     break;
                 default:
@@ -4332,9 +4367,13 @@ function playVoiceCloneAudio(audioUrl) {
         AppState.speechPaused = false;
         updatePlayButton();
 
-        // Safari 特定的处理建议
-        if (isSafariBrowser || isIOSSafariBrowser) {
-            console.log('[Voice Clone] Safari 用户建议切换到系统语音');
+        // iOS 设备（Safari 或 Chrome）的特定处理建议
+        if (isSafariBrowser || isIOSSafariBrowser || isIOSChromeBrowser) {
+            console.log('[Voice Clone] iOS 用户建议切换到系统语音');
+            // 提示用户切换到系统语音模式
+            if (AppState.speechMode === 'voice_clone') {
+                showToast('iOS 设备不支持此音频格式，请切换到系统语音', 4000);
+            }
         }
     };
 
