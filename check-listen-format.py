@@ -5,7 +5,7 @@ LISTEN.md 格式检查工具
 用于验证 LISTEN.md 文件的语法格式是否正确
 
 格式规则：
-- 一级标题 # 文章题目 表示新文章
+- 一级标题 # 书本名称 表示新书本
 - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
 - 二级标题下的内容都是该章节的内容
 
@@ -24,8 +24,9 @@ class ListenFormatChecker:
     def __init__(self):
         self.errors: List[str] = []
         self.warnings: List[str] = []
-        self.book_name: str = ''
+        self.books: List[Dict] = []
         self.stats = {
+            'total_books': 0,
             'total_speeches': 0,
             'valid_speeches': 0,
             'total_chapters': 0,
@@ -53,22 +54,13 @@ class ListenFormatChecker:
         检查 LISTEN.md 格式
 
         格式规则：
-        - 一级标题 # 文章题目 表示新文章
+        - 一级标题 # 书本名称 表示新书本
         - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
         - 二级标题下的内容都是该章节的内容
         """
         lines = content.split('\n')
 
-        # 提取书本名称（第一个 # 标题作为书名）
-        book_name = ''
-        for i, line in enumerate(lines):
-            stripped = line.strip()
-            # 一级标题 # 标题格式（但不是 ## 二级标题）
-            if stripped.startswith('# ') and not stripped.startswith('## '):
-                book_name = re.sub(r'^#\s*', '', stripped)
-                self.book_name = book_name
-                break
-
+        current_book = None
         current_speech = None
         current_chapter = None
         chapter_content = []
@@ -88,10 +80,10 @@ class ListenFormatChecker:
             if line.startswith('<!--') or line.startswith('```'):
                 continue
 
-            # 检测一级标题 # 文章题目 -> 新文章开始
+            # 检测一级标题 # 书本名称 -> 新书开始
             if line.startswith('# ') and not line.startswith('## '):
-                # 如果已有正在处理的文章，先保存它（不验证，只收集）
-                if current_speech:
+                # 如果已有正在处理的书，先保存它
+                if current_book and current_speech:
                     # 保存最后一个章节或概要
                     if is_parsing_summary and chapter_content:
                         current_speech['summary'] = '\n'.join(chapter_content).strip()
@@ -99,6 +91,10 @@ class ListenFormatChecker:
                     elif current_chapter:
                         current_chapter['content'] = '\n'.join(chapter_content).strip()
                         current_speech['chapters'].append(current_chapter)
+
+                    # 添加到当前书的 speeches 列表
+                    if current_speech.get('chapters'):
+                        current_book['speeches'].append(current_speech)
 
                     # 收集统计信息
                     self.stats['total_speeches'] += 1
@@ -108,25 +104,38 @@ class ListenFormatChecker:
                         self.stats['speeches_with_summary'] += 1
                     self.stats['total_chapters'] += len(current_speech.get('chapters', []))
 
+                # 添加到书籍列表
+                if current_book and current_book.get('speeches'):
+                    self.books.append(current_book)
+
+                # 开始新书
+                book_name = re.sub(r'^#\s*', '', line).strip()
+                current_book = {
+                    'name': book_name,
+                    'line_number': i + 1,
+                    'speeches': []
+                }
+                current_speech = None
+                is_first_chapter = True
+                is_parsing_summary = False
+                current_chapter = None
+                chapter_content = []
+                continue
+
+            if not current_book:
+                continue
+
+            # 如果还没有 currentSpeech，创建一个
+            if not current_speech:
                 speech_index += 1
                 current_speech = {
                     'index': speech_index,
                     'line_number': i + 1,
-                    'title_line': line,
-                    'book_name': book_name,
-                    'title': re.sub(r'^#\s*', '', line).strip(),
+                    'title': current_book['name'],
                     'summary': '',
                     'has_summary': False,
                     'chapters': []
                 }
-                is_first_chapter = True
-                is_parsing_summary = False
-                chapter_content = []
-                continue
-
-            # 如果没有当前听书材料，跳过
-            if not current_speech:
-                continue
 
             # 检测二级标题 ## 标题 -> 新章节开始
             # 章节标题可以是"文章概要"、"正文"、或其他任何章节名
@@ -139,7 +148,7 @@ class ListenFormatChecker:
                     if not is_first_chapter and current_chapter:
                         current_chapter['content'] = '\n'.join(chapter_content).strip()
                         current_speech['chapters'].append(current_chapter)
-                    elif is_first_chapter and current_chapter and chapter_content:
+                    elif is_first_chapter and current_speech and current_chapter and chapter_content:
                         # 第一个章节的情况
                         current_chapter['content'] = '\n'.join(chapter_content).strip()
                         current_speech['chapters'].append(current_chapter)
@@ -165,7 +174,7 @@ class ListenFormatChecker:
                     if not is_first_chapter and current_chapter:
                         current_chapter['content'] = '\n'.join(chapter_content).strip()
                         current_speech['chapters'].append(current_chapter)
-                    elif is_first_chapter and current_chapter and chapter_content:
+                    elif is_first_chapter and current_speech and current_chapter and chapter_content:
                         # 第一个章节的情况
                         current_chapter['content'] = '\n'.join(chapter_content).strip()
                         current_speech['chapters'].append(current_chapter)
@@ -194,7 +203,7 @@ class ListenFormatChecker:
                 chapter_content.append(raw_line)
 
         # 保存最后一个章节或概要
-        if current_speech:
+        if current_book and current_speech:
             if is_parsing_summary and chapter_content:
                 current_speech['summary'] = '\n'.join(chapter_content).strip()
                 current_speech['has_summary'] = bool(current_speech['summary'])
@@ -206,49 +215,43 @@ class ListenFormatChecker:
             if is_first_chapter and current_chapter and current_chapter.get('content'):
                 current_speech['chapters'].append(current_chapter)
 
-            # 收集最后一个文章的统计信息
+            # 添加到当前书的 speeches 列表
+            if current_speech.get('chapters'):
+                current_book['speeches'].append(current_speech)
+
+            # 收集统计信息
             self.stats['total_speeches'] += 1
             if current_speech.get('chapters'):
                 self.stats['valid_speeches'] += 1
             if current_speech.get('has_summary'):
                 self.stats['speeches_with_summary'] += 1
             self.stats['total_chapters'] += len(current_speech.get('chapters', []))
-    
-    def validate_speech(self, speech: Dict):
-        """验证单个听书材料"""
-        title = speech.get('title', f"speech-{speech['index']}")
-        
-        # 检查是否有概要
-        if speech.get('has_summary'):
-            self.stats['speeches_with_summary'] += 1
-        else:
-            self.warnings.append(f"第 {speech['line_number']} 行 \"{title}\"：缺少文章概要 (## 文章概要)")
-        
-        # 检查是否有章节
-        if not speech.get('chapters'):
-            self.errors.append(f"第 {speech['line_number']} 行 \"{title}\"：缺少章节内容")
-        
-        # 验证章节格式
-        for idx, chapter in enumerate(speech.get('chapters', [])):
-            if not chapter.get('title'):
-                self.errors.append(f"第 {speech['line_number']} 行 \"{title}\"：第 {idx + 1} 个章节缺少标题")
-            if not chapter.get('content'):
-                self.warnings.append(f"第 {speech['line_number']} 行 \"{title}\"：第 {idx + 1} 个章节 \"{chapter.get('title', '')}\" 缺少内容")
-        
-        self.stats['valid_speeches'] += 1
-    
+
+        # 添加最后一本书到列表
+        if current_book and current_book.get('speeches'):
+            self.books.append(current_book)
+
+        # 更新书籍总数
+        self.stats['total_books'] = len(self.books)
+
     def print_results(self) -> bool:
         """打印检查结果"""
         print('\n' + '=' * 60)
         print('🎧 LISTEN.md 格式检查报告')
         print('=' * 60)
-        
-        # 书本名称
-        if self.book_name:
-            print(f'\n📖 书本名称: {self.book_name}')
-        
+
+        # 打印每本书的信息
+        if self.books:
+            print('\n📚 书本列表：')
+            for idx, book in enumerate(self.books, 1):
+                print(f'\n  【第 {idx} 本】{book["name"]}')
+                print(f'    - 听书材料数：{len(book["speeches"])}')
+                for speech in book['speeches']:
+                    print(f'    - 章节数：{len(speech.get("chapters", []))}')
+
         # 统计信息
         print('\n📊 统计信息：')
+        print(f"   - 书本总数：{self.stats['total_books']}")
         print(f"   - 听书材料总数：{self.stats['total_speeches']}")
         print(f"   - 有效听书材料：{self.stats['valid_speeches']}")
         print(f"   - 章节总数：{self.stats['total_chapters']}")
