@@ -3509,6 +3509,7 @@ function toggleSpeechPlayback() {
 
             // 清除准备就绪状态
             AppState.speechCloneReady = false;
+            updateVoiceCloneDebug('用户点击播放按钮', '正在尝试播放...');
 
             // 尝试播放音频
             audio.play().then(() => {
@@ -3516,8 +3517,10 @@ function toggleSpeechPlayback() {
                 AppState.speechIsPlaying = true;
                 AppState.speechPaused = false;
                 updatePlayButton();
+                updateVoiceCloneDebug('播放成功', '正在播放中...');
             }).catch((e) => {
                 console.error('[Voice Clone] 用户点击后播放失败:', e);
+                updateVoiceCloneDebug('播放失败', e.message || e.name);
 
                 // 检查是否是自动播放限制
                 const isAutoplayError = e.name === 'NotAllowedError' ||
@@ -3530,8 +3533,10 @@ function toggleSpeechPlayback() {
                     unlockAudioContext().then((unlocked) => {
                         if (unlocked) {
                             showToast('请再次点击播放按钮', 2000);
+                            updateVoiceCloneDebug('音频已解锁', '请再次点击播放');
                         } else {
                             showToast('请点击屏幕任意位置激活音频', 3000);
+                            updateVoiceCloneDebug('需要用户交互', '请点击屏幕任意位置');
                         }
                     });
                 } else {
@@ -4024,6 +4029,9 @@ function stopSpeech() {
     AppState.speechCloneCurrentTime = 0;
     AppState.speechCloneReady = false;
 
+    // 隐藏调试状态显示
+    hideVoiceCloneDebug();
+
     // 不在这里清除缓存，因为 stopSpeech 也可能在播放新内容前被调用
     // 缓存由 playSpeechWithVoiceClone 中的逻辑管理
 
@@ -4355,32 +4363,13 @@ function playVoiceCloneAudio(audioUrl) {
     audio.oncanplay = () => {
         console.log('[Voice Clone] audio can play');
         console.log('[Voice Clone] audio.src:', audio.src);
-        console.log('[Voice Clone] audio.protocol:', audio.src.startsWith('https') ? 'HTTPS' : 'HTTP');
-        console.log('[Voice Clone] isSafari:', isSafari());
-        console.log('[Voice Clone] isIOSSafari:', isIOSSafari());
-        console.log('[Voice Clone] isIOSChrome:', isIOSChromeBrowser);
         console.log('[Voice Clone] isIOS:', isIOS);
 
-        // iOS 设备：音频准备好后等待用户点击播放，不自动播放
-        // 因为 audio.canplay 事件不在用户点击的手势上下文中
+        // iOS 设备：音频准备好后不需要做任何事情
+        // 因为我们已经在前面设置了 speechCloneReady 状态并显示了提示
+        // 这里不做任何操作，等待用户点击播放
         if (isIOS) {
-            console.log('[Voice Clone] iOS 设备：音频已准备就绪，等待用户点击播放');
-
-            // 设置音频已准备就绪状态
-            AppState.speechCloneReady = true;
-
-            // 关闭持久提示
-            hidePersistentToast();
-
-            // 更新播放按钮，显示为暂停状态但可点击
-            AppState.speechIsPlaying = false;
-            AppState.speechPaused = false;
-            updatePlayButton();
-
-            // 显示提示
-            showToast('音频已生成，点击播放按钮开始', 3000);
-
-            // 不调用 audio.play()，等待用户点击
+            console.log('[Voice Clone] iOS 设备：音频已准备好，等待用户点击');
             return;
         }
 
@@ -4504,8 +4493,8 @@ function playVoiceCloneAudio(audioUrl) {
 
     AppState.speechUtterance = audio;
 
-    // iOS 设备：等待用户点击播放，不自动播放
-    // 因为已经在 oncanplay 中处理了 iOS 设备
+    // iOS 设备：立即设置状态并显示提示，等待用户点击播放
+    // 注意：我们不在这里调用 audio.play()，因为这不在用户手势上下文中
     if (isIOS) {
         console.log('[Voice Clone] iOS 设备：跳过自动播放，等待用户点击');
 
@@ -4515,9 +4504,12 @@ function playVoiceCloneAudio(audioUrl) {
         AppState.speechCloneReady = true;
         updatePlayButton();
 
-        // 提示用户音频已准备好
+        // 更新调试状态显示
+        updateVoiceCloneDebug('音频已生成', '等待用户点击播放按钮');
+
+        // 提示用户音频已准备好（如果还没有显示过）
         hidePersistentToast();
-        showToast('音频已准备就绪，点击播放按钮开始', 3000);
+        showToast('音频已生成，点击播放按钮开始', 3000);
 
         return;
     }
@@ -4612,6 +4604,33 @@ function highlightDialogue(index) {
 function clearHighlights() {
     document.querySelectorAll('.dialogue-item.playing')
         .forEach(item => item.classList.remove('playing'));
+}
+
+// ========== 调试状态显示 ==========
+function updateVoiceCloneDebug(message, details = '') {
+    const debugEl = document.getElementById('voice-clone-debug');
+    if (!debugEl) return;
+
+    const timestamp = new Date().toLocaleTimeString();
+    const deviceInfo = isIOSBrowser() ? '📱 iOS设备' : '🖥️ 非iOS设备';
+    const status = AppState.speechCloneReady ? '✅ 已就绪' : '⏳ 未就绪';
+
+    debugEl.innerHTML = `
+        <div style="margin-bottom: 4px;">
+            <strong>${deviceInfo}</strong> | ${status}
+        </div>
+        <div>⏰ ${timestamp}</div>
+        <div>📍 ${message}</div>
+        ${details ? `<div style="color: #999;">${details}</div>` : ''}
+    `;
+    debugEl.style.display = 'block';
+}
+
+function hideVoiceCloneDebug() {
+    const debugEl = document.getElementById('voice-clone-debug');
+    if (debugEl) {
+        debugEl.style.display = 'none';
+    }
 }
 
 // ========== 学习进度页 ==========
