@@ -1,25 +1,26 @@
 <!-- 
-实际的数据结构示例：
+格式要求：
 
-```json
-{
-  "unit": "Unit 1",
-  "title": "Unit 1: My future",
-  "words": [
-    {
-      "id": "u1-w1",
-      "word": "future",
-      "meaning": "将来；未来",
-      "phonetic": "/ˈfjuːtʃər/",
-      "example": "I want to be a teacher in the future.",
-      "translation": "我将来想成为一名老师。",
-      "memoryTip": "future 开头的 fu=福，ture=愁，联想：福愁——将来会有福气，不用发愁",
-      "audio": "future.mp3",
-      "category": "职业类"
-    }
-  ]
-}
-``` 
+```
+# 英语五年级上册
+
+## Unit 1
+Title:My future Category:职业类
+
+* future /ˈfjuːtʃə/ 将来；未来
+  - 例句：I want to be a teacher in the future. (我将来想成为一名老师。)
+  - 记忆：future = fu + ture
+
+* want /wɒnt/ 想要
+  - 例句：I want an apple. (我想要一个苹果。)
+
+## Unit 2
+Title:What subjects do you like? Category:学科类
+
+* subject /ˈsʌbdʒekt/ 学科；主题
+  - 例句：What subject do you like? (你喜欢什么学科？)
+  - 记忆：sub + ject
+```
 -->
 
 

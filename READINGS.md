@@ -1,43 +1,28 @@
 
 <!-- 
-实际的数据结构示例：
+格式要求：
 
-```json
-{
-  "bookName": "英语五年级上册",
-  "readings": [
-    {
-      "id": "reading-001",
-      "bookName": "英语五年级上册",
-      "unitName": "Unit 1",
-      "title": "My future",
-      "titleCn": "我的未来",
-      "scene": "这段对话发生在教室内，老师询问学生们关于未来的职业理想。",
-      "keySentencePatterns": [
-        { "pattern": "What do you want to be?", "meaning": "你将来想做什么？" },
-        { "pattern": "I want to be a/an...", "meaning": "我想成为一名..." }
-      ],
-      "knowledgePoints": [
-        "**want to be** 表示\"想成为\"",
-        "使用 `a/an` 区分元音和辅音开头"
-      ],
-      "dialogues": [
-        {
-          "speaker": "Teacher",
-          "speakerCn": "老师",
-          "content": "What do you want to be, children?",
-          "contentCn": "孩子们，你们将来想做什么？"
-        },
-        {
-          "speaker": "Joe",
-          "speakerCn": "乔",
-          "content": "I want to be a pilot. I want to fly a plane in the sky.",
-          "contentCn": "我想成为一名飞行员。我想在天空中驾驶飞机。"
-        }
-      ]
-    }
-  ]
-}
+```
+# 英语五年级上册
+
+## Unit 1
+
+* 题目：My future (我的未来)
+* 场景：讨论未来的职业理想
+* 重点句型：
+  - What do you want to be? (你将来想做什么？)
+  - I want to be a doctor. (我想成为一名医生。)
+* 知识点：
+  - **want to be** 表示"想成为"
+  - 使用 `code` 标记关键单词
+
+Teacher: What do you want to be when you grow up? (老师：你长大后想做什么？)
+Tom: I want to be a doctor. (汤姆：我想成为一名医生。)
+
+## Unit 2
+
+* 题目：Going to school (去上学)
+* 场景：讨论上学交通方式
 ```
 -->
 

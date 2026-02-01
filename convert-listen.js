@@ -1,16 +1,29 @@
 #!/usr/bin/env node
 /**
  * 听书数据转换脚本：将 LISTEN.md 转换为 JSON 格式
+ *
+ * LISTEN.md 格式说明：
+ * - 一级标题 # 文章题目 表示新文章
+ * - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
+ * - 二级标题下的内容都是该章节的内容
+ *
  * 运行方式：node convert-listen.js
  */
 
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * 解析 LISTEN.md 文件
+ * 格式规则：
+ *   # 文章题目  -> 表示新文章（一级标题）
+ *   ## 标题    -> 章节名（二级标题），可以是"文章概要"、"正文"或其他任何名称
+ *   内容       -> 二级标题下的所有内容属于该章节
+ */
 function parseListenMD() {
     const listenMdPath = path.join(__dirname, 'LISTEN.md');
     const content = fs.readFileSync(listenMdPath, 'utf-8');
-    
+
     const lines = content.split('\n');
     const speeches = [];
     let currentSpeech = null;
@@ -19,28 +32,49 @@ function parseListenMD() {
     let chapterContent = [];
     let isFirstChapter = true;
     let isParsingSummary = false;
-    
-    // 提取书本名称（第一个 # 标题）
+
+    // 提取书本名称（第一个 # 标题作为书名）
     let bookName = '听书素材';
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
+        // 一级标题 # 标题格式（但不是 ## 二级标题）
         if (line.startsWith('# ') && !line.startsWith('## ')) {
             bookName = line.replace(/^#\s*/, '').trim();
             break;
         }
     }
-    
+
     for (let i = 0; i < lines.length; i++) {
         const rawLine = lines[i];
         const line = rawLine.trim();
-        
-        // 跳过注释和代码块
+
+        // 跳过 HTML 注释和代码块
         if (line.startsWith('<!--') || line.startsWith('```')) {
             continue;
         }
-        
-        // 检测文章标题 (# 开头且不在章节内)
-        if (rawLine.startsWith('# ') && !currentSpeech) {
+
+        // 检测一级标题 # 文章题目 -> 新文章开始
+        if (rawLine.startsWith('# ') && !line.startsWith('## ')) {
+            // 如果已有正在处理的文章，先保存它
+            if (currentSpeech) {
+                // 保存最后一个章节或概要
+                if (isParsingSummary && chapterContent.length > 0) {
+                    currentSpeech.summary = chapterContent.join('\n').trim();
+                } else if (currentChapter) {
+                    currentSpeech.chapters.push({
+                        ...currentChapter,
+                        content: chapterContent.join('\n').trim()
+                    });
+                }
+
+                // 添加到结果列表（只有包含章节的文章才被视为有效）
+                if (currentSpeech.chapters.length > 0) {
+                    speeches.push(currentSpeech);
+                    speechIndex++;
+                }
+            }
+
+            // 开始新文章
             const title = line.replace('# ', '').trim();
             currentSpeech = {
                 id: `speech-${String(speechIndex + 1).padStart(3, '0')}`,
@@ -51,18 +85,21 @@ function parseListenMD() {
             };
             isFirstChapter = true;
             isParsingSummary = false;
+            currentChapter = null;
+            chapterContent = [];
             continue;
         }
-        
+
         if (!currentSpeech) continue;
-        
-        // 检测章节 (## 开头)
+
+        // 检测二级标题 ## 标题 -> 新章节开始
+        // 章节标题可以是"文章概要"、"正文"、或其他任何章节名
         if (rawLine.startsWith('## ')) {
             const chapterTitle = line.replace('## ', '').trim();
-            
-            // 检查是否是文章概要
+
+            // 检查是否是"文章概要"章节（特殊章节，用于存储文章摘要）
             if (chapterTitle === '文章概要') {
-                // 保存上一个章节（如果有）
+                // 保存上一个普通章节（如果有）
                 if (!isFirstChapter && currentChapter) {
                     currentSpeech.chapters.push({
                         ...currentChapter,
@@ -75,24 +112,24 @@ function parseListenMD() {
                         content: chapterContent.join('\n').trim()
                     });
                 }
-                
-                // 保存文章概要
+
+                // 保存文章概要内容
                 if (isParsingSummary && chapterContent.length > 0) {
                     currentSpeech.summary = chapterContent.join('\n').trim();
                 }
-                
-                // 重置状态，开始解析概要
+
+                // 重置状态，开始解析文章概要
                 isParsingSummary = true;
                 isFirstChapter = false;
                 currentChapter = null;
                 chapterContent = [];
             } else {
-                // 这是一个普通章节
+                // 这是一个普通章节（正文或其他章节）
                 // 如果之前在解析概要，先保存概要
                 if (isParsingSummary && chapterContent.length > 0) {
                     currentSpeech.summary = chapterContent.join('\n').trim();
                 }
-                
+
                 // 保存上一个章节（如果有）
                 if (!isFirstChapter && currentChapter) {
                     currentSpeech.chapters.push({
@@ -106,7 +143,7 @@ function parseListenMD() {
                         content: chapterContent.join('\n').trim()
                     });
                 }
-                
+
                 // 开始新章节
                 isParsingSummary = false;
                 currentChapter = {
@@ -117,23 +154,24 @@ function parseListenMD() {
             }
             continue;
         }
-        
-        // 收集内容
+
+        // 收集章节内容
+        // 二级标题下的所有内容都属于该章节
         if (isParsingSummary && currentSpeech) {
-            // 跳过空的行（文章概要标题后的第一个空行）
+            // 跳过章节标题后的第一个空行
             if (chapterContent.length === 0 && !line) {
                 continue;
             }
             chapterContent.push(rawLine);
         } else if (currentChapter) {
-            // 跳过空的行（章节标题后的第一个空行）
+            // 跳过章节标题后的第一个空行
             if (chapterContent.length === 0 && !line) {
                 continue;
             }
             chapterContent.push(rawLine);
         }
     }
-    
+
     // 保存最后一个章节或概要
     if (currentSpeech) {
         if (isParsingSummary && chapterContent.length > 0) {
@@ -145,13 +183,13 @@ function parseListenMD() {
             });
         }
     }
-    
-    // 添加到结果列表
+
+    // 添加到结果列表（只有包含章节的文章才被视为有效）
     if (currentSpeech && currentSpeech.chapters.length > 0) {
         speeches.push(currentSpeech);
         speechIndex++;
     }
-    
+
     return {
         bookName: bookName,
         speeches: speeches

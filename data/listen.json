@@ -5,12 +5,20 @@
       "id": "speech-001",
       "title": "My future",
       "bookName": "My future",
-      "summary": "祥子来自农村，在他拉上洋车后，立志买一辆自己的车，做一个独立的劳动者。但是，用三年的血汗换来的车却被军阀的乱兵抢走，第二次，他还没攒足买车的钱，钱就被孙侦探敲诈走了。接着，车厂厂主的女儿虎妞对他的“爱情”又给他的身心带来磨难。而用虎妞的积蓄买的一辆车，很快又不得不卖掉以料理虎妞的丧事。在经过多次挫折后，并随着祥子心爱的女人小福子的自杀，终于吹灭了他心中最后一朵希望的火花，从一个老实的车夫逐渐演变成为一个地道的流氓无产者。通过这个悲惨的艺术形象，人们对半封建半殖民地的旧中国有较深的理解，并启发人们认识造成祥子悲剧的社会根源。",
+      "summary": "这段对话发生在教室内，老师询问学生们关于未来的职业理想",
       "chapters": [
         {
           "title": "正文",
-          "content": "Teacher: What do you want to be, children? (老师：孩子们，你们将来想做什么？)\nJoe: I want to be a pilot. I want to fly a plane in the sky. (乔：我想成为一名飞行员。我想在天空中驾驶飞机。)\nKitty: I want to be a doctor. I want to help people. (吉蒂：我想成为一名医生。我想帮助人们。)\nAlice: I want to be a teacher. I want to teach English in a school. (艾丽丝：我想成为一名老师。我想在学校里教英语。)\nPeter: I want to be a cook. I want to cook nice food. (彼得：我想成为一名厨师。我想烹饪美味的食物。)\n\n\n\n# 骆驼祥子 - 老舍"
-        },
+          "content": "Teacher: What do you want to be, children? (老师：孩子们，你们将来想做什么？)\nJoe: I want to be a pilot. I want to fly a plane in the sky. (乔：我想成为一名飞行员。我想在天空中驾驶飞机。)\nKitty: I want to be a doctor. I want to help people. (吉蒂：我想成为一名医生。我想帮助人们。)\nAlice: I want to be a teacher. I want to teach English in a school. (艾丽丝：我想成为一名老师。我想在学校里教英语。)\nPeter: I want to be a cook. I want to cook nice food. (彼得：我想成为一名厨师。我想烹饪美味的食物。)"
+        }
+      ]
+    },
+    {
+      "id": "speech-002",
+      "title": "骆驼祥子 - 老舍",
+      "bookName": "My future",
+      "summary": "祥子来自农村，在他拉上洋车后，立志买一辆自己的车，做一个独立的劳动者。但是，用三年的血汗换来的车却被军阀的乱兵抢走，第二次，他还没攒足买车的钱，钱就被孙侦探敲诈走了。接着，车厂厂主的女儿虎妞对他的“爱情”又给他的身心带来磨难。而用虎妞的积蓄买的一辆车，很快又不得不卖掉以料理虎妞的丧事。在经过多次挫折后，并随着祥子心爱的女人小福子的自杀，终于吹灭了他心中最后一朵希望的火花，从一个老实的车夫逐渐演变成为一个地道的流氓无产者。通过这个悲惨的艺术形象，人们对半封建半殖民地的旧中国有较深的理解，并启发人们认识造成祥子悲剧的社会根源。",
+      "chapters": [
         {
           "title": "第一章",
           "content": "介绍洋车夫祥子出场，也交代了祥子的背景和他的思想根源，他的梦想就是凭借自己的努力买上一辆属于自己的车，通过个人奋斗走向生命的成功。他善良，淳朴，尽管沉默木讷，却不失为一个可爱的人。开头他凭借自己的努力买上了第一辆车，他的人生拉开了序幕。"
