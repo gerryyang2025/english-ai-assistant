@@ -3499,6 +3499,16 @@ function renderSpeechChapter() {
 
 // 听书播放控制
 function toggleSpeechPlayback() {
+    console.log('[Voice Clone] ===== toggleSpeechPlayback 被调用 =====');
+    console.log('[Voice Clone] speechVoiceMode:', AppState.speechVoiceMode);
+    console.log('[Voice Clone] speechIsPlaying:', AppState.speechIsPlaying);
+    console.log('[Voice Clone] speechCloneReady:', AppState.speechCloneReady);
+    console.log('[Voice Clone] speechUtterance:', AppState.speechUtterance);
+    console.log('[Voice Clone] speechUtterance instanceof Audio:', AppState.speechUtterance instanceof Audio);
+
+    // 显示初始调试状态
+    updateVoiceCloneDebug('用户点击播放按钮', `模式: ${AppState.speechVoiceMode}, 就绪: ${AppState.speechCloneReady}`);
+
     // 如果是音色复刻模式且有 Audio 对象
     if (AppState.speechVoiceMode === 'clone' && AppState.speechUtterance instanceof Audio) {
         const audio = AppState.speechUtterance;
@@ -4253,6 +4263,16 @@ async function callVoiceCloneAPI(text, options = {}) {
 
 // 播放音色复刻音频
 function playVoiceCloneAudio(audioUrl) {
+    console.log('[Voice Clone] ===== playVoiceCloneAudio 被调用 =====');
+    console.log('[Voice Clone] audioUrl:', audioUrl);
+    console.log('[Voice Clone] speechVoiceMode:', AppState.speechVoiceMode);
+    console.log('[Voice Clone] isIOSBrowser:', isIOSBrowser());
+    console.log('[Voice Clone] isIOSChrome:', isIOSChrome());
+    console.log('[Voice Clone] userAgent:', navigator.userAgent.substring(0, 80));
+
+    // 在页面上显示当前状态
+    updateVoiceCloneDebug('开始播放音频', `模式: ${AppState.speechVoiceMode}, URL: ${audioUrl.substring(0, 50)}...`);
+
     // 如果已经有 Audio 对象
     if (AppState.speechUtterance instanceof Audio) {
         const audio = AppState.speechUtterance;
@@ -4613,15 +4633,15 @@ function updateVoiceCloneDebug(message, details = '') {
 
     const timestamp = new Date().toLocaleTimeString();
     const deviceInfo = isIOSBrowser() ? '📱 iOS设备' : '🖥️ 非iOS设备';
-    const status = AppState.speechCloneReady ? '✅ 已就绪' : '⏳ 未就绪';
+    const status = AppState.speechCloneReady ? '✅ 已就绪' : '⏳ 进行中';
 
     debugEl.innerHTML = `
-        <div style="margin-bottom: 4px;">
-            <strong>${deviceInfo}</strong> | ${status}
+        <div style="margin-bottom: 8px; font-size: 16px;">
+            <strong>${deviceInfo}</strong> | <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">${status}</span>
         </div>
-        <div>⏰ ${timestamp}</div>
-        <div>📍 ${message}</div>
-        ${details ? `<div style="color: #999;">${details}</div>` : ''}
+        <div style="margin-bottom: 4px; font-size: 16px;">📍 ${message}</div>
+        <div style="opacity: 0.8; font-size: 12px;">⏰ ${timestamp}</div>
+        ${details ? `<div style="opacity: 0.7; font-size: 12px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">${details}</div>` : ''}
     `;
     debugEl.style.display = 'block';
 }
