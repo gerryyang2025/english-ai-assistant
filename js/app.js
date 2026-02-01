@@ -4764,7 +4764,18 @@ function addVoiceCloneLog(message, details = '') {
 
 function updateVoiceCloneDebugDisplay() {
     const debugEl = document.getElementById('voice-clone-debug');
+    const debugToggle = document.getElementById('speech-debug-check');
     if (!debugEl) return;
+
+    // 检查用户是否开启了调试显示
+    const savedPref = localStorage.getItem('speechDebugVisible');
+    const isDebugVisible = savedPref === 'true';
+
+    // 如果调试开关未开启，不显示调试区域
+    if (!isDebugVisible) {
+        debugEl.style.display = 'none';
+        return;
+    }
 
     const deviceInfo = isIOSBrowser() ? '📱 iOS设备' : '🖥️ 非iOS设备';
     const status = AppState.speechCloneReady ? '✅ 已就绪' : '⏳ 进行中';
