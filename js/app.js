@@ -34,6 +34,7 @@ const AppState = {
     speechCloneCurrentTime: 0,   // 音色复刻音频的播放位置（秒）
     speechPaused: false,          // 朗读是否暂停
     speechCloneAudioCache: new Map(), // 音色复刻音频缓存：key=内容hash, value={url, timestamp}
+    speechCloneReady: false,      // 音色复刻音频是否已准备就绪（等待用户点击播放）
 };
 
 // ========== DOM 元素缓存 ==========
@@ -3502,6 +3503,48 @@ function toggleSpeechPlayback() {
     if (AppState.speechVoiceMode === 'clone' && AppState.speechUtterance instanceof Audio) {
         const audio = AppState.speechUtterance;
 
+        // iOS 设备：检查是否是已准备就绪状态（等待用户点击播放）
+        if (AppState.speechCloneReady) {
+            console.log('[Voice Clone] 用户点击播放，speechCloneReady 状态');
+
+            // 清除准备就绪状态
+            AppState.speechCloneReady = false;
+
+            // 尝试播放音频
+            audio.play().then(() => {
+                console.log('[Voice Clone] 用户点击后播放成功');
+                AppState.speechIsPlaying = true;
+                AppState.speechPaused = false;
+                updatePlayButton();
+            }).catch((e) => {
+                console.error('[Voice Clone] 用户点击后播放失败:', e);
+
+                // 检查是否是自动播放限制
+                const isAutoplayError = e.name === 'NotAllowedError' ||
+                    e.name === 'AbortError' ||
+                    e.message?.includes('user gesture') ||
+                    e.message?.includes('not allowed');
+
+                if (isAutoplayError) {
+                    // 尝试解锁
+                    unlockAudioContext().then((unlocked) => {
+                        if (unlocked) {
+                            showToast('请再次点击播放按钮', 2000);
+                        } else {
+                            showToast('请点击屏幕任意位置激活音频', 3000);
+                        }
+                    });
+                } else {
+                    showToast('播放失败，请重试');
+                }
+
+                AppState.speechIsPlaying = false;
+                AppState.speechPaused = false;
+                updatePlayButton();
+            });
+            return;
+        }
+
         // 根据音频的实际状态来决定是暂停还是恢复
         if (audio.paused) {
             // 音频已暂停，尝试恢复播放
@@ -3979,6 +4022,7 @@ function stopSpeech() {
     // 清除音色复刻相关的状态，防止恢复旧内容
     AppState.speechCloneAudioUrl = null;
     AppState.speechCloneCurrentTime = 0;
+    AppState.speechCloneReady = false;
 
     // 不在这里清除缓存，因为 stopSpeech 也可能在播放新内容前被调用
     // 缓存由 playSpeechWithVoiceClone 中的逻辑管理
@@ -4295,6 +4339,16 @@ function playVoiceCloneAudio(audioUrl) {
     AppState.speechUtterance = audio;
     audio.playbackRate = AppState.speechPlaybackSpeed;
 
+    // iOS 设备需要特殊处理
+    const isIOS = isIOSBrowser();
+    const isIOSChromeBrowser = isIOSChrome();
+
+    console.log('[Voice Clone] iOS设备检测:', {
+        isIOS: isIOS,
+        isIOSChrome: isIOSChromeBrowser,
+        isIOSSafari: isIOSSafari()
+    });
+
     // 标记音频正在加载
     let audioLoaded = false;
 
@@ -4304,9 +4358,35 @@ function playVoiceCloneAudio(audioUrl) {
         console.log('[Voice Clone] audio.protocol:', audio.src.startsWith('https') ? 'HTTPS' : 'HTTP');
         console.log('[Voice Clone] isSafari:', isSafari());
         console.log('[Voice Clone] isIOSSafari:', isIOSSafari());
-        // 注意：音频已准备好，这里不更新状态
-        // 因为可能音频已经开始播放了
-        // 状态由 onplay 和 onpause 事件来管理
+        console.log('[Voice Clone] isIOSChrome:', isIOSChromeBrowser);
+        console.log('[Voice Clone] isIOS:', isIOS);
+
+        // iOS 设备：音频准备好后等待用户点击播放，不自动播放
+        // 因为 audio.canplay 事件不在用户点击的手势上下文中
+        if (isIOS) {
+            console.log('[Voice Clone] iOS 设备：音频已准备就绪，等待用户点击播放');
+
+            // 设置音频已准备就绪状态
+            AppState.speechCloneReady = true;
+
+            // 关闭持久提示
+            hidePersistentToast();
+
+            // 更新播放按钮，显示为暂停状态但可点击
+            AppState.speechIsPlaying = false;
+            AppState.speechPaused = false;
+            updatePlayButton();
+
+            // 显示提示
+            showToast('音频已生成，点击播放按钮开始', 3000);
+
+            // 不调用 audio.play()，等待用户点击
+            return;
+        }
+
+        // 非 iOS 设备：音频准备好后立即播放
+        // 状态由后续的 audio.play() 调用管理
+        console.log('[Voice Clone] 非 iOS 设备：音频已准备好，将自动播放');
     };
 
     audio.onerror = (e) => {
@@ -4424,6 +4504,25 @@ function playVoiceCloneAudio(audioUrl) {
 
     AppState.speechUtterance = audio;
 
+    // iOS 设备：等待用户点击播放，不自动播放
+    // 因为已经在 oncanplay 中处理了 iOS 设备
+    if (isIOS) {
+        console.log('[Voice Clone] iOS 设备：跳过自动播放，等待用户点击');
+
+        // 设置状态为已准备就绪
+        AppState.speechIsPlaying = false;
+        AppState.speechPaused = false;
+        AppState.speechCloneReady = true;
+        updatePlayButton();
+
+        // 提示用户音频已准备好
+        hidePersistentToast();
+        showToast('音频已准备就绪，点击播放按钮开始', 3000);
+
+        return;
+    }
+
+    // 非 iOS 设备：自动播放
     // 在播放前先更新状态，确保图标显示为暂停样式
     AppState.speechIsPlaying = true;
     AppState.speechPaused = false;
