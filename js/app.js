@@ -3077,7 +3077,7 @@ function initSpeechChapterSelector(articleId) {
     
     // 如果有概要，添加概要作为第一个选项
     if (speech.summary) {
-        options += `<option value="summary">📋 ${speech.title} - 概要</option>`;
+        options += `<option value="summary">文章概要</option>`;
     }
     
     // 添加所有章节
