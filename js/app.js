@@ -3729,47 +3729,35 @@ async function unlockAudioContext() {
     const isIOSChromeBrowser = isIOSChrome();
     const isIOSAnyBrowser = isIOSBrowser();
 
-    addVoiceCloneLog('unlockAudioContext', `iOS: ${isIOSAnyBrowser}, Safari: ${isSafariBrowser}`);
+    addVoiceCloneLog('unlockAudioContext', `iOS: ${isIOSAnyBrowser}, Chrome: ${isIOSChromeBrowser}`);
 
     // iOS 设备（无论是 Safari 还是 Chrome）都需要特殊的解锁方式
     // 因为 iOS 有严格的自动播放策略
 
-    // 方法 1：创建静音音频并播放（对 iOS 可能无效，但尝试一下）
-    addVoiceCloneLog('方法1', '尝试静音音频...');
-    try {
-        const silentAudio = new Audio();
-        silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
-        silentAudio.volume = 0;
-        silentAudio.muted = true;
-        silentAudio.preload = 'none';
+    // iOS 设备优化：跳过方法1（静音音频），直接使用方法2（AudioContext）
+    // 方法1在iOS上一定会失败并等待2秒超时，影响用户体验
+    if (isIOSAnyBrowser) {
+        addVoiceCloneLog('iOS优化', '跳过方法1，直接使用 AudioContext');
+        
+        // 方法 2：使用 AudioContext（这是 iOS 设备最可靠的方法）
+        addVoiceCloneLog('方法2', '尝试 AudioContext...');
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                addVoiceCloneLog('方法2', '创建 AudioContext...');
+                const audioCtx = new AudioContext();
 
-        await withTimeout(silentAudio.play(), 2000, '静音音频播放');
-        addVoiceCloneLog('方法1成功', '静音音频播放成功');
-        silentAudio.src = '';
-        return true;
-    } catch (e) {
-        addVoiceCloneLog('方法1失败', e.message || e.name);
-    }
-
-    // 方法 2：使用 AudioContext（这是 iOS 设备最可靠的方法）
-    addVoiceCloneLog('方法2', '尝试 AudioContext...');
-    try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (AudioContext) {
-            addVoiceCloneLog('方法2', '创建 AudioContext...');
-            const audioCtx = new AudioContext();
-
-            // iOS 设备需要多次 resume 尝试
-            if (audioCtx.state === 'suspended') {
-                addVoiceCloneLog('方法2', `state=suspended, 尝试 resume...`);
-                try {
-                    await withTimeout(audioCtx.resume(), 2000, 'AudioContext.resume');
-                    addVoiceCloneLog('方法2成功', `AudioContext.state: ${audioCtx.state}`);
-                } catch (resumeError) {
-                    addVoiceCloneLog('方法2失败', resumeError.message || resumeError.name);
-
-                    // Safari 或 iOS Chrome 可能需要临时创建一个振荡器来解锁
-                    if (isSafariBrowser || isIOSAnyBrowser) {
+                // iOS 设备需要多次 resume 尝试
+                if (audioCtx.state === 'suspended') {
+                    addVoiceCloneLog('方法2', `state=suspended, 尝试 resume...`);
+                    try {
+                        await withTimeout(audioCtx.resume(), 2000, 'AudioContext.resume');
+                        addVoiceCloneLog('方法2成功', `AudioContext.state: ${audioCtx.state}`);
+                        return true;
+                    } catch (resumeError) {
+                        addVoiceCloneLog('方法2失败', resumeError.message || resumeError.name);
+                        
+                        // iOS 上使用振荡器作为备选
                         addVoiceCloneLog('方法2备选', '尝试振荡器...');
                         try {
                             const oscillator = audioCtx.createOscillator();
@@ -3786,15 +3774,75 @@ async function unlockAudioContext() {
                             addVoiceCloneLog('方法2备选失败', oscError.name);
                         }
                     }
+                } else {
+                    addVoiceCloneLog('方法2', `state=${audioCtx.state}, 无需 resume`);
+                    return true;
                 }
-            } else {
-                addVoiceCloneLog('方法2', `state=${audioCtx.state}, 无需 resume`);
             }
-
-            return audioCtx.state === 'running';
+        } catch (e) {
+            addVoiceCloneLog('方法2异常', e.name);
         }
-    } catch (e) {
-        addVoiceCloneLog('方法2异常', e.name);
+        
+        // 如果方法2也失败，尝试方法3
+        addVoiceCloneLog('方法3', '方法2失败，尝试 Safari/iOS 特定方式...');
+    } else {
+        // 非 iOS 设备：尝试方法1
+        addVoiceCloneLog('方法1', '尝试静音音频...');
+        try {
+            const silentAudio = new Audio();
+            silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA==';
+            silentAudio.volume = 0;
+            silentAudio.muted = true;
+            silentAudio.preload = 'none';
+
+            await withTimeout(silentAudio.play(), 2000, '静音音频播放');
+            addVoiceCloneLog('方法1成功', '静音音频播放成功');
+            silentAudio.src = '';
+            return true;
+        } catch (e) {
+            addVoiceCloneLog('方法1失败', e.message || e.name);
+        }
+
+        // 方法 2：使用 AudioContext（非 iOS 设备）
+        addVoiceCloneLog('方法2', '尝试 AudioContext...');
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                addVoiceCloneLog('方法2', '创建 AudioContext...');
+                const audioCtx = new AudioContext();
+
+                if (audioCtx.state === 'suspended') {
+                    try {
+                        await withTimeout(audioCtx.resume(), 2000, 'AudioContext.resume');
+                        addVoiceCloneLog('方法2成功', `AudioContext.state: ${audioCtx.state}`);
+                    } catch (resumeError) {
+                        addVoiceCloneLog('方法2失败', resumeError.message || resumeError.name);
+
+                        if (isSafariBrowser || isIOSAnyBrowser) {
+                            addVoiceCloneLog('方法2备选', '尝试振荡器...');
+                            try {
+                                const oscillator = audioCtx.createOscillator();
+                                const gainNode = audioCtx.createGain();
+                                oscillator.connect(gainNode);
+                                gainNode.connect(audioCtx.destination);
+                                oscillator.frequency.value = 0;
+                                gainNode.gain.value = 0;
+                                oscillator.start();
+                                oscillator.stop(audioCtx.currentTime + 0.01);
+                                addVoiceCloneLog('方法2备选成功', '振荡器解锁成功');
+                                return true;
+                            } catch (oscError) {
+                                addVoiceCloneLog('方法2备选失败', oscError.name);
+                            }
+                        }
+                    }
+                }
+
+                return audioCtx.state === 'running';
+            }
+        } catch (e) {
+            addVoiceCloneLog('方法2异常', e.name);
+        }
     }
 
     // 方法 3：Safari 或 iOS 特定的解锁方式
