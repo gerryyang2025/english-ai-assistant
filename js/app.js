@@ -2362,7 +2362,25 @@ async function loadSpeechData() {
         const response = await fetch('data/listen.json');
         if (!response.ok) throw new Error('加载听书数据失败');
         const data = await response.json();
-        AppState.speechData = data.speeches || [];
+
+        // 兼容新旧格式：新格式是 books 数组，旧格式是 speeches 数组
+        if (data.books && Array.isArray(data.books)) {
+            // 新格式：合并所有书中的 speeches
+            AppState.speechData = [];
+            data.books.forEach(book => {
+                if (book.speeches && Array.isArray(book.speeches)) {
+                    // 为每个 speech 添加 bookName
+                    book.speeches.forEach(speech => {
+                        speech.bookName = book.name;
+                        AppState.speechData.push(speech);
+                    });
+                }
+            });
+        } else {
+            // 旧格式：直接使用 speeches
+            AppState.speechData = data.speeches || [];
+        }
+
         console.log('加载听书数据成功，共 ' + AppState.speechData.length + ' 篇听书材料');
     } catch (error) {
         console.error('加载听书数据失败:', error);
@@ -5990,8 +6008,24 @@ function initSpeechUpload() {
                 }
                 
                 const jsonData = JSON.parse(content);
-                parsedSpeechData = jsonData.speeches || [];
-                
+
+                // 兼容新旧格式：新格式是 books 数组，旧格式是 speeches 数组
+                if (jsonData.books && Array.isArray(jsonData.books)) {
+                    // 新格式：合并所有书中的 speeches
+                    parsedSpeechData = [];
+                    jsonData.books.forEach(book => {
+                        if (book.speeches && Array.isArray(book.speeches)) {
+                            book.speeches.forEach(speech => {
+                                speech.bookName = book.name;
+                                parsedSpeechData.push(speech);
+                            });
+                        }
+                    });
+                } else {
+                    // 旧格式：直接使用 speeches
+                    parsedSpeechData = jsonData.speeches || [];
+                }
+
                 // 直接应用到应用状态
                 AppState.speechData = parsedSpeechData;
                 console.log('朗读数据已实时更新，共 ' + parsedSpeechData.length + ' 篇');
