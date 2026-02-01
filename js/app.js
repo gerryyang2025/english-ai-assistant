@@ -3104,7 +3104,7 @@ function initSpeechArticleSelector() {
     ).join('');
     
     select.innerHTML = options 
-        ? `<option value="">-- 请选择文章 --</option>${options}`
+        ? `<option value="">-- 请选择书本 --</option>${options}`
         : '<option value="">暂无可用听书材料</option>';
     
     select.disabled = AppState.speechData.length === 0;
@@ -3117,16 +3117,16 @@ function initSpeechChapterSelector(articleId) {
     
     if (!select) return;
     
-    // 如果没有选择文章，禁用章节选择器
+    // 如果没有选择书本，禁用章节选择器
     if (!articleId) {
-        select.innerHTML = '<option value="">-- 请先选择文章 --</option>';
+        select.innerHTML = '<option value="">-- 请选择章节 --</option>';
         select.disabled = true;
         return;
     }
     
     const speech = AppState.speechData.find(s => s.id === articleId);
     if (!speech) {
-        select.innerHTML = '<option value="">-- 请先选择文章 --</option>';
+        select.innerHTML = '<option value="">-- 请选择章节 --</option>';
         select.disabled = true;
         return;
     }
