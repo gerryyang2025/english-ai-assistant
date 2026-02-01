@@ -211,7 +211,6 @@ body {
     padding: 16px 20px;
     border-radius: var(--radius-md);
     margin-top: 12px;
-    border-left: 4px solid var(--primary-color);
     line-height: 1.6;
 }
 
