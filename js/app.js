@@ -3499,15 +3499,7 @@ function renderSpeechChapter() {
 
 // 听书播放控制
 function toggleSpeechPlayback() {
-    console.log('[Voice Clone] ===== toggleSpeechPlayback 被调用 =====');
-    console.log('[Voice Clone] speechVoiceMode:', AppState.speechVoiceMode);
-    console.log('[Voice Clone] speechIsPlaying:', AppState.speechIsPlaying);
-    console.log('[Voice Clone] speechCloneReady:', AppState.speechCloneReady);
-    console.log('[Voice Clone] speechUtterance:', AppState.speechUtterance);
-    console.log('[Voice Clone] speechUtterance instanceof Audio:', AppState.speechUtterance instanceof Audio);
-
-    // 显示初始调试状态
-    updateVoiceCloneDebug('用户点击播放按钮', `模式: ${AppState.speechVoiceMode}, 就绪: ${AppState.speechCloneReady}`);
+    addVoiceCloneLog('toggleSpeechPlayback', `模式: ${AppState.speechVoiceMode}, 就绪: ${AppState.speechCloneReady}`);
 
     // 如果是音色复刻模式且有 Audio 对象
     if (AppState.speechVoiceMode === 'clone' && AppState.speechUtterance instanceof Audio) {
@@ -3515,22 +3507,19 @@ function toggleSpeechPlayback() {
 
         // iOS 设备：检查是否是已准备就绪状态（等待用户点击播放）
         if (AppState.speechCloneReady) {
-            console.log('[Voice Clone] 用户点击播放，speechCloneReady 状态');
+            addVoiceCloneLog('用户点击播放', 'speechCloneReady=true，尝试播放');
 
             // 清除准备就绪状态
             AppState.speechCloneReady = false;
-            updateVoiceCloneDebug('用户点击播放按钮', '正在尝试播放...');
 
             // 尝试播放音频
             audio.play().then(() => {
-                console.log('[Voice Clone] 用户点击后播放成功');
+                addVoiceCloneLog('播放成功', '音频已开始播放');
                 AppState.speechIsPlaying = true;
                 AppState.speechPaused = false;
                 updatePlayButton();
-                updateVoiceCloneDebug('播放成功', '正在播放中...');
             }).catch((e) => {
-                console.error('[Voice Clone] 用户点击后播放失败:', e);
-                updateVoiceCloneDebug('播放失败', e.message || e.name);
+                addVoiceCloneLog('播放失败', e.name);
 
                 // 检查是否是自动播放限制
                 const isAutoplayError = e.name === 'NotAllowedError' ||
@@ -3543,10 +3532,10 @@ function toggleSpeechPlayback() {
                     unlockAudioContext().then((unlocked) => {
                         if (unlocked) {
                             showToast('请再次点击播放按钮', 2000);
-                            updateVoiceCloneDebug('音频已解锁', '请再次点击播放');
+                            addVoiceCloneLog('解锁成功', '请再次点击播放');
                         } else {
                             showToast('请点击屏幕任意位置激活音频', 3000);
-                            updateVoiceCloneDebug('需要用户交互', '请点击屏幕任意位置');
+                            addVoiceCloneLog('解锁失败', '需要用户交互');
                         }
                     });
                 } else {
@@ -3834,6 +3823,8 @@ async function unlockAudioContext() {
 
 // 使用音色复刻播放
 async function playSpeechWithVoiceClone(content) {
+    addVoiceCloneLog('playSpeechWithVoiceClone', `内容长度: ${content.length} 字符`);
+
     // 停止系统语音
     window.speechSynthesis.cancel();
 
@@ -3943,10 +3934,14 @@ async function playSpeechWithVoiceClone(content) {
             }, 15000);
 
             try {
+                addVoiceCloneLog('调用 callVoiceCloneAPI', 'timeout=30秒');
+                
                 audioUrl = await callVoiceCloneAPI(content, {
                     signal: abortController.signal,
                     timeout: 30000 // 30秒超时
                 });
+
+                addVoiceCloneLog('API 返回', audioUrl ? `URL长度: ${audioUrl.length}` : 'URL为空');
 
                 // 清除超时警告
                 clearTimeout(timeoutWarningId);
@@ -3959,7 +3954,7 @@ async function playSpeechWithVoiceClone(content) {
                     timestamp: Date.now(),
                     timeout: cacheTimeout
                 });
-                console.log('[Voice Clone] 已保存缓存，key:', contentHash);
+                addVoiceCloneLog('缓存已保存', `key: ${contentHash}`);
 
                 // 定期清理过期缓存（每 10 次播放检查一次）
                 if (Math.random() < 0.1) {
@@ -3970,10 +3965,12 @@ async function playSpeechWithVoiceClone(content) {
                 clearTimeout(timeoutWarningId);
                 hidePersistentToast();
 
+                addVoiceCloneLog('API 错误', error.message || error.name);
+
                 // 处理超时
                 if (error.name === 'AbortError' || error.message.includes('超时')) {
-                    console.log('[Voice Clone] 请求超时');
                     showToast('生成超时，请重试');
+                    addVoiceCloneLog('请求超时', '30秒内未响应，请重试');
                     return;
                 }
 
@@ -4219,11 +4216,18 @@ function clearAudioCache() {
 async function callVoiceCloneAPI(text, options = {}) {
     const { timeout = 60000, signal } = options; // 默认 60 秒超时
 
+    addVoiceCloneLog('API 开始', `timeout=${timeout/1000}秒`);
+
     // 创建 AbortController（如果未提供）
     const controller = signal || new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutId = setTimeout(() => {
+        addVoiceCloneLog('API 超时', `已等待 ${timeout/1000} 秒`);
+        controller.abort();
+    }, timeout);
 
     try {
+        addVoiceCloneLog('fetch 开始', '请求 /api/voice-clone');
+
         const response = await fetch('/api/voice-clone', {
             method: 'POST',
             headers: {
@@ -4236,16 +4240,20 @@ async function callVoiceCloneAPI(text, options = {}) {
         });
 
         clearTimeout(timeoutId);
+        addVoiceCloneLog('fetch 完成', `status=${response.status}`);
 
         if (!response.ok) {
             const error = await response.json();
+            addVoiceCloneLog('API 响应错误', error.error || '请求失败');
             throw new Error(error.error || '音色复刻请求失败');
         }
 
         const data = await response.json();
+        addVoiceCloneLog('解析响应', data.audio_url ? 'audio_url 存在' : 'audio_url 为空');
         return data.audio_url;
     } catch (error) {
         clearTimeout(timeoutId);
+        addVoiceCloneLog('API 异常', error.name);
 
         // 处理超时错误
         if (error.name === 'AbortError') {
@@ -4263,15 +4271,8 @@ async function callVoiceCloneAPI(text, options = {}) {
 
 // 播放音色复刻音频
 function playVoiceCloneAudio(audioUrl) {
-    console.log('[Voice Clone] ===== playVoiceCloneAudio 被调用 =====');
-    console.log('[Voice Clone] audioUrl:', audioUrl);
-    console.log('[Voice Clone] speechVoiceMode:', AppState.speechVoiceMode);
-    console.log('[Voice Clone] isIOSBrowser:', isIOSBrowser());
-    console.log('[Voice Clone] isIOSChrome:', isIOSChrome());
-    console.log('[Voice Clone] userAgent:', navigator.userAgent.substring(0, 80));
-
-    // 在页面上显示当前状态
-    updateVoiceCloneDebug('开始播放音频', `模式: ${AppState.speechVoiceMode}, URL: ${audioUrl.substring(0, 50)}...`);
+    addVoiceCloneLog('playVoiceCloneAudio', `URL长度: ${audioUrl ? audioUrl.length : 0}`);
+    addVoiceCloneLog('设备检测', `iOS: ${isIOSBrowser()}, Chrome: ${isIOSChrome()}`);
 
     // 如果已经有 Audio 对象
     if (AppState.speechUtterance instanceof Audio) {
@@ -4516,7 +4517,7 @@ function playVoiceCloneAudio(audioUrl) {
     // iOS 设备：立即设置状态并显示提示，等待用户点击播放
     // 注意：我们不在这里调用 audio.play()，因为这不在用户手势上下文中
     if (isIOS) {
-        console.log('[Voice Clone] iOS 设备：跳过自动播放，等待用户点击');
+        addVoiceCloneLog('iOS 特殊处理', '设置 speechCloneReady=true');
 
         // 设置状态为已准备就绪
         AppState.speechIsPlaying = false;
@@ -4524,12 +4525,10 @@ function playVoiceCloneAudio(audioUrl) {
         AppState.speechCloneReady = true;
         updatePlayButton();
 
-        // 更新调试状态显示
-        updateVoiceCloneDebug('音频已生成', '等待用户点击播放按钮');
-
         // 提示用户音频已准备好（如果还没有显示过）
         hidePersistentToast();
         showToast('音频已生成，点击播放按钮开始', 3000);
+        addVoiceCloneLog('等待用户点击', '请点击播放按钮开始');
 
         return;
     }
@@ -4627,29 +4626,64 @@ function clearHighlights() {
 }
 
 // ========== 调试状态显示 ==========
-function updateVoiceCloneDebug(message, details = '') {
+// 存储日志历史
+const voiceCloneLogHistory = [];
+
+function addVoiceCloneLog(message, details = '') {
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = {
+        time: timestamp,
+        message: message,
+        details: details
+    };
+    voiceCloneLogHistory.push(logEntry);
+    
+    // 保留最近 20 条日志
+    if (voiceCloneLogHistory.length > 20) {
+        voiceCloneLogHistory.shift();
+    }
+    
+    // 更新显示
+    updateVoiceCloneDebugDisplay();
+}
+
+function updateVoiceCloneDebugDisplay() {
     const debugEl = document.getElementById('voice-clone-debug');
     if (!debugEl) return;
 
-    const timestamp = new Date().toLocaleTimeString();
     const deviceInfo = isIOSBrowser() ? '📱 iOS设备' : '🖥️ 非iOS设备';
     const status = AppState.speechCloneReady ? '✅ 已就绪' : '⏳ 进行中';
 
+    // 构建日志历史 HTML
+    const logHtml = voiceCloneLogHistory.map(log => {
+        return `<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12px;">
+            <span style="opacity: 0.6;">[${log.time}]</span> 
+            <strong>${log.message}</strong>
+            ${log.details ? `<div style="opacity: 0.7; margin-left: 10px; font-size: 11px; word-break: break-all;">${log.details}</div>` : ''}
+        </div>`;
+    }).join('');
+
     debugEl.innerHTML = `
-        <div style="margin-bottom: 8px; font-size: 16px;">
+        <div style="margin-bottom: 10px; font-size: 16px; font-weight: bold;">
             <strong>${deviceInfo}</strong> | <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">${status}</span>
         </div>
-        <div style="margin-bottom: 4px; font-size: 16px;">📍 ${message}</div>
-        <div style="opacity: 0.8; font-size: 12px;">⏰ ${timestamp}</div>
-        ${details ? `<div style="opacity: 0.7; font-size: 12px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">${details}</div>` : ''}
+        <div style="font-size: 13px; line-height: 1.6;">
+            ${logHtml}
+        </div>
     `;
     debugEl.style.display = 'block';
+}
+
+// 简化的调试状态更新（兼容旧代码）
+function updateVoiceCloneDebug(message, details = '') {
+    addVoiceCloneLog(message, details);
 }
 
 function hideVoiceCloneDebug() {
     const debugEl = document.getElementById('voice-clone-debug');
     if (debugEl) {
         debugEl.style.display = 'none';
+        voiceCloneLogHistory.length = 0; // 清空日志历史
     }
 }
 
