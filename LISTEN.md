@@ -1,3 +1,18 @@
+# My future
+
+## 文章概要
+
+这段对话发生在教室内，老师询问学生们关于未来的职业理想
+
+## 正文
+
+Teacher: What do you want to be, children? (老师：孩子们，你们将来想做什么？)
+Joe: I want to be a pilot. I want to fly a plane in the sky. (乔：我想成为一名飞行员。我想在天空中驾驶飞机。)
+Kitty: I want to be a doctor. I want to help people. (吉蒂：我想成为一名医生。我想帮助人们。)
+Alice: I want to be a teacher. I want to teach English in a school. (艾丽丝：我想成为一名老师。我想在学校里教英语。)
+Peter: I want to be a cook. I want to cook nice food. (彼得：我想成为一名厨师。我想烹饪美味的食物。)
+
+
 
 # 骆驼祥子 - 老舍
 
