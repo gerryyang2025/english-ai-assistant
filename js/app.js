@@ -29,7 +29,8 @@ const AppState = {
     speechPlaybackSpeed: 1.0,   // 朗读播放速度
     speechVoiceMode: 'system',   // 朗读语音模式: 'system' 或 'clone'
     speechCloneAudioUrl: null,   // 音色复刻生成的音频 URL
-    speechCloneFileId: null,     // 音色复刻音频文件 ID（从服务器获取）
+    speechCloneVoices: [],       // 可用的音色复刻语音列表（从服务器获取）
+    speechCloneSelectedVoice: null, // 当前选择的音色复刻语音
     speechCloneVoiceId: null,    // 音色复刻 voice_id（从服务器获取）
     speechCloneCurrentTime: 0,   // 音色复刻音频的播放位置（秒）
     speechPaused: false,          // 朗读是否暂停
@@ -187,15 +188,55 @@ async function fetchVoiceCloneConfig() {
         
         // 更新音色复刻配置
         if (data.voice_clone) {
-            AppState.speechCloneFileId = data.voice_clone.file_id;
+            // 保存可用的语音列表
+            AppState.speechCloneVoices = data.voice_clone.voices || [];
+            
+            // 选择默认语音
+            if (data.voice_clone.default_voice) {
+                AppState.speechCloneSelectedVoice = data.voice_clone.default_voice;
+            } else if (AppState.speechCloneVoices.length > 0) {
+                AppState.speechCloneSelectedVoice = AppState.speechCloneVoices[0];
+            }
             
             console.log('[Voice Clone] 配置已加载:');
-            console.log('  - file_id:', AppState.speechCloneFileId);
+            console.log('  - 可用语音数量:', AppState.speechCloneVoices.length);
+            console.log('  - 当前选择:', AppState.speechCloneSelectedVoice);
             console.log('  - configured:', data.voice_clone.configured);
+            
+            // 初始化语音选择下拉框
+            initSpeechVoiceDropdown();
         }
     } catch (error) {
         console.error('获取音色复刻配置失败:', error);
     }
+}
+
+// 初始化语音选择下拉框
+function initSpeechVoiceDropdown() {
+    const selectEl = document.getElementById('speech-voice-mode-select');
+    if (!selectEl) return;
+    
+    // 保留第一个"系统"选项，移除其他复刻选项
+    const systemOption = selectEl.querySelector('option[value="system"]');
+    selectEl.innerHTML = '';
+    if (systemOption) {
+        selectEl.appendChild(systemOption);
+    }
+    
+    // 添加音色选项
+    AppState.speechCloneVoices.forEach((voice, index) => {
+        const option = document.createElement('option');
+        option.value = `clone-${index}`;
+        option.textContent = `音色 (${voice.description || '未知'})`;
+        option.dataset.fileId = voice.file_id;
+        selectEl.appendChild(option);
+    });
+    
+    // 默认选择系统模式
+    selectEl.value = 'system';
+    // 同步更新 AppState
+    AppState.speechVoiceMode = 'system';
+    AppState.speechCloneSelectedVoice = null;
 }
 
 // 加载每日笑话
@@ -4220,12 +4261,43 @@ function initSpeechDebugToggle() {
 
 // 切换语音模式
 function changeVoiceMode(mode) {
-    AppState.speechVoiceMode = mode;
-
     const statusEl = document.getElementById('voice-clone-status');
-    if (mode === 'clone') {
+    
+    if (mode === 'system') {
+        // 系统语音模式
+        AppState.speechVoiceMode = 'system';
+        AppState.speechCloneSelectedVoice = null;
+        statusEl.innerHTML = '';
+        showToast('已切换到系统默认语音');
+    } else if (mode.startsWith('clone-')) {
+        // 复刻语音模式
+        AppState.speechVoiceMode = 'clone';
+        
+        // 解析选中的语音索引
+        const voiceIndex = parseInt(mode.replace('clone-', ''), 10);
+        
+        if (isNaN(voiceIndex) || voiceIndex < 0 || voiceIndex >= AppState.speechCloneVoices.length) {
+            statusEl.innerHTML = '<span class="warning">⚠️ 无效的语音选择</span>';
+            showToast('无效的语音选择');
+            return;
+        }
+        
+        // 获取之前选择的语音
+        const previousVoice = AppState.speechCloneSelectedVoice;
+        const newVoice = AppState.speechCloneVoices[voiceIndex];
+        
+        // 如果切换到不同的语音，清除缓存
+        if (previousVoice && newVoice && previousVoice.file_id !== newVoice.file_id) {
+            console.log('[Voice Clone] 切换语音，清除缓存');
+            AppState.speechCloneAudioCache.clear();
+            AppState.speechCloneAudioUrl = null;
+        }
+        
+        // 更新选中的语音
+        AppState.speechCloneSelectedVoice = newVoice;
+        
         // 检查是否配置了 file_id
-        if (!AppState.speechCloneFileId || AppState.speechCloneFileId === 0) {
+        if (!AppState.speechCloneSelectedVoice || !AppState.speechCloneSelectedVoice.file_id) {
             statusEl.innerHTML = '<span class="warning">⚠️ 请在 api_config.py 中配置</span>';
             showToast('音色复刻未配置');
 
@@ -4234,14 +4306,12 @@ function changeVoiceMode(mode) {
             console.log('要使用音色复刻功能，请：');
             console.log('1. 在 https://platform.minimaxi.com/user-center/files 上传参考音频');
             console.log('2. 获取 file_id');
-            console.log('3. 在 api_config.py 中设置 MINIMAX_VOICE_CLONE_FILE_ID = your_file_id');
+            console.log('3. 在 api_config.py 中设置 MINIMAX_VOICE_CLONE_VOICES');
         } else {
-            statusEl.innerHTML = '<span class="success">🎙️ 音色复刻已启用</span>';
-            showToast('已切换到音色复刻模式');
+            const description = AppState.speechCloneSelectedVoice.description || '未知';
+            statusEl.innerHTML = `<span class="success">🎙️ 音色复刻: ${description}</span>`;
+            showToast(`已切换到音色复刻模式: ${description}`);
         }
-    } else {
-        statusEl.innerHTML = '';
-        showToast('已切换到系统默认语音');
     }
 
     // 切换模式时，只停止当前播放，不自动播放
@@ -4280,10 +4350,11 @@ function changeVoiceMode(mode) {
         updatePlayButton();
 
         // 只更新提示，告知用户已切换模式
-        if (mode === 'clone') {
-            showToast('已切换到音色复刻模式，点击播放开始转换');
-        } else {
+        if (mode === 'system') {
             showToast('已切换到系统默认语音');
+        } else if (mode.startsWith('clone-')) {
+            const description = AppState.speechCloneSelectedVoice?.description || '未知';
+            showToast(`已切换到音色复刻: ${description}，点击播放开始转换`);
         }
     }
 }
@@ -4338,14 +4409,23 @@ async function callVoiceCloneAPI(text, options = {}) {
     try {
         addVoiceCloneLog('fetch 开始', '请求 /api/voice-clone');
 
+        // 构建请求数据，包含选中的 file_id
+        const requestData = {
+            text: text
+        };
+        
+        // 如果选择了复刻语音，添加 file_id
+        if (AppState.speechVoiceMode === 'clone' && AppState.speechCloneSelectedVoice) {
+            requestData.file_id = AppState.speechCloneSelectedVoice.file_id;
+            addVoiceCloneLog('语音选择', AppState.speechCloneSelectedVoice.description || '未知');
+        }
+
         const response = await fetch('/api/voice-clone', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                text: text
-            }),
+            body: JSON.stringify(requestData),
             signal: controller.signal
         });
 

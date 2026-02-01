@@ -19,11 +19,24 @@ MINIMAX_MODEL = 'MiniMax-M2.1'
 # Voice Cloning Configuration
 # ============================================
 
-# Voice Clone File ID
-# Upload your reference audio file at: https://platform.minimaxi.com/user-center/files
+# Voice Clone Voices List
+# Upload your reference audio files at: https://platform.minimaxi.com/user-center/files
 # Get the file_id from the upload response
-# Set to 0 to disable voice cloning feature
-MINIMAX_VOICE_CLONE_FILE_ID = 0
+# Each voice has a file_id and a description for display in the UI
+# Set to empty list to disable voice cloning feature
+MINIMAX_VOICE_CLONE_VOICES = []
+
+# 示例：配置多个语音
+# MINIMAX_VOICE_CLONE_VOICES = [
+#     {
+#         'file_id': 361800016908679,
+#         'description': 'gerry (默认)'
+#     },
+#     {
+#         'file_id': 123456789012345,
+#         'description': 'Teacher Li'
+#     }
+# ]
 
 # ============================================
 # Rate Limiting Configuration

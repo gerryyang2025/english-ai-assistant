@@ -23,14 +23,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # 导入 API 配置
 try:
-    from api_config import MINIMAX_API_KEY as API_KEY, MINIMAX_API_URL, MINIMAX_MODEL, RATE_LIMIT, MINIMAX_VOICE_CLONE_FILE_ID
+    from api_config import MINIMAX_API_KEY as API_KEY, MINIMAX_API_URL, MINIMAX_MODEL, RATE_LIMIT, MINIMAX_VOICE_CLONE_VOICES
 except ImportError:
     # 如果配置文件不存在，使用环境变量和默认值
     API_KEY = os.environ.get('MINIMAX_API_KEY', '')
     MINIMAX_API_URL = 'https://api.minimax.chat/v1/text/chatcompletion_v2'
     MINIMAX_MODEL = 'MiniMax-M2.1'
-    # 默认音色复刻配置
-    MINIMAX_VOICE_CLONE_FILE_ID = int(os.environ.get('MINIMAX_VOICE_CLONE_FILE_ID', '0'))
+    # 默认音色复刻配置（支持多个语音）
+    MINIMAX_VOICE_CLONE_VOICES = [
+        {
+            'file_id': int(os.environ.get('MINIMAX_VOICE_CLONE_FILE_ID', '0')),
+            'description': '默认语音'
+        }
+    ]
     # 默认速率限制配置
     RATE_LIMIT = {
         'requests_per_hour': 20,
@@ -293,13 +298,17 @@ def chat_api():
 @app.route('/api/status', methods=['GET'])
 def api_status():
     """API 状态检查"""
+    # 检查是否有已配置的语音
+    configured_voices = [v for v in MINIMAX_VOICE_CLONE_VOICES if v.get('file_id', 0) > 0]
+    
     return jsonify({
         'status': 'ok',
         'api_configured': bool(API_KEY),
         'rate_limit': RATE_LIMIT,
         'voice_clone': {
-            'file_id': MINIMAX_VOICE_CLONE_FILE_ID,
-            'configured': MINIMAX_VOICE_CLONE_FILE_ID > 0
+            'voices': MINIMAX_VOICE_CLONE_VOICES,
+            'configured': len(configured_voices) > 0,
+            'default_voice': configured_voices[0] if configured_voices else None
         }
     })
 
@@ -338,10 +347,11 @@ def voice_clone_api():
         return response, 429
 
     # 检查音色复刻配置
-    if not MINIMAX_VOICE_CLONE_FILE_ID or MINIMAX_VOICE_CLONE_FILE_ID == 0:
+    configured_voices = [v for v in MINIMAX_VOICE_CLONE_VOICES if v.get('file_id', 0) > 0]
+    if len(configured_voices) == 0:
         response = jsonify({
             'error': '音色复刻未配置',
-            'help': '请在 api_config.py 中设置 MINIMAX_VOICE_CLONE_FILE_ID'
+            'help': '请在 api_config.py 中设置 MINIMAX_VOICE_CLONE_VOICES'
         })
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response, 400
@@ -354,6 +364,31 @@ def voice_clone_api():
         return response, 400
 
     text = data.get('text', '').strip()
+    
+    # 获取请求的 file_id（可选，如果未提供则使用默认语音）
+    requested_file_id = data.get('file_id')
+    
+    # 查找对应的语音配置
+    selected_voice = None
+    if requested_file_id:
+        # 如果前端指定了 file_id，查找对应的语音
+        for voice in configured_voices:
+            if voice.get('file_id') == requested_file_id:
+                selected_voice = voice
+                break
+        if not selected_voice:
+            response = jsonify({
+                'error': '无效的语音 ID',
+                'help': '请选择有效的语音'
+            })
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            return response, 400
+    else:
+        # 使用默认语音
+        selected_voice = configured_voices[0]
+    
+    file_id = selected_voice['file_id']
+    voice_description = selected_voice.get('description', '未知')
 
     if not text:
         response = jsonify({'error': '请提供要合成的声音文本'})
@@ -394,16 +429,16 @@ def voice_clone_api():
             'Authorization': f'Bearer {API_KEY}'
         }
 
-        # 构建请求数据（使用配置文件中的 file_id，每次生成唯一的 voice_id）
+        # 构建请求数据（使用选择的 file_id，每次生成唯一的 voice_id）
         # 使用 speech-2.6-turbo 极速版，更快更优惠，适用于语音聊天和数字人场景
         clone_data = {
-            'file_id': MINIMAX_VOICE_CLONE_FILE_ID,
+            'file_id': file_id,
             'voice_id': voice_id,
             'text': text,
             'model': 'speech-2.6-turbo'  # 极速版，更快更优惠
         }
 
-        logger.info(f"调用 MiniMax 音色复刻 API - voice_id: {voice_id}, 模型: speech-2.6-turbo")
+        logger.info(f"调用 MiniMax 音色复刻 API - voice_id: {voice_id}, 语音: {voice_description}, 模型: speech-2.6-turbo")
 
         # 添加重试机制
         max_retries = 2
