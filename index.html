@@ -788,7 +788,7 @@
                     </div>
                 </div>
 
-                <!-- 设置区域（语音模式 + 播放速度） -->
+                <!-- 设置区域（语音模式 + 播放速度 + 调试开关） -->
                 <div class="speech-settings">
                     <div class="speech-voice-mode">
                         <label for="speech-voice-mode-select">语音</label>
@@ -807,6 +807,13 @@
                             <option value="1.5">1.5x</option>
                             <option value="2">2.0x</option>
                         </select>
+                    </div>
+                    <div class="speech-debug-toggle">
+                        <label class="switch">
+                            <input type="checkbox" id="speech-debug-check" onchange="toggleSpeechDebug(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="debug-label">调试</span>
                     </div>
                     <div id="voice-clone-status" class="voice-clone-status"></div>
                 </div>

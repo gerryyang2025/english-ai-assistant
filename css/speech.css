@@ -402,6 +402,65 @@
     padding-left: 6px;
 }
 
+/* 调试开关样式 */
+.speech-debug-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.speech-debug-toggle .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.speech-debug-toggle .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.speech-debug-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 22px;
+}
+
+.speech-debug-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.speech-debug-toggle input:checked + .slider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.speech-debug-toggle input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+.speech-debug-toggle .debug-label {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+}
+
 /* 空状态 */
 .speech-empty {
     text-align: center;
@@ -548,6 +607,24 @@
         max-width: 140px;
         padding-right: 28px;
         background-position: right 10px center;
+    }
+
+    .speech-debug-toggle .switch {
+        width: 44px;
+        height: 24px;
+    }
+
+    .speech-debug-toggle .slider:before {
+        height: 18px;
+        width: 18px;
+    }
+
+    .speech-debug-toggle input:checked + .slider:before {
+        transform: translateX(20px);
+    }
+
+    .speech-debug-toggle .debug-label {
+        font-size: 14px;
     }
 }
 
@@ -709,6 +786,28 @@
         flex-shrink: 1;
         min-width: 50px;
     }
+
+    .speech-debug-toggle {
+        gap: 4px;
+    }
+
+    .speech-debug-toggle .switch {
+        width: 36px;
+        height: 20px;
+    }
+
+    .speech-debug-toggle .slider:before {
+        height: 14px;
+        width: 14px;
+    }
+
+    .speech-debug-toggle input:checked + .slider:before {
+        transform: translateX(16px);
+    }
+
+    .speech-debug-toggle .debug-label {
+        font-size: 11px;
+    }
 }
 
 /* 小屏手机 (360px) */
@@ -810,5 +909,27 @@
         max-width: none;
         flex-shrink: 1;
         min-width: 40px;
+    }
+
+    .speech-debug-toggle {
+        gap: 3px;
+    }
+
+    .speech-debug-toggle .switch {
+        width: 34px;
+        height: 18px;
+    }
+
+    .speech-debug-toggle .slider:before {
+        height: 12px;
+        width: 12px;
+    }
+
+    .speech-debug-toggle input:checked + .slider:before {
+        transform: translateX(16px);
+    }
+
+    .speech-debug-toggle .debug-label {
+        font-size: 10px;
     }
 }

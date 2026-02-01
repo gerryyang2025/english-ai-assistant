@@ -3408,9 +3408,12 @@ function showSpeechDetail(speechId) {
     
     // 渲染章节导航
     renderSpeechChapterNav();
-    
+
     // 渲染章节内容
     renderSpeechChapter();
+
+    // 初始化调试开关状态
+    initSpeechDebugToggle();
 }
 
 function renderSpeechChapterNav() {
@@ -4177,6 +4180,42 @@ function changeSpeechSpeed(speed) {
 
     // 只更新速度设置，不自动播放
     showToast(`播放速度: ${speed}x (点击播放按钮开始)`);
+}
+
+// 切换调试区域显示
+function toggleSpeechDebug(show) {
+    // 保存用户偏好到 localStorage
+    localStorage.setItem('speechDebugVisible', show ? 'true' : 'false');
+
+    // 显示或隐藏调试区域
+    const debugEl = document.getElementById('voice-clone-debug');
+    if (debugEl) {
+        debugEl.style.display = show ? 'block' : 'none';
+    }
+
+    if (show) {
+        showToast('调试区域已显示');
+    } else {
+        showToast('调试区域已隐藏');
+    }
+}
+
+// 初始化调试开关状态
+function initSpeechDebugToggle() {
+    const debugToggle = document.getElementById('speech-debug-check');
+    const debugEl = document.getElementById('voice-clone-debug');
+
+    if (!debugToggle || !debugEl) return;
+
+    // 从 localStorage 读取用户偏好，默认为隐藏
+    const savedPref = localStorage.getItem('speechDebugVisible');
+    const isVisible = savedPref === 'true';
+
+    // 设置开关状态
+    debugToggle.checked = isVisible;
+
+    // 显示或隐藏调试区域
+    debugEl.style.display = isVisible ? 'block' : 'none';
 }
 
 // 切换语音模式
