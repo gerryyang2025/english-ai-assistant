@@ -8,7 +8,7 @@
 -->
 
 
-# My future
+# My future (我的未来)
 
 ## 文章概要
 
@@ -23,8 +23,31 @@ Alice: I want to be a teacher. I want to teach English in a school. (艾丽丝�
 Peter: I want to be a cook. I want to cook nice food. (彼得：我想成为一名厨师。我想烹饪美味的食物。)
 
 
+# Father's Day (父亲节)
 
-# Employee Satisfaction Survey
+## 正文
+
+The third Sunday of June is Father's Day. On that day, wherever you are, you should express your thanks to your father. If you live with your father, you should buy a gift, cook for your father or spend a day with him. Talking with your father will make him very happy. If you work in other places, you should give a call to your father or send a gift to him.
+
+Many fathers don't like to express their love to their children. And they don't know how to express. So we should express our love to them. And remember to say "Happy Father's Day!" to your father.
+
+
+六月的第三个星期日是父亲节。在那天，无论你在哪里，你都应该向你的父亲表达感谢。如果你和你的父亲住在一起，你应该给父亲买礼物或者为他做顿饭，又或者和他共度一天。和你的父亲交谈会让他很开心。如果你在其他地方工作，你应该给你的父亲打个电话或者给他寄份礼物。
+
+很多父亲不喜欢向他们的孩子们表达他们的爱。而且他们不知道怎样表达。所以我们应该向他们表达我们的爱。并且记得要对你的父亲说：“父亲节快乐！”
+
+
+# The Spring Festival (春节)
+
+## 正文
+
+The Spring Festival is the Chinese New Year. It usually comes in January or February. It's a very important festival for Chinese, because the family can get together. Each year gets a name. It may be called the Year of the Loong or the Year of the Snake instead of 2024 or 2025. When the Spring Festival comes, people clean their houses, go shopping, put up New Year's pictures and have a big dinner. They usually eat dumplings with some other delicious food. Children can wear new clothes and get lucky money from their parents. They are so happy.
+
+春节是中国的新年。它通常在一月或二月。对中国人来说，它是一个非常重要的节日，因为家人可以相聚在一起。每年都有一个名字。它可能被叫作龙年或蛇年，而不是2024年或2025年。在春节到来的时候，人们打扫他们的房屋，去购物，贴年画，并吃一顿丰盛的晚餐。他们通常吃饺子和其他美味食物。孩子们可以穿新衣服，并且可以从他们的父母那里得到压岁钱。他们很开心。
+
+
+
+# Employee Satisfaction Survey (员工满意度调查)
 
 ## 正文
 
@@ -40,7 +63,7 @@ Dear Colleagues, We are kicking off the 2025 Employee Satisfaction Survey — a 
 
 
 
-# 骆驼祥子 - 老舍
+# 骆驼祥子 (老舍)
 
 ## 文章概要
 
