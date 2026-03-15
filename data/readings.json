@@ -1195,6 +1195,406 @@
           "contentCn": "妈妈：三亚有带着清澈海水的美丽沙滩。我们将去那里游泳。我们还会吃海鲜。那里的海鲜味道好极了！"
         }
       ]
+    },
+    {
+      "id": "reading-016",
+      "bookName": "英语五年级下册课文",
+      "unitName": "Unit 7",
+      "title": "Open Day",
+      "titleCn": "学校开放日",
+      "scene": "4月30日是学校的开放日。郭老师正在和同学们讨论当天的活动计划，确认家长们到达学校后的先后参观顺序，包括参观教室、美术室、礼堂、图书馆以及最后与老师会面。",
+      "keySentencePatterns": [
+        {
+          "pattern": "First, they'll visit our classroom.",
+          "meaning": "首先，他们将参观我们的教室。"
+        },
+        {
+          "pattern": "What will they do next?",
+          "meaning": "接下来他们将做什么？"
+        },
+        {
+          "pattern": "Finally, they'll meet the teachers in the meeting room.",
+          "meaning": "最后，他们将在会议室会见老师。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`meet` (迎接；会见), `school gate` (校门), `art room` (美术室), `hall` (礼堂), `finally` (最后), `meeting room` (会议室), `show` (给……看), `project` (课题), `board` (布告牌)",
+        "重点短语：`at the school gate` (在校门口), `visit our classroom` (参观我们的教室), `next` (接下来), `after that` (在那之后), `have tea and cakes` (喝茶吃蛋糕)",
+        "语音知识：掌握字母组合 `air` (hair), `are` (Clare) 和 `ear` (bear) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Children, your parents will come to our school at two o'clock in the afternoon. I'll meet them at the school gate. What will they do first? Can you tell me?",
+          "contentCn": "郭老师：孩子们，你们的家长将在下午两点来到我们学校。我将在校门口迎接他们。他们首先会做什么？你们能告诉我吗？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "First, they'll visit our classroom.",
+          "contentCn": "吉蒂：首先，他们将参观我们的教室。"
+        },
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "That's right. What will they do next?",
+          "contentCn": "郭老师：没错。接下来他们会做什么？"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "Next, they'll visit the art room.",
+          "contentCn": "乔：接下来，他们将参观美术室。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "Then they'll go to the hall.",
+          "contentCn": "艾丽丝：然后他们将去礼堂。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "After that, they'll go to the library.",
+          "contentCn": "彼得：在那之后，他们将去图书馆。"
+        },
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Finally, they'll meet the teachers in the meeting room.",
+          "contentCn": "郭老师：最后，他们将在会议室会见老师。"
+        }
+      ]
+    },
+    {
+      "id": "reading-017",
+      "bookName": "英语五年级下册课文",
+      "unitName": "Unit 8",
+      "title": "Buying clothes",
+      "titleCn": "购买衣服",
+      "scene": "Kitty、Ben 和妈妈 Mrs Li 正在商场挑选新衣服。Kitty 在比较不同颜色的连衣裙，而 Ben 则在挑选适合自己尺码的裤子。",
+      "keySentencePatterns": [
+        {
+          "pattern": "Which dress do you like, the blue one or the pink one?",
+          "meaning": "你喜欢哪件连衣裙，蓝色的还是粉色的？"
+        },
+        {
+          "pattern": "I like the pink one.",
+          "meaning": "我喜欢粉色的那件。"
+        },
+        {
+          "pattern": "Which pair of trousers do you like, the white one or the brown one?",
+          "meaning": "你喜欢哪条裤子，白色的还是褐色的？"
+        },
+        {
+          "pattern": "OK. I'll try on the trousers.",
+          "meaning": "好的。我要试穿这条裤子。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`which` (哪一个), `trousers` (裤子), `sweater` (毛衣), `coat` (外套), `shoe` (鞋), `size` (尺码), `money` (钱)",
+        "重点短语：`try ... on` (试穿), `put ... on` (穿/戴), `have a look` (看一看), `favourite colour` (最喜欢的颜色)",
+        "语音知识：掌握字母组合 `ou` (mouse) 和 `ow` (owl) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Mrs Li",
+          "speakerCn": "李太太",
+          "content": "Which dress do you like, the blue one or the pink one?",
+          "contentCn": "李太太：你喜欢哪件连衣裙，蓝色的还是粉色的？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I like the pink one. Pink is my favourite colour. I like the blue one too. It's beautiful.",
+          "contentCn": "吉蒂：我喜欢粉色的。粉色是我最喜欢的颜色。我也喜欢蓝色的。它很漂亮。"
+        },
+        {
+          "speaker": "Mrs Li",
+          "speakerCn": "李太太",
+          "content": "You can try both on.",
+          "contentCn": "李太太：你可以两件都试穿一下。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "That's great!",
+          "contentCn": "吉蒂：太棒了！"
+        },
+        {
+          "speaker": "Mrs Li",
+          "speakerCn": "李太太",
+          "content": "Which pair of trousers do you like, the white one or the brown one?",
+          "contentCn": "李太太：你喜欢哪条裤子，白色的还是褐色的？"
+        },
+        {
+          "speaker": "Ben",
+          "speakerCn": "本",
+          "content": "I like the brown one.",
+          "contentCn": "本：我喜欢褐色的那条。"
+        },
+        {
+          "speaker": "Mrs Li",
+          "speakerCn": "李太太",
+          "content": "Here you are. It's your size.",
+          "contentCn": "李太太：给你。这是你的尺码。"
+        },
+        {
+          "speaker": "Ben",
+          "speakerCn": "本",
+          "content": "OK. I'll try on the trousers.",
+          "contentCn": "本：好的。我要试穿这条裤子。"
+        }
+      ]
+    },
+    {
+      "id": "reading-018",
+      "bookName": "英语五年级下册课文",
+      "unitName": "Unit 9",
+      "title": "Seeing the doctor",
+      "titleCn": "看医生",
+      "scene": "Kitty 感觉不舒服，她生病了。妈妈带她去医院看医生，医生询问病情并给出了治疗建议。",
+      "keySentencePatterns": [
+        {
+          "pattern": "What's wrong with you?",
+          "meaning": "你哪里不舒服？"
+        },
+        {
+          "pattern": "You should take some medicine.",
+          "meaning": "你应该吃点药。"
+        },
+        {
+          "pattern": "You shouldn't go to bed late.",
+          "meaning": "你不应该晚睡。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`ill` (生病的), `wrong` (有毛病), `headache` (头痛), `fever` (发烧), `should` (应该), `medicine` (药), `rest` (休息), `toothache` (牙痛), `dentist` (牙医)",
+        "重点短语：`have a cold` (感冒), `have a fever` (发烧), `take some medicine` (吃药), `drink a lot of water` (多喝水), `have a good rest` (好好休息), `get well` (康复)",
+        "语音知识：掌握字母组合 `ay` (May) 和 `ai` (wait) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Doctor",
+          "speakerCn": "医生",
+          "content": "What's wrong with you?",
+          "contentCn": "医生：你哪里不舒服？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I have a headache.",
+          "contentCn": "吉蒂：我头痛。"
+        },
+        {
+          "speaker": "Mrs Li",
+          "speakerCn": "李太太",
+          "content": "She has a fever too.",
+          "contentCn": "李太太：她也发烧了。"
+        },
+        {
+          "speaker": "Doctor",
+          "speakerCn": "医生",
+          "content": "Let me have a look. Open your mouth and say \"Ah ...\".",
+          "contentCn": "医生：让我看一看。张开嘴说“啊……”。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Ah ...",
+          "contentCn": "吉蒂：啊……"
+        },
+        {
+          "speaker": "Doctor",
+          "speakerCn": "医生",
+          "content": "You have a cold. You should take some medicine. You should also drink a lot of water. You shouldn't go to bed late. Have a good rest and you'll get well soon.",
+          "contentCn": "医生：你感冒了。你应该吃点药。你还应该多喝水。你不应该晚睡。好好休息，你很快就会康复的。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Thank you, doctor.",
+          "contentCn": "吉蒂：谢谢你，医生。"
+        },
+        {
+          "speaker": "Doctor",
+          "speakerCn": "医生",
+          "content": "You're welcome.",
+          "contentCn": "医生：不客气。"
+        },
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Do you know any great inventions in the world?",
+          "contentCn": "郭老师：你们知道世界上有哪些伟大的发明吗？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I think paper is a great invention. People can write on it.",
+          "contentCn": "吉蒂：我认为纸是一项伟大的发明。人们可以在上面写字。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "I think the watch is a great invention. People can tell the time anywhere.",
+          "contentCn": "艾丽丝：我认为手表是一项伟大的发明。人们在任何地方都能看时间。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "I think the car is a great invention. People can travel from one place to another very fast.",
+          "contentCn": "彼得：我认为汽车是一项伟大的发明。人们可以很快地从一个地方旅行到另一个地方。"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "I think ... Well, I'm going to invent something myself.",
+          "contentCn": "乔：我想……嗯，我打算自己发明点东西。"
+        },
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Great! What are you going to invent?",
+          "contentCn": "郭老师：太棒了！你打算发明什么？"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "I'm going to invent a flying bike! People can go anywhere with it.",
+          "contentCn": "乔：我打算发明一辆会飞的自行车！人们可以骑着它去任何地方。"
+        }
+      ]
+    },
+    {
+      "id": "reading-019",
+      "bookName": "英语五年级下册课文",
+      "unitName": "Unit 11",
+      "title": "Chinese festivals",
+      "titleCn": "中国的节日",
+      "scene": "郭老师正在和同学们讨论中国传统的节日。大家分享了关于春节（Spring Festival）的习俗，包括节日的日期、传统食物、庆祝活动以及红包等文化元素。",
+      "keySentencePatterns": [
+        {
+          "pattern": "When's the Spring Festival?",
+          "meaning": "春节在什么时候？"
+        },
+        {
+          "pattern": "It's an important Chinese festival.",
+          "meaning": "它是一个重要的中国节日。"
+        },
+        {
+          "pattern": "Families have a big dinner together.",
+          "meaning": "家人们聚在一起吃大餐。"
+        },
+        {
+          "pattern": "People also watch fireworks at night.",
+          "meaning": "人们也在晚上看烟花。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`festival` (节日), `important` (重要的), `call` (叫做), `dumpling` (饺子), `relative` (亲戚), `firework` (烟火), `monster` (怪物), `village` (村庄), `mooncake` (月饼)",
+        "重点短语：`red packet` (红包), `Chinese New Year's Eve` (除夕), `at the end of` (在……的最后), `visit friends and relatives` (拜访亲戚朋友)",
+        "文化常识：了解“年”兽的故事（年兽害怕红色和巨大的响声）；了解中秋节吃月饼、重阳节登高和吃重阳糕的习俗"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Children, the Spring Festival is coming. What do you know about it?",
+          "contentCn": "郭老师：孩子们，春节就要到了。你们对它了解多少？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "It is an important Chinese festival. It comes in January or February every year. People also call it Chinese New Year.",
+          "contentCn": "吉蒂：它是一个重要的中国节日。它每年在1月或2月到来。人们也把它叫做中国新年。"
+        },
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "What do families do on Chinese New Year's Eve?",
+          "contentCn": "郭老师：除夕夜家人们都做些什么？"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "Families have a big dinner together. They often eat fish and dumplings.",
+          "contentCn": "彼得：家人们聚在一起吃大餐。他们经常吃鱼和饺子。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "People visit their friends and relatives. Children often get red packets with some money in them.",
+          "contentCn": "艾丽丝：人们拜访朋友和亲戚。孩子们经常会收到装有钱的红包。"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "People also watch fireworks at night. They like the beautiful fireworks very much.",
+          "contentCn": "乔：人们还在晚上看烟花。他们非常喜欢美丽的烟花。"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "A giant lives in a big house with a beautiful garden. Children like to play in the garden. They have a lot of fun there.",
+          "contentCn": "旁白：一个巨人住在一所带漂亮花园的大房子里。孩子们喜欢在花园里玩耍。他们在那里玩得很开心。"
+        },
+        {
+          "speaker": "Giant",
+          "speakerCn": "巨人",
+          "content": "Get out! Get out!",
+          "contentCn": "巨人：出去！出去！"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "The giant finds the children in his garden. He is very angry. He builds a tall wall around his garden.",
+          "contentCn": "旁白：巨人在他的花园里发现了孩子们。他非常生气。他在花园周围筑起了一道高墙。"
+        },
+        {
+          "speaker": "Giant",
+          "speakerCn": "巨人",
+          "content": "It's cold here. Where's Miss Spring?",
+          "contentCn": "巨人：这里好冷。春姑娘在哪里？"
+        },
+        {
+          "speaker": "Miss Spring",
+          "speakerCn": "春姑娘",
+          "content": "I don't like the giant. He's not kind to children.",
+          "contentCn": "春姑娘：我不喜欢那个巨人。他对孩子们不友好。"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "Miss Spring, Miss Summer and Miss Autumn do not visit the giant. It is always winter in the giant's garden.",
+          "contentCn": "旁白：春姑娘、夏姑娘和秋姑娘都不去拜访巨人。巨人的花园里永远是冬天。"
+        },
+        {
+          "speaker": "Giant",
+          "speakerCn": "巨人",
+          "content": "Hooray! Miss Spring is here!",
+          "contentCn": "巨人：万岁！春姑娘在这儿！"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "One morning, the giant hears some lovely sounds. He finds some children in his garden. They are coming through a hole. They bring Miss Spring to his garden!",
+          "contentCn": "旁白：一个清晨，巨人听到了一些动听的声音。他在花园里发现了一些孩子。他们正从一个洞里钻进来。他们把春姑娘带到了他的花园！"
+        },
+        {
+          "speaker": "Giant",
+          "speakerCn": "巨人",
+          "content": "Children, you can play in my garden any time.",
+          "contentCn": "巨人：孩子们，你们随时可以在我的花园里玩。"
+        },
+        {
+          "speaker": "Narrator",
+          "speakerCn": "旁白",
+          "content": "The giant knocks down the wall around his garden. Miss Spring never comes late again.",
+          "contentCn": "旁白：巨人拆掉了花园周围的围墙。春姑娘再也没有迟到过。"
+        }
+      ]
     }
   ]
 }

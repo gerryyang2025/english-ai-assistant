@@ -393,6 +393,156 @@ Ben: What will we do there? (本：我们将在那里做什么？)
 Mum: Sanya has beautiful beaches with clear water. We'll go swimming there. We'll also have seafood. The seafood there tastes great! (妈妈：三亚有带着清澈海水的美丽沙滩。我们将去那里游泳。我们还会吃海鲜。那里的海鲜味道好极了！)
 
 
+## Unit 7
+
+* 题目：Open Day (学校开放日)
+* 场景：4月30日是学校的开放日。郭老师正在和同学们讨论当天的活动计划，确认家长们到达学校后的先后参观顺序，包括参观教室、美术室、礼堂、图书馆以及最后与老师会面。
+* 重点句型：
+  - First, they'll visit our classroom. (首先，他们将参观我们的教室。)
+  - What will they do next? (接下来他们将做什么？)
+  - Finally, they'll meet the teachers in the meeting room. (最后，他们将在会议室会见老师。)
+* 知识点：
+  - 核心词汇：`meet` (迎接；会见), `school gate` (校门), `art room` (美术室), `hall` (礼堂), `finally` (最后), `meeting room` (会议室), `show` (给……看), `project` (课题), `board` (布告牌)
+  - 重点短语：`at the school gate` (在校门口), `visit our classroom` (参观我们的教室), `next` (接下来), `after that` (在那之后), `have tea and cakes` (喝茶吃蛋糕)
+  - 语音知识：掌握字母组合 `air` (hair), `are` (Clare) 和 `ear` (bear) 的发音
+
+
+Ms Guo: Children, your parents will come to our school at two o'clock in the afternoon. I'll meet them at the school gate. What will they do first? Can you tell me? (郭老师：孩子们，你们的家长将在下午两点来到我们学校。我将在校门口迎接他们。他们首先会做什么？你们能告诉我吗？)
+Kitty: First, they'll visit our classroom. (吉蒂：首先，他们将参观我们的教室。)
+Ms Guo: That's right. What will they do next? (郭老师：没错。接下来他们会做什么？)
+Joe: Next, they'll visit the art room. (乔：接下来，他们将参观美术室。)
+Alice: Then they'll go to the hall. (艾丽丝：然后他们将去礼堂。)
+Peter: After that, they'll go to the library. (彼得：在那之后，他们将去图书馆。)
+Ms Guo: Finally, they'll meet the teachers in the meeting room. (郭老师：最后，他们将在会议室会见老师。)
+
+
+
+## Unit 8
+
+* 题目：Buying clothes (购买衣服)
+* 场景：Kitty、Ben 和妈妈 Mrs Li 正在商场挑选新衣服。Kitty 在比较不同颜色的连衣裙，而 Ben 则在挑选适合自己尺码的裤子。
+* 重点句型：
+  - Which dress do you like, the blue one or the pink one? (你喜欢哪件连衣裙，蓝色的还是粉色的？)
+  - I like the pink one. (我喜欢粉色的那件。)
+  - Which pair of trousers do you like, the white one or the brown one? (你喜欢哪条裤子，白色的还是褐色的？)
+  - OK. I'll try on the trousers. (好的。我要试穿这条裤子。)
+* 知识点：
+  - 核心词汇：`which` (哪一个), `trousers` (裤子), `sweater` (毛衣), `coat` (外套), `shoe` (鞋), `size` (尺码), `money` (钱)
+  - 重点短语：`try ... on` (试穿), `put ... on` (穿/戴), `have a look` (看一看), `favourite colour` (最喜欢的颜色)
+  - 语音知识：掌握字母组合 `ou` (mouse) 和 `ow` (owl) 的发音
+
+
+Mrs Li: Which dress do you like, the blue one or the pink one? (李太太：你喜欢哪件连衣裙，蓝色的还是粉色的？)
+Kitty: I like the pink one. Pink is my favourite colour. I like the blue one too. It's beautiful. (吉蒂：我喜欢粉色的。粉色是我最喜欢的颜色。我也喜欢蓝色的。它很漂亮。)
+Mrs Li: You can try both on. (李太太：你可以两件都试穿一下。)
+Kitty: That's great! (吉蒂：太棒了！)
+
+Mrs Li: Which pair of trousers do you like, the white one or the brown one? (李太太：你喜欢哪条裤子，白色的还是褐色的？)
+Ben: I like the brown one. (本：我喜欢褐色的那条。)
+Mrs Li: Here you are. It's your size. (李太太：给你。这是你的尺码。)
+Ben: OK. I'll try on the trousers. (本：好的。我要试穿这条裤子。)
+
+
+
+## Unit 9
+
+* 题目：Seeing the doctor (看医生)
+* 场景：Kitty 感觉不舒服，她生病了。妈妈带她去医院看医生，医生询问病情并给出了治疗建议。
+* 重点句型：
+  - What's wrong with you? (你哪里不舒服？)
+  - You should take some medicine. (你应该吃点药。)
+  - You shouldn't go to bed late. (你不应该晚睡。)
+* 知识点：
+  - 核心词汇：`ill` (生病的), `wrong` (有毛病), `headache` (头痛), `fever` (发烧), `should` (应该), `medicine` (药), `rest` (休息), `toothache` (牙痛), `dentist` (牙医)
+  - 重点短语：`have a cold` (感冒), `have a fever` (发烧), `take some medicine` (吃药), `drink a lot of water` (多喝水), `have a good rest` (好好休息), `get well` (康复)
+  - 语音知识：掌握字母组合 `ay` (May) 和 `ai` (wait) 的发音
+
+
+Doctor: What's wrong with you? (医生：你哪里不舒服？)
+Kitty: I have a headache. (吉蒂：我头痛。)
+Mrs Li: She has a fever too. (李太太：她也发烧了。)
+Doctor: Let me have a look. Open your mouth and say "Ah ...". (医生：让我看一看。张开嘴说“啊……”。)
+Kitty: Ah ... (吉蒂：啊……)
+Doctor: You have a cold. You should take some medicine. You should also drink a lot of water. You shouldn't go to bed late. Have a good rest and you'll get well soon. (医生：你感冒了。你应该吃点药。你还应该多喝水。你不应该晚睡。好好休息，你很快就会康复的。)
+Kitty: Thank you, doctor. (吉蒂：谢谢你，医生。)
+Doctor: You're welcome. (医生：不客气。)
+
+
+
+## Unit 10
+
+* **题目**：Great inventions (伟大的发明)
+* **场景**：郭老师正在课堂上和同学们讨论世界上伟大的发明。吉蒂、艾丽丝和彼得分别分享了他们认为伟大的发明（纸、手表、汽车）及其用途。乔则分享了他想要自己发明“飞行单车”的梦想。
+* **重点句型**：
+  - I think paper is a great invention. (我认为纸是一项伟大的发明。)
+  - People can tell the time anywhere. (人们可以在任何地方看时间。)
+  - I'm going to invent something myself. (我打算自己发明点东西。)
+* **知识点**：
+  - **核心词汇**：`invention` (发明), `watch` (手表), `anywhere` (任何地方), `travel` (旅行), `invent` (发明), `myself` (我自己), `camera` (相机), `something` (某事；某物)
+  - **重点短语**：`from one place to another` (从一个地方到另一个地方), `write on` (在……上写字), `tell the time` (看时间), `far away from ...` (远离……)
+  - **背景知识**：了解莱特兄弟（Wilbur Wright 和 Orville Wright）发明飞机（flying machine）的故事。
+
+
+Ms Guo: Do you know any great inventions in the world? (郭老师：你们知道世界上有哪些伟大的发明吗？)
+Kitty: I think paper is a great invention. People can write on it. (吉蒂：我认为纸是一项伟大的发明。人们可以在上面写字。)
+Alice: I think the watch is a great invention. People can tell the time anywhere. (艾丽丝：我认为手表是一项伟大的发明。人们在任何地方都能看时间。)
+Peter: I think the car is a great invention. People can travel from one place to another very fast. (彼得：我认为汽车是一项伟大的发明。人们可以很快地从一个地方旅行到另一个地方。)
+Joe: I think ... Well, I'm going to invent something myself. (乔：我想……嗯，我打算自己发明点东西。)
+Ms Guo: Great! What are you going to invent? (郭老师：太棒了！你打算发明什么？)
+Joe: I'm going to invent a flying bike! People can go anywhere with it. (乔：我打算发明一辆会飞的自行车！人们可以骑着它去任何地方。)
+
+
+
+## Unit 11
+
+# 题目：Chinese festivals (中国的节日)
+# 场景：郭老师正在和同学们讨论中国传统的节日。大家分享了关于春节（Spring Festival）的习俗，包括节日的日期、传统食物、庆祝活动以及红包等文化元素。
+# 重点句型：
+  - When's the Spring Festival? (春节在什么时候？)
+  - It's an important Chinese festival. (它是一个重要的中国节日。)
+  - Families have a big dinner together. (家人们聚在一起吃大餐。)
+  - People also watch fireworks at night. (人们也在晚上看烟花。)
+# 知识点：
+  - 核心词汇：`festival` (节日), `important` (重要的), `call` (叫做), `dumpling` (饺子), `relative` (亲戚), `firework` (烟火), `monster` (怪物), `village` (村庄), `mooncake` (月饼)
+  - 重点短语：`red packet` (红包), `Chinese New Year's Eve` (除夕), `at the end of` (在……的最后), `visit friends and relatives` (拜访亲戚朋友)
+  - 文化常识：了解“年”兽的故事（年兽害怕红色和巨大的响声）；了解中秋节吃月饼、重阳节登高和吃重阳糕的习俗
+
+
+Ms Guo: Children, the Spring Festival is coming. What do you know about it? (郭老师：孩子们，春节就要到了。你们对它了解多少？)
+Kitty: It is an important Chinese festival. It comes in January or February every year. People also call it Chinese New Year. (吉蒂：它是一个重要的中国节日。它每年在1月或2月到来。人们也把它叫做中国新年。)
+Ms Guo: What do families do on Chinese New Year's Eve? (郭老师：除夕夜家人们都做些什么？)
+Peter: Families have a big dinner together. They often eat fish and dumplings. (彼得：家人们聚在一起吃大餐。他们经常吃鱼和饺子。)
+Alice: People visit their friends and relatives. Children often get red packets with some money in them. (艾丽丝：人们拜访朋友和亲戚。孩子们经常会收到装有钱的红包。)
+Joe: People also watch fireworks at night. They like the beautiful fireworks very much. (乔：人们还在晚上看烟花。他们非常喜欢美丽的烟花。)
+
+
+
+## Unit 12
+
+* **题目**：The giant's garden (巨人的花园)
+* **场景**：一个自私的巨人拥有一座美丽的花园，但他筑起高墙禁止孩子们进入。结果他的花园里永远只有寒冷的冬天。直到有一天，孩子们钻进花园带回了春天，巨人终于意识到自己的错误，拆掉围墙欢迎孩子们回来。
+* **重点句型**：
+  - He's not kind to children. (他对孩子们不友好。)
+  - They are coming through a hole. (他们正从一个洞里钻进来。)
+  - Children, you can play in my garden any time. (孩子们，你们随时可以在我的花园里玩。)
+* **知识点**：
+  - **核心词汇**：`giant` (巨人), `wall` (墙), `kind` (友好的), `through` (穿过), `no entry` (禁止进入)
+  - **重点短语**：`(be) kind to ...` (对……友好), `knock down` (推倒；拆掉), `around his garden` (在他的花园周围), `Miss Spring` (春姑娘), `feel sad` (感到伤心)
+  - **语音知识**：学习掌握本单元相关单词的发音和拼写。
+
+
+Narrator: A giant lives in a big house with a beautiful garden. Children like to play in the garden. They have a lot of fun there. (旁白：一个巨人住在一所带漂亮花园的大房子里。孩子们喜欢在花园里玩耍。他们在那里玩得很开心。)
+Giant: Get out! Get out! (巨人：出去！出去！)
+Narrator: The giant finds the children in his garden. He is very angry. He builds a tall wall around his garden. (旁白：巨人在他的花园里发现了孩子们。他非常生气。他在花园周围筑起了一道高墙。)
+Giant: It's cold here. Where's Miss Spring? (巨人：这里好冷。春姑娘在哪里？)
+Miss Spring: I don't like the giant. He's not kind to children. (春姑娘：我不喜欢那个巨人。他对孩子们不友好。)
+Narrator: Miss Spring, Miss Summer and Miss Autumn do not visit the giant. It is always winter in the giant's garden. (旁白：春姑娘、夏姑娘和秋姑娘都不去拜访巨人。巨人的花园里永远是冬天。)
+Giant: Hooray! Miss Spring is here! (巨人：万岁！春姑娘在这儿！)
+Narrator: One morning, the giant hears some lovely sounds. He finds some children in his garden. They are coming through a hole. They bring Miss Spring to his garden! (旁白：一个清晨，巨人听到了一些动听的声音。他在花园里发现了一些孩子。他们正从一个洞里钻进来。他们把春姑娘带到了他的花园！)
+Giant: Children, you can play in my garden any time. (巨人：孩子们，你们随时可以在我的花园里玩。)
+Narrator: The giant knocks down the wall around his garden. Miss Spring never comes late again. (旁白：巨人拆掉了花园周围的围墙。春姑娘再也没有迟到过。)
+
+
 
 
 
