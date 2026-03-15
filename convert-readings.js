@@ -36,7 +36,7 @@ function parseReadingsMD() {
     }
     const linesToParse = filteredLines;
     
-    // 提取书本名称（第一个 # 标题）
+    // 初始书本名称（第一个 # 书本标题，用于顶层 bookName 兼容）
     let bookName = '';
     for (let i = 0; i < linesToParse.length; i++) {
         const line = linesToParse[i].trim();
@@ -47,8 +47,9 @@ function parseReadingsMD() {
         }
     }
     
-    // 当前单元名称
+    // 当前单元名称、当前书本（解析过程中遇到新的 # 书本会更新）
     let currentUnitName = '';
+    let currentBookName = bookName;
     
     // 找到第一个题目行的位置
     let startIndex = 0;
@@ -66,6 +67,13 @@ function parseReadingsMD() {
         
         // 跳过独立的代码块标记行
         if (line.startsWith('```')) {
+            continue;
+        }
+        
+        // 检测书本标题行（# 开头且非 题目/场景/重点句型/知识点）——支持多本书
+        if (line.startsWith('# ') && !line.startsWith('# 题目：') && !line.startsWith('# 场景：') &&
+            !line.startsWith('# 重点句型') && !line.startsWith('# 知识点')) {
+            currentBookName = line.replace(/^#\s*/, '').trim();
             continue;
         }
         
@@ -108,7 +116,7 @@ function parseReadingsMD() {
             
             currentReading = {
                 id: `reading-${String(readingIndex + 1).padStart(3, '0')}`,
-                bookName: bookName,
+                bookName: currentBookName,
                 unitName: readingUnitName,
                 title: titleMatch ? titleMatch[1].trim() : '',
                 titleCn: titleMatch ? titleMatch[2].trim() : '',
