@@ -82,17 +82,28 @@ MINIMAX_VOICE_CLONE_VOICES = [
 
 ## 数据更新
 
+转换与检查时会自动忽略源文件中的 `<!-- ... -->` 注释块（如格式示例），仅解析正文内容。
+
 ### 在线工具
 
 导航栏点击「工具」按钮，可上传 Markdown 或 JSON 文件实时生效。
 
 ### 命令行工具
 
+**数据转换**（Node.js，可用 `node 脚本名` 或 `./脚本名`）：
+
 ```bash
-node convert-words.js         # 转换单词数据
-python3 convert-readings.py   # 转换阅读数据
-python3 check-words-format.py # 检查单词格式
-python3 check-readings-format.py # 检查阅读格式
+./convert-words.js      # 或 node convert-words.js  — 转换单词数据
+./convert-readings.js   # 或 node convert-readings.js — 转换阅读数据
+./convert-listen.js     # 或 node convert-listen.js  — 转换听书数据
+```
+
+**格式检查**（Python，可用 `python3 脚本名` 或 `./脚本名`）：
+
+```bash
+./check-words-format.py     # 或 python3 check-words-format.py  — 检查 WORDS.md
+./check-readings-format.py # 或 python3 check-readings-format.py — 检查 READINGS.md
+./check-listen-format.py   # 或 python3 check-listen-format.py   — 检查 LISTEN.md
 ```
 
 ## 技术栈
@@ -105,3 +116,8 @@ python3 check-readings-format.py # 检查阅读格式
 ## 更新日志
 
 详见 [CHANGELOG.md](./CHANGELOG.md)
+
+
+## Refer
+
+* https://github.com/gerryyang2025/ChinaTextbook

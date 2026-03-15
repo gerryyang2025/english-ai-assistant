@@ -59,12 +59,21 @@ class WordsFormatChecker:
         current_unit = None
         current_word = None
         word_index = 0
+        in_comment_block = False  # 是否在 <!-- ... --> 注释块内
         
         for i, raw_line in enumerate(lines):
             line = raw_line.strip()
             
-            # 跳过注释和代码块
-            if line.startswith('<!--') or line.startswith('```'):
+            # 跳过 HTML 注释块：进入 <!-- 后直到 --> 之前都忽略
+            if line.startswith('<!--'):
+                in_comment_block = True
+                continue
+            if in_comment_block:
+                if '-->' in line:
+                    in_comment_block = False
+                continue
+            # 跳过独立的代码块标记行
+            if line.startswith('```'):
                 continue
             
             # 检测词书标题

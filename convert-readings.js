@@ -1,5 +1,6 @@
+#!/usr/bin/env node
 // 阅读数据转换脚本：将 READINGS.md 转换为 JSON 格式
-// 运行方式：node convert-readings.js
+// 运行方式：node convert-readings.js  或  ./convert-readings.js
 
 const fs = require('fs');
 const path = require('path');
@@ -14,11 +15,31 @@ function parseReadingsMD() {
     let readingIndex = 0;
     let isParsingPatterns = false;
     let isParsingKnowledgePoints = false;
+
+    // 过滤掉 <!-- ... --> 注释块内的行（含其中的 ``` 代码块），避免将格式示例当作真实内容解析
+    const filteredLines = [];
+    let inCommentBlock = false;
+    for (let i = 0; i < lines.length; i++) {
+        const raw = lines[i];
+        const line = raw.trim();
+        if (line.startsWith('<!--')) {
+            inCommentBlock = true;
+            continue;
+        }
+        if (inCommentBlock) {
+            if (line.includes('-->')) {
+                inCommentBlock = false;
+            }
+            continue;
+        }
+        filteredLines.push(raw);
+    }
+    const linesToParse = filteredLines;
     
     // 提取书本名称（第一个 # 标题）
     let bookName = '';
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
+    for (let i = 0; i < linesToParse.length; i++) {
+        const line = linesToParse[i].trim();
         if (line.startsWith('# ') && !line.startsWith('# 题目：') && !line.startsWith('# 场景：') && 
             !line.startsWith('# 重点句型') && !line.startsWith('# 知识点')) {
             bookName = line.replace(/^#\s*/, '').trim();
@@ -31,21 +52,20 @@ function parseReadingsMD() {
     
     // 找到第一个题目行的位置
     let startIndex = 0;
-    for (let i = 0; i < lines.length; i++) {
-        // 支持两种格式：# 题目： 和 * 题目：
-        const line = lines[i].trim();
+    for (let i = 0; i < linesToParse.length; i++) {
+        const line = linesToParse[i].trim();
         if (line.startsWith('# 题目：') || line.startsWith('* 题目：')) {
             startIndex = i;
             break;
         }
     }
     
-    for (let i = startIndex; i < lines.length; i++) {
-        const rawLine = lines[i];
+    for (let i = startIndex; i < linesToParse.length; i++) {
+        const rawLine = linesToParse[i];
         const line = rawLine.trim();
         
-        // 跳过注释和 JSON 示例
-        if (line.startsWith('<!--') || line.startsWith('```')) {
+        // 跳过独立的代码块标记行
+        if (line.startsWith('```')) {
             continue;
         }
         
@@ -69,7 +89,7 @@ function parseReadingsMD() {
             // 在当前行之前查找最近的单元标题
             let readingUnitName = '';
             for (let j = i - 1; j >= 0; j--) {
-                const prevLine = lines[j].trim();
+                const prevLine = linesToParse[j].trim();
                 if (prevLine.startsWith('## ')) {
                     readingUnitName = prevLine.replace(/^##\s*/, '').trim();
                     break;
@@ -78,7 +98,7 @@ function parseReadingsMD() {
             // 如果没找到，从文件开头查找最近的单元标题
             if (!readingUnitName) {
                 for (let j = 0; j < i; j++) {
-                    const prevLine = lines[j].trim();
+                    const prevLine = linesToParse[j].trim();
                     if (prevLine.startsWith('## ')) {
                         readingUnitName = prevLine.replace(/^##\s*/, '').trim();
                         break;
@@ -196,10 +216,21 @@ function parseReadingsMD() {
     if (currentReading) {
         readings.push(currentReading);
     }
-    
+
+    // 过滤掉空壳条目（来自注释示例等：无句型、无知识点、无对话）
+    const filteredReadings = readings.filter(r =>
+        r.keySentencePatterns.length > 0 ||
+        r.knowledgePoints.length > 0 ||
+        r.dialogues.length > 0
+    );
+    // 重新编号 id
+    filteredReadings.forEach((r, idx) => {
+        r.id = `reading-${String(idx + 1).padStart(3, '0')}`;
+    });
+
     return { 
         bookName: bookName,
-        readings: readings 
+        readings: filteredReadings 
     };
 }
 

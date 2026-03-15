@@ -1,5 +1,6 @@
+#!/usr/bin/env node
 // 数据转换脚本：将 WORDS.md 转换为 JSON 格式
-// 运行方式：node convert-words.js
+// 运行方式：node convert-words.js  或  ./convert-words.js
 
 const fs = require('fs');
 const path = require('path');
@@ -23,13 +24,32 @@ function parseWordsMD() {
     let currentUnit = null;
     let currentWordData = null;
     let wordIndex = 0;
-    
+
+    // 过滤掉 <!-- ... --> 注释块内的行，避免将格式示例当作真实内容解析
+    const filteredLines = [];
+    let inCommentBlock = false;
     for (let i = 0; i < lines.length; i++) {
-        const rawLine = lines[i];
+        const raw = lines[i];
+        const line = raw.trim();
+        if (line.startsWith('<!--')) {
+            inCommentBlock = true;
+            continue;
+        }
+        if (inCommentBlock) {
+            if (line.includes('-->')) {
+                inCommentBlock = false;
+            }
+            continue;
+        }
+        filteredLines.push(raw);
+    }
+
+    for (let i = 0; i < filteredLines.length; i++) {
+        const rawLine = filteredLines[i];
         const line = rawLine.trim();
         
-        // 跳过注释
-        if (line.startsWith('<!--') || line.startsWith('```')) {
+        // 跳过独立的代码块标记行
+        if (line.startsWith('```')) {
             continue;
         }
         
