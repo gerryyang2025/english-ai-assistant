@@ -2020,6 +2020,1706 @@
     ]
   },
   {
+    "id": "grade5-lower",
+    "name": "英语五年级下册",
+    "units": [
+      {
+        "unit": "Unit 1",
+        "title": "Tidy up!",
+        "category": "家居/动作类,",
+        "words": [
+          {
+            "id": "grade5-lower-u1-w1",
+            "word": "**tidy**",
+            "phonetic": "/ˈtaɪdi/",
+            "meaning": "整理；整洁的",
+            "example": "Let's **tidy** it up.",
+            "translation": "让我们把它整理好。",
+            "memoryTip": "**ti** + **dy**，整理好东西，大声说“太（ti）地（dy）道”了。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w2",
+            "word": "**mess**",
+            "phonetic": "/mes/",
+            "meaning": "脏乱，不整洁",
+            "example": "What a **mess**! (真是乱七八糟！),",
+            "translation": "",
+            "memoryTip": "**m** + **ess**，乱得像“没事（mess）”找事。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w3",
+            "word": "**let**",
+            "phonetic": "/let/",
+            "meaning": "让",
+            "example": "**Let**'s tidy it up.",
+            "translation": "让我们把它整理好。",
+            "memoryTip": "**l** + **et**，让（let）我们一起去寻找外星人（ET）。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w4",
+            "word": "**sock**",
+            "phonetic": "/sɒk/",
+            "meaning": "短袜",
+            "example": "Whose **socks** are those?",
+            "translation": "那些是谁的袜子？",
+            "memoryTip": "**s** + **ock**，蛇（s）钻进了大石头（rock）下的袜子里。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w5",
+            "word": "**yours**",
+            "phonetic": "/jɔːz/",
+            "meaning": "你的，你们的",
+            "example": "Are they **yours**, Peter?",
+            "translation": "彼得，它们是你的吗？",
+            "memoryTip": "**your** + **s**，名词性物主代词通常在形容词性物主代词后加 s。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w6",
+            "word": "**cap**",
+            "phonetic": "/kæp/",
+            "meaning": "帽子",
+            "example": "Whose **cap** is this?",
+            "translation": "这是谁的帽子？",
+            "memoryTip": "**c** + **ap**，猫（cat）戴着帽子（cap）。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w7",
+            "word": "**mine**",
+            "phonetic": "/maɪn/",
+            "meaning": "我的",
+            "example": "It's **mine**.",
+            "translation": "它是我的。",
+            "memoryTip": "**m** + **ine**，我的（mine）地盘我做主。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w8",
+            "word": "**crayon**",
+            "phonetic": "/ˈkreɪən/",
+            "meaning": "彩色蜡笔",
+            "example": "The **crayons** are Joe's.",
+            "translation": "这些蜡笔是乔的。",
+            "memoryTip": "**c** + **ray**（光线）+ **on**，用彩色蜡笔画出阳光。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w9",
+            "word": "**umbrella**",
+            "phonetic": "/ʌmˈbrelə/",
+            "meaning": "伞",
+            "example": "The **umbrella** is Alice's.",
+            "translation": "这把伞是爱丽丝的。",
+            "memoryTip": "**um** + **brella**，俺（um）不（b）热（re）了（lla），因为打了伞。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w10",
+            "word": "**nail**",
+            "phonetic": "/neɪl/",
+            "meaning": "钉子",
+            "example": "It is full of **nails**.",
+            "translation": "它装满了钉子。",
+            "memoryTip": "**n** + **ail**（生病），小鸟（n）被钉子扎了，生病（ail）了。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w11",
+            "word": "**drop**",
+            "phonetic": "/drɒp/",
+            "meaning": "使落下；掉落",
+            "example": "Jimmy **drops** the box.",
+            "translation": "吉米掉下了盒子。",
+            "memoryTip": "**d** + **rop**（绳子），掉下的（drop）绳子。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w12",
+            "word": "**stick**",
+            "phonetic": "/stɪk/",
+            "meaning": "粘贴；粘住",
+            "example": "The nails all **stick** to it.",
+            "translation": "钉子全都粘在上面了。",
+            "memoryTip": "**s** + **tick**（滴答声），钟表滴答滴答粘（stick）在墙上。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w13",
+            "word": "**second**",
+            "phonetic": "/ˈsekənd/",
+            "meaning": "秒",
+            "example": "In a few **seconds**, the floor is clean again.",
+            "translation": "几秒钟后，地板又干净了。",
+            "memoryTip": "**se** + **cond**，色（se）控（cond）选衣服只用几秒钟。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w14",
+            "word": "**hers**",
+            "phonetic": "/hɜːz/",
+            "meaning": "她的",
+            "example": "Are these **hers**?",
+            "translation": "这些是她的吗？",
+            "memoryTip": "**her** + **s**，她的（hers）。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w15",
+            "word": "**theirs**",
+            "phonetic": "/ðeəz/",
+            "meaning": "他们的，她们的，它们的",
+            "example": "They are **theirs**.",
+            "translation": "它们是他们的。",
+            "memoryTip": "**their** + **s**，他们的（theirs）。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w16",
+            "word": "**tidy up**",
+            "phonetic": "",
+            "meaning": "把……整理好",
+            "example": "Let's **tidy** it **up**.",
+            "translation": "让我们把它整理好。",
+            "memoryTip": "**tidy**（整理）+ **up**（起来）。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w17",
+            "word": "**(be) full",
+            "phonetic": "",
+            "meaning": "of** 装满……；充满……",
+            "example": "It is **full of** nails.",
+            "translation": "它装满了钉子。",
+            "memoryTip": "**full**（满的）+ **of**（……的）。",
+            "category": "家居/动作类,"
+          },
+          {
+            "id": "grade5-lower-u1-w18",
+            "word": "**a few**",
+            "phonetic": "",
+            "meaning": "几个；一些",
+            "example": "In **a few** seconds, the floor is clean again.",
+            "translation": "几秒钟后，地板又干净了。",
+            "memoryTip": "**a**（一个）+ **few**（很少），指代几个。",
+            "category": "家居/动作类,"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 2",
+        "title": "Our new home",
+        "category": "房屋/描述类",
+        "words": [
+          {
+            "id": "grade5-lower-u2-w1",
+            "word": "**why**",
+            "phonetic": "/waɪ/",
+            "meaning": "为什么",
+            "example": "**Why** do you like it?",
+            "translation": "你为什么喜欢它？",
+            "memoryTip": "**w** + **hy**，读音像“歪”，歪着头问“为什么”。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w2",
+            "word": "**because**",
+            "phonetic": "/bɪˈkɒz/",
+            "meaning": "因为",
+            "example": "**Because** it's so big.",
+            "translation": "因为它很大。",
+            "memoryTip": "**be** + **cause**（原因），这就是原因。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w3",
+            "word": "**study**",
+            "phonetic": "/ˈstʌdi/",
+            "meaning": "书房；学习",
+            "example": "I like the **study**.",
+            "translation": "我喜欢书房。",
+            "memoryTip": "**stu**（学生）+ **dy**（在大地），学生在书房的学习桌前。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w4",
+            "word": "**dining room**",
+            "phonetic": "/ˈdaɪnɪŋ ruːm/",
+            "meaning": "餐室；餐厅",
+            "example": "I like the **dining room**.",
+            "translation": "我喜欢餐厅。",
+            "memoryTip": "**din**（叮）+ **ing** + **room**，在房间里叮叮当当地用晚餐。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w5",
+            "word": "**wild goose**",
+            "phonetic": "/waɪld ɡuːs/",
+            "meaning": "大雁（复数 wild geese）",
+            "example": "Why do **wild geese** change homes?",
+            "translation": "大雁为什么要搬家？",
+            "memoryTip": "**wild**（野外的）+ **goose**（鹅），野外的鹅就是大雁。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w6",
+            "word": "**change**",
+            "phonetic": "/tʃeɪndʒ/",
+            "meaning": "改变；变化",
+            "example": "They **change** homes twice every year.",
+            "translation": "它们每年搬两次家。",
+            "memoryTip": "**chan**（产）+ **ge**（生），产生了变化。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w7",
+            "word": "**place**",
+            "phonetic": "/pleɪs/",
+            "meaning": "地方",
+            "example": "They fly from one **place** to another.",
+            "translation": "它们从一个地方飞到另一个地方。",
+            "memoryTip": "**p** + **lace**（蕾丝），那个地方（place）装饰着蕾丝。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w8",
+            "word": "**twice**",
+            "phonetic": "/twaɪs/",
+            "meaning": "两次",
+            "example": "They change homes **twice** every year.",
+            "translation": "它们每年搬两次家。",
+            "memoryTip": "**t** + **wice**（像 rice），吃了两次（twice）米饭。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w9",
+            "word": "**every**",
+            "phonetic": "/ˈevri/",
+            "meaning": "每；每个",
+            "example": "They change homes twice **every** year.",
+            "translation": "它们每年搬两次家。",
+            "memoryTip": "**e** + **very**（非常），每个人（every）都非常努力。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w10",
+            "word": "**north**",
+            "phonetic": "/nɔːθ/",
+            "meaning": "北方；向北",
+            "example": "In spring, they fly **north**.",
+            "translation": "在春天，它们向北飞。",
+            "memoryTip": "**no** + **rth**，北方（north）的天气经常说 No。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w11",
+            "word": "**south**",
+            "phonetic": "/saʊθ/",
+            "meaning": "南方；向南",
+            "example": "In autumn, they fly **south**.",
+            "translation": "在秋天，它们向南飞。",
+            "memoryTip": "**s** + **outh**（像 mouth），南方（south）人的嘴巴（mouth）很甜。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w12",
+            "word": "**enough**",
+            "phonetic": "/ɪˈnʌf/",
+            "meaning": "足够的",
+            "example": "They cannot find **enough** food in the north.",
+            "translation": "它们在北方找不到足够的食物。",
+            "memoryTip": "**e** + **nough**，读音像“一拿夫”，拿了一个又一个，已经拿够了。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w13",
+            "word": "**then**",
+            "phonetic": "/ðen/",
+            "meaning": "然后",
+            "example": "**Then** in spring, it is warm in the north.",
+            "translation": "然后到春天，北方就暖和了。",
+            "memoryTip": "**the** + **n**，在这（the）之后接着发生。",
+            "category": "房屋/描述类"
+          },
+          {
+            "id": "grade5-lower-u2-w14",
+            "word": "**all day**",
+            "phonetic": "/ɔːl deɪ/",
+            "meaning": "一天到晚",
+            "example": "Because they can play in the garden **all day**!",
+            "translation": "因为他们可以在花园里玩一整天！",
+            "memoryTip": "**all**（全部的）+ **day**（天），全部的时间就是一天到晚。",
+            "category": "房屋/描述类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 3",
+        "title": "In the future",
+        "category": "未来/生活类",
+        "words": [
+          {
+            "id": "grade5-lower-u3-w1",
+            "word": "**future**",
+            "phonetic": "/ˈfjuːtʃə/",
+            "meaning": "将来；未来",
+            "example": "Kitty wants to know about her **future**.",
+            "translation": "吉蒂想了解她的未来。",
+            "memoryTip": "**fu**（福）+ **ture**，未来的福气在等着你。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w2",
+            "word": "**stand**",
+            "phonetic": "/stænd/",
+            "meaning": "站；站住",
+            "example": "She **stands** in front of a magic machine.",
+            "translation": "她站在一台神奇的机器前。",
+            "memoryTip": "**s** + **t** + **and**（和），大家都站着和你在一起。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w3",
+            "word": "**machine**",
+            "phonetic": "/məˈʃiːn/",
+            "meaning": "机器",
+            "example": "She stands in front of a magic **machine**.",
+            "translation": "她站在一台神奇的机器前。",
+            "memoryTip": "**ma**（马）+ **chi**（吃）+ **ne**（呢），马在吃机器呢。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w4",
+            "word": "**will**",
+            "phonetic": "/wɪl/",
+            "meaning": "将；将会",
+            "example": "I **will** be a teacher.",
+            "translation": "我将成为一名老师。",
+            "memoryTip": "**w** + **ill**（生病），病好了，“将”会去上学。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w5",
+            "word": "**exercise**",
+            "phonetic": "/ˈeksəsaɪz/",
+            "meaning": "运动；锻炼；活动",
+            "example": "I will do **exercise** every day.",
+            "translation": "我将每天进行体育锻炼。",
+            "memoryTip": "**ex** + **er** + **cise**，在外面（ex）锻炼身体。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w6",
+            "word": "**early**",
+            "phonetic": "/ˈɜːli/",
+            "meaning": "早；提早",
+            "example": "I do not like to get up **early**.",
+            "translation": "我不喜欢早起。",
+            "memoryTip": "**ear**（耳朵）+ **ly**，耳朵听得早（early）。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w7",
+            "word": "**easily**",
+            "phonetic": "/ˈiːzəli/",
+            "meaning": "容易地",
+            "example": "I get tired **easily**.",
+            "translation": "我容易感到疲倦。",
+            "memoryTip": "**easy**（容易的）+ **ly**（副词后缀）。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w8",
+            "word": "**hard**",
+            "phonetic": "/hɑːd/",
+            "meaning": "努力地",
+            "example": "I will study **hard**.",
+            "translation": "我将努力学习。",
+            "memoryTip": "努力的人像“哈（ha）”出的“热（rd）”气一样充满干劲。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w9",
+            "word": "**more**",
+            "phonetic": "/mɔː/",
+            "meaning": "更多的",
+            "example": "I will read **more** English books.",
+            "translation": "我将阅读更多的英语书籍。",
+            "memoryTip": "**mo**（摸）+ **re**，还要摸索更多的知识。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w10",
+            "word": "**in the",
+            "phonetic": "",
+            "meaning": "future** 将来",
+            "example": "This is me **in the future**!",
+            "translation": "这就是未来的我！",
+            "memoryTip": "**in**（在……里）+ **the future**（将来）。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w11",
+            "word": "**in front",
+            "phonetic": "",
+            "meaning": "of** 在……前面",
+            "example": "She stands **in front of** a magic machine.",
+            "translation": "她站在一台神奇的机器前。",
+            "memoryTip": "**in** + **front**（前面）+ **of**。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w12",
+            "word": "**take a",
+            "phonetic": "",
+            "meaning": "photo** 拍照",
+            "example": "Kitty ... takes a **photo**.",
+            "translation": "吉蒂……拍了一张照片。",
+            "memoryTip": "**take**（拿）+ **a photo**（照片），拿起相机拍照片。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w13",
+            "word": "**wear glasses**",
+            "phonetic": "",
+            "meaning": "戴眼镜",
+            "example": "I won't **wear glasses**.",
+            "translation": "我将不戴眼镜。",
+            "memoryTip": "**wear**（穿/戴）+ **glasses**（眼镜，像两块玻璃glass）。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w14",
+            "word": "**do exercise**",
+            "phonetic": "",
+            "meaning": "做运动",
+            "example": "I will **do exercise** every day.",
+            "translation": "我将每天做运动。",
+            "memoryTip": "**do**（做）+ **exercise**（运动）。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w15",
+            "word": "**(be) weak",
+            "phonetic": "",
+            "meaning": "in** 不擅长",
+            "example": "I am **weak in** English.",
+            "translation": "我不擅长英语。",
+            "memoryTip": "**weak**（虚弱的）+ **in**（在……方面），在某方面虚弱就是不擅长。",
+            "category": "未来/生活类"
+          },
+          {
+            "id": "grade5-lower-u3-w16",
+            "word": "**not ...",
+            "phonetic": "",
+            "meaning": "any more** 不再",
+            "example": "I will not be late for school **any more**.",
+            "translation": "我将不再上学迟到。",
+            "memoryTip": "**not**（不）+ **any more**（更多），不会再有更多次了。",
+            "category": "未来/生活类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 4",
+        "title": "Reading is fun",
+        "category": "阅读/学习类",
+        "words": [
+          {
+            "id": "grade5-lower-u4-w1",
+            "word": "**storybook**",
+            "phonetic": "/ˈstɔːribʊk/",
+            "meaning": "故事书",
+            "example": "There are many **storybooks**.",
+            "translation": "有很多故事书。",
+            "memoryTip": "**story**（故事）+ **book**（书）。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w2",
+            "word": "**buy**",
+            "phonetic": "/baɪ/",
+            "meaning": "买",
+            "example": "I'm going to **buy** one.",
+            "translation": "我打算买一本。",
+            "memoryTip": "谐音“摆”，把**买**回来的东西**摆**在桌子上。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w3",
+            "word": "**story**",
+            "phonetic": "/ˈstɔːri/",
+            "meaning": "故事",
+            "example": "I'm going to read a **story** every day.",
+            "translation": "我打算每天读一个故事。",
+            "memoryTip": "**s** + **tory**（看作 toy 玩具），讲一个关于**玩具**的**故事**。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w4",
+            "word": "**dictionary**",
+            "phonetic": "/ˈdɪkʃənri/",
+            "meaning": "字典；词典",
+            "example": "The Lis are at the bookshop. They're going to buy **dictionaries**.",
+            "translation": "李一家在书店，他们打算买词典。",
+            "memoryTip": "**dic**（说）+ **tion** + **ary**，能开口“说”话的工具书。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w5",
+            "word": "**magazine**",
+            "phonetic": "/ˌmæɡəˈziːn/",
+            "meaning": "杂志",
+            "example": "There are newspapers and **magazines** on the ground floor.",
+            "translation": "一楼有报纸和杂志。",
+            "memoryTip": "**ma**（马）+ **ga**（嘎）+ **zine**（谐音：新），**马**在看一份**新**的**杂志**。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w6",
+            "word": "**newspaper**",
+            "phonetic": "/ˈnjuːzpeɪpə/",
+            "meaning": "报纸",
+            "example": "He's reading a **newspaper**.",
+            "translation": "他正在读报纸。",
+            "memoryTip": "**news**（新闻）+ **paper**（纸），印有新闻的纸。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w7",
+            "word": "**week**",
+            "phonetic": "/wiːk/",
+            "meaning": "周；星期",
+            "example": "Book **Week** is coming!",
+            "translation": "读书周就要到了！",
+            "memoryTip": "**w** + **eek**（尖叫声），过了这**一周**就想开心得**尖叫**。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w8",
+            "word": "**student**",
+            "phonetic": "/ˈstjuːdnt/",
+            "meaning": "学生",
+            "example": "The **students** in Class 5A are going to make posters.",
+            "translation": "5A班的学生们打算制作海报。",
+            "memoryTip": "**stu**（学习）+ **dent**（牙齿），**学生**正在努力**学习**，咬紧**牙齿**。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w9",
+            "word": "**poster**",
+            "phonetic": "/ˈpəʊstə/",
+            "meaning": "海报",
+            "example": "They are going to make **posters** about the best stories for children.",
+            "translation": "他们打算制作关于最受孩子们欢迎的故事的海报。",
+            "memoryTip": "**post**（邮寄）+ **er**（者），用来**邮寄**宣传的**者**（东西）。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w10",
+            "word": "**best**",
+            "phonetic": "/best/",
+            "meaning": "最好的",
+            "example": "These are the **best** stories for children.",
+            "translation": "这些是给孩子们最好的故事。",
+            "memoryTip": "**be** + **st**（最强的后缀），成为**最强**的，就是**最好的**。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w11",
+            "word": "**writer**",
+            "phonetic": "/ˈraɪtə/",
+            "meaning": "作家",
+            "example": "They are going to write about the **writers** and the stories.",
+            "translation": "他们打算写写作家和这些故事。",
+            "memoryTip": "**write**（写）+ **r**（的人），**写**书的**人**就是**作家**。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w12",
+            "word": "**over there**",
+            "phonetic": "/ˌəʊvə ˈðeə/",
+            "meaning": "在那边",
+            "example": "I'm going to look at the picture books **over there**.",
+            "translation": "我打算看一看那边的图画书。",
+            "memoryTip": "**over**（翻过）+ **there**（那里），翻过这里到**那边**去。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w13",
+            "word": "**do a",
+            "phonetic": "",
+            "meaning": "survey** 做调查",
+            "example": "The boys are going to **do a survey** about children's favourite books.",
+            "translation": "男生们打算做一个关于孩子们最喜欢的书的调查。",
+            "memoryTip": "**do**（做）+ **a** + **survey**（调查）。",
+            "category": "阅读/学习类"
+          },
+          {
+            "id": "grade5-lower-u4-w14",
+            "word": "**act ...",
+            "phonetic": "",
+            "meaning": "out** 表演",
+            "example": "The girls are going to read a play and then **act** it **out**.",
+            "translation": "女生们打算读一个剧本，然后把它表演出来。",
+            "memoryTip": "**act**（行动）+ **out**（出来），通过**行动**表现**出来**。",
+            "category": "阅读/学习类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 5",
+        "title": "At the weekend",
+        "category": "周末/计划类",
+        "words": [
+          {
+            "id": "grade5-lower-u5-w1",
+            "word": "**weekend**",
+            "phonetic": "/ˈwiːkˈend/",
+            "meaning": "周末",
+            "example": "What are you going to do this **weekend**?",
+            "translation": "这个周末你打算做什么？",
+            "memoryTip": "**week**（周）+ **end**（末尾），一周的末尾就是周末。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w2",
+            "word": "**stay**",
+            "phonetic": "/steɪ/",
+            "meaning": "待；暂住；逗留",
+            "example": "I'm going to **stay** at home.",
+            "translation": "我打算待在家里。",
+            "memoryTip": "**s** + **tay**（谐音：太），待在家里实在是太（tay）无聊了。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w3",
+            "word": "**film**",
+            "phonetic": "/fɪlm/",
+            "meaning": "电影",
+            "example": "I'm going to see a **film** with my parents.",
+            "translation": "我打算和父母去看场电影。",
+            "memoryTip": "**f** + **ilm**，坐在电影院里喝着冰（i）冷（l）的麦（m）片看电影。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w4",
+            "word": "**boat**",
+            "phonetic": "/bəʊt/",
+            "meaning": "小船；舟",
+            "example": "I'm going to row a **boat**.",
+            "translation": "我打算划船。",
+            "memoryTip": "**b** + **oat**（燕麦），想象一艘装着燕麦的小船。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w5",
+            "word": "**plan**",
+            "phonetic": "/plæn/",
+            "meaning": "安排；计划",
+            "example": "I don't have any **plans** for the weekend.",
+            "translation": "我周末没有任何计划。",
+            "memoryTip": "**p** + **lan**（蓝），计划去看看蓝天。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w6",
+            "word": "**tomorrow**",
+            "phonetic": "/təˈmɒrəʊ/",
+            "meaning": "明天",
+            "example": "I'm going to build one **tomorrow**.",
+            "translation": "我明天打算盖一座。",
+            "memoryTip": "**to**（去）+ **morrow**（早晨），去迎接明天的早晨。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w7",
+            "word": "**build**",
+            "phonetic": "/bɪld/",
+            "meaning": "建筑；建造",
+            "example": "I'm going to **build** one tomorrow.",
+            "translation": "我明天打算盖一座。",
+            "memoryTip": "**b** + **uild**，不用（u）我的（i）力量（l）打（d）基础，就不能建造大楼。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w8",
+            "word": "**next**",
+            "phonetic": "/nekst/",
+            "meaning": "紧接着；随后；紧接着的",
+            "example": "The **next** day is Sunday.",
+            "translation": "第二天是星期天。",
+            "memoryTip": "**n** + **ext**，下一个（next）是内（ne）部选（x）拔（t）。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w9",
+            "word": "**swing**",
+            "phonetic": "/swɪŋ/",
+            "meaning": "秋千",
+            "example": "On the third day, he finds a **swing**.",
+            "translation": "第三天，他发现了一个秋千。",
+            "memoryTip": "**s** + **wing**（翅膀），荡起秋千像长了翅膀（wing）一样。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w10",
+            "word": "**cry**",
+            "phonetic": "/kraɪ/",
+            "meaning": "哭；喊叫",
+            "example": "The baby starts to **cry**. (宝宝开始大声哭喊。)",
+            "translation": "注：此句为补充例句，教材中单词见",
+            "memoryTip": "**c** + **ry**，哭的声音像“快（c）让（r）开（y）”。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w11",
+            "word": "**until**",
+            "phonetic": "/ʌnˈtɪl/",
+            "meaning": "直到",
+            "example": "He sleeps **until** morning. (他一直睡到早晨。)",
+            "translation": "注：此句为补充例句，教材中单词见",
+            "memoryTip": "**un** + **til**，读音像“俺抬头”，直到（until）俺抬头才发现天黑了。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w12",
+            "word": "**see a",
+            "phonetic": "",
+            "meaning": "film** 看电影",
+            "example": "I'm going to **see a film** on Saturday afternoon.",
+            "translation": "我打算在周六下午看电影。",
+            "memoryTip": "**see**（看）+ **a film**（电影）。",
+            "category": "周末/计划类"
+          },
+          {
+            "id": "grade5-lower-u5-w13",
+            "word": "**row a",
+            "phonetic": "",
+            "meaning": "boat** 划船",
+            "example": "I'm going to **row a boat** and fly a kite.",
+            "translation": "我打算划船和放风筝。",
+            "memoryTip": "**row**（划）+ **a boat**（小船）。",
+            "category": "周末/计划类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 6",
+        "title": "Holidays",
+        "category": "假期/旅游类",
+        "words": [
+          {
+            "id": "grade5-lower-u6-w1",
+            "word": "**holiday**",
+            "phonetic": "/ˈhɒlədeɪ/",
+            "meaning": "假日；假期",
+            "example": "It's a wonderful place for a **holiday**.",
+            "translation": "这是一个度假的好地方。",
+            "memoryTip": "**holi**（神圣的）+ **day**（日子），神圣的日子就是假期。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w2",
+            "word": "**clear**",
+            "phonetic": "/klɪə(r)/",
+            "meaning": "清澈的",
+            "example": "Sanya has beautiful beaches with **clear** water.",
+            "translation": "三亚有带着清澈海水的美丽沙滩。",
+            "memoryTip": "**c** + **lear**（学习），看到**清澈的**水，心情大好，想去**学习**。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w3",
+            "word": "**seafood**",
+            "phonetic": "/ˈsiːfuːd/",
+            "meaning": "海鲜",
+            "example": "We'll also have **seafood**.",
+            "translation": "我们还会吃海鲜。",
+            "memoryTip": "**sea**（大海）+ **food**（食物），大海里的食物。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w4",
+            "word": "**hotel**",
+            "phonetic": "/həʊˈtel/",
+            "meaning": "旅馆",
+            "example": "We'll stay in a **hotel** by the sea.",
+            "translation": "我们将住在海边的旅馆里。",
+            "memoryTip": "**ho**（后）+ **tel**（推），推开门就是**旅馆**。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w5",
+            "word": "**island**",
+            "phonetic": "/ˈaɪlənd/",
+            "meaning": "岛",
+            "example": "Sanya is on Hainan **Island**.",
+            "translation": "三亚在海南岛上。",
+            "memoryTip": "**is**（是）+ **land**（土地），四面环水的土地就是**岛**。注意s不发音。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w6",
+            "word": "**butterfly**",
+            "phonetic": "/ˈbʌtəflaɪ/",
+            "meaning": "蝴蝶",
+            "example": "There is a big **butterfly** park in Sanya too.",
+            "translation": "三亚也有一个很大的蝴蝶公园。",
+            "memoryTip": "**butter**（黄油）+ **fly**（飞），像黄油一样颜色的飞虫。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w7",
+            "word": "**how long**",
+            "phonetic": "/haʊ lɒŋ/",
+            "meaning": "多久",
+            "example": "**How long** will we stay in Sanya?",
+            "translation": "我们将在三亚待多久？",
+            "memoryTip": "**how**（多）+ **long**（长），时间有多长，即多久。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w8",
+            "word": "**go swimming**",
+            "phonetic": "/ɡəʊ ˈswɪmɪŋ/",
+            "meaning": "去游泳",
+            "example": "We'll **go swimming** there.",
+            "translation": "我们将去那里游泳。",
+            "memoryTip": "**go**（去）+ **swimming**（游泳）。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w9",
+            "word": "**in the",
+            "phonetic": "",
+            "meaning": "south of** 在……的南部",
+            "example": "It is **in the south of** China.",
+            "translation": "它在中国南部。",
+            "memoryTip": "**in** + **the south**（南方）+ **of**。",
+            "category": "假期/旅游类"
+          },
+          {
+            "id": "grade5-lower-u6-w10",
+            "word": "**all year round**",
+            "phonetic": "/ɔːl jɪə(r) raʊnd/",
+            "meaning": "一年到头；终年",
+            "example": "The weather is nice **all year round**.",
+            "translation": "那里一年到头天气都很好。",
+            "memoryTip": "**all**（全）+ **year**（年）+ **round**（圆/环绕），绕着一年转了一圈。",
+            "category": "假期/旅游类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 7",
+        "title": "Open Day",
+        "category": "学校活动/设施类",
+        "words": [
+          {
+            "id": "grade5-lower-u7-w1",
+            "word": "**meet**",
+            "phonetic": "/miːt/",
+            "meaning": "迎接；会见",
+            "example": "I'll **meet** them at the school gate.",
+            "translation": "我将在校门口接他们。",
+            "memoryTip": "**m** + **ee** + **t**，两个 **e**（眼睛）相对就是会面。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w2",
+            "word": "**school gate**",
+            "phonetic": "/skuːl ɡeɪt/",
+            "meaning": "校门；校门口",
+            "example": "I'll meet them at the **school gate**.",
+            "translation": "我将在校门口接他们。",
+            "memoryTip": "**school**（学校）+ **gate**（大门）。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w3",
+            "word": "**art room**",
+            "phonetic": "/ˈɑːt ruːm/",
+            "meaning": "美术室",
+            "example": "Next, they'll visit the **art room**.",
+            "translation": "接下来，他们将参观美术室。",
+            "memoryTip": "**art**（艺术）+ **room**（房间）。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w4",
+            "word": "**hall**",
+            "phonetic": "/hɔːl/",
+            "meaning": "礼堂",
+            "example": "Then they'll go to the **hall**.",
+            "translation": "然后他们将去礼堂。",
+            "memoryTip": "**h** + **all**，所有（all）人都在大厅（hall）里集合。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w5",
+            "word": "**finally**",
+            "phonetic": "/ˈfaɪnəli/",
+            "meaning": "最后",
+            "example": "**Finally**, they'll meet the teachers in the meeting room.",
+            "translation": "最后，他们将在会议室见老师。",
+            "memoryTip": "**final**（最后的）+ **ly**（副词后缀）。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w6",
+            "word": "**meeting room**",
+            "phonetic": "/ˈmiːtɪŋ ruːm/",
+            "meaning": "会客室；会议室",
+            "example": "Finally, they'll meet the teachers in the **meeting room**.",
+            "translation": "最后，他们将在会议室见老师。",
+            "memoryTip": "**meeting**（会议/会面）+ **room**（房间）。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w7",
+            "word": "**show**",
+            "phonetic": "/ʃəʊ/",
+            "meaning": "给……看；展示",
+            "example": "The children **show** their parents some beautiful pictures.",
+            "translation": "孩子们向父母展示一些漂亮的图画。",
+            "memoryTip": "**sh** + **ow**，噢（ow），他在展示（show）自己的作品。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w8",
+            "word": "**project**",
+            "phonetic": "/ˈprɒdʒekt/",
+            "meaning": "课题；项目",
+            "example": "They look at the homework and **projects** on the board.",
+            "translation": "他们看着布告牌上的作业和课题。",
+            "memoryTip": "**pro** + **ject**，像是在说“跑（pro）向结果（ject）”的计划。",
+            "category": "学校活动/设施类"
+          },
+          {
+            "id": "grade5-lower-u7-w9",
+            "word": "**board**",
+            "phonetic": "/bɔːd/",
+            "meaning": "布告牌；木板",
+            "example": "They look at the homework and projects on the **board**.",
+            "translation": "他们看着布告牌上的作业和课题。",
+            "memoryTip": "**b** + **oard**，读音像“波（b）德（d）”，把信息公布在布告牌上。",
+            "category": "学校活动/设施类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 8",
+        "title": "Buying clothes",
+        "category": "购物/服饰类",
+        "words": [
+          {
+            "id": "grade5-lower-u8-w1",
+            "word": "**which**",
+            "phonetic": "/wɪtʃ/",
+            "meaning": "哪一个；哪一些",
+            "example": "**Which** dress do you like, the blue one or the pink one?",
+            "translation": "你喜欢哪件连衣裙，蓝色的还是粉色的？",
+            "memoryTip": "**w** + **hich**，像在问“位（which）”置在哪一个。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w2",
+            "word": "**trousers**",
+            "phonetic": "/ˈtraʊzəz/",
+            "meaning": "裤子",
+            "example": "I'll try on the **trousers**.",
+            "translation": "我要试穿这条裤子。",
+            "memoryTip": "**trou** + **sers**，想象树（tree）下有一双臭（trou）袜子和两条裤子。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w3",
+            "word": "**size**",
+            "phonetic": "/saɪz/",
+            "meaning": "尺码",
+            "example": "It's your **size**.",
+            "translation": "这是你的尺码。",
+            "memoryTip": "**s** + **ize**，四个（s）爱（i）折（ze）腾的人穿同一个尺码。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w4",
+            "word": "**sweater**",
+            "phonetic": "/ˈswetə(r)/",
+            "meaning": "毛衣",
+            "example": "Look at this **sweater**.",
+            "translation": "看这件毛衣。",
+            "memoryTip": "**sweat**（汗）+ **er**，穿上毛衣就会出汗（sweat）。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w5",
+            "word": "**coat**",
+            "phonetic": "/kəʊt/",
+            "meaning": "外套；大衣",
+            "example": "The **coat** is beautiful.",
+            "translation": "这件外套很漂亮。",
+            "memoryTip": "**c** + **oat**（燕麦），披着大衣（coat）去买燕麦（oat）。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w6",
+            "word": "**shoe**",
+            "phonetic": "/ʃuː/",
+            "meaning": "鞋",
+            "example": "Look at the **shoes**.",
+            "translation": "看这些鞋子。",
+            "memoryTip": "**sh**（蛇）+ **oe**，蛇（sh）钻进了鞋子（shoe）里。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w7",
+            "word": "**emperor**",
+            "phonetic": "/ˈempərə(r)/",
+            "meaning": "皇帝",
+            "example": "The **emperor** cannot see any clothes.",
+            "translation": "皇帝看不见任何衣服。",
+            "memoryTip": "**em** + **per** + **or**，一个人（or）每个（per）月都在皇帝（em）面前。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w8",
+            "word": "**only**",
+            "phonetic": "/ˈəʊnli/",
+            "meaning": "只有；仅",
+            "example": "He is **only** wearing his underwear! (他竟然只穿着内衣！)",
+            "translation": "注：根据教材故事情节补充",
+            "memoryTip": "**on** + **ly**，只有（only）在（on）礼（ly）拜天休息。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w9",
+            "word": "**nod**",
+            "phonetic": "/nɒd/",
+            "meaning": "点头",
+            "example": "He **nods** with a big smile.",
+            "translation": "他带着灿烂的笑容点头。",
+            "memoryTip": "**n** + **od**（圆圈），点头（nod）的动作像画圆圈。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w10",
+            "word": "**smile**",
+            "phonetic": "/smaɪl/",
+            "meaning": "笑容；微笑",
+            "example": "He nods with a big **smile**.",
+            "translation": "他带着灿烂的笑容点头。",
+            "memoryTip": "**s** + **mile**（英里），笑容（smile）可以传到一英里（mile）外。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w11",
+            "word": "**money**",
+            "phonetic": "/ˈmʌni/",
+            "meaning": "钱",
+            "example": "The emperor gives the man a lot of **money**.",
+            "translation": "皇帝给了那个男人很多钱。",
+            "memoryTip": "**mon**（月）+ **ey**（眼睛），每个月（mon）眼睛（ey）都盯着钱。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w12",
+            "word": "**keep**",
+            "phonetic": "/kiːp/",
+            "meaning": "保持",
+            "example": "People **keep** quiet.",
+            "translation": "人们保持安静。",
+            "memoryTip": "**k** + **eep**（看作 deep 深的），在深（deep）处保持（keep）安静。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w13",
+            "word": "**laugh**",
+            "phonetic": "/lɑːf/",
+            "meaning": "大笑",
+            "example": "A child **laughs**.",
+            "translation": "一个孩子大笑起来。",
+            "memoryTip": "**l** + **au** + **gh**，老虎（l）大笑（laugh）的时候发出的声音。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w14",
+            "word": "**try ...",
+            "phonetic": "",
+            "meaning": "on** 试穿（衣物）",
+            "example": "You can **try** both **on**.",
+            "translation": "你可以两件都试穿一下。",
+            "memoryTip": "**try**（尝试）+ **on**（在……上面）。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w15",
+            "word": "**put ...",
+            "phonetic": "",
+            "meaning": "on** 穿；戴",
+            "example": "The emperor **puts on** the \"new clothes\".",
+            "translation": "皇帝穿上了“新衣服”。",
+            "memoryTip": "**put**（放）+ **on**（上去），把衣服放到身上即“穿”。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w16",
+            "word": "**keep quiet**",
+            "phonetic": "",
+            "meaning": "保持安静",
+            "example": "People **keep quiet**.",
+            "translation": "人们保持安静。",
+            "memoryTip": "**keep**（保持）+ **quiet**（安静的）。",
+            "category": "购物/服饰类"
+          },
+          {
+            "id": "grade5-lower-u8-w17",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "look** 看一看",
+            "example": "Let's **have a look** then.",
+            "translation": "那么让我们看一看吧。",
+            "memoryTip": "**have**（有）+ **a look**（一个看）。",
+            "category": "购物/服饰类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 9",
+        "title": "Seeing the doctor",
+        "category": "健康/医疗类",
+        "words": [
+          {
+            "id": "grade5-lower-u9-w1",
+            "word": "**ill**",
+            "phonetic": "/ɪl/",
+            "meaning": "生病的，不舒服",
+            "example": "She is **ill**.",
+            "translation": "她生病了。",
+            "memoryTip": "两根（ll）病倒的柱子。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w2",
+            "word": "**wrong**",
+            "phonetic": "/rɒŋ/",
+            "meaning": "有毛病，不正常，错误的",
+            "example": "What's **wrong** with you?",
+            "translation": "你哪里不舒服？",
+            "memoryTip": "**w** + **rong**（荣），光荣感出错了。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w3",
+            "word": "**headache**",
+            "phonetic": "/ˈhedeɪk/",
+            "meaning": "头痛",
+            "example": "I have a **headache**.",
+            "translation": "我头痛。",
+            "memoryTip": "**head**（头）+ **ache**（痛）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w4",
+            "word": "**fever**",
+            "phonetic": "/ˈfiːvə(r)/",
+            "meaning": "发烧，发热",
+            "example": "She has a **fever** too.",
+            "translation": "她也发烧了。",
+            "memoryTip": "**fe**（飞）+ **ver**，烧到感觉整个人都要飞起来。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w5",
+            "word": "**should**",
+            "phonetic": "/ʃʊd/",
+            "meaning": "应该",
+            "example": "You **should** take some medicine.",
+            "translation": "你应该吃点药。",
+            "memoryTip": "**s** + **h** + **ould**（像 could 能够），你应该能够做到。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w6",
+            "word": "**medicine**",
+            "phonetic": "/ˈmedsn/",
+            "meaning": "药",
+            "example": "You should take some **medicine**.",
+            "translation": "你应该吃点药。",
+            "memoryTip": "**med**（医学）+ **i** + **cine**（电影），看一场关于医学的电影。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w7",
+            "word": "**rest**",
+            "phonetic": "/rest/",
+            "meaning": "休息",
+            "example": "Have a good **rest**.",
+            "translation": "好好休息。",
+            "memoryTip": "**re**（重新）+ **st**（站），休息是为了重新站起来。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w8",
+            "word": "**toothache**",
+            "phonetic": "/ˈtuːθeɪk/",
+            "meaning": "牙痛",
+            "example": "Soon he has a **toothache**.",
+            "translation": "很快他牙痛了。",
+            "memoryTip": "**tooth**（牙齿）+ **ache**（痛）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w9",
+            "word": "**toothless**",
+            "phonetic": "/ˈtuːθləs/",
+            "meaning": "没有牙齿的",
+            "example": "He becomes a **toothless** tiger!",
+            "translation": "他变成了一只没有牙齿的老虎！",
+            "memoryTip": "**tooth**（牙齿）+ **less**（无……的后缀）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w10",
+            "word": "**present**",
+            "phonetic": "/ˈpreznt/",
+            "meaning": "礼物",
+            "example": "My king, I have a **present** for you.",
+            "translation": "大王，我有一份礼物要送给你。",
+            "memoryTip": "**pre**（预先）+ **sent**（发送），预先发送出的惊喜。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w11",
+            "word": "**world**",
+            "phonetic": "/wɜːld/",
+            "meaning": "世界",
+            "example": "It's the best food in the **world**.",
+            "translation": "它是世界上最好的食物。",
+            "memoryTip": "**wor**（看作 work）+ **ld**，在这个世界上努力工作。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w12",
+            "word": "**dentist**",
+            "phonetic": "/ˈdentɪst/",
+            "meaning": "牙医",
+            "example": "The **dentist** looks at my teeth.",
+            "translation": "牙医检查我的牙齿。",
+            "memoryTip": "**dent**（牙齿）+ **ist**（人/专家），牙齿专家就是牙医。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w13",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "headache** 头疼",
+            "example": "I **have a headache**.",
+            "translation": "我头痛。",
+            "memoryTip": "**have**（有）+ **a headache**（一个头疼）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w14",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "fever** 发烧",
+            "example": "She **has a fever** too.",
+            "translation": "她也发烧了。",
+            "memoryTip": "**have**（有）+ **a fever**（一个发烧）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w15",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "cold** 感冒",
+            "example": "You **have a cold**.",
+            "translation": "你感冒了。",
+            "memoryTip": "**have**（有）+ **a cold**（一个寒冷/感冒）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w16",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "rest** 休息一下",
+            "example": "You should **have a rest**.",
+            "translation": "你应该休息一下。",
+            "memoryTip": "**have**（有）+ **a rest**（一个休息）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w17",
+            "word": "**get well**",
+            "phonetic": "",
+            "meaning": "康复",
+            "example": "You'll **get well** soon.",
+            "translation": "你很快就会康复的。",
+            "memoryTip": "**get**（变得）+ **well**（身体好的）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w18",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "toothache** 牙疼",
+            "example": "Soon he **has a toothache**.",
+            "translation": "很快他牙痛了。",
+            "memoryTip": "**have**（有）+ **a toothache**（一个牙疼）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w19",
+            "word": "**have a",
+            "phonetic": "",
+            "meaning": "meeting** 开会",
+            "example": "The animals **have a meeting**.",
+            "translation": "小动物们开了一个会。",
+            "memoryTip": "**have**（有）+ **a meeting**（一个会议）。",
+            "category": "健康/医疗类"
+          },
+          {
+            "id": "grade5-lower-u9-w20",
+            "word": "**pull ...",
+            "phonetic": "",
+            "meaning": "out** 把……拔出",
+            "example": "They **pull** all the tiger's teeth **out**.",
+            "translation": "他们把老虎所有的牙齿都拔了出来。",
+            "memoryTip": "**pull**（拉/拔）+ **out**（出来）。",
+            "category": "健康/医疗类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 10",
+        "title": "Great inventions",
+        "category": "发明/生活类",
+        "words": [
+          {
+            "id": "grade5-lower-u10-w1",
+            "word": "**invention**",
+            "phonetic": "/ɪnˈvenʃn/",
+            "meaning": "发明；创造",
+            "example": "I think paper is a great **invention**.",
+            "translation": "我认为纸是一项伟大的发明。",
+            "memoryTip": "**in** + **vent** (通风口) + **ion**，在房子里（in）发现一个通风口就是新发明。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w2",
+            "word": "**watch**",
+            "phonetic": "/wɒtʃ/",
+            "meaning": "手表",
+            "example": "I think the **watch** is a great invention.",
+            "translation": "我认为手表是一项伟大的发明。",
+            "memoryTip": "**w** + **atch**，看 (watch) 手表上的时间。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w3",
+            "word": "**anywhere**",
+            "phonetic": "/ˈeniweə(r)/",
+            "meaning": "任何地方",
+            "example": "People can go **anywhere** with it.",
+            "translation": "人们可以带着它去任何地方。",
+            "memoryTip": "**any** (任何) + **where** (哪里)，任何哪里就是任何地方。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w4",
+            "word": "**travel**",
+            "phonetic": "/ˈtrævl/",
+            "meaning": "旅行；长途行走",
+            "example": "People can **travel** from one place to another very fast.",
+            "translation": "人们可以非常快地从一个地方旅行到另一个地方。",
+            "memoryTip": "**tra** + **vel** (谐音：喂)，在旅行的路上喂（vel）小鸟。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w5",
+            "word": "**invent**",
+            "phonetic": "/ɪnˈvent/",
+            "meaning": "发明",
+            "example": "I'm going to **invent** something myself.",
+            "translation": "我打算自己发明点东西。",
+            "memoryTip": "**invention** (名词) 去掉后缀 **ion** 变成动词。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w6",
+            "word": "**something**",
+            "phonetic": "/ˈsʌmθɪŋ/",
+            "meaning": "某事；某物",
+            "example": "I'm going to invent **something** myself.",
+            "translation": "我打算自己发明点东西。",
+            "memoryTip": "**some** (一些) + **thing** (东西)，一些东西就是某物。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w7",
+            "word": "**myself**",
+            "phonetic": "/maɪˈself/",
+            "meaning": "我自己",
+            "example": "I'm going to invent something **myself**.",
+            "translation": "我打算自己发明点东西。",
+            "memoryTip": "**my** (我的) + **self** (自己)。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w8",
+            "word": "**camera**",
+            "phonetic": "/ˈkæmərə/",
+            "meaning": "相机",
+            "example": "People can take photos with it.",
+            "translation": "人们可以用它拍照。",
+            "memoryTip": "**ca** + **me** (我) + **ra**，给我 (me) 拍一张相机的照片。",
+            "category": "发明/生活类"
+          },
+          {
+            "id": "grade5-lower-u10-w9",
+            "word": "**far away",
+            "phonetic": "",
+            "meaning": "from ...** 远离……",
+            "example": "People can go to places **far away from** their homes.",
+            "translation": "人们可以去远离家乡的地方。",
+            "memoryTip": "**far** (远的) + **away** (离开)，离开家很远的地方。",
+            "category": "发明/生活类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 11",
+        "title": "Chinese festivals",
+        "category": "节日类",
+        "words": [
+          {
+            "id": "grade5-lower-u11-w1",
+            "word": "**festival**",
+            "phonetic": "/ˈfestɪvl/",
+            "meaning": "节日",
+            "example": "It is an important Chinese **festival**.",
+            "translation": "它是一个重要的中国节日。",
+            "memoryTip": "**fest**（宴会）+ **i** + **val**，节日里常有盛大的宴会。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w2",
+            "word": "**important**",
+            "phonetic": "/ɪmˈpɔːtnt/",
+            "meaning": "重要的",
+            "example": "The Spring Festival is an **important** Chinese festival.",
+            "translation": "春节是一个重要的中国节日。",
+            "memoryTip": "**im** + **port**（港口）+ **ant**（蚂蚁），港口里搬运重物的蚂蚁非常重要。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w3",
+            "word": "**call**",
+            "phonetic": "/kɔːl/",
+            "meaning": "把……叫做",
+            "example": "People also **call** it Chinese New Year.",
+            "translation": "人们也把它叫做中国年。",
+            "memoryTip": "**c** + **all**（所有人），所有人都大声叫（call）出名字。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w4",
+            "word": "**dumpling**",
+            "phonetic": "/ˈdʌmplɪŋ/",
+            "meaning": "饺子",
+            "example": "They often eat fish and **dumplings**.",
+            "translation": "他们经常吃鱼和饺子。",
+            "memoryTip": "**dump**（倾倒）+ **ling**（灵），把一盘灵巧的饺子倒（dump）进锅里。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w5",
+            "word": "**relative**",
+            "phonetic": "/ˈrelətɪv/",
+            "meaning": "亲戚",
+            "example": "People visit their friends and **relatives**.",
+            "translation": "人们拜访他们的朋友和亲戚。",
+            "memoryTip": "**re**（重新）+ **late**（晚）+ **ive**，过节时即使再晚（late）也要重新（re）聚会的亲人。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w6",
+            "word": "**red packet**",
+            "phonetic": "/red ˈpækɪt/",
+            "meaning": "红包",
+            "example": "Children often get **red packets** with some money in them.",
+            "translation": "孩子们经常得到装有钱的红包。",
+            "memoryTip": "**red**（红色的）+ **packet**（小包）。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w7",
+            "word": "**firework**",
+            "phonetic": "/ˈfaɪəwɜːk/",
+            "meaning": "烟火；烟花",
+            "example": "People also watch **fireworks** at night.",
+            "translation": "人们也在晚上看烟花。",
+            "memoryTip": "**fire**（火）+ **work**（作品/工作），火的作品就是绚丽的烟花。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w8",
+            "word": "**monster**",
+            "phonetic": "/ˈmɒnstə(r)/",
+            "meaning": "怪物",
+            "example": "Nian is a **monster**.",
+            "translation": "年是一个怪物。",
+            "memoryTip": "**mon**（看作 moon 月亮）+ **ster**，月黑风高时出现的怪物。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w9",
+            "word": "**end**",
+            "phonetic": "/end/",
+            "meaning": "结尾；结束",
+            "example": "At the **end** of every year, he goes into the village.",
+            "translation": "在每年的年底，他都进村。",
+            "memoryTip": "字母 **e** 开始，到字母 **d** 结束（end）。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w10",
+            "word": "**village**",
+            "phonetic": "/ˈvɪlɪdʒ/",
+            "meaning": "村庄",
+            "example": "Nian goes into the **village** and eats people!",
+            "translation": "年进村去吃人！",
+            "memoryTip": "**vill**（看作 will 将要）+ **age**（年龄），随着年龄增长，我们终将回到那个小村庄。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w11",
+            "word": "**last**",
+            "phonetic": "/lɑːst/",
+            "meaning": "最后的",
+            "example": "Soon it is the **last** day of the year.",
+            "translation": "很快就到了一年的最后一天。",
+            "memoryTip": "**l** + **ast**（看作 fast 快的），跑得最快的人最后（last）才停下来。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w12",
+            "word": "**firecracker**",
+            "phonetic": "/ˈfaɪəkrækə(r)/",
+            "meaning": "鞭炮；爆竹",
+            "example": "He also sees red **firecrackers**.",
+            "translation": "他也看到了红色的鞭炮。",
+            "memoryTip": "**fire**（火）+ **cracker**（爆裂者），一点火就会发出爆裂声的东西。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w13",
+            "word": "**mooncake**",
+            "phonetic": "/ˈmuːnkeɪk/",
+            "meaning": "月饼",
+            "example": "At the Mid-Autumn Festival, people eat **mooncakes**.",
+            "translation": "在中秋节，人们吃月饼。",
+            "memoryTip": "**moon**（月亮）+ **cake**（蛋糕），像月亮一样的蛋糕。",
+            "category": "节日类"
+          },
+          {
+            "id": "grade5-lower-u11-w14",
+            "word": "**at the",
+            "phonetic": "",
+            "meaning": "end of** 在……的最后",
+            "example": "**At the end of** every year, he goes into the village.",
+            "translation": "在每年的最后，他都会进村。",
+            "memoryTip": "**at**（在）+ **the end**（最后）+ **of**。",
+            "category": "节日类"
+          }
+        ]
+      },
+      {
+        "unit": "Unit 12",
+        "title": "The giant's garden",
+        "category": "童话/描述类",
+        "words": [
+          {
+            "id": "grade5-lower-u12-w1",
+            "word": "**giant**",
+            "phonetic": "/ˈdʒaɪənt/",
+            "meaning": "巨人",
+            "example": "A **giant** lives in a big house with a beautiful garden.",
+            "translation": "一个巨人住在一所带漂亮花园的大房子里。",
+            "memoryTip": "**g** + **iant**，个（g）子巨大的（iant）人。",
+            "category": "童话/描述类"
+          },
+          {
+            "id": "grade5-lower-u12-w2",
+            "word": "**wall**",
+            "phonetic": "/wɔːl/",
+            "meaning": "墙，围墙",
+            "example": "The giant builds a tall **wall** around his garden.",
+            "translation": "巨人在他的花园周围筑起了一道高墙。",
+            "memoryTip": "**w** + **all**，所有（all）的人都被挡在墙外。",
+            "category": "童话/描述类"
+          },
+          {
+            "id": "grade5-lower-u12-w3",
+            "word": "**kind**",
+            "phonetic": "/kaɪnd/",
+            "meaning": "友好的，体贴的",
+            "example": "He's not **kind** to children.",
+            "translation": "他对孩子们不友好。",
+            "memoryTip": "**k** + **ind**，开（k）心（ind）的人通常很友好。",
+            "category": "童话/描述类"
+          },
+          {
+            "id": "grade5-lower-u12-w4",
+            "word": "**through**",
+            "phonetic": "/θruː/",
+            "meaning": "穿过",
+            "example": "They are coming **through** a hole.",
+            "translation": "他们正从一个洞里穿过来。",
+            "memoryTip": "**th** + **rough** (粗糙的)，穿过 (through) 一条粗糙的小路。",
+            "category": "童话/描述类"
+          },
+          {
+            "id": "grade5-lower-u12-w5",
+            "word": "**no entry**",
+            "phonetic": "/nəʊ ˈentri/",
+            "meaning": "禁止进入",
+            "example": "The giant builds a tall wall with a sign \"**No entry**!\"",
+            "translation": "巨人筑起高墙并挂上“禁止进入”的牌子。",
+            "memoryTip": "**no** (不) + **entry** (进入)。",
+            "category": "童话/描述类"
+          },
+          {
+            "id": "grade5-lower-u12-w6",
+            "word": "**(be) kind",
+            "phonetic": "",
+            "meaning": "to ...** 对……友好",
+            "example": "I don't like the giant. He's not **kind to** children.",
+            "translation": "我不喜欢那个巨人，他对孩子们不友好。",
+            "memoryTip": "**kind** (友好的) + **to** (对……)。",
+            "category": "童话/描述类"
+          },
+          {
+            "id": "grade5-lower-u12-w7",
+            "word": "**knock down**",
+            "phonetic": "/nɒk daʊn/",
+            "meaning": "推倒，拆掉",
+            "example": "The giant **knocks down** the wall around his garden.",
+            "translation": "巨人拆掉了他花园周围的围墙。",
+            "memoryTip": "**knock** (敲) + **down** (向下)，用力敲下去把它推倒。",
+            "category": "童话/描述类"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "grade6-upper",
     "name": "英语六年级上册",
     "units": [

@@ -1,4 +1,4 @@
-<!-- 
+<!--
 格式要求：
 
 ```
@@ -511,6 +511,716 @@ Title: Fire Category: 安全类
   - 例句：Be careful with fire. (小心火。)
 * not ... at all /nɒt æt ɔːl/ 一点也不
   - 例句：I don't like it at all. (我一点也不喜欢它。)
+
+
+# 英语五年级下册单词
+
+## Unit 1
+Title: Tidy up! Category: 家居/动作类,
+
+* **tidy** /ˈtaɪdi/ 整理；整洁的
+  - 例句：Let's **tidy** it up. (让我们把它整理好。)
+  - 记忆：**ti** + **dy**，整理好东西，大声说“太（ti）地（dy）道”了。
+
+* **mess** /mes/ 脏乱，不整洁
+  - 例句：What a **mess**! (真是乱七八糟！),
+  - 记忆：**m** + **ess**，乱得像“没事（mess）”找事。
+
+* **let** /let/ 让
+  - 例句：**Let**'s tidy it up. (让我们把它整理好。)
+  - 记忆：**l** + **et**，让（let）我们一起去寻找外星人（ET）。
+
+* **sock** /sɒk/ 短袜
+  - 例句：Whose **socks** are those? (那些是谁的袜子？)
+  - 记忆：**s** + **ock**，蛇（s）钻进了大石头（rock）下的袜子里。
+
+* **yours** /jɔːz/ 你的，你们的
+  - 例句：Are they **yours**, Peter? (彼得，它们是你的吗？)
+  - 记忆：**your** + **s**，名词性物主代词通常在形容词性物主代词后加 s。
+
+* **cap** /kæp/ 帽子
+  - 例句：Whose **cap** is this? (这是谁的帽子？)
+  - 记忆：**c** + **ap**，猫（cat）戴着帽子（cap）。
+
+* **mine** /maɪn/ 我的
+  - 例句：It's **mine**. (它是我的。)
+  - 记忆：**m** + **ine**，我的（mine）地盘我做主。
+
+* **crayon** /ˈkreɪən/ 彩色蜡笔
+  - 例句：The **crayons** are Joe's. (这些蜡笔是乔的。)
+  - 记忆：**c** + **ray**（光线）+ **on**，用彩色蜡笔画出阳光。
+
+* **umbrella** /ʌmˈbrelə/ 伞
+  - 例句：The **umbrella** is Alice's. (这把伞是爱丽丝的。)
+  - 记忆：**um** + **brella**，俺（um）不（b）热（re）了（lla），因为打了伞。
+
+* **nail** /neɪl/ 钉子
+  - 例句：It is full of **nails**. (它装满了钉子。)
+  - 记忆：**n** + **ail**（生病），小鸟（n）被钉子扎了，生病（ail）了。
+
+* **drop** /drɒp/ 使落下；掉落
+  - 例句：Jimmy **drops** the box. (吉米掉下了盒子。)
+  - 记忆：**d** + **rop**（绳子），掉下的（drop）绳子。
+
+* **stick** /stɪk/ 粘贴；粘住
+  - 例句：The nails all **stick** to it. (钉子全都粘在上面了。)
+  - 记忆：**s** + **tick**（滴答声），钟表滴答滴答粘（stick）在墙上。
+
+* **second** /ˈsekənd/ 秒
+  - 例句：In a few **seconds**, the floor is clean again. (几秒钟后，地板又干净了。)
+  - 记忆：**se** + **cond**，色（se）控（cond）选衣服只用几秒钟。
+
+* **hers** /hɜːz/ 她的
+  - 例句：Are these **hers**? (这些是她的吗？)
+  - 记忆：**her** + **s**，她的（hers）。
+
+* **theirs** /ðeəz/ 他们的，她们的，它们的
+  - 例句：They are **theirs**. (它们是他们的。)
+  - 记忆：**their** + **s**，他们的（theirs）。
+
+* **tidy up** 把……整理好
+  - 例句：Let's **tidy** it **up**. (让我们把它整理好。)
+  - 记忆：**tidy**（整理）+ **up**（起来）。
+
+* **(be) full of** 装满……；充满……
+  - 例句：It is **full of** nails. (它装满了钉子。)
+  - 记忆：**full**（满的）+ **of**（……的）。
+
+* **a few** 几个；一些
+  - 例句：In **a few** seconds, the floor is clean again. (几秒钟后，地板又干净了。)
+  - 记忆：**a**（一个）+ **few**（很少），指代几个。
+
+
+## Unit 2
+Title: Our new home Category: 房屋/描述类
+
+* **why** /waɪ/ 为什么
+  - 例句：**Why** do you like it? (你为什么喜欢它？)
+  - 记忆：**w** + **hy**，读音像“歪”，歪着头问“为什么”。
+
+* **because** /bɪˈkɒz/ 因为
+  - 例句：**Because** it's so big. (因为它很大。)
+  - 记忆：**be** + **cause**（原因），这就是原因。
+
+* **study** /ˈstʌdi/ 书房；学习
+  - 例句：I like the **study**. (我喜欢书房。)
+  - 记忆：**stu**（学生）+ **dy**（在大地），学生在书房的学习桌前。
+
+* **dining room** /ˈdaɪnɪŋ ruːm/ 餐室；餐厅
+  - 例句：I like the **dining room**. (我喜欢餐厅。)
+  - 记忆：**din**（叮）+ **ing** + **room**，在房间里叮叮当当地用晚餐。
+
+* **wild goose** /waɪld ɡuːs/ 大雁（复数 wild geese）
+  - 例句：Why do **wild geese** change homes? (大雁为什么要搬家？)
+  - 记忆：**wild**（野外的）+ **goose**（鹅），野外的鹅就是大雁。
+
+* **change** /tʃeɪndʒ/ 改变；变化
+  - 例句：They **change** homes twice every year. (它们每年搬两次家。)
+  - 记忆：**chan**（产）+ **ge**（生），产生了变化。
+
+* **place** /pleɪs/ 地方
+  - 例句：They fly from one **place** to another. (它们从一个地方飞到另一个地方。)
+  - 记忆：**p** + **lace**（蕾丝），那个地方（place）装饰着蕾丝。
+
+* **twice** /twaɪs/ 两次
+  - 例句：They change homes **twice** every year. (它们每年搬两次家。)
+  - 记忆：**t** + **wice**（像 rice），吃了两次（twice）米饭。
+
+* **every** /ˈevri/ 每；每个
+  - 例句：They change homes twice **every** year. (它们每年搬两次家。)
+  - 记忆：**e** + **very**（非常），每个人（every）都非常努力。
+
+* **north** /nɔːθ/ 北方；向北
+  - 例句：In spring, they fly **north**. (在春天，它们向北飞。)
+  - 记忆：**no** + **rth**，北方（north）的天气经常说 No。
+
+* **south** /saʊθ/ 南方；向南
+  - 例句：In autumn, they fly **south**. (在秋天，它们向南飞。)
+  - 记忆：**s** + **outh**（像 mouth），南方（south）人的嘴巴（mouth）很甜。
+
+* **enough** /ɪˈnʌf/ 足够的
+  - 例句：They cannot find **enough** food in the north. (它们在北方找不到足够的食物。)
+  - 记忆：**e** + **nough**，读音像“一拿夫”，拿了一个又一个，已经拿够了。
+
+* **then** /ðen/ 然后
+  - 例句：**Then** in spring, it is warm in the north. (然后到春天，北方就暖和了。)
+  - 记忆：**the** + **n**，在这（the）之后接着发生。
+
+* **all day** /ɔːl deɪ/ 一天到晚
+  - 例句：Because they can play in the garden **all day**! (因为他们可以在花园里玩一整天！)
+  - 记忆：**all**（全部的）+ **day**（天），全部的时间就是一天到晚。
+
+
+
+## Unit 3
+Title: In the future Category: 未来/生活类
+
+* **future** /ˈfjuːtʃə/ 将来；未来
+  - 例句：Kitty wants to know about her **future**. (吉蒂想了解她的未来。)
+  - 记忆：**fu**（福）+ **ture**，未来的福气在等着你。
+
+* **stand** /stænd/ 站；站住
+  - 例句：She **stands** in front of a magic machine. (她站在一台神奇的机器前。)
+  - 记忆：**s** + **t** + **and**（和），大家都站着和你在一起。
+
+* **machine** /məˈʃiːn/ 机器
+  - 例句：She stands in front of a magic **machine**. (她站在一台神奇的机器前。)
+  - 记忆：**ma**（马）+ **chi**（吃）+ **ne**（呢），马在吃机器呢。
+
+* **will** /wɪl/ 将；将会
+  - 例句：I **will** be a teacher. (我将成为一名老师。)
+  - 记忆：**w** + **ill**（生病），病好了，“将”会去上学。
+
+* **exercise** /ˈeksəsaɪz/ 运动；锻炼；活动
+  - 例句：I will do **exercise** every day. (我将每天进行体育锻炼。)
+  - 记忆：**ex** + **er** + **cise**，在外面（ex）锻炼身体。
+
+* **early** /ˈɜːli/ 早；提早
+  - 例句：I do not like to get up **early**. (我不喜欢早起。)
+  - 记忆：**ear**（耳朵）+ **ly**，耳朵听得早（early）。
+
+* **easily** /ˈiːzəli/ 容易地
+  - 例句：I get tired **easily**. (我容易感到疲倦。)
+  - 记忆：**easy**（容易的）+ **ly**（副词后缀）。
+
+* **hard** /hɑːd/ 努力地
+  - 例句：I will study **hard**. (我将努力学习。)
+  - 记忆：努力的人像“哈（ha）”出的“热（rd）”气一样充满干劲。
+
+* **more** /mɔː/ 更多的
+  - 例句：I will read **more** English books. (我将阅读更多的英语书籍。)
+  - 记忆：**mo**（摸）+ **re**，还要摸索更多的知识。
+
+* **in the future** 将来
+  - 例句：This is me **in the future**! (这就是未来的我！)
+  - 记忆：**in**（在……里）+ **the future**（将来）。
+
+* **in front of** 在……前面
+  - 例句：She stands **in front of** a magic machine. (她站在一台神奇的机器前。)
+  - 记忆：**in** + **front**（前面）+ **of**。
+
+* **take a photo** 拍照
+  - 例句：Kitty ... takes a **photo**. (吉蒂……拍了一张照片。)
+  - 记忆：**take**（拿）+ **a photo**（照片），拿起相机拍照片。
+
+* **wear glasses** 戴眼镜
+  - 例句：I won't **wear glasses**. (我将不戴眼镜。)
+  - 记忆：**wear**（穿/戴）+ **glasses**（眼镜，像两块玻璃glass）。
+
+* **do exercise** 做运动
+  - 例句：I will **do exercise** every day. (我将每天做运动。)
+  - 记忆：**do**（做）+ **exercise**（运动）。
+
+* **(be) weak in** 不擅长
+  - 例句：I am **weak in** English. (我不擅长英语。)
+  - 记忆：**weak**（虚弱的）+ **in**（在……方面），在某方面虚弱就是不擅长。
+
+* **not ... any more** 不再
+  - 例句：I will not be late for school **any more**. (我将不再上学迟到。)
+  - 记忆：**not**（不）+ **any more**（更多），不会再有更多次了。
+
+
+
+## Unit 4
+Title: Reading is fun Category: 阅读/学习类
+
+* **storybook** /ˈstɔːribʊk/ 故事书
+  - 例句：There are many **storybooks**. (有很多故事书。)
+  - 记忆：**story**（故事）+ **book**（书）。
+
+* **buy** /baɪ/ 买
+  - 例句：I'm going to **buy** one. (我打算买一本。)
+  - 记忆：谐音“摆”，把**买**回来的东西**摆**在桌子上。
+
+* **story** /ˈstɔːri/ 故事
+  - 例句：I'm going to read a **story** every day. (我打算每天读一个故事。)
+  - 记忆：**s** + **tory**（看作 toy 玩具），讲一个关于**玩具**的**故事**。
+
+* **dictionary** /ˈdɪkʃənri/ 字典；词典
+  - 例句：The Lis are at the bookshop. They're going to buy **dictionaries**. (李一家在书店，他们打算买词典。)
+  - 记忆：**dic**（说）+ **tion** + **ary**，能开口“说”话的工具书。
+
+* **magazine** /ˌmæɡəˈziːn/ 杂志
+  - 例句：There are newspapers and **magazines** on the ground floor. (一楼有报纸和杂志。)
+  - 记忆：**ma**（马）+ **ga**（嘎）+ **zine**（谐音：新），**马**在看一份**新**的**杂志**。
+
+* **newspaper** /ˈnjuːzpeɪpə/ 报纸
+  - 例句：He's reading a **newspaper**. (他正在读报纸。)
+  - 记忆：**news**（新闻）+ **paper**（纸），印有新闻的纸。
+
+* **week** /wiːk/ 周；星期
+  - 例句：Book **Week** is coming! (读书周就要到了！)
+  - 记忆：**w** + **eek**（尖叫声），过了这**一周**就想开心得**尖叫**。
+
+* **student** /ˈstjuːdnt/ 学生
+  - 例句：The **students** in Class 5A are going to make posters. (5A班的学生们打算制作海报。)
+  - 记忆：**stu**（学习）+ **dent**（牙齿），**学生**正在努力**学习**，咬紧**牙齿**。
+
+* **poster** /ˈpəʊstə/ 海报
+  - 例句：They are going to make **posters** about the best stories for children. (他们打算制作关于最受孩子们欢迎的故事的海报。)
+  - 记忆：**post**（邮寄）+ **er**（者），用来**邮寄**宣传的**者**（东西）。
+
+* **best** /best/ 最好的
+  - 例句：These are the **best** stories for children. (这些是给孩子们最好的故事。)
+  - 记忆：**be** + **st**（最强的后缀），成为**最强**的，就是**最好的**。
+
+* **writer** /ˈraɪtə/ 作家
+  - 例句：They are going to write about the **writers** and the stories. (他们打算写写作家和这些故事。)
+  - 记忆：**write**（写）+ **r**（的人），**写**书的**人**就是**作家**。
+
+* **over there** /ˌəʊvə ˈðeə/ 在那边
+  - 例句：I'm going to look at the picture books **over there**. (我打算看一看那边的图画书。)
+  - 记忆：**over**（翻过）+ **there**（那里），翻过这里到**那边**去。
+
+* **do a survey** 做调查
+  - 例句：The boys are going to **do a survey** about children's favourite books. (男生们打算做一个关于孩子们最喜欢的书的调查。)
+  - 记忆：**do**（做）+ **a** + **survey**（调查）。
+
+* **act ... out** 表演
+  - 例句：The girls are going to read a play and then **act** it **out**. (女生们打算读一个剧本，然后把它表演出来。)
+  - 记忆：**act**（行动）+ **out**（出来），通过**行动**表现**出来**。
+
+
+
+
+## Unit 5
+Title: At the weekend Category: 周末/计划类
+
+* **weekend** /ˈwiːkˈend/ 周末
+  - 例句：What are you going to do this **weekend**? (这个周末你打算做什么？)
+  - 记忆：**week**（周）+ **end**（末尾），一周的末尾就是周末。
+
+* **stay** /steɪ/ 待；暂住；逗留
+  - 例句：I'm going to **stay** at home. (我打算待在家里。)
+  - 记忆：**s** + **tay**（谐音：太），待在家里实在是太（tay）无聊了。
+
+* **film** /fɪlm/ 电影
+  - 例句：I'm going to see a **film** with my parents. (我打算和父母去看场电影。)
+  - 记忆：**f** + **ilm**，坐在电影院里喝着冰（i）冷（l）的麦（m）片看电影。
+
+* **boat** /bəʊt/ 小船；舟
+  - 例句：I'm going to row a **boat**. (我打算划船。)
+  - 记忆：**b** + **oat**（燕麦），想象一艘装着燕麦的小船。
+
+* **plan** /plæn/ 安排；计划
+  - 例句：I don't have any **plans** for the weekend. (我周末没有任何计划。)
+  - 记忆：**p** + **lan**（蓝），计划去看看蓝天。
+
+* **tomorrow** /təˈmɒrəʊ/ 明天
+  - 例句：I'm going to build one **tomorrow**. (我明天打算盖一座。)
+  - 记忆：**to**（去）+ **morrow**（早晨），去迎接明天的早晨。
+
+* **build** /bɪld/ 建筑；建造
+  - 例句：I'm going to **build** one tomorrow. (我明天打算盖一座。)
+  - 记忆：**b** + **uild**，不用（u）我的（i）力量（l）打（d）基础，就不能建造大楼。
+
+* **next** /nekst/ 紧接着；随后；紧接着的
+  - 例句：The **next** day is Sunday. (第二天是星期天。)
+  - 记忆：**n** + **ext**，下一个（next）是内（ne）部选（x）拔（t）。
+
+* **swing** /swɪŋ/ 秋千
+  - 例句：On the third day, he finds a **swing**. (第三天，他发现了一个秋千。)
+  - 记忆：**s** + **wing**（翅膀），荡起秋千像长了翅膀（wing）一样。
+
+* **cry** /kraɪ/ 哭；喊叫
+  - 例句：The baby starts to **cry**. (宝宝开始大声哭喊。) (注：此句为补充例句，教材中单词见)
+  - 记忆：**c** + **ry**，哭的声音像“快（c）让（r）开（y）”。
+
+* **until** /ʌnˈtɪl/ 直到
+  - 例句：He sleeps **until** morning. (他一直睡到早晨。) (注：此句为补充例句，教材中单词见)
+  - 记忆：**un** + **til**，读音像“俺抬头”，直到（until）俺抬头才发现天黑了。
+
+* **see a film** 看电影
+  - 例句：I'm going to **see a film** on Saturday afternoon. (我打算在周六下午看电影。)
+  - 记忆：**see**（看）+ **a film**（电影）。
+
+* **row a boat** 划船
+  - 例句：I'm going to **row a boat** and fly a kite. (我打算划船和放风筝。)
+  - 记忆：**row**（划）+ **a boat**（小船）。
+
+
+
+## Unit 6
+Title: Holidays Category: 假期/旅游类
+
+* **holiday** /ˈhɒlədeɪ/ 假日；假期
+  - 例句：It's a wonderful place for a **holiday**. (这是一个度假的好地方。)
+  - 记忆：**holi**（神圣的）+ **day**（日子），神圣的日子就是假期。
+
+* **clear** /klɪə(r)/ 清澈的
+  - 例句：Sanya has beautiful beaches with **clear** water. (三亚有带着清澈海水的美丽沙滩。)
+  - 记忆：**c** + **lear**（学习），看到**清澈的**水，心情大好，想去**学习**。
+
+* **seafood** /ˈsiːfuːd/ 海鲜
+  - 例句：We'll also have **seafood**. (我们还会吃海鲜。)
+  - 记忆：**sea**（大海）+ **food**（食物），大海里的食物。
+
+* **hotel** /həʊˈtel/ 旅馆
+  - 例句：We'll stay in a **hotel** by the sea. (我们将住在海边的旅馆里。)
+  - 记忆：**ho**（后）+ **tel**（推），推开门就是**旅馆**。
+
+* **island** /ˈaɪlənd/ 岛
+  - 例句：Sanya is on Hainan **Island**. (三亚在海南岛上。)
+  - 记忆：**is**（是）+ **land**（土地），四面环水的土地就是**岛**。注意s不发音。
+
+* **butterfly** /ˈbʌtəflaɪ/ 蝴蝶
+  - 例句：There is a big **butterfly** park in Sanya too. (三亚也有一个很大的蝴蝶公园。)
+  - 记忆：**butter**（黄油）+ **fly**（飞），像黄油一样颜色的飞虫。
+
+* **how long** /haʊ lɒŋ/ 多久
+  - 例句：**How long** will we stay in Sanya? (我们将在三亚待多久？)
+  - 记忆：**how**（多）+ **long**（长），时间有多长，即多久。
+
+* **go swimming** /ɡəʊ ˈswɪmɪŋ/ 去游泳
+  - 例句：We'll **go swimming** there. (我们将去那里游泳。)
+  - 记忆：**go**（去）+ **swimming**（游泳）。
+
+* **in the south of** 在……的南部
+  - 例句：It is **in the south of** China. (它在中国南部。)
+  - 记忆：**in** + **the south**（南方）+ **of**。
+
+* **all year round** /ɔːl jɪə(r) raʊnd/ 一年到头；终年
+  - 例句：The weather is nice **all year round**. (那里一年到头天气都很好。)
+  - 记忆：**all**（全）+ **year**（年）+ **round**（圆/环绕），绕着一年转了一圈。
+
+
+
+## Unit 7
+Title: Open Day Category: 学校活动/设施类
+
+* **meet** /miːt/ 迎接；会见
+  - 例句：I'll **meet** them at the school gate. (我将在校门口接他们。)
+  - 记忆：**m** + **ee** + **t**，两个 **e**（眼睛）相对就是会面。
+
+* **school gate** /skuːl ɡeɪt/ 校门；校门口
+  - 例句：I'll meet them at the **school gate**. (我将在校门口接他们。)
+  - 记忆：**school**（学校）+ **gate**（大门）。
+
+* **art room** /ˈɑːt ruːm/ 美术室
+  - 例句：Next, they'll visit the **art room**. (接下来，他们将参观美术室。)
+  - 记忆：**art**（艺术）+ **room**（房间）。
+
+* **hall** /hɔːl/ 礼堂
+  - 例句：Then they'll go to the **hall**. (然后他们将去礼堂。)
+  - 记忆：**h** + **all**，所有（all）人都在大厅（hall）里集合。
+
+* **finally** /ˈfaɪnəli/ 最后
+  - 例句：**Finally**, they'll meet the teachers in the meeting room. (最后，他们将在会议室见老师。)
+  - 记忆：**final**（最后的）+ **ly**（副词后缀）。
+
+* **meeting room** /ˈmiːtɪŋ ruːm/ 会客室；会议室
+  - 例句：Finally, they'll meet the teachers in the **meeting room**. (最后，他们将在会议室见老师。)
+  - 记忆：**meeting**（会议/会面）+ **room**（房间）。
+
+* **show** /ʃəʊ/ 给……看；展示
+  - 例句：The children **show** their parents some beautiful pictures. (孩子们向父母展示一些漂亮的图画。)
+  - 记忆：**sh** + **ow**，噢（ow），他在展示（show）自己的作品。
+
+* **project** /ˈprɒdʒekt/ 课题；项目
+  - 例句：They look at the homework and **projects** on the board. (他们看着布告牌上的作业和课题。)
+  - 记忆：**pro** + **ject**，像是在说“跑（pro）向结果（ject）”的计划。
+
+* **board** /bɔːd/ 布告牌；木板
+  - 例句：They look at the homework and projects on the **board**. (他们看着布告牌上的作业和课题。)
+  - 记忆：**b** + **oard**，读音像“波（b）德（d）”，把信息公布在布告牌上。
+
+
+
+## Unit 8
+Title: Buying clothes Category: 购物/服饰类
+
+* **which** /wɪtʃ/ 哪一个；哪一些
+  - 例句：**Which** dress do you like, the blue one or the pink one? (你喜欢哪件连衣裙，蓝色的还是粉色的？)
+  - 记忆：**w** + **hich**，像在问“位（which）”置在哪一个。
+
+* **trousers** /ˈtraʊzəz/ 裤子
+  - 例句：I'll try on the **trousers**. (我要试穿这条裤子。)
+  - 记忆：**trou** + **sers**，想象树（tree）下有一双臭（trou）袜子和两条裤子。
+
+* **size** /saɪz/ 尺码
+  - 例句：It's your **size**. (这是你的尺码。)
+  - 记忆：**s** + **ize**，四个（s）爱（i）折（ze）腾的人穿同一个尺码。
+
+* **sweater** /ˈswetə(r)/ 毛衣
+  - 例句：Look at this **sweater**. (看这件毛衣。)
+  - 记忆：**sweat**（汗）+ **er**，穿上毛衣就会出汗（sweat）。
+
+* **coat** /kəʊt/ 外套；大衣
+  - 例句：The **coat** is beautiful. (这件外套很漂亮。)
+  - 记忆：**c** + **oat**（燕麦），披着大衣（coat）去买燕麦（oat）。
+
+* **shoe** /ʃuː/ 鞋
+  - 例句：Look at the **shoes**. (看这些鞋子。)
+  - 记忆：**sh**（蛇）+ **oe**，蛇（sh）钻进了鞋子（shoe）里。
+
+* **emperor** /ˈempərə(r)/ 皇帝
+  - 例句：The **emperor** cannot see any clothes. (皇帝看不见任何衣服。)
+  - 记忆：**em** + **per** + **or**，一个人（or）每个（per）月都在皇帝（em）面前。
+
+* **only** /ˈəʊnli/ 只有；仅
+  - 例句：He is **only** wearing his underwear! (他竟然只穿着内衣！) (注：根据教材故事情节补充)
+  - 记忆：**on** + **ly**，只有（only）在（on）礼（ly）拜天休息。
+
+* **nod** /nɒd/ 点头
+  - 例句：He **nods** with a big smile. (他带着灿烂的笑容点头。)
+  - 记忆：**n** + **od**（圆圈），点头（nod）的动作像画圆圈。
+
+* **smile** /smaɪl/ 笑容；微笑
+  - 例句：He nods with a big **smile**. (他带着灿烂的笑容点头。)
+  - 记忆：**s** + **mile**（英里），笑容（smile）可以传到一英里（mile）外。
+
+* **money** /ˈmʌni/ 钱
+  - 例句：The emperor gives the man a lot of **money**. (皇帝给了那个男人很多钱。)
+  - 记忆：**mon**（月）+ **ey**（眼睛），每个月（mon）眼睛（ey）都盯着钱。
+
+* **keep** /kiːp/ 保持
+  - 例句：People **keep** quiet. (人们保持安静。)
+  - 记忆：**k** + **eep**（看作 deep 深的），在深（deep）处保持（keep）安静。
+
+* **laugh** /lɑːf/ 大笑
+  - 例句：A child **laughs**. (一个孩子大笑起来。)
+  - 记忆：**l** + **au** + **gh**，老虎（l）大笑（laugh）的时候发出的声音。
+
+* **try ... on** 试穿（衣物）
+  - 例句：You can **try** both **on**. (你可以两件都试穿一下。)
+  - 记忆：**try**（尝试）+ **on**（在……上面）。
+
+* **put ... on** 穿；戴
+  - 例句：The emperor **puts on** the "new clothes". (皇帝穿上了“新衣服”。)
+  - 记忆：**put**（放）+ **on**（上去），把衣服放到身上即“穿”。
+
+* **keep quiet** 保持安静
+  - 例句：People **keep quiet**. (人们保持安静。)
+  - 记忆：**keep**（保持）+ **quiet**（安静的）。
+
+* **have a look** 看一看
+  - 例句：Let's **have a look** then. (那么让我们看一看吧。)
+  - 记忆：**have**（有）+ **a look**（一个看）。
+
+
+
+## Unit 9
+Title: Seeing the doctor Category: 健康/医疗类
+
+* **ill** /ɪl/ 生病的，不舒服
+  - 例句：She is **ill**. (她生病了。)
+  - 记忆：两根（ll）病倒的柱子。
+
+* **wrong** /rɒŋ/ 有毛病，不正常，错误的
+  - 例句：What's **wrong** with you? (你哪里不舒服？)
+  - 记忆：**w** + **rong**（荣），光荣感出错了。
+
+* **headache** /ˈhedeɪk/ 头痛
+  - 例句：I have a **headache**. (我头痛。)
+  - 记忆：**head**（头）+ **ache**（痛）。
+
+* **fever** /ˈfiːvə(r)/ 发烧，发热
+  - 例句：She has a **fever** too. (她也发烧了。)
+  - 记忆：**fe**（飞）+ **ver**，烧到感觉整个人都要飞起来。
+
+* **should** /ʃʊd/ 应该
+  - 例句：You **should** take some medicine. (你应该吃点药。)
+  - 记忆：**s** + **h** + **ould**（像 could 能够），你应该能够做到。
+
+* **medicine** /ˈmedsn/ 药
+  - 例句：You should take some **medicine**. (你应该吃点药。)
+  - 记忆：**med**（医学）+ **i** + **cine**（电影），看一场关于医学的电影。
+
+* **rest** /rest/ 休息
+  - 例句：Have a good **rest**. (好好休息。)
+  - 记忆：**re**（重新）+ **st**（站），休息是为了重新站起来。
+
+* **toothache** /ˈtuːθeɪk/ 牙痛
+  - 例句：Soon he has a **toothache**. (很快他牙痛了。)
+  - 记忆：**tooth**（牙齿）+ **ache**（痛）。
+
+* **toothless** /ˈtuːθləs/ 没有牙齿的
+  - 例句：He becomes a **toothless** tiger! (他变成了一只没有牙齿的老虎！)
+  - 记忆：**tooth**（牙齿）+ **less**（无……的后缀）。
+
+* **present** /ˈpreznt/ 礼物
+  - 例句：My king, I have a **present** for you. (大王，我有一份礼物要送给你。)
+  - 记忆：**pre**（预先）+ **sent**（发送），预先发送出的惊喜。
+
+* **world** /wɜːld/ 世界
+  - 例句：It's the best food in the **world**. (它是世界上最好的食物。)
+  - 记忆：**wor**（看作 work）+ **ld**，在这个世界上努力工作。
+
+* **dentist** /ˈdentɪst/ 牙医
+  - 例句：The **dentist** looks at my teeth. (牙医检查我的牙齿。)
+  - 记忆：**dent**（牙齿）+ **ist**（人/专家），牙齿专家就是牙医。
+
+* **have a headache** 头疼
+  - 例句：I **have a headache**. (我头痛。)
+  - 记忆：**have**（有）+ **a headache**（一个头疼）。
+
+* **have a fever** 发烧
+  - 例句：She **has a fever** too. (她也发烧了。)
+  - 记忆：**have**（有）+ **a fever**（一个发烧）。
+
+* **have a cold** 感冒
+  - 例句：You **have a cold**. (你感冒了。)
+  - 记忆：**have**（有）+ **a cold**（一个寒冷/感冒）。
+
+* **have a rest** 休息一下
+  - 例句：You should **have a rest**. (你应该休息一下。)
+  - 记忆：**have**（有）+ **a rest**（一个休息）。
+
+* **get well** 康复
+  - 例句：You'll **get well** soon. (你很快就会康复的。)
+  - 记忆：**get**（变得）+ **well**（身体好的）。
+
+* **have a toothache** 牙疼
+  - 例句：Soon he **has a toothache**. (很快他牙痛了。)
+  - 记忆：**have**（有）+ **a toothache**（一个牙疼）。
+
+* **have a meeting** 开会
+  - 例句：The animals **have a meeting**. (小动物们开了一个会。)
+  - 记忆：**have**（有）+ **a meeting**（一个会议）。
+
+* **pull ... out** 把……拔出
+  - 例句：They **pull** all the tiger's teeth **out**. (他们把老虎所有的牙齿都拔了出来。)
+  - 记忆：**pull**（拉/拔）+ **out**（出来）。
+
+
+
+## Unit 10
+Title: Great inventions Category: 发明/生活类
+
+* **invention** /ɪnˈvenʃn/ 发明；创造
+  - 例句：I think paper is a great **invention**. (我认为纸是一项伟大的发明。)
+  - 记忆：**in** + **vent** (通风口) + **ion**，在房子里（in）发现一个通风口就是新发明。
+
+* **watch** /wɒtʃ/ 手表
+  - 例句：I think the **watch** is a great invention. (我认为手表是一项伟大的发明。)
+  - 记忆：**w** + **atch**，看 (watch) 手表上的时间。
+
+* **anywhere** /ˈeniweə(r)/ 任何地方
+  - 例句：People can go **anywhere** with it. (人们可以带着它去任何地方。)
+  - 记忆：**any** (任何) + **where** (哪里)，任何哪里就是任何地方。
+
+* **travel** /ˈtrævl/ 旅行；长途行走
+  - 例句：People can **travel** from one place to another very fast. (人们可以非常快地从一个地方旅行到另一个地方。)
+  - 记忆：**tra** + **vel** (谐音：喂)，在旅行的路上喂（vel）小鸟。
+
+* **invent** /ɪnˈvent/ 发明
+  - 例句：I'm going to **invent** something myself. (我打算自己发明点东西。)
+  - 记忆：**invention** (名词) 去掉后缀 **ion** 变成动词。
+
+* **something** /ˈsʌmθɪŋ/ 某事；某物
+  - 例句：I'm going to invent **something** myself. (我打算自己发明点东西。)
+  - 记忆：**some** (一些) + **thing** (东西)，一些东西就是某物。
+
+* **myself** /maɪˈself/ 我自己
+  - 例句：I'm going to invent something **myself**. (我打算自己发明点东西。)
+  - 记忆：**my** (我的) + **self** (自己)。
+
+* **camera** /ˈkæmərə/ 相机
+  - 例句：People can take photos with it. (人们可以用它拍照。)
+  - 记忆：**ca** + **me** (我) + **ra**，给我 (me) 拍一张相机的照片。
+
+* **far away from ...** 远离……
+  - 例句：People can go to places **far away from** their homes. (人们可以去远离家乡的地方。)
+  - 记忆：**far** (远的) + **away** (离开)，离开家很远的地方。
+
+
+
+## Unit 11
+Title: Chinese festivals Category: 节日类
+
+* **festival** /ˈfestɪvl/ 节日
+  - 例句：It is an important Chinese **festival**. (它是一个重要的中国节日。)
+  - 记忆：**fest**（宴会）+ **i** + **val**，节日里常有盛大的宴会。
+
+* **important** /ɪmˈpɔːtnt/ 重要的
+  - 例句：The Spring Festival is an **important** Chinese festival. (春节是一个重要的中国节日。)
+  - 记忆：**im** + **port**（港口）+ **ant**（蚂蚁），港口里搬运重物的蚂蚁非常重要。
+
+* **call** /kɔːl/ 把……叫做
+  - 例句：People also **call** it Chinese New Year. (人们也把它叫做中国年。)
+  - 记忆：**c** + **all**（所有人），所有人都大声叫（call）出名字。
+
+* **dumpling** /ˈdʌmplɪŋ/ 饺子
+  - 例句：They often eat fish and **dumplings**. (他们经常吃鱼和饺子。)
+  - 记忆：**dump**（倾倒）+ **ling**（灵），把一盘灵巧的饺子倒（dump）进锅里。
+
+* **relative** /ˈrelətɪv/ 亲戚
+  - 例句：People visit their friends and **relatives**. (人们拜访他们的朋友和亲戚。)
+  - 记忆：**re**（重新）+ **late**（晚）+ **ive**，过节时即使再晚（late）也要重新（re）聚会的亲人。
+
+* **red packet** /red ˈpækɪt/ 红包
+  - 例句：Children often get **red packets** with some money in them. (孩子们经常得到装有钱的红包。)
+  - 记忆：**red**（红色的）+ **packet**（小包）。
+
+* **firework** /ˈfaɪəwɜːk/ 烟火；烟花
+  - 例句：People also watch **fireworks** at night. (人们也在晚上看烟花。)
+  - 记忆：**fire**（火）+ **work**（作品/工作），火的作品就是绚丽的烟花。
+
+* **monster** /ˈmɒnstə(r)/ 怪物
+  - 例句：Nian is a **monster**. (年是一个怪物。)
+  - 记忆：**mon**（看作 moon 月亮）+ **ster**，月黑风高时出现的怪物。
+
+* **end** /end/ 结尾；结束
+  - 例句：At the **end** of every year, he goes into the village. (在每年的年底，他都进村。)
+  - 记忆：字母 **e** 开始，到字母 **d** 结束（end）。
+
+* **village** /ˈvɪlɪdʒ/ 村庄
+  - 例句：Nian goes into the **village** and eats people! (年进村去吃人！)
+  - 记忆：**vill**（看作 will 将要）+ **age**（年龄），随着年龄增长，我们终将回到那个小村庄。
+
+* **last** /lɑːst/ 最后的
+  - 例句：Soon it is the **last** day of the year. (很快就到了一年的最后一天。)
+  - 记忆：**l** + **ast**（看作 fast 快的），跑得最快的人最后（last）才停下来。
+
+* **firecracker** /ˈfaɪəkrækə(r)/ 鞭炮；爆竹
+  - 例句：He also sees red **firecrackers**. (他也看到了红色的鞭炮。)
+  - 记忆：**fire**（火）+ **cracker**（爆裂者），一点火就会发出爆裂声的东西。
+
+* **mooncake** /ˈmuːnkeɪk/ 月饼
+  - 例句：At the Mid-Autumn Festival, people eat **mooncakes**. (在中秋节，人们吃月饼。)
+  - 记忆：**moon**（月亮）+ **cake**（蛋糕），像月亮一样的蛋糕。
+
+* **at the end of** 在……的最后
+  - 例句：**At the end of** every year, he goes into the village. (在每年的最后，他都会进村。)
+  - 记忆：**at**（在）+ **the end**（最后）+ **of**。
+
+
+
+## Unit 12
+Title: The giant's garden Category: 童话/描述类
+
+* **giant** /ˈdʒaɪənt/ 巨人
+  - 例句：A **giant** lives in a big house with a beautiful garden. (一个巨人住在一所带漂亮花园的大房子里。)
+  - 记忆：**g** + **iant**，个（g）子巨大的（iant）人。
+
+* **wall** /wɔːl/ 墙，围墙
+  - 例句：The giant builds a tall **wall** around his garden. (巨人在他的花园周围筑起了一道高墙。)
+  - 记忆：**w** + **all**，所有（all）的人都被挡在墙外。
+
+* **kind** /kaɪnd/ 友好的，体贴的
+  - 例句：He's not **kind** to children. (他对孩子们不友好。)
+  - 记忆：**k** + **ind**，开（k）心（ind）的人通常很友好。
+
+* **through** /θruː/ 穿过
+  - 例句：They are coming **through** a hole. (他们正从一个洞里穿过来。)
+  - 记忆：**th** + **rough** (粗糙的)，穿过 (through) 一条粗糙的小路。
+
+* **no entry** /nəʊ ˈentri/ 禁止进入
+  - 例句：The giant builds a tall wall with a sign "**No entry**!" (巨人筑起高墙并挂上“禁止进入”的牌子。)
+  - 记忆：**no** (不) + **entry** (进入)。
+
+* **(be) kind to ...** 对……友好
+  - 例句：I don't like the giant. He's not **kind to** children. (我不喜欢那个巨人，他对孩子们不友好。)
+  - 记忆：**kind** (友好的) + **to** (对……)。
+
+* **knock down** /nɒk daʊn/ 推倒，拆掉
+  - 例句：The giant **knocks down** the wall around his garden. (巨人拆掉了他花园周围的围墙。)
+  - 记忆：**knock** (敲) + **down** (向下)，用力敲下去把它推倒。
+
+
+
+
+
 
 # 英语六年级上册单词
 
