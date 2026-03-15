@@ -47,10 +47,24 @@ class ReadingsFormatChecker:
         """检查格式"""
         lines = content.split('\n')
         
+        # 过滤掉 <!-- ... --> 注释块内的行，避免将格式示例当作真实内容检查
+        filtered: List[Tuple[str, int]] = []  # (raw_line, original_line_number 1-based)
+        in_comment_block = False
+        for i, raw in enumerate(lines):
+            stripped = raw.strip()
+            if stripped.startswith('<!--'):
+                in_comment_block = True
+                continue
+            if in_comment_block:
+                if '-->' in stripped:
+                    in_comment_block = False
+                continue
+            filtered.append((raw, i + 1))
+        
         # 提取书本名称（第一个 # 标题）
         book_name = ''
-        for i, line in enumerate(lines):
-            stripped = line.strip()
+        for raw_line, _ in filtered:
+            stripped = raw_line.strip()
             if stripped.startswith('# ') and not stripped.startswith('# 题目：') and \
                not stripped.startswith('# 场景：') and not stripped.startswith('# 重点句型') and \
                not stripped.startswith('# 知识点'):
@@ -61,12 +75,12 @@ class ReadingsFormatChecker:
         # 当前单元名称
         current_unit_name = ''
         
-        # 跳过注释部分，找到第一个题目行（支持两种格式：# 题目： 和 * 题目：）
+        # 找到第一个题目行
         start_index = 0
-        for i, line in enumerate(lines):
-            stripped = line.strip()
+        for idx, (raw_line, _) in enumerate(filtered):
+            stripped = raw_line.strip()
             if stripped.startswith('# 题目：') or stripped.startswith('* 题目：'):
-                start_index = i
+                start_index = idx
                 break
         
         current_reading = None
@@ -74,15 +88,15 @@ class ReadingsFormatChecker:
         is_parsing_knowledge_points = False
         reading_index = 0
         
-        for i in range(start_index, len(lines)):
-            raw_line = lines[i]
+        for idx in range(start_index, len(filtered)):
+            raw_line, line_no = filtered[idx]
             line = raw_line.strip()
             
             # 跳过空行
             if not line:
                 continue
             
-            # 跳过 JSON 示例代码块
+            # 跳过独立的代码块标记行
             if line.startswith('```'):
                 continue
             
@@ -100,7 +114,7 @@ class ReadingsFormatChecker:
                 reading_index += 1
                 current_reading = {
                     'index': reading_index,
-                    'line_number': i + 1,
+                    'line_number': line_no,
                     'title_line': line,
                     'book_name': book_name,
                     'unit_name': current_unit_name,
@@ -122,7 +136,7 @@ class ReadingsFormatChecker:
                     current_reading['title'] = title_match.group(1).strip()
                     current_reading['title_cn'] = title_match.group(2).strip()
                 else:
-                    self.errors.append(f"第 {i + 1} 行：标题格式错误，应为 \"* 题目：English Title (中文标题)\"")
+                    self.errors.append(f"第 {line_no} 行：标题格式错误，应为 \"* 题目：English Title (中文标题)\"")
                 continue
             
             # 如果没有当前阅读材料，跳过
@@ -135,7 +149,7 @@ class ReadingsFormatChecker:
                 scene_content = re.sub(r'^[*#]\s*场景：', '', line)
                 current_reading['scene'] = scene_content.strip()
                 if not current_reading['scene']:
-                    self.warnings.append(f"第 {i + 1} 行：场景描述为空")
+                    self.warnings.append(f"第 {line_no} 行：场景描述为空")
                 continue
             
             # 检测重点句型行（支持多种格式）
@@ -167,7 +181,7 @@ class ReadingsFormatChecker:
                         })
                         self.stats['total_patterns'] += 1
                     else:
-                        self.warnings.append(f"第 {i + 1} 行：句型格式可能不正确")
+                        self.warnings.append(f"第 {line_no} 行：句型格式可能不正确")
                 else:
                     # 没有中文翻译，保存为简单格式
                     current_reading['patterns'].append({
@@ -223,7 +237,7 @@ class ReadingsFormatChecker:
                         })
                         self.stats['total_dialogues'] += 1
                     else:
-                        self.warnings.append(f"第 {i + 1} 行：对话格式不正确")
+                        self.warnings.append(f"第 {line_no} 行：对话格式不正确")
                 continue
             
             # 结束句型/知识点解析
