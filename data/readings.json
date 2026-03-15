@@ -1,9 +1,9 @@
 {
-  "bookName": "英语五年级上册",
+  "bookName": "英语五年级上册课文",
   "readings": [
     {
       "id": "reading-001",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 1",
       "title": "My future",
       "titleCn": "我的未来",
@@ -70,7 +70,7 @@
     },
     {
       "id": "reading-002",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 1",
       "title": "Froggy's new job",
       "titleCn": "小青蛙的新工作",
@@ -143,7 +143,7 @@
     },
     {
       "id": "reading-003",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 2",
       "title": "Going to school",
       "titleCn": "去上学",
@@ -249,7 +249,7 @@
     },
     {
       "id": "reading-004",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 2",
       "title": "Ms Guo's journey to work",
       "titleCn": "郭老师的上班之旅",
@@ -304,7 +304,7 @@
     },
     {
       "id": "reading-005",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 3",
       "title": "My birthday",
       "titleCn": "我的生日",
@@ -387,7 +387,7 @@
     },
     {
       "id": "reading-006",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 3",
       "title": "My birthday",
       "titleCn": "橙色聚会现场",
@@ -459,7 +459,7 @@
     },
     {
       "id": "reading-007",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 4",
       "title": "Grandparents",
       "titleCn": "与祖父母的日常",
@@ -555,7 +555,7 @@
     },
     {
       "id": "reading-008",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 5",
       "title": "Friends",
       "titleCn": "好朋友的共同点",
@@ -614,7 +614,7 @@
     },
     {
       "id": "reading-009",
-      "bookName": "英语五年级上册",
+      "bookName": "英语五年级上册课文",
       "unitName": "Unit 6",
       "title": "Family life",
       "titleCn": "家庭生活",
@@ -687,6 +687,512 @@
           "speakerCn": "萨莉",
           "content": "I usually do my homework at night, but now I'm playing word games with my family.",
           "contentCn": "萨莉：我通常在晚上做作业，但现在我正和家人一起玩单词游戏。"
+        }
+      ]
+    },
+    {
+      "id": "reading-010",
+      "bookName": "英语五年级上册课文",
+      "unitName": "Unit 1",
+      "title": "Tidy up!",
+      "titleCn": "整理房间",
+      "scene": "Sally 看到 Peter 的卧室非常脏乱，于是两人一起动手整理。在此过程中，他们通过询问和确认物品的归属（如袜子、帽子、T恤等）来完成清扫。",
+      "keySentencePatterns": [
+        {
+          "pattern": "What a mess! Let's tidy it up.",
+          "meaning": "真是乱七八糟！让我们把它整理好。"
+        },
+        {
+          "pattern": "Whose socks are those? Are they yours?",
+          "meaning": "那些是谁的袜子？它们是你的吗？"
+        },
+        {
+          "pattern": "Is this yours too? No, it's Paul's.",
+          "meaning": "这也是你的吗？不，它是保罗的。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`tidy` (整理), `mess` (脏乱), `yours` (你的/你们的), `mine` (我的), `hers` (她的), `theirs` (他们的), `cap` (帽子), `socks` (短袜)",
+        "重点短语：`tidy up` (整理好), `(be) full of` (装满), `a few` (几个/一些), `put ... on` (把……放在……上)",
+        "语音知识：掌握字母组合 `ar` (car), `ue` (blue) 和 `oo` (school) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Look at your bedroom. What a mess! Let's tidy it up.",
+          "contentCn": "萨莉：看你的卧室。真是乱七八糟！让我们把它整理好。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "Sure, Sally.",
+          "contentCn": "彼得：好的，萨莉。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Whose socks are those? Are they yours, Peter?",
+          "contentCn": "萨莉：那些是谁的袜子？它们是你的吗，彼得？"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "No, they aren't. They're Paul's.",
+          "contentCn": "彼得：不，它们不是。它们是保罗的。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Can you put them on his bed?",
+          "contentCn": "萨莉：你能把它们放在他的床上吗？"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "Sure.",
+          "contentCn": "彼得：没问题。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Whose cap is this?",
+          "contentCn": "萨莉：这是谁的帽子？"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "It's mine.",
+          "contentCn": "彼得：它是我的。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "There's a T-shirt. Is this yours too, Peter?",
+          "contentCn": "萨莉：这儿有一件T恤。这也是你的吗，彼得？"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "No. It's Paul's.",
+          "contentCn": "彼得：不。它是保罗的。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Can you put it on his bed?",
+          "contentCn": "萨莉：你能把它放在他的床上吗？"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "Sure.",
+          "contentCn": "彼得：没问题。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "The room is now clean and tidy. Thank you for your help, Sally.",
+          "contentCn": "彼得：房间现在又干净又整洁了。谢谢你的帮助，萨莉。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "You're welcome, Peter.",
+          "contentCn": "萨莉：不客气，彼得。"
+        }
+      ]
+    },
+    {
+      "id": "reading-011",
+      "bookName": "英语五年级上册课文",
+      "unitName": "Unit 2",
+      "title": "Our new home",
+      "titleCn": "我们的新家与大雁搬家",
+      "scene": "萨莉和爸爸正在讨论他们的新家，分享各自喜欢的房间及原因；随后课文介绍了大雁为了寻找食物和温暖的气候而每年两次迁徙的自然常识。",
+      "keySentencePatterns": [
+        {
+          "pattern": "Why do you like our new home?",
+          "meaning": "你为什么喜欢我们的新家？"
+        },
+        {
+          "pattern": "Because it's so big!",
+          "meaning": "因为它很大！"
+        },
+        {
+          "pattern": "Why do wild geese change homes?",
+          "meaning": "大雁为什么要搬家？"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`study` (书房), `dining room` (餐厅), `garden` (花园), `wild geese` (大雁), `change` (改变/搬迁), `north` (北方), `south` (南方), `enough` (足够的)",
+        "重点短语：`change homes` (搬家), `all day` (一整天), `move around` (搬来搬去), `twice every year` (每年两次), `fly back` (飞回)",
+        "语音知识：掌握字母组合 `ir` (skirt), `ur` (purse), `au` (Laura) 和 `oor` (floor) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "Do you like our new home, Sally?",
+          "contentCn": "爸爸：萨莉，你喜欢我们的新家吗？"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Yes. It's nice. I like the living room.",
+          "contentCn": "萨莉：是的。它很漂亮。我喜欢客厅。"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "Why do you like it?",
+          "contentCn": "爸爸：你为什么喜欢它？"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Because it's so big! What about you, Dad?",
+          "contentCn": "萨莉：因为它很大！爸爸，你呢？"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "I like the study.",
+          "contentCn": "爸爸：我喜欢书房。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "爸爸",
+          "content": "Why do you like it?",
+          "contentCn": "爸爸：你为什么喜欢它？"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "Because it's quiet. I can read and write there.",
+          "contentCn": "爸爸：因为它很安静。我可以在那里阅读和写字。"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Peter and Paul are in the garden. They like our new home too.",
+          "contentCn": "萨莉：彼得和保罗在花园里。他们也喜欢我们的新家。"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "Do you know why?",
+          "contentCn": "爸爸：你知道为什么吗？"
+        },
+        {
+          "speaker": "Sally",
+          "speakerCn": "萨莉",
+          "content": "Because they can play in the garden all day!",
+          "contentCn": "萨莉：因为他们可以在花园里玩一整天！"
+        }
+      ]
+    },
+    {
+      "id": "reading-012",
+      "bookName": "英语五年级上册课文",
+      "unitName": "Unit 3",
+      "title": "In the future",
+      "titleCn": "在未来",
+      "scene": "Kitty 想了解自己的未来，她站在一台神奇的机器前拍了一张照片，并阅读了照片背面关于她 15 年后生活状况的描述。",
+      "keySentencePatterns": [
+        {
+          "pattern": "I'll be a teacher.",
+          "meaning": "我将成为一名老师。"
+        },
+        {
+          "pattern": "I won't wear glasses.",
+          "meaning": "我将不戴眼镜。"
+        },
+        {
+          "pattern": "You will have big and beautiful eyes.",
+          "meaning": "你将拥有一双又大又漂亮的眼睛。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`future` (将来), `machine` (机器), `will` (将), `exercise` (运动), `early` (早), `hard` (努力地), `easily` (容易地)",
+        "重点短语：`in the future` (将来), `in front of` (在……前面), `take a photo` (拍照), `wear glasses` (戴眼镜), `do exercise` (做运动), `(be) weak in` (不擅长), `not ... any more` (不再)",
+        "语音知识：掌握字母组合 `ee` (bee), `ea` (tea), `eer` (deer) 和 `ear` (tear) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂想了解她的未来。她站在一台神奇的机器前拍了一张照片。",
+          "content": "Kitty wants to know about her future. She stands in front of a magic machine and takes a photo.",
+          "contentCn": "吉蒂想了解她的未来。她站在一台神奇的机器前拍了一张照片。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂看着她的照片。背面有一些字。",
+          "content": "Kitty looks at her photo. There are some words on the back.",
+          "contentCn": "吉蒂看着她的照片。背面有一些字。"
+        },
+        {
+          "speaker": "Words on the back",
+          "speakerCn": "背面的话",
+          "content": "In 15 years, you will not wear glasses. You will have big and beautiful eyes.",
+          "contentCn": "背面的话：15年后，你将不会戴眼镜。你将拥有一双又大又漂亮的眼睛。"
+        },
+        {
+          "speaker": "Words on the back",
+          "speakerCn": "背面的话",
+          "content": "You will live in Beijing. You will be a teacher. You will love your job.",
+          "contentCn": "背面的话：你将住在北京。你将成为一名老师。你将热爱你的工作。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "This is me in the future! I won't wear glasses.",
+          "contentCn": "吉蒂：这就是未来的我！我将不会戴眼镜。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I'll have big and beautiful eyes. I'll live in Beijing and I'll be a teacher.",
+          "contentCn": "吉蒂：我将拥有又大又漂亮的眼睛。我将住在北京并且成为一名老师。"
+        }
+      ]
+    },
+    {
+      "id": "reading-013",
+      "bookName": "英语五年级上册课文",
+      "unitName": "Unit 4",
+      "title": "Reading is fun",
+      "titleCn": "阅读的乐趣",
+      "scene": "Kitty 和 Alice 在书店挑选书籍，讨论各自喜欢的书以及未来的阅读计划；同时介绍了 5A 班级“读书周”（Book Week）的各种活动安排。",
+      "keySentencePatterns": [
+        {
+          "pattern": "What are the pictures about?",
+          "meaning": "这些图片是关于什么的？"
+        },
+        {
+          "pattern": "The students are going to make posters.",
+          "meaning": "学生们打算制作海报。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`storybook` (故事书), `dictionary` (字典), `magazine` (杂志), `newspaper` (报纸), `week` (周), `student` (学生), `poster` (海报), `writer` (作家),",
+        "重点短语：`be going to` (打算/将要), `over there` (在那边), `do a survey` (做调查), `act ... out` (表演出来), `best stories` (最好的故事),,",
+        "语音知识：掌握字母组合 `i` (five) 和 `ie` (pie) 的发音,"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Look, Alice. There are many storybooks. I'm going to buy one.",
+          "contentCn": "吉蒂：看，艾丽丝。有很多故事书。我打算买一本。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "I'm going to look at the picture books over there.",
+          "contentCn": "艾丽丝：我打算看一看那边的图画书。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "OK.",
+          "contentCn": "吉蒂：好的。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Do you like this picture book?",
+          "contentCn": "吉蒂：你喜欢这本图画书吗？"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "Yes. It's fun. There are many beautiful pictures in it.",
+          "contentCn": "艾丽丝：是的。它很有趣。里面有很多漂亮的图片。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "What are the pictures about?",
+          "contentCn": "吉蒂：这些图片是关于什么的？"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "They're pictures of different places in China. I'm going to visit these places in the future. What are you reading? Is it a storybook?",
+          "contentCn": "艾丽丝：它们是中国不同地方的照片。我打算将来去这些地方。你在读什么？是一本故事书吗？"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Yes. It's Stories for Children. I'm going to read a story every day.",
+          "contentCn": "吉蒂：是的。它是《给孩子们的故事》。我打算每天读一个故事。"
+        }
+      ]
+    },
+    {
+      "id": "reading-014",
+      "bookName": "英语五年级上册课文",
+      "unitName": "Unit 5",
+      "title": "At the weekend",
+      "titleCn": "在周末",
+      "scene": "郭老师在课堂上询问同学们这个周末的计划，乔、彼得、吉尔、吉蒂和艾丽丝分别分享了自己的安排，包括待在家里看电视、踢足球、看电影、划船和放风筝等。",
+      "keySentencePatterns": [
+        {
+          "pattern": "I'm going to stay at home and watch TV with my grandparents.",
+          "meaning": "我打算待在家里，和爷爷奶奶一起看电视。"
+        },
+        {
+          "pattern": "I don't have any plans for the weekend.",
+          "meaning": "我周末没有任何计划。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`weekend` (周末), `stay` (待), `film` (电影), `boat` (小船), `plan` (计划), `tomorrow` (明天), `build` (建造), `next` (紧接着), `swing` (秋千), `cry` (哭), `until` (直到),",
+        "重点短语：`stay at home` (待在家里), `see a film` (看电影), `row a boat` (划船), `fly a kite` (放风筝), `watch TV` (看电视),",
+        "语音知识：掌握字母组合 `o` (Flo), `oa` (goat) 和 `oe` (Joe) 的发音,"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Ms Guo",
+          "speakerCn": "郭老师",
+          "content": "Children, what are you going to do this weekend?",
+          "contentCn": "郭老师：孩子们，这个周末你们打算做什么？"
+        },
+        {
+          "speaker": "Joe",
+          "speakerCn": "乔",
+          "content": "I'm going to stay at home and watch TV with my grandparents.",
+          "contentCn": "乔：我打算待在家里，和爷爷奶奶一起看电视。"
+        },
+        {
+          "speaker": "Peter",
+          "speakerCn": "彼得",
+          "content": "I'm going to play football on Sunday. It's my favourite sport.",
+          "contentCn": "彼得：我打算在周日踢足球。它是我最喜欢的运动。"
+        },
+        {
+          "speaker": "Jill",
+          "speakerCn": "吉尔",
+          "content": "I'm going to see a film with my parents on Saturday afternoon.",
+          "contentCn": "吉尔：我打算周六下午和父母一起去看电影。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "I'm going to row a boat and fly a kite in the park on Sunday.",
+          "contentCn": "吉蒂：我打算周日在公园划船和放风筝。"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "I don't have any plans for the weekend.",
+          "contentCn": "艾丽丝：我周末没有任何计划。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Do you want to come with me, Alice?",
+          "contentCn": "吉蒂：艾丽丝，你想和我一起去吗？"
+        },
+        {
+          "speaker": "Alice",
+          "speakerCn": "艾丽丝",
+          "content": "Sure. Thank you, Kitty.",
+          "contentCn": "艾丽丝：当然。谢谢你，吉蒂。"
+        }
+      ]
+    },
+    {
+      "id": "reading-015",
+      "bookName": "英语五年级上册课文",
+      "unitName": "Unit 6",
+      "title": "Holidays",
+      "titleCn": "假期",
+      "scene": "Kitty 一家人正在讨论暑假计划。爸爸建议去三亚度假，随后全家人讨论了交通方式、住宿地点、停留时长以及具体的活动安排。",
+      "keySentencePatterns": [
+        {
+          "pattern": "Where will we stay?",
+          "meaning": "我们将住在哪里？"
+        },
+        {
+          "pattern": "How long will we stay in Sanya?",
+          "meaning": "我们将在三亚待多久？"
+        },
+        {
+          "pattern": "We'll stay there for five days.",
+          "meaning": "我们将待在那里五天。"
+        },
+        {
+          "pattern": "What will we do there?",
+          "meaning": "我们将在那里做什么？"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`holiday` (假日), `clear` (清澈的), `seafood` (海鲜), `hotel` (旅馆), `island` (岛)",
+        "重点短语：`go swimming` (去游泳), `in the south of` (在……的南部), `all year round` (一年到头), `by plane` (乘飞机), `by the sea` (在海边)",
+        "语音知识：掌握字母组合 `oy` (toy) 和 `oi` (noise) 的发音"
+      ],
+      "dialogues": [
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Mum and Dad, what are we going to do this summer?",
+          "contentCn": "吉蒂：爸爸妈妈，今年暑假我们打算做什么？"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "Let's go to Sanya. It's a wonderful place for a holiday.",
+          "contentCn": "爸爸：我们去三亚吧。那是一个度假的好地方。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "Great! How do we get there?",
+          "contentCn": "吉蒂：太棒了！我们怎么去那里？"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "We get there by plane.",
+          "contentCn": "爸爸：我们坐飞机去。"
+        },
+        {
+          "speaker": "Ben",
+          "speakerCn": "本",
+          "content": "Where will we stay?",
+          "contentCn": "本：我们将住在哪里？"
+        },
+        {
+          "speaker": "Mum",
+          "speakerCn": "妈妈",
+          "content": "We'll stay in a hotel by the sea.",
+          "contentCn": "妈妈：我们将住在海边的一家旅馆里。"
+        },
+        {
+          "speaker": "Kitty",
+          "speakerCn": "吉蒂",
+          "content": "How long will we stay in Sanya?",
+          "contentCn": "吉蒂：我们将在三亚待多久？"
+        },
+        {
+          "speaker": "Dad",
+          "speakerCn": "爸爸",
+          "content": "We'll stay there for five days.",
+          "contentCn": "爸爸：我们将在那里待五天。"
+        },
+        {
+          "speaker": "Ben",
+          "speakerCn": "本",
+          "content": "What will we do there?",
+          "contentCn": "本：我们将在那里做什么？"
+        },
+        {
+          "speaker": "Mum",
+          "speakerCn": "妈妈",
+          "content": "Sanya has beautiful beaches with clear water. We'll go swimming there. We'll also have seafood. The seafood there tastes great!",
+          "contentCn": "妈妈：三亚有带着清澈海水的美丽沙滩。我们将去那里游泳。我们还会吃海鲜。那里的海鲜味道好极了！"
         }
       ]
     }
