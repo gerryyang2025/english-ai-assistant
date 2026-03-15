@@ -163,12 +163,12 @@ async function checkServiceHealth() {
     try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000);
-        
+
         const response = await fetch('/api/health', {
             method: 'GET',
             signal: controller.signal
         });
-        
+
         clearTimeout(timeoutId);
         const data = await response.json();
         return data.status === 'ok';
@@ -183,26 +183,26 @@ async function fetchVoiceCloneConfig() {
     try {
         const response = await fetch('/api/status');
         if (!response.ok) throw new Error('获取配置失败');
-        
+
         const data = await response.json();
-        
+
         // 更新音色复刻配置
         if (data.voice_clone) {
             // 保存可用的语音列表
             AppState.speechCloneVoices = data.voice_clone.voices || [];
-            
+
             // 选择默认语音
             if (data.voice_clone.default_voice) {
                 AppState.speechCloneSelectedVoice = data.voice_clone.default_voice;
             } else if (AppState.speechCloneVoices.length > 0) {
                 AppState.speechCloneSelectedVoice = AppState.speechCloneVoices[0];
             }
-            
+
             console.log('[Voice Clone] 配置已加载:');
             console.log('  - 可用语音数量:', AppState.speechCloneVoices.length);
             console.log('  - 当前选择:', AppState.speechCloneSelectedVoice);
             console.log('  - configured:', data.voice_clone.configured);
-            
+
             // 初始化语音选择下拉框
             initSpeechVoiceDropdown();
         }
@@ -215,14 +215,14 @@ async function fetchVoiceCloneConfig() {
 function initSpeechVoiceDropdown() {
     const selectEl = document.getElementById('speech-voice-mode-select');
     if (!selectEl) return;
-    
+
     // 保留第一个"系统"选项，移除其他复刻选项
     const systemOption = selectEl.querySelector('option[value="system"]');
     selectEl.innerHTML = '';
     if (systemOption) {
         selectEl.appendChild(systemOption);
     }
-    
+
     // 添加音色选项
     AppState.speechCloneVoices.forEach((voice, index) => {
         const option = document.createElement('option');
@@ -231,7 +231,7 @@ function initSpeechVoiceDropdown() {
         option.dataset.fileId = voice.file_id;
         selectEl.appendChild(option);
     });
-    
+
     // 默认选择系统模式
     selectEl.value = 'system';
     // 同步更新 AppState
@@ -246,20 +246,20 @@ async function loadDailyJoke() {
         console.log('[Joke] Element #daily-joke not found');
         return;
     }
-    
+
     console.log('[Joke] Starting to load joke...');
     jokeEl.classList.add('loading');
     jokeEl.textContent = 'Loading joke...';
-    
+
     try {
         // 检测浏览器是否支持 AbortSignal.timeout
         const supportsTimeout = typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function';
         console.log('[Joke] AbortSignal.timeout supported:', supportsTimeout);
-        
+
         const controller = new AbortController();
         const timeoutMs = 8000; // 8秒超时
         let timeoutId;
-        
+
         if (supportsTimeout) {
             const signal = AbortSignal.timeout(timeoutMs);
             timeoutId = setTimeout(() => {
@@ -273,31 +273,31 @@ async function loadDailyJoke() {
                 controller.abort();
             }, timeoutMs);
         }
-        
+
         console.log('[Joke] Fetching from https://api.chucknorris.io/jokes/random...');
-        
+
         const response = await fetch('https://api.chucknorris.io/jokes/random', {
             method: 'GET',
             signal: controller.signal
         });
-        
+
         clearTimeout(timeoutId);
         console.log('[Joke] Response received, status:', response.status, response.statusText);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-        
+
         const contentType = response.headers.get('content-type');
         console.log('[Joke] Content-Type:', contentType);
-        
+
         if (!contentType || !contentType.includes('application/json')) {
             throw new Error('Invalid content type: ' + contentType);
         }
-        
+
         const data = await response.json();
         console.log('[Joke] Data received:', JSON.stringify(data, null, 2));
-        
+
         if (data && data.value) {
             jokeEl.textContent = `"${data.value}"`;
             jokeEl.classList.remove('error');
@@ -309,7 +309,7 @@ async function loadDailyJoke() {
         }
     } catch (error) {
         console.error('[Joke] Error loading joke:', error.name, error.message);
-        
+
         // 详细错误分析
         if (error.name === 'AbortError') {
             console.log('[Joke] Request was aborted (timeout or cancellation)');
@@ -322,7 +322,7 @@ async function loadDailyJoke() {
         } else if (error.message.includes('Failed to fetch')) {
             console.log('[Joke] Network connection failed');
         }
-        
+
         jokeEl.classList.add('error');
         jokeEl.style.display = 'none';
     } finally {
@@ -363,7 +363,7 @@ function bindEvents() {
     DOM.navBtns.forEach(btn => {
         btn.addEventListener('click', () => switchPage(btn.dataset.page));
     });
-    
+
     // 功能卡片点击
     document.querySelectorAll('.feature-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -376,44 +376,44 @@ function bindEvents() {
             else if (action === 'go-favorites') switchPage('favorites');
         });
     });
-    
+
     // 单词搜索
     const searchInput = document.getElementById('word-search');
     if (searchInput) {
         searchInput.addEventListener('input', debounce(handleWordSearch, 300));
     }
-    
+
     // 词书选择
     document.getElementById('wordbook-select')?.addEventListener('change', handleWordBookChange);
-    
+
     // 单元选择
     document.getElementById('select-all-units')?.addEventListener('click', selectAllUnits);
     document.getElementById('clear-unit-selection')?.addEventListener('click', clearUnitSelection);
-    
+
     // 闪卡词书选择
     document.getElementById('flashcard-wordbook-select')?.addEventListener('change', handleFlashcardWordBookChange);
-    
+
     // 闪卡单元选择
     document.getElementById('flashcard-select-all-units')?.addEventListener('click', flashcardSelectAllUnits);
     document.getElementById('flashcard-clear-unit-selection')?.addEventListener('click', flashcardClearUnitSelection);
-    
+
     // 开始测试
     document.getElementById('start-test-btn')?.addEventListener('click', startFlashcardTest);
-    
+
     // 闪卡操作
     document.getElementById('btn-reveal')?.addEventListener('click', revealAnswer);
     document.getElementById('btn-known')?.addEventListener('click', () => markAnswer(true));
     document.getElementById('btn-unknown')?.addEventListener('click', () => markAnswer(false));
     document.getElementById('btn-review')?.addEventListener('click', () => markAnswer(null, true));
-    
+
     // 退出测试
     document.getElementById('btn-exit-test')?.addEventListener('click', exitFlashcardTest);
-    
+
     // 结果页操作
     document.getElementById('retry-test-btn')?.addEventListener('click', retryTest);
     document.getElementById('review-wrong-btn')?.addEventListener('click', reviewWrongWords);
     document.getElementById('back-home-btn')?.addEventListener('click', () => switchPage('home'));
-    
+
     // 错词本操作
     document.getElementById('review-all-wrong-btn')?.addEventListener('click', reviewAllWrongWords);
     // 注意：clearWrongbook 通过 HTML 内联 onclick 绑定
@@ -425,12 +425,12 @@ function switchPage(pageName) {
     DOM.navBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === pageName);
     });
-    
+
     // 切换页面显示
     DOM.pages.forEach(page => {
         page.classList.toggle('active', page.id === `page-${pageName}`);
     });
-    
+
     // 页面特定初始化
     switch (pageName) {
         case 'home':
@@ -517,7 +517,7 @@ function saveUserProgress() {
 
 function updateWordProgress(wordId, isCorrect, markReview = false) {
     const progress = AppState.userProgress;
-    
+
     // 初始化单词进度
     if (!progress.wordProgress[wordId]) {
         progress.wordProgress[wordId] = {
@@ -529,12 +529,12 @@ function updateWordProgress(wordId, isCorrect, markReview = false) {
             reviewDates: []
         };
     }
-    
+
     const wordProgress = progress.wordProgress[wordId];
     wordProgress.reviewCount += 1;
     wordProgress.lastReviewed = new Date().toISOString();
     wordProgress.reviewDates.push(new Date().toISOString());
-    
+
     // 更新正确/错误计数
     if (isCorrect) {
         wordProgress.correctCount += 1;
@@ -544,23 +544,23 @@ function updateWordProgress(wordId, isCorrect, markReview = false) {
         wordProgress.wrongCount += 1;
         wordProgress.masteryLevel = Math.max(0, wordProgress.masteryLevel - 1);
         progress.stats.totalWrong += 1;
-        
+
         // 添加到错词本
         if (!progress.wrongWords.includes(wordId)) {
             progress.wrongWords.push(wordId);
         }
     }
-    
+
     // 标记复习
     if (markReview) {
         if (!progress.wrongWords.includes(wordId)) {
             progress.wrongWords.push(wordId);
         }
     }
-    
+
     // 更新总体统计
     progress.stats.totalReviewed += 1;
-    
+
     // 更新每日统计
     const today = new Date().toISOString().split('T')[0];
     if (!progress.dailyStats[today]) {
@@ -572,10 +572,10 @@ function updateWordProgress(wordId, isCorrect, markReview = false) {
     } else {
         progress.dailyStats[today].wrong += 1;
     }
-    
+
     // 更新连续学习天数
     updateStreak();
-    
+
     saveUserProgress();
 }
 
@@ -583,7 +583,7 @@ function updateStreak() {
     const progress = AppState.userProgress;
     const today = new Date().toISOString().split('T')[0];
     const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    
+
     if (progress.stats.lastStudyDate === today) {
         // 今天已经学习
         return;
@@ -594,12 +594,12 @@ function updateStreak() {
         // 中断了，重新开始
         progress.stats.currentStreak = 1;
     }
-    
+
     // 更新最长连续记录
     if (progress.stats.currentStreak > progress.stats.longestStreak) {
         progress.stats.longestStreak = progress.stats.currentStreak;
     }
-    
+
     progress.stats.lastStudyDate = today;
     saveUserProgress();
 }
@@ -608,10 +608,10 @@ function getTodayStats() {
     const progress = AppState.userProgress;
     const today = new Date().toISOString().split('T')[0];
     const todayStats = progress.dailyStats[today] || { reviewed: 0, correct: 0, wrong: 0 };
-    const accuracy = todayStats.reviewed > 0 
-        ? Math.round((todayStats.correct / todayStats.reviewed) * 100) 
+    const accuracy = todayStats.reviewed > 0
+        ? Math.round((todayStats.correct / todayStats.reviewed) * 100)
         : 0;
-    
+
     return {
         reviewed: todayStats.reviewed,
         correct: todayStats.correct,
@@ -624,14 +624,14 @@ function getTodayStats() {
 function renderHomePage() {
     // 显示当前日期和星期
     displayCurrentDate();
-    
+
     const todayStats = getTodayStats();
-    
+
     document.getElementById('today-reviewed').textContent = todayStats.reviewed;
     document.getElementById('today-correct').textContent = todayStats.correct;
     document.getElementById('today-accuracy').textContent = todayStats.accuracy + '%';
     document.getElementById('streak-days').textContent = AppState.userProgress.stats.currentStreak;
-    
+
     // 今日阅读统计
     const todayReadings = getTodayReadingCount();
     document.getElementById('today-readings').textContent = todayReadings;
@@ -642,12 +642,12 @@ function getTodayReadingCount() {
     const today = new Date().toISOString().split('T')[0];
     const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
     const readingDates = JSON.parse(localStorage.getItem('readingDates') || '{}');
-    
+
     // 如果今天的日期有记录，返回记录的数量
     if (readingDates[today]) {
         return readingDates[today].length;
     }
-    
+
     // 否则返回 0
     return 0;
 }
@@ -656,15 +656,15 @@ function getTodayReadingCount() {
 function displayCurrentDate() {
     const dateElement = document.getElementById('current-date');
     if (!dateElement) return;
-    
+
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
     const day = now.getDate();
-    
+
     const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
     const weekDay = weekDays[now.getDay()];
-    
+
     dateElement.textContent = ` —— ${year}年${month}月${day}日 ${weekDay}`;
     dateElement.style.cssText = 'display: block; font-size: 1rem; font-weight: normal; margin-top: 8px; opacity: 0.9;';
 }
@@ -769,7 +769,7 @@ function handleWordBookChange(bookId) {
 
     // 清空并填充单元选择器
     unitSelect.innerHTML = '';
-    
+
     // 添加"全部单元"选项
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
@@ -790,27 +790,27 @@ function handleWordBookChange(bookId) {
 function startDictation() {
     const wordbookSelect = document.getElementById('wordbook-select');
     const unitSelect = document.getElementById('word-unit-select');
-    
+
     const bookId = wordbookSelect?.value;
     const unitName = unitSelect?.value;
-    
+
     if (!bookId) {
         showToast('请先选择书本');
         return;
     }
-    
+
     const book = AppState.wordData.find(b => (b.id || AppState.wordData.indexOf(b)) == bookId);
     if (!book || !book.units) {
         showToast('没有找到单词数据');
         return;
     }
-    
+
     // 收集所有单词
     let allWords = [];
     book.units.forEach(unit => {
         // 如果选择了具体单元，只收集该单元的单词
         if (unitName && unit.unit !== unitName) return;
-        
+
         if (unit.words && Array.isArray(unit.words)) {
             unit.words.forEach(word => {
                 allWords.push({
@@ -820,15 +820,15 @@ function startDictation() {
             });
         }
     });
-    
+
     if (allWords.length === 0) {
         showToast('没有找到单词');
         return;
     }
-    
+
     // 随机打乱顺序
     allWords = allWords.sort(() => Math.random() - 0.5);
-    
+
     // 创建会话
     AppState.dictationSession = {
         words: allWords,
@@ -839,7 +839,7 @@ function startDictation() {
         startTime: Date.now(),
         isPaused: false
     };
-    
+
     // 跳转到听写页面
     switchPage('dictation');
     showCurrentWord();
@@ -914,7 +914,7 @@ function showCurrentWord() {
     dictationInput.classList.remove('input-error');
     dictationInput.classList.remove('input-correct');
     feedbackEl.style.display = 'none';
-    
+
     // 清除答案显示区域
     const answerDisplay = document.getElementById('dictation-answer-display');
     answerDisplay.style.display = 'none';
@@ -1028,7 +1028,7 @@ function skipDictationWord() {
     }
 
     session.currentIndex++;
-    
+
     showCurrentWord();
 }
 
@@ -1056,7 +1056,7 @@ function endDictation() {
     // 显示错误单词列表
     const wrongWordsSection = document.getElementById('dictation-wrong-words');
     const wrongList = document.getElementById('dictation-wrong-list');
-    
+
     if (wrongWordIds.length > 0) {
         wrongWordsSection.style.display = 'block';
         wrongList.innerHTML = wrongWordIds.map(wordId => {
@@ -1099,10 +1099,10 @@ function startDictationWithSession(session) {
 function initFlashcardWordBookSelector() {
     const wordbookSelect = document.getElementById('flashcard-wordbook-select');
     if (!wordbookSelect) return;
-    
+
     // 如果已经有选项，直接使用
     if (wordbookSelect.options.length > 1) return;
-    
+
     // 从数据中获取词书列表并填充选择器
     AppState.wordData.forEach((wordbook, index) => {
         const option = document.createElement('option');
@@ -1110,7 +1110,7 @@ function initFlashcardWordBookSelector() {
         option.textContent = wordbook.name;
         wordbookSelect.appendChild(option);
     });
-    
+
     // 选择第一个词书
     if (AppState.wordData.length > 0) {
         const firstBookId = AppState.wordData[0].id || 0;
@@ -1131,32 +1131,32 @@ function handleFlashcardWordBookChange(e) {
 function renderFlashcardUnitGrid() {
     const grid = document.getElementById('flashcard-unit-select-grid');
     if (!grid) return;
-    
+
     // 获取当前选中的词书
     let currentWordBook = AppState.flashcardWordBook;
-    
+
     // 如果没有选中词书，默认选择第一个
     if (!currentWordBook && AppState.wordData.length > 0) {
         const firstWordBook = AppState.wordData[0];
         currentWordBook = firstWordBook.id || firstWordBook.name;
         AppState.flashcardWordBook = currentWordBook;
-        
+
         // 更新选择器
         const wordbookSelect = document.getElementById('flashcard-wordbook-select');
         if (wordbookSelect) wordbookSelect.value = currentWordBook;
     }
-    
+
     // 查找当前词书
-    const currentBook = AppState.wordData.find(book => 
-        (book.id && book.id === currentWordBook) || 
+    const currentBook = AppState.wordData.find(book =>
+        (book.id && book.id === currentWordBook) ||
         (book.name && book.name === currentWordBook)
     );
-    
+
     if (!currentBook || !currentBook.units) {
         grid.innerHTML = '<p class="empty-message">暂无单元数据</p>';
         return;
     }
-    
+
     // 渲染单元选项
     grid.innerHTML = currentBook.units.map((unit, index) => {
         const unitNum = unit.unit || index + 1;
@@ -1164,8 +1164,8 @@ function renderFlashcardUnitGrid() {
         const isSelected = AppState.flashcardSelectedUnits.includes(unitNumStr);
         return `
             <label class="unit-select-item ${isSelected ? 'selected' : ''}">
-                <input type="checkbox" 
-                    value="${unitNumStr}" 
+                <input type="checkbox"
+                    value="${unitNumStr}"
                     ${isSelected ? 'checked' : ''}
                     onchange="toggleFlashcardUnit('${unitNumStr.replace(/'/g, "\\'")}')">
                 <span>${unitNumStr}</span>
@@ -1190,17 +1190,17 @@ function toggleFlashcardUnit(unitNum) {
 // 闪卡全选单元
 function flashcardSelectAllUnits() {
     let currentWordBook = AppState.flashcardWordBook;
-    
+
     if (!currentWordBook && AppState.wordData.length > 0) {
         const firstWordBook = AppState.wordData[0];
         currentWordBook = firstWordBook.id || firstWordBook.name;
     }
-    
-    const currentBook = AppState.wordData.find(book => 
-        (book.id && book.id === currentWordBook) || 
+
+    const currentBook = AppState.wordData.find(book =>
+        (book.id && book.id === currentWordBook) ||
         (book.name && book.name === currentWordBook)
     );
-    
+
     if (currentBook && currentBook.units) {
         AppState.flashcardSelectedUnits = currentBook.units.map((unit, index) => unit.unit || index + 1);
         renderFlashcardUnitGrid();
@@ -1217,10 +1217,10 @@ function flashcardClearUnitSelection() {
 function renderFlashcardSetup() {
     // 初始化词书选择器
     initFlashcardWordBookSelector();
-    
+
     // 渲染单元网格
     renderFlashcardUnitGrid();
-    
+
     // 确保显示设置页面
     document.getElementById('flashcard-setup').style.display = 'block';
     document.getElementById('flashcard-test').style.display = 'none';
@@ -1246,17 +1246,17 @@ function startFlashcardTest() {
         alert('请至少选择一个单元');
         return;
     }
-    
+
     // 获取测试模式
     const mode = document.querySelector('input[name="test-mode"]:checked').value;
-    
+
     // 收集选中单元的单词
     let words = [];
     AppState.wordData.forEach(wordbook => {
         // 只处理当前选中的词书
         const bookId = wordbook.id || wordbook.name;
         if (bookId !== AppState.flashcardWordBook) return;
-        
+
         // 遍历当前词书的单元
         wordbook.units.forEach(unit => {
             if (AppState.flashcardSelectedUnits.includes(unit.unit)) {
@@ -1273,10 +1273,10 @@ function startFlashcardTest() {
             }
         });
     });
-    
+
     // 随机打乱顺序
     words = shuffleArray(words);
-    
+
     // 生成测试题目
     const questions = words.map((word, index) => {
         let questionType = mode;
@@ -1306,7 +1306,7 @@ function startFlashcardTest() {
             }
         };
     });
-    
+
     // 创建测试会话
     AppState.flashcardSession = {
         questions,
@@ -1317,12 +1317,12 @@ function startFlashcardTest() {
         markedWords: [],
         wrongWordIds: []
     };
-    
+
     // 切换到测试界面
     document.getElementById('flashcard-setup').style.display = 'none';
     document.getElementById('flashcard-result').style.display = 'none';
     document.getElementById('flashcard-test').style.display = 'block';
-    
+
     // 显示第一题
     showQuestion();
 }
@@ -1330,25 +1330,26 @@ function startFlashcardTest() {
 function showQuestion() {
     const session = AppState.flashcardSession;
     const question = session.questions[session.currentIndex];
-    
+
     // 重置闪卡状态
     DOM.flashcard.classList.remove('flipped');
-    
+
     // 更新进度
     const progress = ((session.currentIndex + 1) / session.questions.length) * 100;
     document.getElementById('test-progress-fill').style.width = `${progress}%`;
-    document.getElementById('progress-text').textContent = 
+    document.getElementById('progress-text').textContent =
         `${session.currentIndex + 1} / ${session.questions.length}`;
-    
+
     // 更新问题（支持 ** 粗体等简单 Markdown）
-    document.getElementById('question-label').textContent = 
+    document.getElementById('question-label').textContent =
         question.questionType === 'en-to-zh' ? '英文' : '中文';
     const questionTextEl = document.getElementById('question-text');
     questionTextEl.innerHTML = renderMdInline(question.question);
-    
-    // 更新答案（支持 ** 粗体等简单 Markdown）
+
+    // 更新答案（支持 ** 粗体等简单 Markdown）；发音用下方英音/美音按钮，不再在单词后显示图标
     const answerWordEl = document.getElementById('answer-word');
-    answerWordEl.innerHTML = renderMdInline(question.answer.word) + ' <span class="speak-hint">🇬🇧</span>';
+    const wordText = (question.answer.word || '').trim();
+    answerWordEl.innerHTML = renderMdInline(wordText);
     document.getElementById('answer-phonetic').textContent = question.answer.phonetic || '';
     const answerMeaningEl = document.getElementById('answer-meaning');
     answerMeaningEl.innerHTML = renderMdInline(question.answer.meaning);
@@ -1377,7 +1378,7 @@ function showQuestion() {
     } else {
         sourceEl.style.display = 'none';
     }
-    
+
     const exampleEl = document.getElementById('answer-example');
     if (question.answer.example) {
         const exampleForSpeech = stripMdForSpeech(question.answer.example);
@@ -1393,7 +1394,7 @@ function showQuestion() {
     } else {
         exampleEl.style.display = 'none';
     }
-    
+
     const tipEl = document.getElementById('answer-tip');
     if (question.answer.memoryTip) {
         tipEl.innerHTML = '💡 ' + renderMdInline(question.answer.memoryTip);
@@ -1486,10 +1487,10 @@ function markAnswer(isCorrect, markReview = false) {
     const session = AppState.flashcardSession;
     const question = session.questions[session.currentIndex];
     const wordId = question.wordId;
-    
+
     // 更新进度
     updateWordProgress(wordId, isCorrect, markReview);
-    
+
     // 如果回答正确且单词在错词本中，从错词本移除
     if (isCorrect) {
         session.correctCount++;
@@ -1509,7 +1510,7 @@ function markAnswer(isCorrect, markReview = false) {
             session.markedWords.push(wordId);
         }
     }
-    
+
     // 下一题或结束
     if (session.currentIndex < session.questions.length - 1) {
         session.currentIndex++;
@@ -1526,25 +1527,25 @@ function finishTest() {
     const wrong = session.wrongCount;
     const accuracy = Math.round((correct / total) * 100);
     const duration = Math.round((Date.now() - session.startTime) / 1000);
-    
+
     // 格式化时间
     const minutes = Math.floor(duration / 60);
     const seconds = duration % 60;
     const timeStr = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : `${seconds}秒`;
-    
+
     // 隐藏测试界面
     document.getElementById('flashcard-test').style.display = 'none';
-    
+
     // 显示结果
     document.getElementById('flashcard-result').style.display = 'block';
-    
+
     // 更新结果数据
     document.getElementById('result-total').textContent = total;
     document.getElementById('result-correct').textContent = correct;
     document.getElementById('result-wrong').textContent = wrong;
     document.getElementById('result-time').textContent = timeStr;
     document.getElementById('result-percent').textContent = accuracy + '%';
-    
+
     // 将本次测试的错词添加到全局错词本
     if (session.wrongWordIds && session.wrongWordIds.length > 0) {
         const progress = AppState.userProgress;
@@ -1560,7 +1561,7 @@ function finishTest() {
             console.log('已将本次测试的', addedCount, '个错词添加到错词本');
         }
     }
-    
+
     // 更新圆形进度条
     const circle = document.getElementById('result-circle');
     const circumference = 2 * Math.PI * 45;
@@ -1568,7 +1569,7 @@ function finishTest() {
     setTimeout(() => {
         circle.style.strokeDashoffset = offset;
     }, 100);
-    
+
     // 根据正确率改变颜色
     if (accuracy >= 80) {
         circle.style.stroke = 'var(--success-color)';
@@ -1577,7 +1578,7 @@ function finishTest() {
     } else {
         circle.style.stroke = 'var(--danger-color)';
     }
-    
+
     // 根据本次测试的错词数量显示/隐藏复习按钮
     const reviewWrongBtn = document.getElementById('review-wrong-btn');
     if (wrong > 0) {
@@ -2078,15 +2079,15 @@ function clearWrongSentences() {
 
 function reviewAllWrongSentences() {
     console.log('reviewAllWrongSentences called');
-    
+
     const progress = AppState.userProgress;
     if (!progress.wrongSentences || progress.wrongSentences.length === 0) {
         alert('错句列表为空，没有需要复习的句子');
         return;
     }
-    
+
     console.log('Number of wrong sentences:', progress.wrongSentences.length);
-    
+
     // 将错句转换为对话格式，用于复用现有的句子练习界面
     const dialogues = progress.wrongSentences.map((sentence) => ({
         id: sentence.id,  // 保留原始错句 ID，用于排重
@@ -2096,7 +2097,7 @@ function reviewAllWrongSentences() {
         speakerCn: '',
         sourceId: sentence.readingTitleCn || ''
     }));
-    
+
     // 创建练习会话
     AppState.sentencesSession = {
         dialogues: shuffleArray(dialogues),
@@ -2107,10 +2108,10 @@ function reviewAllWrongSentences() {
         startTime: Date.now(),
         isPaused: false
     };
-    
+
     // 切换到语句练习页面
     switchPage('sentence-practice');
-    
+
     // 延迟一下确保页面切换完成
     setTimeout(() => {
         showCurrentSentence();
@@ -2167,10 +2168,10 @@ function renderFavoritesPage() {
         console.log('单词数据未加载，跳过收藏页渲染');
         return;
     }
-    
+
     const progress = AppState.userProgress;
     const favoriteIds = progress.favoriteWords || [];
-    
+
     // 更新计数
     document.getElementById('favorites-count').textContent = favoriteIds.length;
 
@@ -2270,16 +2271,16 @@ function removeFromWrongbook(wordId) {
 
 function reviewWrongWords() {
     console.log('reviewWrongWords called');
-    
+
     // 切换到闪卡测试，只测试错词
     if (!AppState.userProgress.wrongWords || AppState.userProgress.wrongWords.length === 0) {
         console.log('No wrong words to review');
         alert('错词列表为空，没有需要复习的单词');
         return;
     }
-    
+
     console.log('Number of wrong words:', AppState.userProgress.wrongWords.length);
-    
+
     // 收集所有单词（同时记录课本和单元信息）
     let allWords = [];
     AppState.wordData.forEach(wordbook => {
@@ -2299,22 +2300,22 @@ function reviewWrongWords() {
             });
         }
     });
-    
+
     console.log('Total words loaded:', allWords.length);
-    
+
     // 筛选错词
     const wrongWordIds = AppState.userProgress.wrongWords;
     const wrongWords = allWords.filter(word => wrongWordIds.includes(word.id));
-    
+
     console.log('Filtered wrong words:', wrongWords.length);
-    
+
     if (wrongWords.length === 0) {
         alert('错词列表为空，或所有错词都已从数据中移除');
         return;
     }
-    
+
     console.log('Starting flashcard test with', wrongWords.length, 'words to review');
-    
+
     // 生成测试题目（默认使用中译英模式）
     const mode = 'zh-to-en';
     const questions = shuffleArray(wrongWords).map((word, index) => {
@@ -2322,7 +2323,7 @@ function reviewWrongWords() {
         if (mode === 'mixed') {
             questionType = Math.random() > 0.5 ? 'en-to-zh' : 'zh-to-en';
         }
-        
+
         return {
             id: `q-${index}`,
             wordId: word.id,
@@ -2344,7 +2345,7 @@ function reviewWrongWords() {
             }
         };
     });
-    
+
     // 创建测试会话
     AppState.flashcardSession = {
         questions,
@@ -2355,17 +2356,17 @@ function reviewWrongWords() {
         markedWords: [],
         wrongWordIds: []
     };
-    
+
     // 先切换到闪卡测试页面
     switchPage('flashcard');
-    
+
     // 延迟一下确保页面切换完成
     setTimeout(() => {
         // 隐藏设置界面和结果界面，显示测试界面
         document.getElementById('flashcard-setup').style.display = 'none';
         document.getElementById('flashcard-result').style.display = 'none';
         document.getElementById('flashcard-test').style.display = 'block';
-        
+
         // 显示第一道题
         showQuestion();
     }, 50);
@@ -2384,7 +2385,7 @@ async function loadReadingData() {
             return clean;
         });
         console.log('加载阅读数据成功，共 ' + AppState.readings.length + ' 篇阅读材料');
-        
+
         // 数据加载完成后，刷新语句页面
         setTimeout(() => {
             renderSentencesPage();
@@ -2432,39 +2433,39 @@ function showReadingsPage() {
     DOM.pages.forEach(page => {
         page.classList.toggle('active', page.id === 'page-readings');
     });
-    
+
     // 更新导航按钮状态
     DOM.navBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === 'readings');
     });
-    
+
     // 重置页码并初始化
     resetReadingsListPage();
-    
+
     // 初始化书本选择器
     initReadingsWordbookSelector();
-    
+
     renderReadingsList();
 }
 
 function showReadingDetail(readingId) {
     const reading = AppState.readings.find(r => r.id === readingId);
     if (!reading) return;
-    
+
     AppState.currentReading = reading;
     AppState.currentDialogueIndex = 0;
     AppState.isPlaying = false;
-    
+
     // 直接切换页面显示，避免与 switchPage 形成递归调用
     DOM.pages.forEach(page => {
         page.classList.toggle('active', page.id === 'page-reading-detail');
     });
-    
+
     // 更新导航按钮状态（保持在阅读页面）
     DOM.navBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === 'readings');
     });
-    
+
     renderReadingDetail(reading);
 }
 
@@ -2479,36 +2480,36 @@ function renderReadingsList() {
     const wordbookSelect = document.getElementById('readings-wordbook-select');
     const unitSelect = document.getElementById('readings-unit-select');
     const readings = AppState.readings || [];
-    
+
     // 获取选中的书本和单元
     const selectedBook = wordbookSelect?.value || '';
     const selectedUnit = unitSelect?.value || '';
-    
+
     // 过滤阅读材料
     let filteredReadings = readings;
     if (selectedBook) {
-        filteredReadings = filteredReadings.filter(r => 
+        filteredReadings = filteredReadings.filter(r =>
             (r.bookName || '默认词书') === selectedBook
         );
     }
     if (selectedUnit) {
-        filteredReadings = filteredReadings.filter(r => 
+        filteredReadings = filteredReadings.filter(r =>
             (r.unitName || '未分类') === selectedUnit
         );
     }
-    
+
     if (readings.length === 0) {
         container.innerHTML = '<p class="empty-message">暂无阅读材料</p>';
         renderReadingsPagination(0, 0);
         return;
     }
-    
+
     if (filteredReadings.length === 0) {
         container.innerHTML = '<p class="empty-message">该选择下暂无阅读材料</p>';
         renderReadingsPagination(0, 0);
         return;
     }
-    
+
     // 计算分页
     const totalReadings = filteredReadings.length;
     const totalPages = Math.ceil(totalReadings / READINGS_PAGE_SIZE);
@@ -2516,7 +2517,7 @@ function renderReadingsList() {
     const startIndex = (currentPage - 1) * READINGS_PAGE_SIZE;
     const endIndex = startIndex + READINGS_PAGE_SIZE;
     const pageReadings = filteredReadings.slice(startIndex, endIndex);
-    
+
     // 按单元分组显示
     const unitMap = new Map();
     pageReadings.forEach(reading => {
@@ -2526,7 +2527,7 @@ function renderReadingsList() {
         }
         unitMap.get(unitName).push(reading);
     });
-    
+
     let html = '';
     unitMap.forEach((unitReadings, unitName) => {
         html += `<div class="readings-unit-section">`;
@@ -2548,9 +2549,9 @@ function renderReadingsList() {
         html += `</div>`;
         html += `</div>`;
     });
-    
+
     container.innerHTML = html;
-    
+
     // 渲染分页控件
     renderReadingsPagination(totalReadings, totalPages);
 }
@@ -2566,15 +2567,15 @@ function renderReadingsPagination(totalReadings, totalPages) {
         const container = document.getElementById('readings-list');
         container.parentNode.insertBefore(paginationEl, container.nextSibling);
     }
-    
+
     // 如果没有阅读材料或只有一页，不显示分页
     if (totalReadings === 0 || totalPages <= 1) {
         paginationEl.innerHTML = '';
         return;
     }
-    
+
     const currentPage = AppState.readingsPage || 1;
-    
+
     paginationEl.innerHTML = `
         <div class="pagination-info">
             共 ${totalReadings} 篇阅读，${totalPages} 页
@@ -2597,15 +2598,15 @@ function generateReadingsPaginationNumbers(currentPage, totalPages) {
     const maxVisiblePages = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
+
     if (endPage - startPage < maxVisiblePages - 1) {
         startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
-    
+
     for (let i = startPage; i <= endPage; i++) {
         html += `<button class="pagination-num ${i === currentPage ? 'active' : ''}" onclick="goToReadingsPage(${i})">${i}</button>`;
     }
-    
+
     return html;
 }
 
@@ -2614,27 +2615,27 @@ function goToReadingsPage(page) {
     const wordbookSelect = document.getElementById('readings-wordbook-select');
     const unitSelect = document.getElementById('readings-unit-select');
     const readings = AppState.readings || [];
-    
+
     const selectedBook = wordbookSelect?.value || '';
     const selectedUnit = unitSelect?.value || '';
-    
+
     let filteredReadings = readings;
     if (selectedBook) {
-        filteredReadings = filteredReadings.filter(r => 
+        filteredReadings = filteredReadings.filter(r =>
             (r.bookName || '默认词书') === selectedBook
         );
     }
     if (selectedUnit) {
-        filteredReadings = filteredReadings.filter(r => 
+        filteredReadings = filteredReadings.filter(r =>
             (r.unitName || '未分类') === selectedUnit
         );
     }
-    
+
     const totalPages = Math.ceil(filteredReadings.length / READINGS_PAGE_SIZE);
-    
+
     if (page < 1) page = 1;
     if (page > totalPages) page = totalPages;
-    
+
     AppState.readingsPage = page;
     renderReadingsList();
 }
@@ -2698,9 +2699,9 @@ function initReadingsWordbookSelector() {
 function handleReadingsWordBookChange(bookName) {
     // 重置页码
     resetReadingsListPage();
-    
+
     const unitSelect = document.getElementById('readings-unit-select');
-    
+
     // 如果没有选择书本，禁用单元选择器
     if (!bookName) {
         if (unitSelect) {
@@ -2763,14 +2764,14 @@ function handleReadingsWordBookChange(bookName) {
 }
 
 function renderReadingDetail(reading) {
-    document.getElementById('reading-title').textContent = 
+    document.getElementById('reading-title').textContent =
         `${reading.title} (${reading.titleCn})`;
     document.getElementById('reading-scene').textContent = reading.scene;
-    
+
     // 渲染重点句型
     const patternsSection = document.getElementById('key-patterns-section');
     const patternsList = document.getElementById('key-patterns-list');
-    
+
     if (reading.keySentencePatterns && reading.keySentencePatterns.length > 0) {
         patternsSection.style.display = 'block';
         patternsList.innerHTML = reading.keySentencePatterns.map(pattern => `
@@ -2782,11 +2783,11 @@ function renderReadingDetail(reading) {
     } else {
         patternsSection.style.display = 'none';
     }
-    
+
     // 渲染知识点
     const knowledgeSection = document.getElementById('knowledge-points-section');
     const knowledgeList = document.getElementById('knowledge-points-list');
-    
+
     if (reading.knowledgePoints && reading.knowledgePoints.length > 0) {
         knowledgeSection.style.display = 'block';
         knowledgeList.innerHTML = reading.knowledgePoints.map(point => `
@@ -2797,7 +2798,7 @@ function renderReadingDetail(reading) {
     } else {
         knowledgeSection.style.display = 'none';
     }
-    
+
     // 渲染对话内容
     const container = document.getElementById('reading-content');
     container.innerHTML = reading.dialogues.map((dialogue, index) => `
@@ -2815,7 +2816,7 @@ function renderReadingDetail(reading) {
             </button>
         </div>
     `).join('');
-    
+
     // 检查阅读完成状态并更新按钮
     const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
     const markBtn = document.getElementById('mark-read-btn');
@@ -2861,7 +2862,7 @@ function playDialogue(index) {
 function playAllDialogues() {
     const reading = AppState.currentReading;
     if (!reading) return;
-    
+
     AppState.isPlaying = true;
     AppState.currentDialogueIndex = 0;
     playNextDialogue();
@@ -2870,17 +2871,17 @@ function playAllDialogues() {
 function playNextDialogue() {
     const reading = AppState.currentReading;
     if (!reading || !AppState.isPlaying) return;
-    
+
     if (AppState.currentDialogueIndex >= reading.dialogues.length) {
         AppState.isPlaying = false;
         clearHighlights();
         showToast('播放完成');
         return;
     }
-    
+
     const dialogue = reading.dialogues[AppState.currentDialogueIndex];
     highlightDialogue(AppState.currentDialogueIndex);
-    
+
     speakText(dialogue.content, 'en-US', () => {
         AppState.currentDialogueIndex++;
         setTimeout(playNextDialogue, 500);
@@ -3028,16 +3029,16 @@ function markCurrentReadingCompleted() {
         showToast('请先选择一篇阅读材料');
         return;
     }
-    
+
     const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
     if (completedReadings.includes(reading.id)) {
         showToast('这篇阅读已经标记为已读');
         return;
     }
-    
+
     completedReadings.push(reading.id);
     localStorage.setItem('completedReadings', JSON.stringify(completedReadings));
-    
+
     // 记录阅读日期
     const today = new Date().toISOString().split('T')[0];
     const readingDates = JSON.parse(localStorage.getItem('readingDates') || '{}');
@@ -3046,9 +3047,9 @@ function markCurrentReadingCompleted() {
     }
     readingDates[today].push(reading.id);
     localStorage.setItem('readingDates', JSON.stringify(readingDates));
-    
+
     showToast(`《${reading.titleCn}》已标记为已读`);
-    
+
     // 更新按钮状态
     const markBtn = document.getElementById('mark-read-btn');
     if (markBtn) {
@@ -3056,7 +3057,7 @@ function markCurrentReadingCompleted() {
         markBtn.disabled = true;
         markBtn.style.opacity = '0.6';
     }
-    
+
     // 刷新首页统计
     const todayReadings = getTodayReadingCount();
     document.getElementById('today-readings').textContent = todayReadings;
@@ -3072,21 +3073,21 @@ function showSpeechPage() {
     DOM.pages.forEach(page => {
         page.classList.toggle('active', page.id === 'page-speech');
     });
-    
+
     // 更新导航按钮状态
     DOM.navBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === 'speech');
     });
-    
+
     // 重置页码并初始化
     resetSpeechListPage();
-    
+
     // 初始化文章选择器
     initSpeechArticleSelector();
-    
+
     // 重置章节选择器
     initSpeechChapterSelector('');
-    
+
     // 渲染听书列表
     renderSpeechList();
 }
@@ -3095,16 +3096,16 @@ function showSpeechPage() {
 function initSpeechArticleSelector() {
     const select = document.getElementById('speech-article-select');
     if (!select) return;
-    
+
     // 获取所有文章
-    const options = AppState.speechData.map(speech => 
+    const options = AppState.speechData.map(speech =>
         `<option value="${speech.id}">${speech.title}</option>`
     ).join('');
-    
-    select.innerHTML = options 
+
+    select.innerHTML = options
         ? `<option value="">-- 请选择书本 --</option>${options}`
         : '<option value="">暂无可用听书材料</option>';
-    
+
     select.disabled = AppState.speechData.length === 0;
 }
 
@@ -3112,36 +3113,36 @@ function initSpeechArticleSelector() {
 function initSpeechChapterSelector(articleId) {
     const select = document.getElementById('speech-chapter-select');
     const articleSelect = document.getElementById('speech-article-select');
-    
+
     if (!select) return;
-    
+
     // 如果没有选择书本，禁用章节选择器
     if (!articleId) {
         select.innerHTML = '<option value="">-- 请选择章节 --</option>';
         select.disabled = true;
         return;
     }
-    
+
     const speech = AppState.speechData.find(s => s.id === articleId);
     if (!speech) {
         select.innerHTML = '<option value="">-- 请选择章节 --</option>';
         select.disabled = true;
         return;
     }
-    
+
     // 构建章节选项
     let options = '<option value="">-- 请选择章节 --</option>';
-    
+
     // 如果有概要，添加概要作为第一个选项
     if (speech.summary) {
         options += `<option value="summary">文章概要</option>`;
     }
-    
+
     // 添加所有章节
     speech.chapters.forEach((chapter, index) => {
         options += `<option value="${index}">${chapter.title}</option>`;
     });
-    
+
     select.innerHTML = options;
     select.disabled = false;
 }
@@ -3150,19 +3151,19 @@ function initSpeechChapterSelector(articleId) {
 function handleSpeechArticleChange() {
     const articleSelect = document.getElementById('speech-article-select');
     const chapterSelect = document.getElementById('speech-chapter-select');
-    
+
     if (!articleSelect) return;
-    
+
     const selectedArticleId = articleSelect.value;
-    
+
     // 初始化章节选择器
     initSpeechChapterSelector(selectedArticleId);
-    
+
     // 重置章节选择
     if (chapterSelect) {
         chapterSelect.value = '';
     }
-    
+
     // 如果选择了文章，更新列表显示
     if (selectedArticleId) {
         // 高亮选中的文章卡片
@@ -3200,7 +3201,7 @@ function highlightSpeechCard(articleId) {
     document.querySelectorAll('.speech-card').forEach(card => {
         card.classList.remove('selected');
     });
-    
+
     // 高亮选中的卡片
     const selectedCard = document.querySelector(`.speech-card[data-id="${articleId}"]`);
     if (selectedCard) {
@@ -3226,7 +3227,7 @@ function filterSpeechByArticle(articleId) {
         }
         return;
     }
-    
+
     // 直接跳转到文章详情
     showSpeechDetail(articleId);
 }
@@ -3293,9 +3294,9 @@ function showSpeechDetailWithChapter(articleId, chapterValue) {
 function renderSpeechList() {
     const container = document.getElementById('speech-list');
     if (!container) return;
-    
+
     const speeches = AppState.speechData || [];
-    
+
     if (speeches.length === 0) {
         container.innerHTML = '<p class="speech-empty">暂无可用听书材料</p>';
         // 移除分页容器
@@ -3303,7 +3304,7 @@ function renderSpeechList() {
         if (paginationEl) paginationEl.remove();
         return;
     }
-    
+
     // 计算分页
     const totalSpeeches = speeches.length;
     const totalPages = Math.ceil(totalSpeeches / SPEECH_PAGE_SIZE);
@@ -3311,7 +3312,7 @@ function renderSpeechList() {
     const startIndex = (currentPage - 1) * SPEECH_PAGE_SIZE;
     const endIndex = startIndex + SPEECH_PAGE_SIZE;
     const pageSpeeches = speeches.slice(startIndex, endIndex);
-    
+
     container.innerHTML = pageSpeeches.map(speech => `
         <div class="speech-card" data-id="${speech.id}" onclick="showSpeechDetail('${speech.id}')">
             <div class="speech-card-icon">🎧</div>
@@ -3324,7 +3325,7 @@ function renderSpeechList() {
             <div class="speech-card-arrow">›</div>
         </div>
     `).join('');
-    
+
     // 渲染分页控件
     renderSpeechPagination(totalSpeeches, totalPages);
 }
@@ -3340,15 +3341,15 @@ function renderSpeechPagination(totalSpeeches, totalPages) {
         const container = document.getElementById('speech-list');
         container.parentNode.insertBefore(paginationEl, container.nextSibling);
     }
-    
+
     // 如果没有听书材料或只有一页，不显示分页
     if (totalSpeeches === 0 || totalPages <= 1) {
         paginationEl.innerHTML = '';
         return;
     }
-    
+
     const currentPage = AppState.speechPage || 1;
-    
+
     paginationEl.innerHTML = `
         <div class="pagination-info">
             共 ${totalSpeeches} 篇听书，${totalPages} 页
@@ -3371,11 +3372,11 @@ function generateSpeechPaginationNumbers(currentPage, totalPages) {
     const maxVisiblePages = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
+
     if (endPage - startPage < maxVisiblePages - 1) {
         startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
-    
+
     for (let i = startPage; i <= endPage; i++) {
         if (i === currentPage) {
             html += `<span class="pagination-num active">${i}</span>`;
@@ -3383,7 +3384,7 @@ function generateSpeechPaginationNumbers(currentPage, totalPages) {
             html += `<button class="pagination-num" onclick="goToSpeechPage(${i})">${i}</button>`;
         }
     }
-    
+
     return html;
 }
 
@@ -3391,13 +3392,13 @@ function generateSpeechPaginationNumbers(currentPage, totalPages) {
 function goToSpeechPage(page) {
     const speeches = AppState.speechData || [];
     const totalPages = Math.ceil(speeches.length / SPEECH_PAGE_SIZE);
-    
+
     if (page < 1) page = 1;
     if (page > totalPages) page = totalPages;
-    
+
     AppState.speechPage = page;
     renderSpeechList();
-    
+
     // 滚动到列表顶部
     const container = document.getElementById('speech-list');
     if (container) {
@@ -3413,9 +3414,9 @@ function resetSpeechListPage() {
 function showSpeechDetail(speechId) {
     const speech = AppState.speechData.find(s => s.id === speechId);
     if (!speech) return;
-    
+
     AppState.currentSpeech = speech;
-    
+
     // 如果有概要，设置为概要；否则设置为第一个章节
     if (speech.summary) {
         AppState.currentSpeechChapter = {
@@ -3428,23 +3429,23 @@ function showSpeechDetail(speechId) {
     } else {
         AppState.currentSpeechChapter = null;
     }
-    
+
     // 停止当前的朗读
     stopSpeech();
-    
+
     // 直接切换页面显示
     DOM.pages.forEach(page => {
         page.classList.toggle('active', page.id === 'page-speech-detail');
     });
-    
+
     // 更新导航按钮状态
     DOM.navBtns.forEach(btn => {
         btn.classList.remove('active');
     });
-    
+
     // 更新标题
     document.getElementById('speech-title').textContent = speech.title;
-    
+
     // 渲染章节导航
     renderSpeechChapterNav();
 
@@ -3459,10 +3460,10 @@ function renderSpeechChapterNav() {
     const nav = document.getElementById('speech-chapter-nav');
     const speech = AppState.currentSpeech;
     if (!nav || !speech) return;
-    
+
     // 构建章节列表（包含概要和所有章节）
     const chapters = [];
-    
+
     // 添加概要作为第一个选项
     if (speech.summary) {
         chapters.push({
@@ -3471,7 +3472,7 @@ function renderSpeechChapterNav() {
             isSummary: true
         });
     }
-    
+
     // 添加所有章节
     speech.chapters.forEach((chapter, index) => {
         chapters.push({
@@ -3480,9 +3481,9 @@ function renderSpeechChapterNav() {
             originalIndex: index
         });
     });
-    
+
     nav.innerHTML = chapters.map((chapter, index) => `
-        <button class="speech-chapter-btn ${chapter === AppState.currentSpeechChapter ? 'active' : ''}" 
+        <button class="speech-chapter-btn ${chapter === AppState.currentSpeechChapter ? 'active' : ''}"
                 onclick="selectSpeechChapter('${speech.id}', ${index})">
             ${chapter.title}
         </button>
@@ -3492,15 +3493,15 @@ function renderSpeechChapterNav() {
 function selectSpeechChapter(speechId, chapterIndex) {
     const speech = AppState.speechData.find(s => s.id === speechId);
     if (!speech) return;
-    
+
     // 停止当前朗读
     stopSpeech();
-    
+
     AppState.currentSpeech = speech;
-    
+
     // 构建章节列表（包含概要和所有章节）
     const chapters = [];
-    
+
     // 添加概要作为第一个选项
     if (speech.summary) {
         chapters.push({
@@ -3509,7 +3510,7 @@ function selectSpeechChapter(speechId, chapterIndex) {
             isSummary: true
         });
     }
-    
+
     // 添加所有章节
     speech.chapters.forEach((chapter, index) => {
         chapters.push({
@@ -3518,15 +3519,15 @@ function selectSpeechChapter(speechId, chapterIndex) {
             originalIndex: index
         });
     });
-    
+
     // 设置当前选中的章节
     AppState.currentSpeechChapter = chapters[chapterIndex];
-    
+
     // 更新章节导航状态
     document.querySelectorAll('.speech-chapter-btn').forEach((btn, index) => {
         btn.classList.toggle('active', index === chapterIndex);
     });
-    
+
     // 渲染章节内容
     renderSpeechChapter();
 }
@@ -3776,7 +3777,7 @@ function isIOSBrowser() {
 function withTimeout(promise, ms, name) {
     return Promise.race([
         promise,
-        new Promise((_, reject) => 
+        new Promise((_, reject) =>
             setTimeout(() => reject(new Error(`${name} 超时 (${ms}ms)`)), ms)
         )
     ]);
@@ -3798,7 +3799,7 @@ async function unlockAudioContext() {
     // 方法1在iOS上一定会失败并等待2秒超时，影响用户体验
     if (isIOSAnyBrowser) {
         addVoiceCloneLog('iOS优化', '跳过方法1，直接使用 AudioContext');
-        
+
         // 方法 2：使用 AudioContext（这是 iOS 设备最可靠的方法）
         addVoiceCloneLog('方法2', '尝试 AudioContext...');
         try {
@@ -3816,7 +3817,7 @@ async function unlockAudioContext() {
                         return true;
                     } catch (resumeError) {
                         addVoiceCloneLog('方法2失败', resumeError.message || resumeError.name);
-                        
+
                         // iOS 上使用振荡器作为备选
                         addVoiceCloneLog('方法2备选', '尝试振荡器...');
                         try {
@@ -3842,7 +3843,7 @@ async function unlockAudioContext() {
         } catch (e) {
             addVoiceCloneLog('方法2异常', e.name);
         }
-        
+
         // 如果方法2也失败，尝试方法3
         addVoiceCloneLog('方法3', '方法2失败，尝试 Safari/iOS 特定方式...');
     } else {
@@ -4048,7 +4049,7 @@ async function playSpeechWithVoiceClone(content) {
 
             try {
                 addVoiceCloneLog('调用 callVoiceCloneAPI', 'timeout=30秒');
-                
+
                 audioUrl = await callVoiceCloneAPI(content, {
                     signal: abortController.signal,
                     timeout: 30000 // 30秒超时
@@ -4260,7 +4261,7 @@ function initSpeechDebugToggle() {
 // 切换语音模式
 function changeVoiceMode(mode) {
     const statusEl = document.getElementById('voice-clone-status');
-    
+
     if (mode === 'system') {
         // 系统语音模式
         AppState.speechVoiceMode = 'system';
@@ -4270,30 +4271,30 @@ function changeVoiceMode(mode) {
     } else if (mode.startsWith('clone-')) {
         // 复刻语音模式
         AppState.speechVoiceMode = 'clone';
-        
+
         // 解析选中的语音索引
         const voiceIndex = parseInt(mode.replace('clone-', ''), 10);
-        
+
         if (isNaN(voiceIndex) || voiceIndex < 0 || voiceIndex >= AppState.speechCloneVoices.length) {
             statusEl.innerHTML = '<span class="warning">⚠️ 无效的语音选择</span>';
             showToast('无效的语音选择');
             return;
         }
-        
+
         // 获取之前选择的语音
         const previousVoice = AppState.speechCloneSelectedVoice;
         const newVoice = AppState.speechCloneVoices[voiceIndex];
-        
+
         // 如果切换到不同的语音，清除缓存
         if (previousVoice && newVoice && previousVoice.file_id !== newVoice.file_id) {
             console.log('[Voice Clone] 切换语音，清除缓存');
             AppState.speechCloneAudioCache.clear();
             AppState.speechCloneAudioUrl = null;
         }
-        
+
         // 更新选中的语音
         AppState.speechCloneSelectedVoice = newVoice;
-        
+
         // 检查是否配置了 file_id
         if (!AppState.speechCloneSelectedVoice || !AppState.speechCloneSelectedVoice.file_id) {
             statusEl.innerHTML = '<span class="warning">⚠️ 请在 api_config.py 中配置</span>';
@@ -4411,7 +4412,7 @@ async function callVoiceCloneAPI(text, options = {}) {
         const requestData = {
             text: text
         };
-        
+
         // 如果选择了复刻语音，添加 file_id
         if (AppState.speechVoiceMode === 'clone' && AppState.speechCloneSelectedVoice) {
             requestData.file_id = AppState.speechCloneSelectedVoice.file_id;
@@ -4830,12 +4831,12 @@ function addVoiceCloneLog(message, details = '') {
         details: details
     };
     voiceCloneLogHistory.push(logEntry);
-    
+
     // 保留最近 20 条日志
     if (voiceCloneLogHistory.length > 20) {
         voiceCloneLogHistory.shift();
     }
-    
+
     // 更新显示
     updateVoiceCloneDebugDisplay();
 }
@@ -4861,7 +4862,7 @@ function updateVoiceCloneDebugDisplay() {
     // 构建日志历史 HTML
     const logHtml = voiceCloneLogHistory.map(log => {
         return `<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12px;">
-            <span style="opacity: 0.6;">[${log.time}]</span> 
+            <span style="opacity: 0.6;">[${log.time}]</span>
             <strong>${log.message}</strong>
             ${log.details ? `<div style="opacity: 0.7; margin-left: 10px; font-size: 11px; word-break: break-all;">${log.details}</div>` : ''}
         </div>`;
@@ -4894,7 +4895,7 @@ function hideVoiceCloneDebug() {
 // ========== 学习进度页 ==========
 function renderProgressPage() {
     const progress = AppState.userProgress;
-    
+
     // 计算总体统计（wordData 是词书数组，每个词书有 units，每个单元有 words）
     const totalWords = AppState.wordData.reduce((acc, book) => {
         return acc + book.units.reduce((acc2, unit) => acc2 + unit.words.length, 0);
@@ -4903,17 +4904,17 @@ function renderProgressPage() {
     const overallAccuracy = progress.stats.totalReviewed > 0
         ? Math.round((progress.stats.totalCorrect / progress.stats.totalReviewed) * 100)
         : 0;
-    
+
     // 更新统计卡片
     document.getElementById('total-words').textContent = totalWords;
     document.getElementById('mastered-words').textContent = masteredWords;
     document.getElementById('overall-accuracy').textContent = overallAccuracy + '%';
     document.getElementById('total-streak').textContent = progress.stats.longestStreak;
-    
+
     // 渲染单元进度
     const unitProgressList = document.getElementById('unit-progress-list');
     let unitHtml = '';
-    
+
     AppState.wordData.forEach(wordbook => {
         wordbook.units.forEach(unit => {
             const learnedWords = unit.words.filter(w => {
@@ -4921,7 +4922,7 @@ function renderProgressPage() {
                 return wp && wp.reviewCount > 0;
             }).length;
             const percent = Math.round((learnedWords / unit.words.length) * 100);
-            
+
             unitHtml += `
                 <div class="unit-progress-item">
                     <div class="unit-progress-info">
@@ -4936,9 +4937,9 @@ function renderProgressPage() {
             `;
         });
     });
-    
+
     unitProgressList.innerHTML = unitHtml;
-    
+
     // 渲染阅读进度
     renderReadingProgress();
 }
@@ -4947,21 +4948,21 @@ function renderProgressPage() {
 function renderReadingProgress() {
     const readings = AppState.readings || [];
     const totalReadings = readings.length;
-    
+
     // 从 localStorage 获取已完成的阅读
     const completedReadings = JSON.parse(localStorage.getItem('completedReadings') || '[]');
     const completedCount = completedReadings.length;
-    
+
     // 计算完成率
-    const progressPercent = totalReadings > 0 
-        ? Math.round((completedCount / totalReadings) * 100) 
+    const progressPercent = totalReadings > 0
+        ? Math.round((completedCount / totalReadings) * 100)
         : 0;
-    
+
     // 更新阅读统计卡片
     const totalReadingsEl = document.getElementById('total-readings');
     const completedReadingsEl = document.getElementById('completed-readings');
     const progressPercentEl = document.getElementById('reading-progress-percent');
-    
+
     if (totalReadingsEl) totalReadingsEl.textContent = totalReadings;
     if (completedReadingsEl) completedReadingsEl.textContent = completedCount;
     if (progressPercentEl) progressPercentEl.textContent = progressPercent + '%';
@@ -5136,15 +5137,15 @@ function showSuccessToast(message) {
 // 简单的 Markdown 解析函数
 function parseMarkdown(text) {
     if (!text) return '';
-    
+
     let result = text;
-    
+
     // 代码反引号：`code`
     result = result.replace(/`([^`]+)`/g, '<code>$1</code>');
-    
+
     // 粗体：**text**
     result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    
+
     return result;
 }
 
@@ -5279,15 +5280,15 @@ function toggleFavorite(wordId) {
     const progress = AppState.userProgress;
     const index = progress.favoriteWords.indexOf(wordId);
     const wasFavorite = index > -1;
-    
+
     if (wasFavorite) {
         progress.favoriteWords.splice(index, 1);
     } else {
         progress.favoriteWords.push(wordId);
     }
-    
+
     saveUserProgress();
-    
+
     // 如果在收藏页面，取消收藏后刷新页面
     const favoritesPage = document.getElementById('page-favorites');
     if (favoritesPage && favoritesPage.classList.contains('active')) {
@@ -5296,7 +5297,7 @@ function toggleFavorite(wordId) {
             renderFavoritesPage();
         }
     }
-    
+
     // 更新按钮状态
     const btn = document.querySelector(`.word-card[data-word-id="${wordId}"] .favorite-btn`);
     if (btn) {
@@ -5316,41 +5317,41 @@ async function submitQA() {
     const loadingEl = document.getElementById('qa-loading');
     const resultEl = document.getElementById('qa-result');
     const answerEl = resultEl.querySelector('.qa-answer');
-    
+
     const question = inputEl.value.trim();
     if (!question) {
         alert('请输入问题');
         return;
     }
-    
+
     // 显示加载状态
     submitBtn.disabled = true;
     loadingEl.style.display = 'flex';
     resultEl.style.display = 'none';
-    
+
     try {
         // 获取是否启用联网搜索
         const enableWebSearch = document.getElementById('web-search-toggle').checked;
-        
+
         // 调用本地 API 服务器（server.py），由后端代理调用 MiniMax
         const response = await fetch(`${API_BASE_URL}/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 question,
                 enable_web_search: enableWebSearch
             })
         });
-        
+
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             throw new Error(errorData.error || `请求失败: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (data.answer) {
             // 使用 marked.js 解析 Markdown
             if (typeof marked !== 'undefined') {
@@ -5367,7 +5368,7 @@ async function submitQA() {
         } else {
             answerEl.innerHTML = '<p>抱歉，AI 回答生成失败，请稍后重试。</p>';
         }
-        
+
         resultEl.style.display = 'block';
     } catch (error) {
         console.error('AI Q&A Error:', error);
@@ -5414,13 +5415,13 @@ function initToolPage() {
             document.getElementById('tool-' + tab.dataset.tab).classList.add('active');
         });
     });
-    
+
     // 初始化单词文件上传
     initWordsUpload();
-    
+
     // 初始化阅读文件上传
     initReadingsUpload();
-    
+
     // 初始化朗读文件上传
     initSpeechUpload();
 }
@@ -5429,13 +5430,13 @@ function initToolPage() {
 const SecurityConfig = {
     // 最大文件大小 (5MB)
     maxFileSize: 5 * 1024 * 1024,
-    
+
     // 允许的文件扩展名
     allowedExtensions: {
         markdown: ['.md', '.txt'],
         json: ['.json']
     },
-    
+
     // 危险的文件扩展名
     dangerousExtensions: [
         '.exe', '.bat', '.cmd', '.com', '.pif', '.scr',
@@ -5450,7 +5451,7 @@ const SecurityConfig = {
         '.mp3', '.mp4', '.avi', '.mkv', '.wav', '.pdf',
         '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'
     ],
-    
+
     // 危险内容模式（正则表达式）
     dangerousPatterns: [
         /<script[^>]*>[\s\S]*?<\/script>/gi,
@@ -5471,29 +5472,29 @@ const SecurityConfig = {
 // 安全检查函数
 function validateUploadFile(file, fileType) {
     const errors = [];
-    
+
     // 提取文件扩展名（统一使用小写）
     const fileNameLower = file.name.toLowerCase();
     const extension = '.' + fileNameLower.split('.').pop();
     const fileSize = file.size;
-    
+
     // 1. 检查文件大小
     if (fileSize > SecurityConfig.maxFileSize) {
         errors.push(`文件大小超过限制 (最大 ${formatFileSize(SecurityConfig.maxFileSize)})`);
     }
-    
+
     // 2. 检查文件扩展名（统一小写检查）
     if (SecurityConfig.dangerousExtensions.includes(extension)) {
         errors.push(`不支持的文件类型：${extension}`);
     }
-    
+
     // 3. 检查允许的扩展名
     const allowedExts = SecurityConfig.allowedExtensions[fileType] || [];
     const hasAllowedExt = allowedExts.some(ext => fileNameLower.endsWith(ext.toLowerCase()));
     if (!hasAllowedExt) {
         errors.push(`只支持 ${allowedExts.join('、')} 格式的文件`);
     }
-    
+
     return {
         isValid: errors.length === 0,
         errors: errors
@@ -5503,14 +5504,14 @@ function validateUploadFile(file, fileType) {
 // 检查文件内容中的危险模式
 function scanContentForDangerousPatterns(content) {
     const dangerousFindings = [];
-    
+
     for (const pattern of SecurityConfig.dangerousPatterns) {
         const matches = content.match(pattern);
         if (matches) {
             dangerousFindings.push(`发现危险内容模式：${pattern.source.substring(0, 50)}...`);
         }
     }
-    
+
     return {
         isSafe: dangerousFindings.length === 0,
         findings: dangerousFindings
@@ -5528,10 +5529,10 @@ function initWordsUpload() {
     // Markdown 文件上传
     const mdUploadArea = document.getElementById('wordsMdUploadArea');
     const mdFileInput = document.getElementById('wordsMdFileInput');
-    
+
     // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
     mdFileInput.addEventListener('click', (e) => e.stopPropagation());
-    
+
     mdUploadArea.addEventListener('click', () => mdFileInput.click());
     mdUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -5550,14 +5551,14 @@ function initWordsUpload() {
         const file = e.target.files[0];
         if (file) handleWordsMdFile(file);
     });
-    
+
     // JSON 文件上传（实时生效）
     const jsonUploadArea = document.getElementById('wordsJsonUploadArea');
     const jsonFileInput = document.getElementById('wordsJsonFileInput');
-    
+
     // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
     jsonFileInput.addEventListener('click', (e) => e.stopPropagation());
-    
+
     jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
     jsonUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -5576,7 +5577,7 @@ function initWordsUpload() {
         const file = e.target.files[0];
         if (file) handleWordsJsonFile(file);
     });
-    
+
     const fileInfo = document.getElementById('wordsFileInfo');
     const fileName = document.getElementById('wordsFileName');
     const fileSize = document.getElementById('wordsFileSize');
@@ -5584,13 +5585,13 @@ function initWordsUpload() {
     const wordbookList = document.getElementById('wordbookList');
     const actions = document.getElementById('wordsActions');
     const status = document.getElementById('wordsStatus');
-    
+
     function resetFileInput() {
         // 重置 file input，允许再次选择同一文件
         mdFileInput.value = '';
         jsonFileInput.value = '';
     }
-    
+
     function handleWordsMdFile(file) {
         // 安全检查
         const validation = validateUploadFile(file, 'markdown');
@@ -5599,15 +5600,15 @@ function initWordsUpload() {
             resetFileInput();
             return;
         }
-        
+
         fileName.textContent = file.name;
         fileSize.textContent = formatFileSize(file.size);
         fileInfo.style.display = 'block';
-        
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
-            
+
             // 内容安全扫描
             const contentScan = scanContentForDangerousPatterns(content);
             if (!contentScan.isSafe) {
@@ -5616,7 +5617,7 @@ function initWordsUpload() {
                 resetFileInput();
                 return;
             }
-            
+
             try {
                 parsedWordsData = parseWordsMD(content);
                 showWordsPreview(parsedWordsData);
@@ -5630,7 +5631,7 @@ function initWordsUpload() {
         };
         reader.readAsText(file);
     }
-    
+
     function handleWordsJsonFile(file) {
         // 安全检查
         const validation = validateUploadFile(file, 'json');
@@ -5639,15 +5640,15 @@ function initWordsUpload() {
             resetFileInput();
             return;
         }
-        
+
         fileName.textContent = file.name;
         fileSize.textContent = formatFileSize(file.size);
         fileInfo.style.display = 'block';
-        
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
-            
+
             // 内容安全扫描
             const contentScan = scanContentForDangerousPatterns(content);
             if (!contentScan.isSafe) {
@@ -5656,7 +5657,7 @@ function initWordsUpload() {
                 resetFileInput();
                 return;
             }
-            
+
             try {
                 const data = JSON.parse(content);
                 console.log('[Words JSON] Parsed data type:', typeof data, Array.isArray(data));
@@ -5678,27 +5679,27 @@ function initWordsUpload() {
         };
         reader.readAsText(file);
     }
-    
+
     function applyWordsData(data) {
         console.log('[Apply Words] Received data type:', typeof data, Array.isArray(data));
         console.log('[Apply Words] Data:', data);
-        
+
         // 确保数据是数组
         if (!Array.isArray(data)) {
             showWordsStatus('数据格式错误：期望数组格式', 'error');
             console.error('Invalid data format:', data);
             return;
         }
-        
+
         // 更新应用状态
         AppState.wordData = data;
-        
+
         // 保存到 localStorage
         localStorage.setItem('wordData', JSON.stringify(data));
-        
+
         // 重新初始化词书选择器
         initWordBookSelector();
-        
+
         // 重新渲染当前页面
         if (document.getElementById('page-words').classList.contains('active')) {
             renderWordListPage();
@@ -5706,26 +5707,26 @@ function initWordsUpload() {
         if (document.getElementById('page-flashcard').classList.contains('active')) {
             renderFlashcardSetup();
         }
-        
+
         showWordsStatus('✅ 单词数据已成功应用！系统已更新。', 'success');
     }
-    
+
     function showWordsPreview(data) {
         wordbookList.innerHTML = '';
-        
+
         // 确保数据是数组
         if (!Array.isArray(data)) {
             showWordsStatus('数据格式错误：期望数组格式', 'error');
             console.error('Invalid data format:', data);
             return;
         }
-        
+
         if (data.length === 0) {
             wordbookList.innerHTML = '<li class="wordbook-item">没有数据</li>';
             preview.style.display = 'block';
             return;
         }
-        
+
         data.forEach(book => {
             const bookItem = document.createElement('li');
             bookItem.className = 'wordbook-item';
@@ -5743,17 +5744,17 @@ function initWordsUpload() {
         });
         preview.style.display = 'block';
     }
-    
+
     function generateWordsJSON() {
         if (!parsedWordsData) return null;
         return JSON.stringify(parsedWordsData, null, 2);
     }
-    
+
     function showWordsStatus(message, type) {
         status.innerHTML = message;
         status.className = 'status ' + type;
     }
-    
+
     document.getElementById('wordsGenerateBtn').addEventListener('click', () => {
         const json = generateWordsJSON();
         if (!json) {
@@ -5763,7 +5764,7 @@ function initWordsUpload() {
         downloadFile(json, 'words.json', 'application/json');
         showWordsStatus('✅ words.json 已下载！', 'success');
     });
-    
+
     document.getElementById('wordsCopyBtn').addEventListener('click', () => {
         const json = generateWordsJSON();
         if (!json) {
@@ -5782,10 +5783,10 @@ function initReadingsUpload() {
     // Markdown 文件上传
     const mdUploadArea = document.getElementById('readingsMdUploadArea');
     const mdFileInput = document.getElementById('readingsMdFileInput');
-    
+
     // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
     mdFileInput.addEventListener('click', (e) => e.stopPropagation());
-    
+
     mdUploadArea.addEventListener('click', () => mdFileInput.click());
     mdUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -5804,14 +5805,14 @@ function initReadingsUpload() {
         const file = e.target.files[0];
         if (file) handleReadingsMdFile(file);
     });
-    
+
     // JSON 文件上传（实时生效）
     const jsonUploadArea = document.getElementById('readingsJsonUploadArea');
     const jsonFileInput = document.getElementById('readingsJsonFileInput');
-    
+
     // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
     jsonFileInput.addEventListener('click', (e) => e.stopPropagation());
-    
+
     jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
     jsonUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -5830,7 +5831,7 @@ function initReadingsUpload() {
         const file = e.target.files[0];
         if (file) handleReadingsJsonFile(file);
     });
-    
+
     const fileInfo = document.getElementById('readingsFileInfo');
     const fileName = document.getElementById('readingsFileName');
     const fileSize = document.getElementById('readingsFileSize');
@@ -5838,13 +5839,13 @@ function initReadingsUpload() {
     const readingList = document.getElementById('readingList');
     const actions = document.getElementById('readingsActions');
     const status = document.getElementById('readingsStatus');
-    
+
     function resetFileInput() {
         // 重置 file input，允许再次选择同一文件
         mdFileInput.value = '';
         jsonFileInput.value = '';
     }
-    
+
     function handleReadingsMdFile(file) {
         // 安全检查
         const validation = validateUploadFile(file, 'markdown');
@@ -5853,15 +5854,15 @@ function initReadingsUpload() {
             resetFileInput();
             return;
         }
-        
+
         fileName.textContent = file.name;
         fileSize.textContent = formatFileSize(file.size);
         fileInfo.style.display = 'block';
-        
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
-            
+
             // 内容安全扫描
             const contentScan = scanContentForDangerousPatterns(content);
             if (!contentScan.isSafe) {
@@ -5870,7 +5871,7 @@ function initReadingsUpload() {
                 resetFileInput();
                 return;
             }
-            
+
             try {
                 parsedReadingsData = parseReadingsMD(content);
                 showReadingsPreview(parsedReadingsData);
@@ -5884,7 +5885,7 @@ function initReadingsUpload() {
         };
         reader.readAsText(file);
     }
-    
+
     function handleReadingsJsonFile(file) {
         // 安全检查
         const validation = validateUploadFile(file, 'json');
@@ -5893,15 +5894,15 @@ function initReadingsUpload() {
             resetFileInput();
             return;
         }
-        
+
         fileName.textContent = file.name;
         fileSize.textContent = formatFileSize(file.size);
         fileInfo.style.display = 'block';
-        
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
-            
+
             // 内容安全扫描
             const contentScan = scanContentForDangerousPatterns(content);
             if (!contentScan.isSafe) {
@@ -5910,13 +5911,13 @@ function initReadingsUpload() {
                 resetFileInput();
                 return;
             }
-            
+
             try {
                 const data = JSON.parse(content);
                 parsedReadingsData = data.readings || data;
                 showReadingsPreview(parsedReadingsData);
                 showReadingsStatus('JSON 文件加载成功！正在应用更改...', 'success');
-                
+
                 // 实时应用到系统
                 applyReadingsData(parsedReadingsData);
                 resetFileInput();
@@ -5927,7 +5928,7 @@ function initReadingsUpload() {
         };
         reader.readAsText(file);
     }
-    
+
     function applyReadingsData(data) {
         // 确保数据是数组
         if (!Array.isArray(data)) {
@@ -5935,37 +5936,37 @@ function initReadingsUpload() {
             console.error('Invalid data format:', data);
             return;
         }
-        
+
         // 更新应用状态
         AppState.readings = data;
-        
+
         // 保存到 localStorage
         localStorage.setItem('readingsData', JSON.stringify(data));
-        
+
         // 重新渲染阅读列表（如果当前在阅读页面）
         if (document.getElementById('page-readings').classList.contains('active')) {
             renderReadingsList();
         }
-        
+
         showReadingsStatus('✅ 阅读数据已成功应用！系统已更新。', 'success');
     }
-    
+
     function showReadingsPreview(data) {
         readingList.innerHTML = '';
-        
+
         // 确保数据是数组
         if (!Array.isArray(data)) {
             showReadingsStatus('数据格式错误：期望数组格式', 'error');
             console.error('Invalid data format:', data);
             return;
         }
-        
+
         if (data.length === 0) {
             readingList.innerHTML = '<li class="reading-item">没有数据</li>';
             preview.style.display = 'block';
             return;
         }
-        
+
         data.forEach((reading, index) => {
             const readingItem = document.createElement('li');
             readingItem.className = 'reading-item';
@@ -5973,8 +5974,8 @@ function initReadingsUpload() {
                 <strong>${reading.title} (${reading.titleCn})</strong>
                 <div class="unit-list">
                     <div class="unit-item">
-                        句型: ${reading.keySentencePatterns.length} 个 | 
-                        知识点: ${reading.knowledgePoints.length} 个 | 
+                        句型: ${reading.keySentencePatterns.length} 个 |
+                        知识点: ${reading.knowledgePoints.length} 个 |
                         对话: ${reading.dialogues.length} 句
                     </div>
                 </div>
@@ -5983,17 +5984,17 @@ function initReadingsUpload() {
         });
         preview.style.display = 'block';
     }
-    
+
     function generateReadingsJSON() {
         if (!parsedReadingsData) return null;
         return JSON.stringify({ readings: parsedReadingsData }, null, 2);
     }
-    
+
     function showReadingsStatus(message, type) {
         status.innerHTML = message;
         status.className = 'status ' + type;
     }
-    
+
     document.getElementById('readingsGenerateBtn').addEventListener('click', () => {
         const json = generateReadingsJSON();
         if (!json) {
@@ -6003,7 +6004,7 @@ function initReadingsUpload() {
         downloadFile(json, 'readings.json', 'application/json');
         showReadingsStatus('✅ readings.json 已下载！', 'success');
     });
-    
+
     document.getElementById('readingsCopyBtn').addEventListener('click', () => {
         const json = generateReadingsJSON();
         if (!json) {
@@ -6023,10 +6024,10 @@ function initSpeechUpload() {
     // Markdown 文件上传
     const mdUploadArea = document.getElementById('speechMdUploadArea');
     const mdFileInput = document.getElementById('speechMdFileInput');
-    
+
     // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
     mdFileInput.addEventListener('click', (e) => e.stopPropagation());
-    
+
     mdUploadArea.addEventListener('click', () => mdFileInput.click());
     mdUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -6045,14 +6046,14 @@ function initSpeechUpload() {
         const file = e.target.files[0];
         if (file) handleSpeechMdFile(file);
     });
-    
+
     // JSON 文件上传（实时生效）
     const jsonUploadArea = document.getElementById('speechJsonUploadArea');
     const jsonFileInput = document.getElementById('speechJsonFileInput');
-    
+
     // 阻止冒泡，防止点击 file input 时触发父元素的 click 事件
     jsonFileInput.addEventListener('click', (e) => e.stopPropagation());
-    
+
     jsonUploadArea.addEventListener('click', () => jsonFileInput.click());
     jsonUploadArea.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -6071,7 +6072,7 @@ function initSpeechUpload() {
         const file = e.target.files[0];
         if (file) handleSpeechJsonFile(file);
     });
-    
+
     const fileInfo = document.getElementById('speechFileInfo');
     const fileName = document.getElementById('speechFileName');
     const fileSize = document.getElementById('speechFileSize');
@@ -6079,13 +6080,13 @@ function initSpeechUpload() {
     const speechList = document.getElementById('speechList');
     const actions = document.getElementById('speechActions');
     const status = document.getElementById('speechStatus');
-    
+
     function resetFileInput() {
         // 重置 file input，允许再次选择同一文件
         mdFileInput.value = '';
         jsonFileInput.value = '';
     }
-    
+
     function handleSpeechMdFile(file) {
         // 安全检查
         const validation = validateUploadFile(file, 'markdown');
@@ -6094,11 +6095,11 @@ function initSpeechUpload() {
             resetFileInput();
             return;
         }
-        
+
         fileName.textContent = file.name;
         fileSize.textContent = formatFileSize(file.size);
         fileInfo.style.display = 'block';
-        
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
@@ -6110,7 +6111,7 @@ function initSpeechUpload() {
                     resetFileInput();
                     return;
                 }
-                
+
                 parsedSpeechData = parseSpeechMD(content);
                 showSpeechPreview(parsedSpeechData);
                 showSpeechStatus('文件解析成功！', 'success');
@@ -6122,7 +6123,7 @@ function initSpeechUpload() {
         };
         reader.readAsText(file);
     }
-    
+
     function handleSpeechJsonFile(file) {
         // 安全检查
         const validation = validateUploadFile(file, 'json');
@@ -6131,11 +6132,11 @@ function initSpeechUpload() {
             resetFileInput();
             return;
         }
-        
+
         fileName.textContent = file.name;
         fileSize.textContent = formatFileSize(file.size);
         fileInfo.style.display = 'block';
-        
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
@@ -6147,7 +6148,7 @@ function initSpeechUpload() {
                     resetFileInput();
                     return;
                 }
-                
+
                 const jsonData = JSON.parse(content);
 
                 // 兼容新旧格式：新格式是 books 数组，旧格式是 speeches 数组
@@ -6170,7 +6171,7 @@ function initSpeechUpload() {
                 // 直接应用到应用状态
                 AppState.speechData = parsedSpeechData;
                 console.log('朗读数据已实时更新，共 ' + parsedSpeechData.length + ' 篇');
-                
+
                 showSpeechPreview(parsedSpeechData);
                 showSpeechStatus('✅ 数据已实时更新到应用！', 'success');
                 actions.style.display = 'block';
@@ -6181,10 +6182,10 @@ function initSpeechUpload() {
         };
         reader.readAsText(file);
     }
-    
+
     function showSpeechPreview(data) {
         speechList.innerHTML = '';
-        
+
         data.forEach((speech, index) => {
             const speechItem = document.createElement('li');
             speechItem.className = 'reading-item';
@@ -6198,20 +6199,20 @@ function initSpeechUpload() {
             `;
             speechList.appendChild(speechItem);
         });
-        
+
         preview.style.display = 'block';
     }
-    
+
     function generateSpeechJSON() {
         if (!parsedSpeechData) return null;
         return JSON.stringify({ speeches: parsedSpeechData }, null, 2);
     }
-    
+
     function showSpeechStatus(message, type) {
         status.innerHTML = message;
         status.className = 'status ' + type;
     }
-    
+
     document.getElementById('speechGenerateBtn').addEventListener('click', () => {
         const json = generateSpeechJSON();
         if (!json) {
@@ -6221,7 +6222,7 @@ function initSpeechUpload() {
         downloadFile(json, 'speech.json', 'application/json');
         showSpeechStatus('✅ speech.json 已下载！', 'success');
     });
-    
+
     document.getElementById('speechCopyBtn').addEventListener('click', () => {
         const json = generateSpeechJSON();
         if (!json) {
@@ -6246,16 +6247,16 @@ function parseSpeechMD(content) {
     let chapterContent = [];
     let isFirstChapter = true;
     let isParsingSummary = false;
-    
+
     for (let i = 0; i < lines.length; i++) {
         const rawLine = lines[i];
         const line = rawLine.trim();
-        
+
         // 跳过注释和代码块
         if (line.startsWith('<!--') || line.startsWith('```')) {
             continue;
         }
-        
+
         // 检测文章标题 (# 开头且不在章节内)
         if (rawLine.startsWith('# ') && !currentSpeech) {
             const title = line.replace('# ', '').trim();
@@ -6270,13 +6271,13 @@ function parseSpeechMD(content) {
             isParsingSummary = false;
             continue;
         }
-        
+
         if (!currentSpeech) continue;
-        
+
         // 检测章节 (## 开头)
         if (rawLine.startsWith('## ')) {
             const chapterTitle = line.replace('## ', '').trim();
-            
+
             // 保存上一个章节（如果不是第一个）
             if (!isFirstChapter && currentChapter) {
                 currentSpeech.chapters.push({
@@ -6284,7 +6285,7 @@ function parseSpeechMD(content) {
                     content: chapterContent.join('\n').trim()
                 });
             }
-            
+
             // 检查是否是文章概要
             if (chapterTitle === '文章概要') {
                 isParsingSummary = true;
@@ -6300,7 +6301,7 @@ function parseSpeechMD(content) {
             isFirstChapter = false;
             continue;
         }
-        
+
         // 收集内容
         if (isParsingSummary && currentSpeech) {
             // 跳过空的行（文章概要标题后的第一个空行）
@@ -6316,7 +6317,7 @@ function parseSpeechMD(content) {
             chapterContent.push(rawLine);
         }
     }
-    
+
     // 保存最后一个章节或概要
     if (currentSpeech) {
         if (isParsingSummary && chapterContent.length > 0) {
@@ -6328,13 +6329,13 @@ function parseSpeechMD(content) {
             });
         }
     }
-    
+
     // 添加到结果列表
     if (currentSpeech && currentSpeech.chapters.length > 0) {
         speeches.push(currentSpeech);
         speechIndex++;
     }
-    
+
     return speeches;
 }
 
@@ -6345,22 +6346,22 @@ function parseWordsMD(content) {
     let currentUnit = null;
     let currentWordData = null;
     let wordIndex = 0;
-    
+
     const bookNameToId = {
         '英语五年级上册': 'grade5-upper',
         '英语六年级上册': 'grade6-upper',
         '英语五年级下册': 'grade5-lower',
         '英语六年级下册': 'grade6-lower'
     };
-    
+
     for (let i = 0; i < lines.length; i++) {
         const rawLine = lines[i];
         const line = rawLine.trim();
-        
+
         if (line.startsWith('<!--') || line.startsWith('```')) {
             continue;
         }
-        
+
         if (rawLine.startsWith('# ')) {
             const bookName = line.replace('# ', '').replace('单词', '').trim();
             if (bookName.includes('年级')) {
@@ -6368,7 +6369,7 @@ function parseWordsMD(content) {
                     currentUnit.words.push(currentWordData);
                     wordIndex++;
                 }
-                
+
                 currentBook = {
                     id: bookNameToId[bookName] || bookName,
                     name: bookName,
@@ -6381,7 +6382,7 @@ function parseWordsMD(content) {
             }
             continue;
         }
-        
+
         if (rawLine.startsWith('## ')) {
             const unitMatch = line.match(/##\s*(Unit\s*\d+)/);
             if (unitMatch) {
@@ -6390,7 +6391,7 @@ function parseWordsMD(content) {
                     wordIndex++;
                 }
                 currentWordData = null;
-                
+
                 currentUnit = {
                     unit: unitMatch[1],
                     title: '',
@@ -6404,7 +6405,7 @@ function parseWordsMD(content) {
             }
             continue;
         }
-        
+
         if (rawLine.startsWith('Title:')) {
             const titleMatch = line.match(/Title:\s*(.+?)\s*Category:\s*(.+)/);
             if (titleMatch && currentUnit) {
@@ -6413,11 +6414,11 @@ function parseWordsMD(content) {
             }
             continue;
         }
-        
+
         if (rawLine.startsWith('  - ')) {
             const detailContent = line.substring(2).trim();
             if (!currentWordData) continue;
-            
+
             if (detailContent.startsWith('例句：')) {
                 const examplePart = detailContent.substring(3);
                 const match = examplePart.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
@@ -6432,22 +6433,22 @@ function parseWordsMD(content) {
             }
             continue;
         }
-        
+
         if (rawLine.startsWith('* ')) {
             if (currentWordData && currentUnit) {
                 currentUnit.words.push(currentWordData);
                 wordIndex++;
             }
-            
+
             currentWordData = parseWordLine(line, currentBook, currentUnit, wordIndex);
             continue;
         }
     }
-    
+
     if (currentWordData && currentUnit) {
         currentUnit.words.push(currentWordData);
     }
-    
+
     return wordBooks;
 }
 
@@ -6455,7 +6456,7 @@ function parseWordLine(line, book, unit, index) {
     const wordLine = line.substring(2).trim();
     let phonetic = '';
     let meaning = '';
-    
+
     const phoneticMatch = wordLine.match(/\/([^\/]+)\//);
     if (phoneticMatch) {
         phonetic = '/' + phoneticMatch[1] + '/';
@@ -6469,12 +6470,12 @@ function parseWordLine(line, book, unit, index) {
         let remaining = wordLine.substring(wordMatch[0].length).trim();
         meaning = remaining;
     }
-    
+
     const bookId = book ? (book.id || 'book') : 'book';
     const unitNum = unit ? unit.unit.replace('Unit ', 'u') : 'u0';
     const id = `${bookId}-${unitNum}-w${index + 1}`;
     const word = wordLine.split('/')[0].trim();
-    
+
     return {
         id: id,
         word: word,
@@ -6494,7 +6495,7 @@ function parseReadingsMD(content) {
     let readingIndex = 0;
     let isParsingPatterns = false;
     let isParsingKnowledgePoints = false;
-    
+
     let startIndex = 0;
     for (let i = 0; i < lines.length; i++) {
         if (lines[i].trim().startsWith('# 题目：')) {
@@ -6502,20 +6503,20 @@ function parseReadingsMD(content) {
             break;
         }
     }
-    
+
     for (let i = startIndex; i < lines.length; i++) {
         const rawLine = lines[i];
         const line = rawLine.trim();
-        
+
         if (line.startsWith('<!--') || line.startsWith('```') || line.startsWith('*')) {
             continue;
         }
-        
+
         if (line.startsWith('# 题目：')) {
             if (currentReading) {
                 readings.push(currentReading);
             }
-            
+
             const titleMatch = line.match(/# 题目：(.+?)\s*\(([^)]+)\)/);
             currentReading = {
                 id: `reading-${String(readingIndex + 1).padStart(3, '0')}`,
@@ -6531,29 +6532,29 @@ function parseReadingsMD(content) {
             isParsingKnowledgePoints = false;
             continue;
         }
-        
+
         if (!currentReading) continue;
-        
+
         if (line.startsWith('# 场景：')) {
             currentReading.scene = line.replace('# 场景：', '').trim();
             continue;
         }
-        
+
         if (line.startsWith('# 重点句型：') || line === '# 重点句型') {
             isParsingPatterns = true;
             isParsingKnowledgePoints = false;
             continue;
         }
-        
+
         if (line.startsWith('# 知识点：') || line === '# 知识点') {
             isParsingPatterns = false;
             isParsingKnowledgePoints = true;
             continue;
         }
-        
+
         if (rawLine.startsWith('  - ') && isParsingPatterns) {
             const patternLine = line.substring(2).trim();
-            
+
             const halfMatch = patternLine.match(/^(.+?)\s*\(([^)]+)\)$/);
             if (halfMatch) {
                 let meaning = halfMatch[2].trim();
@@ -6565,7 +6566,7 @@ function parseReadingsMD(content) {
             }
             continue;
         }
-        
+
         if (rawLine.startsWith('  - ') && isParsingKnowledgePoints) {
             const knowledgePointLine = line.substring(2).trim();
             if (knowledgePointLine) {
@@ -6573,23 +6574,23 @@ function parseReadingsMD(content) {
             }
             continue;
         }
-        
+
         if (!rawLine.startsWith('  ')) {
             isParsingPatterns = false;
             isParsingKnowledgePoints = false;
         }
-        
-        if ((line.includes(':') || line.includes('：')) && 
+
+        if ((line.includes(':') || line.includes('：')) &&
             (line.includes('(') || line.includes('（'))) {
-            
+
             const dialogueMatch = line.match(/^([^:]+):\s*(.+?)\s*\(([^)]+)\)$/);
             if (dialogueMatch) {
                 let cnTranslation = dialogueMatch[3].trim();
                 cnTranslation = cnTranslation.replace(/\.$/, '');
-                
+
                 const speakerCnMatch = cnTranslation.match(/^([^：:]+)[：:]/);
                 const speakerCn = speakerCnMatch ? speakerCnMatch[1].trim() : cnTranslation;
-                
+
                 currentReading.dialogues.push({
                     speaker: dialogueMatch[1].trim(),
                     speakerCn: speakerCn,
@@ -6600,11 +6601,11 @@ function parseReadingsMD(content) {
             continue;
         }
     }
-    
+
     if (currentReading) {
         readings.push(currentReading);
     }
-    
+
     return readings;
 }
 
@@ -6787,31 +6788,31 @@ function handleSentencesWordBookChange(bookName) {
 function startSentencePracticeFromSelection() {
     const wordbookSelect = document.getElementById('sentences-wordbook-select');
     const unitSelect = document.getElementById('sentences-unit-select');
-    
+
     const bookName = wordbookSelect?.value;
     const unitName = unitSelect?.value;
-    
+
     if (!bookName) {
         showToast('请先选择书本');
         return;
     }
-    
+
     // 获取选中的书本下的所有阅读材料
     const readings = AppState.readings || [];
     let selectedReadings = readings.filter(r => (r.bookName || '默认词书') === bookName);
-    
+
     // 如果选择了具体单元，过滤该单元的阅读材料
     if (unitName) {
-        selectedReadings = selectedReadings.filter(r => 
+        selectedReadings = selectedReadings.filter(r =>
             (r.unitName || '未分类') === unitName
         );
     }
-    
+
     if (selectedReadings.length === 0) {
         showToast('没有找到阅读材料');
         return;
     }
-    
+
     // 收集所有句子
     let allDialogues = [];
     selectedReadings.forEach(reading => {
@@ -6826,21 +6827,21 @@ function startSentencePracticeFromSelection() {
             });
         }
     });
-    
+
     if (allDialogues.length === 0) {
         showToast('没有找到句子数据');
         return;
     }
-    
+
     // 按阅读材料和对话顺序排序
     allDialogues.sort((a, b) => {
         if (a.sourceId !== b.sourceId) {
-            return selectedReadings.findIndex(r => r.id === a.sourceId) - 
+            return selectedReadings.findIndex(r => r.id === a.sourceId) -
                    selectedReadings.findIndex(r => r.id === b.sourceId);
         }
         return 0;
     });
-    
+
     // 创建会话
     AppState.sentencesSession = {
         dialogues: allDialogues,
@@ -6851,7 +6852,7 @@ function startSentencePracticeFromSelection() {
         startTime: Date.now(),
         isPaused: false
     };
-    
+
     // 跳转到练习页面
     switchPage('sentence-practice');
     showCurrentSentence();
@@ -6915,7 +6916,7 @@ function showCurrentSentence() {
         // 检测是否为 iOS 设备
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         // 检测是否在 Web App 模式（添加到主屏幕）
-        const isWebApp = window.navigator.standalone === true || 
+        const isWebApp = window.navigator.standalone === true ||
                         window.matchMedia('(display-mode: standalone)').matches;
 
         if (isIOS && isWebApp) {
@@ -7003,7 +7004,7 @@ function showCurrentSentence() {
     }
 
     // 检测 Web App 模式
-    const isWebAppMode = window.navigator.standalone === true || 
+    const isWebAppMode = window.navigator.standalone === true ||
                          window.matchMedia('(display-mode: standalone)').matches;
 
     // 在页面隐藏/显示时处理滚动锁定
@@ -7392,7 +7393,7 @@ function renderSentencesPage() {
         }
         return;
     }
-    
+
     initSentencesWordbookSelector();
 }
 
