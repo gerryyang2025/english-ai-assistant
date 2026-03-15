@@ -1340,15 +1340,18 @@ function showQuestion() {
     document.getElementById('progress-text').textContent = 
         `${session.currentIndex + 1} / ${session.questions.length}`;
     
-    // 更新问题
+    // 更新问题（支持 ** 粗体等简单 Markdown）
     document.getElementById('question-label').textContent = 
         question.questionType === 'en-to-zh' ? '英文' : '中文';
-    document.getElementById('question-text').textContent = question.question;
+    const questionTextEl = document.getElementById('question-text');
+    questionTextEl.innerHTML = renderMdInline(question.question);
     
-    // 更新答案
-    document.getElementById('answer-word').textContent = question.answer.word;
+    // 更新答案（支持 ** 粗体等简单 Markdown）
+    const answerWordEl = document.getElementById('answer-word');
+    answerWordEl.innerHTML = renderMdInline(question.answer.word) + ' <span class="speak-hint">🇬🇧</span>';
     document.getElementById('answer-phonetic').textContent = question.answer.phonetic || '';
-    document.getElementById('answer-meaning').textContent = question.answer.meaning;
+    const answerMeaningEl = document.getElementById('answer-meaning');
+    answerMeaningEl.innerHTML = renderMdInline(question.answer.meaning);
 
     // 更新收藏按钮状态
     updateFavoriteButton(question.answer.id);
@@ -1377,13 +1380,14 @@ function showQuestion() {
     
     const exampleEl = document.getElementById('answer-example');
     if (question.answer.example) {
-        const safeExample = escapeHtml(question.answer.example).replace(/'/g, "\\'");
+        const exampleForSpeech = stripMdForSpeech(question.answer.example);
+        const safeExample = exampleForSpeech.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         exampleEl.innerHTML = `
             <p class="example-en">
-                ${question.answer.example}
+                ${renderMdInline(question.answer.example)}
                 <button class="audio-btn small" title="播放例句" onclick="speakExample('${safeExample}')">🔊</button>
             </p>
-            <p class="example-zh">${question.answer.translation || ''}</p>
+            <p class="example-zh">${renderMdInline(question.answer.translation || '')}</p>
         `;
         exampleEl.style.display = 'block';
     } else {
@@ -1392,35 +1396,29 @@ function showQuestion() {
     
     const tipEl = document.getElementById('answer-tip');
     if (question.answer.memoryTip) {
-        tipEl.textContent = '💡 ' + question.answer.memoryTip;
+        tipEl.innerHTML = '💡 ' + renderMdInline(question.answer.memoryTip);
         tipEl.style.display = 'block';
     } else {
         tipEl.style.display = 'none';
     }
 }
 
-// 播放当前闪卡单词发音
+// 播放当前闪卡单词发音（去掉 Markdown 标记后再朗读）
 function speakCurrentWord() {
     const session = AppState.flashcardSession;
     if (session && session.questions[session.currentIndex]) {
         const question = session.questions[session.currentIndex];
-        // 获取单词（根据问题类型决定播放哪个）
-        const wordToSpeak = question.questionType === 'en-to-zh' 
-            ? question.answer.word 
-            : question.answer.word;
+        const wordToSpeak = stripMdForSpeech(question.answer.word);
         speakWord(wordToSpeak);
     }
 }
 
-// 播放当前闪卡单词发音（美音）
+// 播放当前闪卡单词发音（美音，去掉 Markdown 标记后再朗读）
 function speakCurrentWordUS() {
     const session = AppState.flashcardSession;
     if (session && session.questions[session.currentIndex]) {
         const question = session.questions[session.currentIndex];
-        // 获取单词（根据问题类型决定播放哪个）
-        const wordToSpeak = question.questionType === 'en-to-zh' 
-            ? question.answer.word 
-            : question.answer.word;
+        const wordToSpeak = stripMdForSpeech(question.answer.word);
         speakWordUS(wordToSpeak);
     }
 }
@@ -5000,6 +4998,19 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+/** 将简单 Markdown（如 **粗体**）转为 HTML，先转义再替换，保证安全 */
+function renderMdInline(text) {
+    if (!text) return '';
+    const escaped = escapeHtml(text);
+    return escaped.replace(/\*\*([\s\S]*?)\*\*/g, '<strong>$1</strong>');
+}
+
+/** 去掉 Markdown 标记，用于语音朗读等纯文本场景 */
+function stripMdForSpeech(text) {
+    if (!text) return '';
+    return String(text).replace(/\*\*/g, '').trim();
 }
 
 // 数组随机打乱
