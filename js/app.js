@@ -377,6 +377,13 @@ function bindEvents() {
         });
     });
 
+    document.getElementById('qa-input')?.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.isComposing) {
+            e.preventDefault();
+            submitQA();
+        }
+    });
+
     // 单词搜索
     const searchInput = document.getElementById('word-search');
     if (searchInput) {
@@ -5313,10 +5320,18 @@ function toggleFavorite(wordId) {
     }
 }
 
-// ========== AI 知识问答 ==========
+// ========== AI 知识问答（首页墨小灵） ==========
 
 // API 配置（调用本地服务器，由 server.py 代理保护 API Key）
 const API_BASE_URL = '/api';
+
+let mascotHappyTimer = null;
+
+function setMoxiaolingMascotState(state) {
+    const el = document.getElementById('moxiaoling-mascot');
+    if (!el) return;
+    el.dataset.state = state;
+}
 
 async function submitQA() {
     const inputEl = document.getElementById('qa-input');
@@ -5327,13 +5342,20 @@ async function submitQA() {
 
     const question = inputEl.value.trim();
     if (!question) {
-        alert('请输入问题');
+        alert('先写一个字再问小灵吧～');
         return;
     }
+
+    if (mascotHappyTimer) {
+        clearTimeout(mascotHappyTimer);
+        mascotHappyTimer = null;
+    }
+    setMoxiaolingMascotState('thinking');
 
     // 显示加载状态
     submitBtn.disabled = true;
     loadingEl.style.display = 'flex';
+    loadingEl.setAttribute('aria-busy', 'true');
     resultEl.style.display = 'none';
 
     try {
@@ -5372,13 +5394,20 @@ async function submitQA() {
             } else {
                 answerEl.innerHTML = data.answer.replace(/\n/g, '<br>');
             }
+            setMoxiaolingMascotState('happy');
+            mascotHappyTimer = setTimeout(() => {
+                setMoxiaolingMascotState('idle');
+                mascotHappyTimer = null;
+            }, 2200);
         } else {
-            answerEl.innerHTML = '<p>抱歉，AI 回答生成失败，请稍后重试。</p>';
+            answerEl.innerHTML = '<p>抱歉，小灵这次没答上来，请稍后再试。</p>';
+            setMoxiaolingMascotState('idle');
         }
 
         resultEl.style.display = 'block';
     } catch (error) {
         console.error('AI Q&A Error:', error);
+        setMoxiaolingMascotState('idle');
         answerEl.innerHTML = `
             <p><strong>请求失败：</strong>${escapeHtml(error.message)}</p>
             <p>请检查：</p>
@@ -5391,6 +5420,7 @@ async function submitQA() {
         resultEl.style.display = 'block';
     } finally {
         loadingEl.style.display = 'none';
+        loadingEl.setAttribute('aria-busy', 'false');
         submitBtn.disabled = false;
     }
 }

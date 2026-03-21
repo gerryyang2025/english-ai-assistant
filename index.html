@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>英语学习 - 墨小灵</title>
+    <title>爱英语学习 - 墨小灵</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/readings.css">
@@ -17,7 +17,7 @@
         <!-- 头部导航 -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">📚 英语学习 - 墨小灵</h1>
+                <h1 class="logo">📚 爱英语学习 - 墨小灵</h1>
                 <div class="nav-scroll">
                     <nav class="nav-menu" aria-label="主导航">
                         <button type="button" class="nav-btn active" data-page="home" aria-current="page">首页</button>
@@ -44,34 +44,47 @@
                     <p id="daily-joke">加载中...</p>
                 </div>
 
-                <!-- AI 知识问答 -->
-                <div class="ai-qa-section">
-                    <h3>🤖 AI 单词助手</h3>
-                    <p class="qa-desc">输入英语单词或句子，AI 帮你详细解释用法</p>
-                    
-                    <div class="qa-input-area">
-                        <input type="text" id="qa-input" placeholder="例如: explain the word 'future' or make a sentence with 'pilot'">
-                        <button id="qa-submit-btn" onclick="submitQA()">提问</button>
+                <!-- 墨小灵：虚拟形象 + AI 单词问答（沿用 /api/chat） -->
+                <section class="moxiaoling-panel" aria-labelledby="moxiaoling-heading">
+                    <div class="moxiaoling-layout">
+                        <div class="moxiaoling-mascot" id="moxiaoling-mascot" data-state="idle" aria-hidden="true">
+                            <img class="moxiaoling-mascot-img" src="images/moxiaoling.png" width="280" height="280" alt="墨小灵：爱英语学习的小伙伴，半写实插画形象" loading="lazy" decoding="async">
+                        </div>
+                        <div class="moxiaoling-chat">
+                            <h3 id="moxiaoling-heading">墨小灵陪你问单词</h3>
+                            <p class="moxiaoling-tagline">嗨，我是墨小灵！把不会的英文单词或句子告诉我吧～</p>
+                            <p class="qa-desc">我会用中文帮你讲意思、用法，还可以一起造句。</p>
+
+                            <div class="qa-input-area">
+                                <input type="text" id="qa-input" placeholder="比如：future 是什么意思？ / 用 pilot 造个句" autocomplete="off" enterkeyhint="send" aria-describedby="moxiaoling-hint">
+                                <button type="button" id="qa-submit-btn" onclick="submitQA()">问小灵</button>
+                            </div>
+
+                            <p id="moxiaoling-hint" class="moxiaoling-hint">回答由 AI 生成，仅供参考；拿不准时可以问家长或老师哦。</p>
+
+                            <details class="qa-advanced">
+                                <summary class="qa-advanced-summary">更多设置（家长）</summary>
+                                <div class="qa-options">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="web-search-toggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span class="toggle-label">🌐 联网搜索（获取更新信息）</span>
+                                </div>
+                            </details>
+
+                            <div id="qa-loading" class="qa-loading" style="display: none;" aria-live="polite" aria-busy="false">
+                                <div class="loading-spinner"></div>
+                                <span id="qa-loading-text">小灵正在想答案…</span>
+                            </div>
+
+                            <div id="qa-result" class="qa-result" style="display: none;" role="region" aria-live="polite" aria-label="墨小灵的回答">
+                                <div class="qa-result-label">小灵说</div>
+                                <div class="qa-answer"></div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <!-- 联网搜索开关 -->
-                    <div class="qa-options">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="web-search-toggle">
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span class="toggle-label">🌐 联网搜索（获取最新信息）</span>
-                    </div>
-                    
-                    <div id="qa-loading" class="qa-loading" style="display: none;">
-                        <div class="loading-spinner"></div>
-                        <span>AI 思考中...</span>
-                    </div>
-                    
-                    <div id="qa-result" class="qa-result" style="display: none;">
-                        <div class="qa-answer"></div>
-                    </div>
-                </div>
+                </section>
 
                 <div class="feature-cards">
                     <div class="feature-card" data-action="go-words">
@@ -1057,7 +1070,7 @@ Tom: I want to be a doctor. (汤姆：我想成为一名医生。)
 
         <!-- 底部 -->
         <footer class="footer">
-            <p>英语学习 - 墨小灵 © 2026 | Made with ❤️ by gerryyang</p>
+            <p>爱英语学习 - 墨小灵 © 2026 | Made with ❤️ by gerryyang</p>
         </footer>
     </div>
 
