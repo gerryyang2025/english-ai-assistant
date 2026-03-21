@@ -561,6 +561,33 @@ body {
     transform-origin: center 85%;
 }
 
+/* Lottie 面部叠加：眨眼（idle）/ 口型（thinking），矢量与照片叠加以增强神态 */
+.moxiaoling-lottie-wrap {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    width: 64%;
+    max-width: 152px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 4;
+    aspect-ratio: 1;
+    clip-path: ellipse(50% 44% at 50% 50%);
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12));
+    opacity: 0.96;
+}
+
+.moxiaoling-lottie-wrap--hidden {
+    display: none !important;
+}
+
+.moxiaoling-lottie,
+.moxiaoling-lottie svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
 .moxiaoling-mascot[data-state="idle"] .moxiaoling-mascot-img {
     animation: moxiao-mascot-breathe 4.5s ease-in-out infinite;
 }
@@ -638,7 +665,7 @@ body {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    z-index: 2;
+    z-index: 6;
     opacity: 0;
 }
 
@@ -728,6 +755,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .moxiaoling-lottie-wrap {
+        display: none !important;
+    }
+
     .moxiaoling-mascot[data-state="idle"] .moxiaoling-mascot-img,
     .moxiaoling-mascot[data-state="thinking"] .moxiaoling-mascot-img,
     .moxiaoling-mascot[data-state="happy"] .moxiaoling-mascot-img {
@@ -3709,6 +3740,12 @@ body {
         max-width: 200px;
     }
 
+    .moxiaoling-lottie-wrap {
+        max-width: 128px;
+        width: 66%;
+        top: 9%;
+    }
+
     .moxiaoling-panel h3 {
         font-size: 1.2rem;
     }
@@ -4455,6 +4492,11 @@ body {
 
     .moxiaoling-mascot {
         max-width: 176px;
+    }
+
+    .moxiaoling-lottie-wrap {
+        max-width: 112px;
+        width: 68%;
     }
 
     .moxiaoling-panel h3 {

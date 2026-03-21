@@ -5329,6 +5329,58 @@ const API_BASE_URL = '/api';
 
 let mascotHappyTimer = null;
 let mascotBubbleTimer = null;
+let moxiaolingLottieInst = null;
+let moxiaolingLottieMode = null;
+
+function loadMoxiaolingLottie(mode) {
+    if (typeof lottie === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (moxiaolingLottieMode === mode && moxiaolingLottieInst) return;
+    const container = document.getElementById('moxiaoling-lottie');
+    if (!container) return;
+    if (moxiaolingLottieInst) {
+        moxiaolingLottieInst.destroy();
+        moxiaolingLottieInst = null;
+    }
+    moxiaolingLottieMode = mode;
+    const path = mode === 'talk' ? 'lottie/moxiaoling-talk.json' : 'lottie/moxiaoling-idle.json';
+    moxiaolingLottieInst = lottie.loadAnimation({
+        container,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path
+    });
+}
+
+function syncMoxiaolingLottieFace(state) {
+    const wrap = document.querySelector('.moxiaoling-lottie-wrap');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (moxiaolingLottieInst) {
+            moxiaolingLottieInst.destroy();
+            moxiaolingLottieInst = null;
+        }
+        moxiaolingLottieMode = null;
+        if (wrap) wrap.classList.add('moxiaoling-lottie-wrap--hidden');
+        return;
+    }
+    if (typeof lottie === 'undefined') {
+        if (wrap) wrap.classList.add('moxiaoling-lottie-wrap--hidden');
+        return;
+    }
+    if (wrap) wrap.classList.remove('moxiaoling-lottie-wrap--hidden');
+    if (state === 'thinking') {
+        loadMoxiaolingLottie('talk');
+        return;
+    }
+    const needReload = moxiaolingLottieMode !== 'idle' || !moxiaolingLottieInst;
+    if (needReload) {
+        loadMoxiaolingLottie('idle');
+    }
+    if (moxiaolingLottieInst) {
+        moxiaolingLottieInst.setSpeed(state === 'happy' ? 1.35 : 1);
+    }
+}
 let mascotSfxCtx = null;
 
 /** 点击墨小灵时的轻快提示音（Web Audio，需用户手势触发以通过浏览器策略） */
@@ -5455,6 +5507,8 @@ function initMoxiaolingMascotInteraction() {
         if (rafTilt) cancelAnimationFrame(rafTilt);
         inner.style.transform = '';
     });
+
+    syncMoxiaolingLottieFace(document.getElementById('moxiaoling-mascot')?.dataset?.state || 'idle');
 }
 
 function setMoxiaolingMascotState(state) {
@@ -5469,6 +5523,7 @@ function setMoxiaolingMascotState(state) {
     } else {
         setMascotBubbleText('', 0);
     }
+    syncMoxiaolingLottieFace(state);
 }
 
 async function submitQA() {

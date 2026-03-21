@@ -67,10 +67,11 @@
 - **优点**：体量小、清晰、易换肤；不依赖外链 CDN。
 - **缺点**：动感弱于逐帧动画。
 
-### 方案 B — Lottie / 轻量 JSON 动画
+### 方案 B — Lottie / 轻量 JSON 动画（已部分落地）
 
-- 设计师导出 Lottie，前端 `lottie-web` 播放循环待机动画，提交问题时切「思考」动画。
-- **注意**：增加包体与维护成本，需在 `prefers-reduced-motion: reduce` 时**降级为静态帧**。
+- **当前实现**：在半身写真上方 **椭圆裁切叠加** 矢量面部（`lottie/moxiaoling-idle.json` 眨眼、`moxiaoling-talk.json` 口型），`lottie-web` CDN 播放；状态与 `data-state` 同步；`prefers-reduced-motion: reduce` 时不加载。
+- **维护**：可运行 `python3 scripts/gen-moxiaoling-lottie.py` 重新导出 JSON。
+- 若日后有设计师出稿，可替换为更精细的全身或面部 Lottie，仅需保持路径或改 `loadMoxiaolingLottie` 逻辑。
 
 ### 方案 C — 简笔画 + Emoji 混合（极低成本）
 

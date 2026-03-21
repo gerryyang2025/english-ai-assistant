@@ -26,6 +26,8 @@ english-ai-assistant/
 ├── css/                    # 样式文件
 ├── js/app.js               # 前端逻辑
 ├── images/                 # 静态图（如首页墨小灵形象 moxiaoling.png）
+├── lottie/                 # 墨小灵面部 Lottie（眨眼 idle / 口型 talk）
+├── scripts/                # 维护脚本（如 gen-moxiaoling-lottie.py 生成上述 JSON）
 ├── data/                   # 数据文件
 │   ├── words.json
 │   ├── readings.json
@@ -109,7 +111,7 @@ MINIMAX_VOICE_CLONE_VOICES = [
 
 ## 技术栈
 
-- **前端**: HTML5 + CSS3 + JavaScript
+- **前端**: HTML5 + CSS3 + JavaScript（[lottie-web](https://github.com/airbnb/lottie-web) CDN 用于面部眨眼/口型叠加）
 - **后端**: Python Flask
 - **AI**: MiniMax API
 - **存储**: localStorage 本地存储
