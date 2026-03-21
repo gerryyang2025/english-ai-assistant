@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - 首页「墨小灵」互动区：半写实虚拟形象插画（`images/moxiaoling.png`），与原有 AI 单词问答（`/api/chat`）一体化；加载/答毕时形象状态动画（尊重 `prefers-reduced-motion`）
+- 虚拟形象交互增强：待机呼吸、思考光晕与跳点、答毕星光与更强跳跃动画；顶部对话气泡同步状态文案；点击/键盘随机鼓励语；桌面端鼠标视差倾斜（细指针设备）；「点我一下～」引导
 - 问答区支持回车提交、结果区 `aria-live`；联网搜索平铺展示且默认开启（不再收入家长折叠区）
 
 ### Changed

@@ -384,6 +384,8 @@ function bindEvents() {
         }
     });
 
+    initMoxiaolingMascotInteraction();
+
     // 单词搜索
     const searchInput = document.getElementById('word-search');
     if (searchInput) {
@@ -5326,11 +5328,111 @@ function toggleFavorite(wordId) {
 const API_BASE_URL = '/api';
 
 let mascotHappyTimer = null;
+let mascotBubbleTimer = null;
+
+function clearMascotBubbleTimer() {
+    if (mascotBubbleTimer) {
+        clearTimeout(mascotBubbleTimer);
+        mascotBubbleTimer = null;
+    }
+}
+
+function setMascotBubbleText(text, autoHideMs) {
+    const bubble = document.getElementById('moxiaoling-bubble');
+    if (!bubble) return;
+    clearMascotBubbleTimer();
+    if (!text) {
+        bubble.textContent = '';
+        bubble.classList.remove('is-visible');
+        return;
+    }
+    bubble.textContent = text;
+    bubble.classList.add('is-visible');
+    if (autoHideMs > 0) {
+        mascotBubbleTimer = setTimeout(() => {
+            const root = document.getElementById('moxiaoling-mascot');
+            if (root?.dataset.state === 'idle') {
+                bubble.classList.remove('is-visible');
+                bubble.textContent = '';
+            }
+            mascotBubbleTimer = null;
+        }, autoHideMs);
+    }
+}
+
+function initMoxiaolingMascotInteraction() {
+    const root = document.getElementById('moxiaoling-mascot');
+    const inner = document.getElementById('moxiaoling-mascot-inner');
+    if (!root || !inner) return;
+
+    const idlePhrases = [
+        '今天也要加油学英语哦！',
+        '有单词不会？尽管问我～',
+        '你提问的样子超认真！',
+        '我们一起把英语变简单吧！',
+        '在下面输入英文或中文都可以～',
+        '坚持就是胜利，小灵给你点赞！'
+    ];
+
+    function showIdleEncourage() {
+        if (root.dataset.state !== 'idle') return;
+        const phrase = idlePhrases[Math.floor(Math.random() * idlePhrases.length)];
+        setMascotBubbleText(phrase, 3800);
+    }
+
+    root.addEventListener('click', e => {
+        e.preventDefault();
+        if (root.dataset.state === 'thinking') return;
+        showIdleEncourage();
+    });
+
+    root.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        if (root.dataset.state === 'thinking') return;
+        showIdleEncourage();
+    });
+
+    let rafTilt = null;
+    function applyTilt(e) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+        if (root.dataset.state === 'thinking') {
+            inner.style.transform = '';
+            return;
+        }
+        const r = inner.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = (e.clientX - cx) / Math.max(r.width / 2, 1);
+        const dy = (e.clientY - cy) / Math.max(r.height / 2, 1);
+        const max = 6;
+        inner.style.transform = `perspective(520px) rotateY(${dx * max}deg) rotateX(${-dy * max}deg)`;
+    }
+
+    root.addEventListener('mousemove', e => {
+        if (rafTilt) cancelAnimationFrame(rafTilt);
+        rafTilt = requestAnimationFrame(() => applyTilt(e));
+    });
+
+    root.addEventListener('mouseleave', () => {
+        if (rafTilt) cancelAnimationFrame(rafTilt);
+        inner.style.transform = '';
+    });
+}
 
 function setMoxiaolingMascotState(state) {
     const el = document.getElementById('moxiaoling-mascot');
     if (!el) return;
+    clearMascotBubbleTimer();
     el.dataset.state = state;
+    if (state === 'thinking') {
+        setMascotBubbleText('让我好好想一想…', 0);
+    } else if (state === 'happy') {
+        setMascotBubbleText('太棒啦！答案来啦～', 0);
+    } else {
+        setMascotBubbleText('', 0);
+    }
 }
 
 async function submitQA() {
@@ -5398,7 +5500,7 @@ async function submitQA() {
             mascotHappyTimer = setTimeout(() => {
                 setMoxiaolingMascotState('idle');
                 mascotHappyTimer = null;
-            }, 2200);
+            }, 3200);
         } else {
             answerEl.innerHTML = '<p>抱歉，小灵这次没答上来，请稍后再试。</p>';
             setMoxiaolingMascotState('idle');

@@ -47,8 +47,21 @@
                 <!-- 墨小灵：虚拟形象 + AI 单词问答（沿用 /api/chat） -->
                 <section class="moxiaoling-panel" aria-labelledby="moxiaoling-heading">
                     <div class="moxiaoling-layout">
-                        <div class="moxiaoling-mascot" id="moxiaoling-mascot" data-state="idle" aria-hidden="true">
-                            <img class="moxiaoling-mascot-img" src="images/moxiaoling.png" width="280" height="280" alt="墨小灵：爱英语学习的小伙伴，半写实插画形象" loading="lazy" decoding="async">
+                        <div class="moxiaoling-mascot" id="moxiaoling-mascot" data-state="idle" tabindex="0" role="button" aria-label="墨小灵：点按可以听鼓励语，也会在思考时显示状态">
+                            <div class="moxiaoling-mascot-frame">
+                                <div class="moxiaoling-mascot-glow" aria-hidden="true"></div>
+                                <div class="moxiaoling-mascot-inner" id="moxiaoling-mascot-inner">
+                                    <img class="moxiaoling-mascot-img" src="images/moxiaoling.png" width="280" height="280" alt="" loading="lazy" decoding="async">
+                                    <div class="moxiaoling-sparkles" aria-hidden="true">
+                                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                                    </div>
+                                </div>
+                                <div class="moxiaoling-thinking-dots" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                            <p class="moxiaoling-bubble" id="moxiaoling-bubble" role="status" aria-live="polite" aria-atomic="true"></p>
+                            <span class="moxiaoling-tap-hint" aria-hidden="true">点我一下～</span>
                         </div>
                         <div class="moxiaoling-chat">
                             <h3 id="moxiaoling-heading">墨小玲陪你学英语</h3>
