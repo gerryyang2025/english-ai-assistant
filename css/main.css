@@ -572,49 +572,16 @@ body {
     margin: 0 0 14px 0;
 }
 
-.qa-advanced {
-    margin-bottom: 16px;
+.moxiaoling-panel .qa-input-area {
+    margin-bottom: 14px;
+}
+
+.moxiaoling-panel .qa-options {
+    margin-top: 0;
+    margin-bottom: 14px;
+    padding: 12px 14px;
     border-radius: var(--radius-md);
     background: rgba(0, 0, 0, 0.08);
-    padding: 4px 12px 10px;
-}
-
-.qa-advanced-summary {
-    cursor: pointer;
-    font-size: 0.88rem;
-    opacity: 0.95;
-    padding: 8px 0;
-    user-select: none;
-    list-style: none;
-}
-
-.qa-advanced-summary:focus {
-    outline: none;
-}
-
-.qa-advanced-summary:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.95);
-    outline-offset: 3px;
-    border-radius: 4px;
-}
-
-.qa-advanced-summary::-webkit-details-marker {
-    display: none;
-}
-
-.qa-advanced-summary::after {
-    content: " ▼";
-    font-size: 0.7em;
-    opacity: 0.8;
-}
-
-.qa-advanced[open] .qa-advanced-summary::after {
-    content: " ▲";
-}
-
-.qa-advanced .qa-options {
-    margin-top: 0;
-    padding-bottom: 4px;
 }
 
 .qa-input-area {

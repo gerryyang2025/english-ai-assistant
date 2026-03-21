@@ -51,7 +51,7 @@
                             <img class="moxiaoling-mascot-img" src="images/moxiaoling.png" width="280" height="280" alt="墨小灵：爱英语学习的小伙伴，半写实插画形象" loading="lazy" decoding="async">
                         </div>
                         <div class="moxiaoling-chat">
-                            <h3 id="moxiaoling-heading">墨小灵陪你问单词</h3>
+                            <h3 id="moxiaoling-heading">墨小玲陪你学英语</h3>
                             <p class="moxiaoling-tagline">嗨，我是墨小灵！把不会的英文单词或句子告诉我吧～</p>
                             <p class="qa-desc">我会用中文帮你讲意思、用法，还可以一起造句。</p>
 
@@ -60,18 +60,15 @@
                                 <button type="button" id="qa-submit-btn" onclick="submitQA()">问小灵</button>
                             </div>
 
-                            <p id="moxiaoling-hint" class="moxiaoling-hint">回答由 AI 生成，仅供参考；拿不准时可以问家长或老师哦。</p>
+                            <div class="qa-options" role="group" aria-label="联网搜索">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="web-search-toggle" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span class="toggle-label">🌐 联网搜索（获取最新信息）</span>
+                            </div>
 
-                            <details class="qa-advanced">
-                                <summary class="qa-advanced-summary">更多设置（家长）</summary>
-                                <div class="qa-options">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="web-search-toggle">
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                    <span class="toggle-label">🌐 联网搜索（获取更新信息）</span>
-                                </div>
-                            </details>
+                            <p id="moxiaoling-hint" class="moxiaoling-hint">回答由 AI 生成，仅供参考；拿不准时可以问家长或老师哦。</p>
 
                             <div id="qa-loading" class="qa-loading" style="display: none;" aria-live="polite" aria-busy="false">
                                 <div class="loading-spinner"></div>

@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - 首页「墨小灵」互动区：半写实虚拟形象插画（`images/moxiaoling.png`），与原有 AI 单词问答（`/api/chat`）一体化；加载/答毕时形象状态动画（尊重 `prefers-reduced-motion`）
-- 问答区支持回车提交、结果区 `aria-live`、联网搜索收入「更多设置（家长）」折叠
+- 问答区支持回车提交、结果区 `aria-live`；联网搜索平铺展示且默认开启（不再收入家长折叠区）
 
 ### Changed
 - 网站名称由「英语学习 - 墨小灵」改为「爱英语学习 - 墨小灵」（标题、顶栏、页脚、README、DESIGN）
 - 首页问答文案儿童向调整（「问小灵」、提示语等）；墨小灵面板配色与站点主色统一
+- 首页问答主标题改为「墨小玲陪你学英语」；联网搜索改为平铺、默认开启
 
 ## [3.6] - 2026-03-21
 
