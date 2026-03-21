@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.7] - 2026-03-21
+
+品牌与首页体验更新：墨小灵纯 Lottie 形象、今日一词与东八区日期、移除外链笑话。
+
 ### Added
 - 首页「墨小灵」互动区：**纯 Lottie 矢量角色**（默认 `lottie/mascot-bot.json` bot 形象，[lottie-web](https://github.com/airbnb/lottie-web) 播放），与 AI 单词问答（`/api/chat`）一体化；无位图叠加；`thinking`/`happy` 通过播放速率区分；`prefers-reduced-motion` 下以静态占位替代
 - 备选 LottieFiles 角色 `lottie/mascot-character.json`；通过 `?mascot=lottiefiles` 或 `localStorage.moxiaolingLottieVariant` 切换（见 `lottie/README.md`）
@@ -17,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 网站名称由「英语学习 - 墨小灵」改为「爱英语学习 - 墨小灵」（标题、顶栏、页脚、README、DESIGN）
 - 首页问答文案儿童向调整（「问小灵」、提示语等）；墨小灵面板配色与站点主色统一
 - 首页问答主标题为「墨小灵陪你学英语」；联网搜索改为平铺、默认开启
-- 首页 Hero：**今日一词**（从词书 `words.json` 按日期确定性选词，含音标、释义、例句/译文、记忆提示；「问墨小灵」预填问题并滚动到问答区），**移除** Chuck Norris 外链笑话
+- 首页 Hero：**今日一词**取代外链笑话——从 `words.json` 按**东八区（北京时间）日历**确定性选词；标题旁展示东八区日期与星期；音标、释义、例句/译文与记忆提示；词库内 `**粗体**` 按 Markdown 渲染；单词与例句支持**英音/美音**朗读（`speakExample` 支持英/美并自动去掉 `**`）；「问墨小灵」预填问题并滚动至问答区；**移除** Chuck Norris API
 
 ## [3.6] - 2026-03-21
 
