@@ -9,7 +9,7 @@ English learning web application built with vanilla HTML/CSS/JavaScript and Pyth
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+)
 - **Backend**: Python Flask (API proxy, static file serving)
 - **Storage**: JSON files (static data) + localStorage (user progress)
-- **APIs**: MiniMax AI (via Flask proxy), Chuck Norris Jokes API
+- **APIs**: MiniMax AI (via Flask proxy)
 - **Speech**: Web Speech API (English TTS with GB/US accents)
 
 ## File Structure
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadUserProgress();
             bindEvents();
             renderHomePage();
-            loadDailyJoke();
+            loadHomeDailyWord();
         });
     });
 });

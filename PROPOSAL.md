@@ -34,10 +34,10 @@
    - 记录学习进度、错词本、收藏夹
    - 展示统计信息
 
-6. **每日一笑功能**：
-   - 首页显示每日随机英文笑话
-   - 调用 Chuck Norris API 获取笑话
-   - 获取失败时自动隐藏，不影响用户体验
+6. **首页今日一词**：
+   - 首页 Hero 从本地 `words.json` 全量词库中按**本地日期**确定性轮换一词
+   - 展示音标、释义、例句与译文，可选记忆提示；提供「问墨小灵」预填问题并滚动至 AI 问答区
+   - 无词书数据时显示简短说明，不依赖外部 API
 
 7. **服务健康检查**：
    - 后端提供 /api/health 健康检查端点
@@ -92,7 +92,7 @@
 - **后端**：Python Flask
 - **数据存储**：JSON 文件 + localStorage
 - **AI 服务**：MiniMax API（通过后端代理调用）
-- **外部 API**：Chuck Norris Jokes API（每日笑话）
+- **首页 Hero**：今日一词仅使用本地 `words.json`，不调用笑话类外链 API
 - **部署**：静态前端托管 + Python 后端服务器
 
 **浏览器兼容性说明：**
@@ -105,7 +105,7 @@
 
 ```
 英语单词记忆网站
-├── 首页（每日笑话 + 词书选择 + AI助手）
+├── 首页（今日一词 + 词书入口 + 墨小灵 AI）
 ├── 单词列表页（分页/搜索）
 ├── 闪卡测试页面（独立词书选择）
 ├── 学习统计页
@@ -128,7 +128,7 @@
     ↓
 加载单词数据（JSON格式，支持多词书结构）
     ↓
-加载每日笑话（Chuck Norris API）
+渲染首页今日一词（本地词库）
     ↓
 词书单元选择 → 筛选对应单词数据
     ↓
@@ -150,28 +150,13 @@ AI 问答模式：
   + 返回 Markdown 格式答案
 ```
 
-### 每日笑话模块
+### 首页今日一词模块
 
 **功能特点**：
-- 位于首页英雄区域，替换原有的静态标语
-- 调用第三方 API 获取随机英文笑话
-- 5秒超时，避免长时间等待
-- 获取失败时自动隐藏，不显示错误信息
-
-**API 调用**：
-```javascript
-// 端点: GET https://api.chucknorris.io/jokes/random
-// 响应格式:
-{
-  "categories": [],
-  "created_at": "2020-01-05T13:42:20.841843Z",
-  "icon_url": "https://api.chucknorris.io/img/avatar/chuck-norris.png",
-  "id": "w0M0-3ByTOOMBtfnnXqblw",
-  "updated_at": "2020-01-05T13:42:20.841843Z",
-  "url": "https://api.chucknorris.io/jokes/w0M0-3ByTOOMBtfnnXqblw",
-  "value": "Why did the chicken cross the road? To get away from Chuck Norris..."
-}
-```
+- 位于首页 Hero 区域，与墨小灵问答区联动
+- 数据来自已加载的 `AppState.wordData`（`data/words.json`），不发起外链请求
+- 按本地年月日计算稳定索引，同一天内同一浏览器看到同一词
+- 无可用单词时保留简短提示文案
 
 ### 服务健康检查模块
 
@@ -373,7 +358,7 @@ english-ai-assistant/
 │   ├── main.css            # 主样式文件
 │   └── readings.css        # 阅读页面样式
 ├── js/
-│   └── app.js              # 应用程序（包含健康检查、笑话加载、工具页面）
+│   └── app.js              # 应用程序（包含健康检查、首页今日一词、工具页面）
 ├── data/
 │   ├── words.json          # 单词数据文件
 │   └── readings.json       # 阅读数据文件
@@ -396,8 +381,6 @@ english-ai-assistant/
 - [Flask Documentation](https://flask.palletsprojects.com/)
 - [Gunicorn Documentation](https://docs.gunicorn.org/)
 - [MiniMax API](https://platform.minimaxi.com/docs/guides/quickstart-sdk)
-- [Chuck Norris API](https://api.chucknorris.io/)
-
 ### 术语说明
 
 | 术语 | 说明 |

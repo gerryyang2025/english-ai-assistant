@@ -40,8 +40,28 @@
             <!-- 首页 -->
             <section id="page-home" class="page active">
                 <div class="hero-section">
-                    <h2>📚 你知道下面这个 Joke 的意思吗？</h2>
-                    <p id="daily-joke">加载中...</p>
+                    <h2>📅 今日一词</h2>
+                    <p class="hero-section-intro">从词书词库里每天轮换一个单词，看看例句，还可以让墨小灵帮你讲得更细～</p>
+                    <article class="daily-word-card" id="daily-word-card" aria-label="今日推荐单词">
+                        <p class="daily-word-status" id="daily-word-status">加载中…</p>
+                        <div class="daily-word-inner" id="daily-word-inner" hidden>
+                            <p class="daily-word-source" id="daily-word-source"></p>
+                            <div class="daily-word-headline">
+                                <span class="daily-word-term" id="daily-word-term"></span>
+                                <span class="daily-word-phonetic" id="daily-word-phonetic"></span>
+                            </div>
+                            <p class="daily-word-meaning" id="daily-word-meaning"></p>
+                            <blockquote class="daily-word-example" id="daily-word-example-block">
+                                <p class="daily-word-example-en" id="daily-word-example-en"></p>
+                                <p class="daily-word-example-zh" id="daily-word-example-zh"></p>
+                            </blockquote>
+                            <p class="daily-word-tip" id="daily-word-tip" hidden></p>
+                            <div class="daily-word-cta">
+                                <button type="button" class="btn-primary daily-word-ask-btn" id="daily-word-ask-btn">问墨小灵</button>
+                                <span class="daily-word-cta-hint" id="daily-word-cta-hint"></span>
+                            </div>
+                        </div>
+                    </article>
                 </div>
 
                 <!-- 墨小灵：虚拟形象 + AI 单词问答（沿用 /api/chat） -->

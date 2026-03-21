@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUserProgress();
         bindEvents();
         renderHomePage();
-            loadDailyJoke(); // 加载每日笑话
+            loadHomeDailyWord(); // 首页今日一词（词库轮换 + 墨小灵引导）
         hideLoading();
         });
     });
@@ -239,95 +239,123 @@ function initSpeechVoiceDropdown() {
     AppState.speechCloneSelectedVoice = null;
 }
 
-// 加载每日笑话
-async function loadDailyJoke() {
-    const jokeEl = document.getElementById('daily-joke');
-    if (!jokeEl) {
-        console.log('[Joke] Element #daily-joke not found');
+/** 从词书数据展平为单词列表（附词书、单元名，供展示出处） */
+function flattenAllWordsFromBooks(wordData) {
+    const out = [];
+    if (!wordData || !Array.isArray(wordData)) return out;
+    for (const book of wordData) {
+        const bookName = book.name || '';
+        if (!book.units) continue;
+        for (const unit of book.units) {
+            const unitLabel = unit.unit || unit.title || '';
+            if (!unit.words) continue;
+            for (const w of unit.words) {
+                if (w && typeof w.word === 'string' && w.word.trim()) {
+                    out.push({ ...w, _bookName: bookName, _unitLabel: unitLabel });
+                }
+            }
+        }
+    }
+    return out;
+}
+
+/** 本地日历日序号（同一天全站用户本地一致） */
+function getLocalDayKey() {
+    const d = new Date();
+    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+}
+
+/** 按日期确定性选取一词，避免简单取模导致连续多日过于相近 */
+function pickWordOfTheDay(words) {
+    if (!words.length) return null;
+    let h = getLocalDayKey();
+    h = (Math.imul(h, 7919) + 104729) >>> 0;
+    return words[h % words.length];
+}
+
+/** 首页 Hero：今日一词 +「问墨小灵」预填问题（替代外链笑话） */
+function loadHomeDailyWord() {
+    const statusEl = document.getElementById('daily-word-status');
+    const innerEl = document.getElementById('daily-word-inner');
+    if (!statusEl || !innerEl) return;
+
+    const all = flattenAllWordsFromBooks(AppState.wordData);
+    if (!all.length) {
+        statusEl.hidden = false;
+        statusEl.textContent = '暂无词书数据，请稍后在「单词」页学习。';
+        innerEl.hidden = true;
         return;
     }
 
-    console.log('[Joke] Starting to load joke...');
-    jokeEl.classList.add('loading');
-    jokeEl.textContent = 'Loading joke...';
+    const w = pickWordOfTheDay(all);
+    if (!w) {
+        statusEl.hidden = false;
+        statusEl.textContent = '暂时选不出今日一词。';
+        innerEl.hidden = true;
+        return;
+    }
 
-    try {
-        // 检测浏览器是否支持 AbortSignal.timeout
-        const supportsTimeout = typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function';
-        console.log('[Joke] AbortSignal.timeout supported:', supportsTimeout);
+    statusEl.textContent = '';
+    statusEl.hidden = true;
+    innerEl.hidden = false;
 
-        const controller = new AbortController();
-        const timeoutMs = 8000; // 8秒超时
-        let timeoutId;
+    const source = [w._bookName, w._unitLabel].filter(Boolean).join(' · ');
+    const sourceEl = document.getElementById('daily-word-source');
+    if (sourceEl) {
+        sourceEl.textContent = source;
+        sourceEl.hidden = !source;
+    }
 
-        if (supportsTimeout) {
-            const signal = AbortSignal.timeout(timeoutMs);
-            timeoutId = setTimeout(() => {
-                console.log('[Joke] Timeout reached, aborting request');
-                controller.abort();
-            }, timeoutMs);
+    const termEl = document.getElementById('daily-word-term');
+    const phEl = document.getElementById('daily-word-phonetic');
+    const meanEl = document.getElementById('daily-word-meaning');
+    const exEn = document.getElementById('daily-word-example-en');
+    const exZh = document.getElementById('daily-word-example-zh');
+    const exBlock = document.getElementById('daily-word-example-block');
+    const tipEl = document.getElementById('daily-word-tip');
+    const hintEl = document.getElementById('daily-word-cta-hint');
+    const askBtn = document.getElementById('daily-word-ask-btn');
+
+    if (termEl) termEl.textContent = w.word;
+    if (phEl) {
+        const ph = (w.phonetic || '').trim();
+        phEl.textContent = ph;
+        phEl.hidden = !ph;
+    }
+    if (meanEl) meanEl.textContent = w.meaning || '';
+
+    const hasEn = w.example && String(w.example).trim();
+    const hasZh = w.translation && String(w.translation).trim();
+    if (exEn) exEn.textContent = hasEn ? `「${w.example.trim()}」` : '';
+    if (exZh) exZh.textContent = hasZh ? w.translation.trim() : '';
+    if (exBlock) exBlock.hidden = !hasEn && !hasZh;
+
+    if (tipEl) {
+        const tip = (w.memoryTip || '').trim();
+        if (tip) {
+            tipEl.textContent = `小提示：${tip}`;
+            tipEl.hidden = false;
         } else {
-            // 降级方案：手动设置超时
-            timeoutId = setTimeout(() => {
-                console.log('[Joke] Manual timeout reached, aborting request');
-                controller.abort();
-            }, timeoutMs);
+            tipEl.textContent = '';
+            tipEl.hidden = true;
         }
+    }
 
-        console.log('[Joke] Fetching from https://api.chucknorris.io/jokes/random...');
+    const q = `${w.word.trim()} 是什么意思？`;
+    if (hintEl) hintEl.textContent = '点击后帮你填好问题，并滑到墨小灵';
 
-        const response = await fetch('https://api.chucknorris.io/jokes/random', {
-            method: 'GET',
-            signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-        console.log('[Joke] Response received, status:', response.status, response.statusText);
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        const contentType = response.headers.get('content-type');
-        console.log('[Joke] Content-Type:', contentType);
-
-        if (!contentType || !contentType.includes('application/json')) {
-            throw new Error('Invalid content type: ' + contentType);
-        }
-
-        const data = await response.json();
-        console.log('[Joke] Data received:', JSON.stringify(data, null, 2));
-
-        if (data && data.value) {
-            jokeEl.textContent = `"${data.value}"`;
-            jokeEl.classList.remove('error');
-            jokeEl.style.display = 'block';
-            console.log('[Joke] Successfully loaded joke');
-        } else {
-            console.log('[Joke] No joke content in response, data.value is:', data?.value);
-            throw new Error('No joke content in response');
-        }
-    } catch (error) {
-        console.error('[Joke] Error loading joke:', error.name, error.message);
-
-        // 详细错误分析
-        if (error.name === 'AbortError') {
-            console.log('[Joke] Request was aborted (timeout or cancellation)');
-        } else if (error.name === 'TypeError') {
-            console.log('[Joke] Network error or CORS issue');
-            console.log('[Joke] This might be because:');
-            console.log('[Joke] 1. No network connection');
-            console.log('[Joke] 2. CORS blocked by browser');
-            console.log('[Joke] 3. API server is down');
-        } else if (error.message.includes('Failed to fetch')) {
-            console.log('[Joke] Network connection failed');
-        }
-
-        jokeEl.classList.add('error');
-        jokeEl.style.display = 'none';
-    } finally {
-        jokeEl.classList.remove('loading');
-        console.log('[Joke] Done (loading state removed)');
+    if (askBtn) {
+        askBtn.onclick = () => {
+            const input = document.getElementById('qa-input');
+            if (input) {
+                input.value = q;
+                input.focus();
+            }
+            const heading = document.getElementById('moxiaoling-heading');
+            if (heading) {
+                heading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        };
     }
 }
 
