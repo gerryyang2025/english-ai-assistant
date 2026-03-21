@@ -110,6 +110,7 @@ body {
     align-items: center;
     justify-content: space-between;
     height: 64px;
+    gap: 16px;
 }
 
 .logo {
@@ -117,15 +118,38 @@ body {
     color: var(--text-white);
     font-weight: bold;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    line-height: 1.25;
 }
 
-/* 桌面端：占满剩余宽度，导航条右对齐；移动端由媒体查询改为横向滚动容器 */
+/* 桌面端：占满剩余宽度，导航条右对齐；窄屏时横向滚动，禁止溢出盖住标题 */
 .nav-scroll {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     min-width: 0;
     flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+    padding: 4px 0;
+    box-sizing: border-box;
+}
+
+.nav-scroll::-webkit-scrollbar {
+    height: 5px;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+}
+
+.nav-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
 }
 
 .nav-menu {
@@ -3255,7 +3279,8 @@ body {
         flex-direction: column;
         height: auto;
         padding: 12px 0;
-        gap: 10px;
+        gap: 14px;
+        align-items: stretch;
     }
     
     .logo {
@@ -3271,29 +3296,10 @@ body {
         margin-right: -12px;
         padding-left: max(12px, env(safe-area-inset-left, 0px));
         padding-right: max(12px, env(safe-area-inset-right, 0px));
-        overflow-x: auto;
-        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain;
         touch-action: pan-x;
         scroll-behavior: smooth;
         scroll-padding-inline: max(12px, env(safe-area-inset-left, 0px));
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
-    }
-
-    .nav-scroll::-webkit-scrollbar {
-        height: 5px;
-    }
-
-    .nav-scroll::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.4);
-        border-radius: 3px;
-    }
-
-    .nav-scroll::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.08);
-        border-radius: 3px;
     }
 
     .nav-menu {
