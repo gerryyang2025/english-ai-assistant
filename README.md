@@ -12,7 +12,7 @@
 | **阅读** | 阅读材料、知识点展示、语音播放 |
 | **听书** | 书本章节选择、音色切换、倍速播放 |
 | **错题本** | 错词错句管理、复习功能 |
-| **墨小灵 / AI** | 首页虚拟形象 + 单词用法解释、语法问答 |
+| **墨小灵 / AI** | 首页纯 Lottie 角色 + 单词用法解释、语法问答 |
 | **进度追踪** | 今日统计、学习进度、连续天数 |
 
 ## 文件结构
@@ -25,9 +25,8 @@ english-ai-assistant/
 ├── api_config.example.py   # 配置模板
 ├── css/                    # 样式文件
 ├── js/app.js               # 前端逻辑
-├── images/                 # 静态图（如首页墨小灵形象 moxiaoling.png）
-├── lottie/                 # 墨小灵面部 Lottie（眨眼 idle / 口型 talk）
-├── scripts/                # 维护脚本（如 gen-moxiaoling-lottie.py 生成上述 JSON）
+├── images/                 # 其他静态图（可选）
+├── lottie/                 # 首页墨小灵纯 Lottie 角色（mascot-character.json，见 lottie/README.md）
 ├── data/                   # 数据文件
 │   ├── words.json
 │   ├── readings.json

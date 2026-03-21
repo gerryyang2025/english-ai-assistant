@@ -5330,56 +5330,63 @@ const API_BASE_URL = '/api';
 let mascotHappyTimer = null;
 let mascotBubbleTimer = null;
 let moxiaolingLottieInst = null;
-let moxiaolingLottieMode = null;
 
-function loadMoxiaolingLottie(mode) {
+/** 纯 Lottie 角色（无位图），资源见 lottie/mascot-character.json 与 lottie/README.md */
+function initMoxiaolingMainLottie() {
     if (typeof lottie === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (moxiaolingLottieMode === mode && moxiaolingLottieInst) return;
     const container = document.getElementById('moxiaoling-lottie');
-    if (!container) return;
-    if (moxiaolingLottieInst) {
-        moxiaolingLottieInst.destroy();
-        moxiaolingLottieInst = null;
-    }
-    moxiaolingLottieMode = mode;
-    const path = mode === 'talk' ? 'lottie/moxiaoling-talk.json' : 'lottie/moxiaoling-idle.json';
+    if (!container || moxiaolingLottieInst) return;
     moxiaolingLottieInst = lottie.loadAnimation({
         container,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        path
+        path: 'lottie/mascot-character.json',
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet'
+        }
+    });
+    moxiaolingLottieInst.addEventListener('DOMLoaded', () => {
+        const st = document.getElementById('moxiaoling-mascot')?.dataset?.state || 'idle';
+        syncMoxiaolingLottiePlayback(st);
     });
 }
 
-function syncMoxiaolingLottieFace(state) {
-    const wrap = document.querySelector('.moxiaoling-lottie-wrap');
+function syncMoxiaolingLottiePlayback(state) {
+    if (!moxiaolingLottieInst) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let sp = 1;
+    if (state === 'thinking') sp = 1.55;
+    else if (state === 'happy') sp = 1.3;
+    moxiaolingLottieInst.setSpeed(sp);
+}
+
+/** 根据系统「减少动态效果」在 Lottie 与静态占位之间切换 */
+function syncMoxiaolingLottieForUserSettings() {
+    const container = document.getElementById('moxiaoling-lottie');
+    if (!container) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         if (moxiaolingLottieInst) {
             moxiaolingLottieInst.destroy();
             moxiaolingLottieInst = null;
         }
-        moxiaolingLottieMode = null;
-        if (wrap) wrap.classList.add('moxiaoling-lottie-wrap--hidden');
+        container.innerHTML = '';
+        container.classList.add('moxiaoling-lottie-reduced');
+        container.textContent = '📚';
         return;
+    }
+    container.classList.remove('moxiaoling-lottie-reduced');
+    if (container.textContent === '📚') {
+        container.textContent = '';
     }
     if (typeof lottie === 'undefined') {
-        if (wrap) wrap.classList.add('moxiaoling-lottie-wrap--hidden');
+        container.classList.add('moxiaoling-lottie-reduced');
+        container.textContent = '📚';
         return;
     }
-    if (wrap) wrap.classList.remove('moxiaoling-lottie-wrap--hidden');
-    if (state === 'thinking') {
-        loadMoxiaolingLottie('talk');
-        return;
-    }
-    const needReload = moxiaolingLottieMode !== 'idle' || !moxiaolingLottieInst;
-    if (needReload) {
-        loadMoxiaolingLottie('idle');
-    }
-    if (moxiaolingLottieInst) {
-        moxiaolingLottieInst.setSpeed(state === 'happy' ? 1.35 : 1);
-    }
+    initMoxiaolingMainLottie();
+    syncMoxiaolingLottiePlayback(document.getElementById('moxiaoling-mascot')?.dataset?.state || 'idle');
 }
 let mascotSfxCtx = null;
 
@@ -5449,8 +5456,10 @@ function setMascotBubbleText(text, autoHideMs) {
 
 function initMoxiaolingMascotInteraction() {
     const root = document.getElementById('moxiaoling-mascot');
-    const inner = document.getElementById('moxiaoling-mascot-inner');
-    if (!root || !inner) return;
+    const tiltEl = document.getElementById('moxiaoling-lottie-tilt');
+    if (!root || !tiltEl) return;
+
+    syncMoxiaolingLottieForUserSettings();
 
     const idlePhrases = [
         '今天也要加油学英语哦！',
@@ -5486,16 +5495,16 @@ function initMoxiaolingMascotInteraction() {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         if (!window.matchMedia('(pointer: fine)').matches) return;
         if (root.dataset.state === 'thinking') {
-            inner.style.transform = '';
+            tiltEl.style.transform = '';
             return;
         }
-        const r = inner.getBoundingClientRect();
+        const r = tiltEl.getBoundingClientRect();
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
         const dx = (e.clientX - cx) / Math.max(r.width / 2, 1);
         const dy = (e.clientY - cy) / Math.max(r.height / 2, 1);
         const max = 6;
-        inner.style.transform = `perspective(520px) rotateY(${dx * max}deg) rotateX(${-dy * max}deg)`;
+        tiltEl.style.transform = `perspective(520px) rotateY(${dx * max}deg) rotateX(${-dy * max}deg)`;
     }
 
     root.addEventListener('mousemove', e => {
@@ -5505,10 +5514,10 @@ function initMoxiaolingMascotInteraction() {
 
     root.addEventListener('mouseleave', () => {
         if (rafTilt) cancelAnimationFrame(rafTilt);
-        inner.style.transform = '';
+        tiltEl.style.transform = '';
     });
 
-    syncMoxiaolingLottieFace(document.getElementById('moxiaoling-mascot')?.dataset?.state || 'idle');
+    syncMoxiaolingLottiePlayback(document.getElementById('moxiaoling-mascot')?.dataset?.state || 'idle');
 }
 
 function setMoxiaolingMascotState(state) {
@@ -5523,7 +5532,7 @@ function setMoxiaolingMascotState(state) {
     } else {
         setMascotBubbleText('', 0);
     }
-    syncMoxiaolingLottieFace(state);
+    syncMoxiaolingLottiePlayback(state);
 }
 
 async function submitQA() {

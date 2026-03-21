@@ -53,27 +53,27 @@
 
 ## 4. 虚拟形象方案（可选层级）
 
-按**实现成本**从低到高排列；**当前产品已采用方案 A（半写实 PNG）**，迭代可加 Lottie 等。
+按**实现成本**从低到高排列；**当前产品已采用纯 Lottie 矢量角色**（与 [Lottie 开放格式](https://lottie.github.io/) 生态一致），不再使用位图叠加。
 
-### 方案 A — 栅格插画（当前实现：半写实 PNG）
+### 方案 A — 纯 Lottie 角色（当前实现）
 
-- **内容**：`images/moxiaoling.png` — 半写实、绘本风数字插画（非扁平图标），与站点主色协调；通过 `data-state` 切换「思考 / 答毕」轻动画。
-- **备选**：若需替换形象，保持文件名与大致竖版比例即可，或改 `index.html` 中 `img` 路径。
+- **内容**：`lottie/mascot-character.json`，由 `lottie-web` 在 `#moxiaoling-lottie` 内循环播放；来源与替换说明见 `lottie/README.md`。
+- **状态**：`idle` / `happy` 正常速率，`thinking` 略加快（`setSpeed`），辅以 CSS 外层轻微位移与光晕；`prefers-reduced-motion: reduce` 时销毁动画并以静态占位（📚）替代。
+- **维护**：替换 JSON 后保持文件名，或修改 `js/app.js` 中 `initMoxiaolingMainLottie` 的 `path`。
 
-### 方案 A′ — 矢量 / CSS 形象（轻量备选）
+### 方案 A′ — 栅格插画 / PNG（已弃用于首页形象）
 
-- **内容**：一枚主视觉（SVG 内嵌或 `img`），例如：抱书的小墨滴、带毛笔的小书童剪影。
-- **状态**：用 2～3 张图或 SVG 图层切换 — `idle`（待机）、`thinking`（加载中）、`happy`（回答完成）。
-- **优点**：体量小、清晰、易换肤；不依赖外链 CDN。
-- **缺点**：动感弱于逐帧动画。
+- 曾用 `images/moxiaoling.png`；若仅作营销物料可保留文件，首页不再引用。
 
-### 方案 B — Lottie / 轻量 JSON 动画（已部分落地）
+### 方案 B — 矢量 / CSS 简笔画（备选）
 
-- **当前实现**：在半身写真上方 **椭圆裁切叠加** 矢量面部（`lottie/moxiaoling-idle.json` 眨眼、`moxiaoling-talk.json` 口型），`lottie-web` CDN 播放；状态与 `data-state` 同步；`prefers-reduced-motion: reduce` 时不加载。
-- **维护**：可运行 `python3 scripts/gen-moxiaoling-lottie.py` 重新导出 JSON。
-- 若日后有设计师出稿，可替换为更精细的全身或面部 Lottie，仅需保持路径或改 `loadMoxiaolingLottie` 逻辑。
+- SVG/CSS 单图或多态，适合极轻页面；动感弱于 Lottie。
 
-### 方案 C — 简笔画 + Emoji 混合（极低成本）
+### 方案 C — 多文件 Lottie 分镜（可选迭代）
+
+- 可拆 `idle.json` / `talk.json` 等，在 `setMoxiaolingMascotState` 内切换 `loadAnimation`；当前为单文件 + 变速以减体积与逻辑。
+
+### 方案 D — 简笔画 + Emoji 混合（极低成本）
 
 - 圆形头像区 + 固定插画 + 表情符号点缀；适合快速验证文案与布局。
 
