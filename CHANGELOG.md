@@ -7,15 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.6] - 2026-03-21
+
+正式发布系统。
+
+### Changed
+- 网站名称由「英语学习小精灵 - 记住么」改为「英语学习 - 墨小灵」（页面标题、顶栏、页脚及文档）
+- 转换脚本 `convert-words.js`、`convert-readings.js`、`convert-listen.js` 增加 shebang（`#!/usr/bin/env node`），支持直接执行 `./convert-words.js` 等
+- 格式检查脚本 `check-words-format.py`、`check-readings-format.py`、`check-listen-format.py` 已设为可执行，支持 `./check-words-format.py` 等直接运行
+- README 中命令行工具说明已更新：补充听书转换与听书格式检查，并区分「数据转换」与「格式检查」及两种运行方式
+
 ### Fixed
 - 格式检查工具 `check-words-format.py` 现在会跳过 `<!-- ... -->` 注释块，避免将文件内示例格式误解析为内容，消除「单元 Unit 2 没有单词」等误报
 - 转换脚本 `convert-words.js` 解析时跳过 `<!-- ... -->` 注释块，不再将 WORDS.md 开头的格式示例写入 words.json
 - 转换脚本 `convert-readings.js` 解析时跳过注释块，并过滤掉无句型/知识点/对话的空壳阅读条目，避免 READINGS.md 示例进入 readings.json
-
-### Changed
-- 转换脚本 `convert-words.js`、`convert-readings.js`、`convert-listen.js` 增加 shebang（`#!/usr/bin/env node`），支持直接执行 `./convert-words.js` 等
-- 格式检查脚本 `check-words-format.py`、`check-readings-format.py`、`check-listen-format.py` 已设为可执行，支持 `./check-words-format.py` 等直接运行
-- README 中命令行工具说明已更新：补充听书转换与听书格式检查，并区分「数据转换」与「格式检查」及两种运行方式
 
 ## [3.5] - 2026-02-01
 
