@@ -40,7 +40,10 @@
             <!-- 首页 -->
             <section id="page-home" class="page active">
                 <div class="hero-section">
-                    <h2>📅 今日一词</h2>
+                    <h2 class="hero-daily-title">
+                        <span class="hero-daily-title-text">📅 今日一词</span>
+                        <span class="hero-daily-date" id="hero-daily-shanghai-date" aria-label="东八区（北京时间）日期"></span>
+                    </h2>
                     <p class="hero-section-intro">从词书词库里每天轮换一个单词，看看例句，还可以让墨小灵帮你讲得更细～</p>
                     <article class="daily-word-card" id="daily-word-card" aria-label="今日推荐单词">
                         <p class="daily-word-status" id="daily-word-status">加载中…</p>
@@ -48,11 +51,21 @@
                             <p class="daily-word-source" id="daily-word-source"></p>
                             <div class="daily-word-headline">
                                 <span class="daily-word-term" id="daily-word-term"></span>
+                                <div class="daily-word-speak-group" role="group" aria-label="单词英音与美音">
+                                    <button type="button" class="daily-word-accent-btn" id="daily-word-speak-uk" title="单词英音">英</button>
+                                    <button type="button" class="daily-word-accent-btn" id="daily-word-speak-us" title="单词美音">美</button>
+                                </div>
                                 <span class="daily-word-phonetic" id="daily-word-phonetic"></span>
                             </div>
                             <p class="daily-word-meaning" id="daily-word-meaning"></p>
                             <blockquote class="daily-word-example" id="daily-word-example-block">
-                                <p class="daily-word-example-en" id="daily-word-example-en"></p>
+                                <div class="daily-word-example-en-row">
+                                    <p class="daily-word-example-en" id="daily-word-example-en"></p>
+                                    <div class="daily-word-example-speak-group" id="daily-word-example-speak-wrap" role="group" aria-label="例句英音与美音" hidden>
+                                        <button type="button" class="daily-word-accent-btn daily-word-accent-btn--small" id="daily-word-example-speak-uk" title="例句英音">英</button>
+                                        <button type="button" class="daily-word-accent-btn daily-word-accent-btn--small" id="daily-word-example-speak-us" title="例句美音">美</button>
+                                    </div>
+                                </div>
                                 <p class="daily-word-example-zh" id="daily-word-example-zh"></p>
                             </blockquote>
                             <p class="daily-word-tip" id="daily-word-tip" hidden></p>

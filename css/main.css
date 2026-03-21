@@ -272,6 +272,28 @@ body {
     margin-bottom: 12px;
 }
 
+.hero-daily-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px 12px;
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+.hero-daily-title-text {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.hero-daily-date {
+    font-size: 1.05rem;
+    font-weight: 500;
+    opacity: 0.92;
+    letter-spacing: 0.02em;
+}
+
 .hero-section p {
     font-size: 1.1rem;
     opacity: 0.9;
@@ -310,9 +332,75 @@ body {
 .daily-word-headline {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     gap: 10px 14px;
     margin-bottom: 8px;
+}
+
+.daily-word-speak-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.daily-word-accent-btn {
+    min-width: 44px;
+    height: 40px;
+    padding: 0 12px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--primary-light);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+    touch-action: manipulation;
+}
+
+.daily-word-accent-btn:hover {
+    background: var(--primary-color);
+}
+
+.daily-word-accent-btn:active {
+    transform: scale(0.96);
+}
+
+.daily-word-accent-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    pointer-events: none;
+}
+
+.daily-word-accent-btn--small {
+    min-width: 40px;
+    height: 36px;
+    font-size: 0.88rem;
+    padding: 0 10px;
+}
+
+.daily-word-example-en-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px 12px;
+    margin-bottom: 6px;
+}
+
+.daily-word-example-en-row .daily-word-example-en {
+    margin-bottom: 0;
+    flex: 1 1 12rem;
+    min-width: 0;
+}
+
+.daily-word-example-speak-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .daily-word-term {
@@ -343,7 +431,7 @@ body {
 }
 
 .daily-word-example-en {
-    margin: 0 0 6px;
+    margin: 0;
     font-size: 1rem;
     font-style: italic;
     color: var(--text-primary);
@@ -4529,6 +4617,10 @@ body {
     
     .hero-section h2 {
         font-size: 1.2rem;
+    }
+
+    .hero-daily-date {
+        font-size: 0.88rem;
     }
     
     .feature-cards {

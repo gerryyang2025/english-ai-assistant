@@ -259,22 +259,44 @@ function flattenAllWordsFromBooks(wordData) {
     return out;
 }
 
-/** 本地日历日序号（同一天全站用户本地一致） */
-function getLocalDayKey() {
-    const d = new Date();
-    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+/** 东八区（Asia/Shanghai）日历日序号，用于「今日一词」与展示日期一致 */
+function getShanghaiDayKey() {
+    const s = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Shanghai',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(new Date());
+    const [y, m, d] = s.split('-').map(Number);
+    return y * 10000 + m * 100 + d;
 }
 
-/** 按日期确定性选取一词，避免简单取模导致连续多日过于相近 */
+/** 首页标题旁：东八区完整日期与星期（中文） */
+function updateHeroShanghaiDate() {
+    const el = document.getElementById('hero-daily-shanghai-date');
+    if (!el) return;
+    const line = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long'
+    }).format(new Date());
+    el.textContent = ` · ${line}`;
+}
+
+/** 按东八区日期确定性选取一词，避免简单取模导致连续多日过于相近 */
 function pickWordOfTheDay(words) {
     if (!words.length) return null;
-    let h = getLocalDayKey();
+    let h = getShanghaiDayKey();
     h = (Math.imul(h, 7919) + 104729) >>> 0;
     return words[h % words.length];
 }
 
 /** 首页 Hero：今日一词 +「问墨小灵」预填问题（替代外链笑话） */
 function loadHomeDailyWord() {
+    updateHeroShanghaiDate();
+
     const statusEl = document.getElementById('daily-word-status');
     const innerEl = document.getElementById('daily-word-inner');
     if (!statusEl || !innerEl) return;
@@ -299,6 +321,8 @@ function loadHomeDailyWord() {
     statusEl.hidden = true;
     innerEl.hidden = false;
 
+    const plainWord = stripMdForSpeech(w.word) || (w.word || '').replace(/\*\*/g, '').trim();
+
     const source = [w._bookName, w._unitLabel].filter(Boolean).join(' · ');
     const sourceEl = document.getElementById('daily-word-source');
     if (sourceEl) {
@@ -315,25 +339,50 @@ function loadHomeDailyWord() {
     const tipEl = document.getElementById('daily-word-tip');
     const hintEl = document.getElementById('daily-word-cta-hint');
     const askBtn = document.getElementById('daily-word-ask-btn');
+    const speakUk = document.getElementById('daily-word-speak-uk');
+    const speakUs = document.getElementById('daily-word-speak-us');
+    const exSpeakWrap = document.getElementById('daily-word-example-speak-wrap');
+    const exSpeakUk = document.getElementById('daily-word-example-speak-uk');
+    const exSpeakUs = document.getElementById('daily-word-example-speak-us');
 
-    if (termEl) termEl.textContent = w.word;
+    if (termEl) termEl.innerHTML = renderMdInline(w.word || '');
     if (phEl) {
         const ph = (w.phonetic || '').trim();
         phEl.textContent = ph;
         phEl.hidden = !ph;
     }
-    if (meanEl) meanEl.textContent = w.meaning || '';
+    if (meanEl) meanEl.innerHTML = renderMdInline(w.meaning || '');
 
     const hasEn = w.example && String(w.example).trim();
     const hasZh = w.translation && String(w.translation).trim();
-    if (exEn) exEn.textContent = hasEn ? `「${w.example.trim()}」` : '';
-    if (exZh) exZh.textContent = hasZh ? w.translation.trim() : '';
+    const plainExample = hasEn
+        ? stripMdForSpeech(w.example.trim()) || w.example.trim().replace(/\*\*/g, '').trim()
+        : '';
+
+    if (exEn) exEn.innerHTML = hasEn ? `「${renderMdInline(w.example.trim())}」` : '';
+    if (exZh) exZh.innerHTML = hasZh ? renderMdInline(w.translation.trim()) : '';
     if (exBlock) exBlock.hidden = !hasEn && !hasZh;
+
+    if (exSpeakWrap) {
+        exSpeakWrap.hidden = !plainExample;
+    }
+    if (exSpeakUk) {
+        exSpeakUk.disabled = !plainExample;
+        exSpeakUk.onclick = () => {
+            if (plainExample) speakExample(plainExample, 'gb');
+        };
+    }
+    if (exSpeakUs) {
+        exSpeakUs.disabled = !plainExample;
+        exSpeakUs.onclick = () => {
+            if (plainExample) speakExample(plainExample, 'us');
+        };
+    }
 
     if (tipEl) {
         const tip = (w.memoryTip || '').trim();
         if (tip) {
-            tipEl.textContent = `小提示：${tip}`;
+            tipEl.innerHTML = `小提示：${renderMdInline(tip)}`;
             tipEl.hidden = false;
         } else {
             tipEl.textContent = '';
@@ -341,7 +390,20 @@ function loadHomeDailyWord() {
         }
     }
 
-    const q = `${w.word.trim()} 是什么意思？`;
+    const q = `${plainWord} 是什么意思？`;
+
+    if (speakUk) {
+        speakUk.disabled = !plainWord;
+        speakUk.onclick = () => {
+            if (plainWord) speakWord(plainWord);
+        };
+    }
+    if (speakUs) {
+        speakUs.disabled = !plainWord;
+        speakUs.onclick = () => {
+            if (plainWord) speakWordUS(plainWord);
+        };
+    }
     if (hintEl) hintEl.textContent = '点击后帮你填好问题，并滑到墨小灵';
 
     if (askBtn) {
@@ -687,6 +749,7 @@ function getTodayStats() {
 function renderHomePage() {
     // 显示当前日期和星期
     displayCurrentDate();
+    updateHeroShanghaiDate();
 
     const todayStats = getTodayStats();
 
@@ -5278,44 +5341,52 @@ function speakWordUS(text) {
     }
 }
 
-// 例句发音
-function speakExample(text) {
-    if (!text) return;
+/**
+ * 例句朗读；自动去掉 ** 等 Markdown，避免读星号
+ * @param {string} text
+ * @param {'us'|'gb'} accent 美音或英音（默认 us，兼容旧调用）
+ */
+function speakExample(text, accent = 'us') {
+    const clean = stripMdForSpeech(text) || String(text).replace(/\*\*/g, '').trim();
+    if (!clean) return;
 
     if (!('speechSynthesis' in window)) {
         console.warn('浏览器不支持语音合成');
         return;
     }
 
-    // 取消之前的朗读
     try {
         window.speechSynthesis.cancel();
     } catch (e) {
-        // 忽略取消时的错误
+        /* ignore */
     }
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.9; // 稍微放慢语速，便于理解
+    const isGB = accent === 'gb' || accent === 'uk';
+    const utterance = new SpeechSynthesisUtterance(clean);
+    utterance.lang = isGB ? 'en-GB' : 'en-US';
+    utterance.rate = 0.9;
 
-    // 添加错误处理
-    utterance.onerror = (event) => {
-        // 对于 'canceled' 和 'interrupted' 错误，不做处理
+    utterance.onerror = () => {
+        /* canceled / interrupted 等忽略 */
     };
 
-    // 尝试选择美式英语语音
     try {
         const voices = window.speechSynthesis.getVoices();
-        const americanVoice = voices.find(voice =>
-            voice.lang.startsWith('en-US') && voice.name.includes('Female')
-        );
-        if (americanVoice) {
-            utterance.voice = americanVoice;
+        let picked = null;
+        if (isGB) {
+            picked = voices.find(v => v.lang.startsWith('en-GB') && v.name.includes('Female'))
+                || voices.find(v => v.lang.startsWith('en-GB'))
+                || voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'));
+        } else {
+            picked = voices.find(v => v.lang.startsWith('en-US') && v.name.includes('Female'))
+                || voices.find(v => v.lang.startsWith('en-US'));
         }
-
+        if (picked) {
+            utterance.voice = picked;
+        }
         window.speechSynthesis.speak(utterance);
     } catch (e) {
-        // 忽略语音播放时的错误
+        /* ignore */
     }
 }
 
