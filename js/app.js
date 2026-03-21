@@ -5329,6 +5329,41 @@ const API_BASE_URL = '/api';
 
 let mascotHappyTimer = null;
 let mascotBubbleTimer = null;
+let mascotSfxCtx = null;
+
+/** 点击墨小灵时的轻快提示音（Web Audio，需用户手势触发以通过浏览器策略） */
+function playMoxiaolingTapSound() {
+    try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!mascotSfxCtx || mascotSfxCtx.state === 'closed') {
+            mascotSfxCtx = new AC();
+        }
+        const ctx = mascotSfxCtx;
+        const ding = () => {
+            const t0 = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(587.33, t0);
+            osc.frequency.exponentialRampToValueAtTime(880, t0 + 0.07);
+            gain.gain.setValueAtTime(0.0001, t0);
+            gain.gain.exponentialRampToValueAtTime(0.11, t0 + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.17);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t0);
+            osc.stop(t0 + 0.19);
+        };
+        if (ctx.state === 'suspended') {
+            ctx.resume().then(ding).catch(() => {});
+        } else {
+            ding();
+        }
+    } catch (_) {
+        /* 忽略不支持或策略限制 */
+    }
+}
 
 function clearMascotBubbleTimer() {
     if (mascotBubbleTimer) {
@@ -5376,6 +5411,7 @@ function initMoxiaolingMascotInteraction() {
 
     function showIdleEncourage() {
         if (root.dataset.state !== 'idle') return;
+        playMoxiaolingTapSound();
         const phrase = idlePhrases[Math.floor(Math.random() * idlePhrases.length)];
         setMascotBubbleText(phrase, 3800);
     }
