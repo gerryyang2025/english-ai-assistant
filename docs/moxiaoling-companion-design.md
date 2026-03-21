@@ -57,9 +57,9 @@
 
 ### 方案 A — 纯 Lottie 角色（当前实现）
 
-- **内容**：`lottie/mascot-character.json`，由 `lottie-web` 在 `#moxiaoling-lottie` 内循环播放；来源与替换说明见 `lottie/README.md`。
+- **内容**：默认 `lottie/mascot-bot.json`（bot 形象）；备选 `lottie/mascot-character.json`（LottieFiles 包）。由 `lottie-web` 在 `#moxiaoling-lottie` 内循环播放；切换见 `lottie/README.md`。
 - **状态**：`idle` / `happy` 正常速率，`thinking` 略加快（`setSpeed`），辅以 CSS 外层轻微位移与光晕；`prefers-reduced-motion: reduce` 时销毁动画并以静态占位（📚）替代。
-- **维护**：替换 JSON 后保持文件名，或修改 `js/app.js` 中 `initMoxiaolingMainLottie` 的 `path`。
+- **维护**：替换 JSON 后保持文件名，或修改 `js/app.js` 中 `MOXIAOLING_LOTTIE_BY_KEY` 的路径映射。
 
 ### 方案 A′ — 栅格插画 / PNG（已弃用于首页形象）
 

@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- 首页「墨小灵」互动区：**纯 Lottie 矢量角色**（`lottie/mascot-character.json`，[lottie-web](https://github.com/airbnb/lottie-web) 播放），与 AI 单词问答（`/api/chat`）一体化；无位图叠加；`thinking`/`happy` 通过播放速率区分；`prefers-reduced-motion` 下以静态占位替代
+- 首页「墨小灵」互动区：**纯 Lottie 矢量角色**（默认 `lottie/mascot-bot.json` bot 形象，[lottie-web](https://github.com/airbnb/lottie-web) 播放），与 AI 单词问答（`/api/chat`）一体化；无位图叠加；`thinking`/`happy` 通过播放速率区分；`prefers-reduced-motion` 下以静态占位替代
+- 备选 LottieFiles 角色 `lottie/mascot-character.json`；通过 `?mascot=lottiefiles` 或 `localStorage.moxiaolingLottieVariant` 切换（见 `lottie/README.md`）
 - 虚拟形象交互：光晕与思考点、答毕星光、对话气泡、点击/键盘鼓励语、视差倾斜、Web Audio 点击提示音
 - 问答区支持回车提交、结果区 `aria-live`；联网搜索平铺展示且默认开启（不再收入家长折叠区）
 

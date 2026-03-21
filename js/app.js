@@ -5330,19 +5330,53 @@ const API_BASE_URL = '/api';
 let mascotHappyTimer = null;
 let mascotBubbleTimer = null;
 let moxiaolingLottieInst = null;
+/** 与当前 `moxiaolingLottieInst` 对应的 JSON 路径（用于热切换形象） */
+let moxiaolingLottieLoadedPath = null;
 
-/** 纯 Lottie 角色（无位图），资源见 lottie/mascot-character.json 与 lottie/README.md */
+/** 可切换的墨小灵 Lottie：`?mascot=` 当次生效；`localStorage.moxiaolingLottieVariant` 持久。默认使用 bot 形象（blob）；`lottiefiles` 为 LottieFiles 公开包角色 */
+const MOXIAOLING_LOTTIE_BY_KEY = {
+    default: 'lottie/mascot-bot.json',
+    blob: 'lottie/mascot-bot.json',
+    lottiefiles: 'lottie/mascot-character.json'
+};
+
+function resolveMoxiaolingLottiePath() {
+    try {
+        const q = new URLSearchParams(window.location.search).get('mascot');
+        if (q && MOXIAOLING_LOTTIE_BY_KEY[q]) return MOXIAOLING_LOTTIE_BY_KEY[q];
+    } catch (_) {
+        /* ignore */
+    }
+    try {
+        const k = localStorage.getItem('moxiaolingLottieVariant');
+        if (k && MOXIAOLING_LOTTIE_BY_KEY[k]) return MOXIAOLING_LOTTIE_BY_KEY[k];
+    } catch (_) {
+        /* ignore */
+    }
+    return MOXIAOLING_LOTTIE_BY_KEY.default;
+}
+
+/** 纯 Lottie 角色（无位图），资源见 lottie/ 与 lottie/README.md */
 function initMoxiaolingMainLottie() {
     if (typeof lottie === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const container = document.getElementById('moxiaoling-lottie');
-    if (!container || moxiaolingLottieInst) return;
+    if (!container) return;
+    const path = resolveMoxiaolingLottiePath();
+    if (moxiaolingLottieInst) {
+        if (moxiaolingLottieLoadedPath === path) return;
+        moxiaolingLottieInst.destroy();
+        moxiaolingLottieInst = null;
+        moxiaolingLottieLoadedPath = null;
+        container.innerHTML = '';
+    }
+    moxiaolingLottieLoadedPath = path;
     moxiaolingLottieInst = lottie.loadAnimation({
         container,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        path: 'lottie/mascot-character.json',
+        path,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid meet'
         }
@@ -5370,6 +5404,7 @@ function syncMoxiaolingLottieForUserSettings() {
         if (moxiaolingLottieInst) {
             moxiaolingLottieInst.destroy();
             moxiaolingLottieInst = null;
+            moxiaolingLottieLoadedPath = null;
         }
         container.innerHTML = '';
         container.classList.add('moxiaoling-lottie-reduced');
