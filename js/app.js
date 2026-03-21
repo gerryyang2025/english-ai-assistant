@@ -420,11 +420,37 @@ function bindEvents() {
 }
 
 // ========== 页面切换 ==========
-function switchPage(pageName) {
-    // 更新导航按钮状态
+/** 同步导航高亮与无障碍属性；pageName 为空则全部取消高亮 */
+function setActiveNavPage(pageName) {
+    const match = pageName != null && pageName !== '' ? pageName : null;
     DOM.navBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === pageName);
+        const active = match !== null && btn.dataset.page === match;
+        btn.classList.toggle('active', active);
+        if (active) {
+            btn.setAttribute('aria-current', 'page');
+        } else {
+            btn.removeAttribute('aria-current');
+        }
     });
+    scrollActiveNavIntoView();
+}
+
+/** 窄屏横向导航时，将当前项滚入可视区域 */
+function scrollActiveNavIntoView() {
+    const active = document.querySelector('.nav-btn.active');
+    const sc = document.querySelector('.nav-scroll');
+    if (!active || !sc) return;
+    if (sc.scrollWidth <= sc.clientWidth + 1) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    active.scrollIntoView({
+        inline: 'center',
+        block: 'nearest',
+        behavior: reduced ? 'auto' : 'smooth'
+    });
+}
+
+function switchPage(pageName) {
+    setActiveNavPage(pageName);
 
     // 切换页面显示
     DOM.pages.forEach(page => {
@@ -2434,11 +2460,6 @@ function showReadingsPage() {
         page.classList.toggle('active', page.id === 'page-readings');
     });
 
-    // 更新导航按钮状态
-    DOM.navBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === 'readings');
-    });
-
     // 重置页码并初始化
     resetReadingsListPage();
 
@@ -2461,10 +2482,7 @@ function showReadingDetail(readingId) {
         page.classList.toggle('active', page.id === 'page-reading-detail');
     });
 
-    // 更新导航按钮状态（保持在阅读页面）
-    DOM.navBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === 'readings');
-    });
+    setActiveNavPage('readings');
 
     renderReadingDetail(reading);
 }
@@ -3074,11 +3092,6 @@ function showSpeechPage() {
         page.classList.toggle('active', page.id === 'page-speech');
     });
 
-    // 更新导航按钮状态
-    DOM.navBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === 'speech');
-    });
-
     // 重置页码并初始化
     resetSpeechListPage();
 
@@ -3270,10 +3283,7 @@ function showSpeechDetailWithChapter(articleId, chapterValue) {
         page.classList.toggle('active', page.id === 'page-speech-detail');
     });
 
-    // 更新导航按钮状态
-    DOM.navBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === 'speech');
-    });
+    setActiveNavPage('speech');
 
     // 更新页面标题
     const titleEl = document.getElementById('speech-title');
@@ -3438,10 +3448,7 @@ function showSpeechDetail(speechId) {
         page.classList.toggle('active', page.id === 'page-speech-detail');
     });
 
-    // 更新导航按钮状态
-    DOM.navBtns.forEach(btn => {
-        btn.classList.remove('active');
-    });
+    setActiveNavPage(null);
 
     // 更新标题
     document.getElementById('speech-title').textContent = speech.title;
