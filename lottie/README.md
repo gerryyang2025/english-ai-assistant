@@ -16,6 +16,10 @@ LottieFiles 工具导出的跳舞猫（`nm`：`Comp 1`，画布 512×512，`op` 
 
 矢量恐龙短循环（`nm`：`Bryce - code`，画布 2000×2000，`op` 24，`v` 4.10.2；含 `Shade It!` 等伪效果层，部分播放器可能忽略）。键名 **`mascot-dinosaur-dance`**。
 
+## `mascot-alien-poke-emoji.json`（外星人戳脸）
+
+表情风格外星人（`nm`：`Alien poking`，画布 500×500，`op` 61，`v` 5.9.6，预合成 `comp_0` / `main`）。键名 **`mascot-alien-poke-emoji`**。
+
 ## `mascot-bot2.json`
 
 矢量机器人形象。键名 **`mascot-bot2`**。格式说明见 [Lottie Animation Community](https://lottie.github.io/)。

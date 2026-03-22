@@ -5523,6 +5523,7 @@ const MOXIAOLING_LOTTIE_BY_KEY = {
     'mascot-cat': 'lottie/mascot-cat.json',
     'mascot-cat-dance': 'lottie/mascot-cat-dance.json',
     'mascot-dinosaur-dance': 'lottie/mascot-dinosaur-dance.json',
+    'mascot-alien-poke-emoji': 'lottie/mascot-alien-poke-emoji.json',
     'mascot-rabbit': 'lottie/mascot-rabbit.json',
     'mascot-basketball': 'lottie/mascot-basketball.json'
 };
