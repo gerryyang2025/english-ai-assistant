@@ -139,10 +139,16 @@ function initSpeechVoices() {
     const loadVoices = () => {
         const voices = synthesis.getVoices();
         if (voices.length === 0) {
-            // Safari 兼容：尝试触发语音加载
-            const testUtterance = new SpeechSynthesisUtterance(' ');
-            synthesis.speak(testUtterance);
-            synthesis.cancel();
+            // Safari：空列表时用一次 speak+cancel 触发加载；须异步执行，避免 Chrome 在 cancel 同帧内丢队列
+            setTimeout(() => {
+                try {
+                    const testUtterance = new SpeechSynthesisUtterance('\u00a0');
+                    synthesis.speak(testUtterance);
+                    synthesis.cancel();
+                } catch (e) {
+                    /* ignore */
+                }
+            }, 0);
         }
     };
 
@@ -5256,7 +5262,10 @@ function parseMarkdown(text) {
     return result;
 }
 
-/** 选择英音/美音音色；不依赖名字含 "Female"（macOS/iOS 上常见英文名不含该子串） */
+/**
+ * 选择英音/美音音色（仅选与目标口音一致的 lang），不依赖名字含 "Female"。
+ * 不再降级到任意 en-*：在 Chrome 上把 en-US 音色绑到 utterance.lang=en-GB 会导致常无声。
+ */
 function pickEnglishSpeechVoice(preferGb) {
     const voices = typeof speechSynthesis !== 'undefined' ? speechSynthesis.getVoices() : [];
     if (!voices.length) return null;
@@ -5265,15 +5274,12 @@ function pickEnglishSpeechVoice(preferGb) {
         return (
             voices.find((v) => v.lang.startsWith('en-GB') && female(v)) ||
             voices.find((v) => v.lang.startsWith('en-GB')) ||
-            voices.find((v) => v.lang.startsWith('en') && female(v)) ||
-            voices.find((v) => v.lang.startsWith('en')) ||
             null
         );
     }
     return (
         voices.find((v) => v.lang.startsWith('en-US') && female(v)) ||
         voices.find((v) => v.lang.startsWith('en-US')) ||
-        voices.find((v) => v.lang.startsWith('en')) ||
         null
     );
 }
@@ -5289,12 +5295,19 @@ function speakUtteranceWithVoice(utterance, preferGb) {
         if (spoke) return;
         spoke = true;
         const picked = pickEnglishSpeechVoice(preferGb);
-        if (picked) utterance.voice = picked;
-        try {
-            synth.speak(utterance);
-        } catch (e) {
-            /* ignore */
+        if (picked) {
+            utterance.voice = picked;
+            // Chrome：voice.lang 须与 utterance.lang 一致，否则易静默失败
+            if (picked.lang) utterance.lang = picked.lang;
         }
+        // Chrome：cancel() 后同一同步栈里 speak 常被丢弃，放到下一任务再 speak
+        setTimeout(() => {
+            try {
+                synth.speak(utterance);
+            } catch (e) {
+                /* ignore */
+            }
+        }, 0);
     };
 
     if (synth.getVoices().length > 0) {
