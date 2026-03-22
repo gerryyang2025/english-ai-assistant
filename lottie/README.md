@@ -20,6 +20,10 @@
 
 来自 [LottieFiles](https://lottiefiles.com/) 公开资源包 `lf20_M9p23l.json`（CDN 抓取后入库）。键名 **`lottiefiles`**。
 
+## `mascot-rabbit.json`（兔子）
+
+纯矢量兔子（合成 `comp_0` / `Rabit 1`，画布 600×600）。键名 **`mascot-rabbit`**。
+
 ## 可选：固定某一种（`js/app.js` 中 `MOXIAOLING_LOTTIE_BY_KEY`）
 
 | 方式 | 说明 |

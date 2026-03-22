@@ -5514,13 +5514,14 @@ let moxiaolingLottieInst = null;
 /** 与当前 `moxiaolingLottieInst` 对应的 JSON 路径（用于热切换形象） */
 let moxiaolingLottieLoadedPath = null;
 
-/** 可切换的墨小灵 Lottie：无 URL、无 localStorage 时每次加载随机；`?mascot=` / `localStorage.moxiaolingLottieVariant` 可固定形象（可选）。键：`default`→mascot-cat；`mascot-bot2`；`blob`；`lottiefiles`；`mascot-cat` */
+/** 可切换的墨小灵 Lottie：无 URL、无 localStorage 时每次加载随机；`?mascot=` / `localStorage.moxiaolingLottieVariant` 可固定形象（可选）。键：`default`→mascot-cat；`mascot-bot2`；`blob`；`lottiefiles`；`mascot-cat`；`mascot-rabbit` */
 const MOXIAOLING_LOTTIE_BY_KEY = {
     default: 'lottie/mascot-cat.json',
     blob: 'lottie/mascot-bot.json',
     lottiefiles: 'lottie/mascot-character.json',
     'mascot-bot2': 'lottie/mascot-bot2.json',
-    'mascot-cat': 'lottie/mascot-cat.json'
+    'mascot-cat': 'lottie/mascot-cat.json',
+    'mascot-rabbit': 'lottie/mascot-rabbit.json'
 };
 
 /** 随机候选：已注册形象的去重路径（`MOXIAOLING_LOTTIE_BY_KEY` 增删键时自动同步） */
