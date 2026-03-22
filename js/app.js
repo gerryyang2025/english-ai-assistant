@@ -5521,6 +5521,7 @@ const MOXIAOLING_LOTTIE_BY_KEY = {
     lottiefiles: 'lottie/mascot-character.json',
     'mascot-bot2': 'lottie/mascot-bot2.json',
     'mascot-cat': 'lottie/mascot-cat.json',
+    'mascot-cat-dance': 'lottie/mascot-cat-dance.json',
     'mascot-rabbit': 'lottie/mascot-rabbit.json',
     'mascot-basketball': 'lottie/mascot-basketball.json'
 };

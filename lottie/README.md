@@ -8,6 +8,10 @@
 
 纯矢量猫咪（与 [LottieFiles 公开动画](https://app.lottiefiles.com/animation/5d60cb70-f665-48e5-a9b9-2ee6e18dce22) 同源 JSON）。键名 **`default`** 与 **`mascot-cat`** 均指向本文件（用于 URL / localStorage **固定**为猫时使用）。
 
+## `mascot-cat-dance.json`（跳舞猫）
+
+LottieFiles 工具导出的跳舞猫（`nm`：`Comp 1`，画布 512×512，`op` 90，`v` 5.4.4，含 `Dancing_cat_for animations` 等图层）。键名 **`mascot-cat-dance`**。
+
 ## `mascot-bot2.json`
 
 矢量机器人形象。键名 **`mascot-bot2`**。格式说明见 [Lottie Animation Community](https://lottie.github.io/)。
