@@ -24,6 +24,10 @@
 
 纯矢量兔子（合成 `comp_0` / `Rabit 1`，画布 600×600）。键名 **`mascot-rabbit`**。
 
+## `mascot-basketball.json`（篮球角色）
+
+持球角色与篮球动画（`nm`：`D3VRAKX_1`，画布 720×832，`op` 121，含 `ball` / `comp_0` 等预合成）。键名 **`mascot-basketball`**。
+
 ## 可选：固定某一种（`js/app.js` 中 `MOXIAOLING_LOTTIE_BY_KEY`）
 
 | 方式 | 说明 |
