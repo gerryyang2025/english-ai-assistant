@@ -12,6 +12,10 @@
 
 LottieFiles 工具导出的跳舞猫（`nm`：`Comp 1`，画布 512×512，`op` 90，`v` 5.4.4，含 `Dancing_cat_for animations` 等图层）。键名 **`mascot-cat-dance`**。
 
+## `mascot-dinosaur-dance.json`（跳舞恐龙）
+
+矢量恐龙短循环（`nm`：`Bryce - code`，画布 2000×2000，`op` 24，`v` 4.10.2；含 `Shade It!` 等伪效果层，部分播放器可能忽略）。键名 **`mascot-dinosaur-dance`**。
+
 ## `mascot-bot2.json`
 
 矢量机器人形象。键名 **`mascot-bot2`**。格式说明见 [Lottie Animation Community](https://lottie.github.io/)。
