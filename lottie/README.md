@@ -12,11 +12,15 @@
 
 来自 [LottieFiles](https://lottiefiles.com/) 公开资源包 `lf20_M9p23l.json`（CDN 抓取后入库）。通过键名 **`lottiefiles`** 切换使用。
 
+## `mascot-cat.json`（备选 · 猫咪）
+
+纯矢量猫咪角色（与 [LottieFiles 公开动画](https://app.lottiefiles.com/animation/5d60cb70-f665-48e5-a9b9-2ee6e18dce22) 同源 JSON）。通过键名 **`mascot-cat`** 切换使用。
+
 ## 切换方式（`js/app.js` 中 `MOXIAOLING_LOTTIE_BY_KEY`）
 
 | 方式 | 说明 |
 |------|------|
-| **URL 参数** | 不写参数即为默认（mascot-bot2）。`?mascot=lottiefiles` 当次使用 LottieFiles 角色；`?mascot=blob` 使用原 bot；`?mascot=mascot-bot2` 与默认相同。 |
-| **localStorage** | `localStorage.setItem('moxiaolingLottieVariant', 'lottiefiles')` 后刷新 → 使用备选；删除该项或设为 `'default'` → mascot-bot2；设为 `'blob'` → 原 bot。 |
+| **URL 参数** | 不写参数即为默认（mascot-bot2）。`?mascot=lottiefiles` → LottieFiles 角色；`?mascot=mascot-cat` → 猫咪；`?mascot=blob` → 原 bot；`?mascot=mascot-bot2` 与默认相同。 |
+| **localStorage** | 例如 `moxiaolingLottieVariant` 设为 `'mascot-cat'` / `'lottiefiles'` / `'blob'` 等；`'default'` 或未设置 → mascot-bot2。 |
 
 新增更多 JSON 时：把文件放进本目录，在 `MOXIAOLING_LOTTIE_BY_KEY` 里增加键与路径即可。
