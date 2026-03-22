@@ -5256,6 +5256,71 @@ function parseMarkdown(text) {
     return result;
 }
 
+/** 选择英音/美音音色；不依赖名字含 "Female"（macOS/iOS 上常见英文名不含该子串） */
+function pickEnglishSpeechVoice(preferGb) {
+    const voices = typeof speechSynthesis !== 'undefined' ? speechSynthesis.getVoices() : [];
+    if (!voices.length) return null;
+    const female = (v) => /female/i.test(v.name);
+    if (preferGb) {
+        return (
+            voices.find((v) => v.lang.startsWith('en-GB') && female(v)) ||
+            voices.find((v) => v.lang.startsWith('en-GB')) ||
+            voices.find((v) => v.lang.startsWith('en') && female(v)) ||
+            voices.find((v) => v.lang.startsWith('en')) ||
+            null
+        );
+    }
+    return (
+        voices.find((v) => v.lang.startsWith('en-US') && female(v)) ||
+        voices.find((v) => v.lang.startsWith('en-US')) ||
+        voices.find((v) => v.lang.startsWith('en')) ||
+        null
+    );
+}
+
+/**
+ * Chrome 等浏览器中 getVoices() 常异步填充；若初次为空就 speak，可能无声。
+ * 在 voiceschanged 或短延迟后再选音色并朗读（只执行一次）。
+ */
+function speakUtteranceWithVoice(utterance, preferGb) {
+    const synth = window.speechSynthesis;
+    let spoke = false;
+    const applyAndSpeak = () => {
+        if (spoke) return;
+        spoke = true;
+        const picked = pickEnglishSpeechVoice(preferGb);
+        if (picked) utterance.voice = picked;
+        try {
+            synth.speak(utterance);
+        } catch (e) {
+            /* ignore */
+        }
+    };
+
+    if (synth.getVoices().length > 0) {
+        applyAndSpeak();
+        return;
+    }
+
+    let timeoutId = null;
+    const onVoices = () => {
+        if (timeoutId != null) {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+        synth.removeEventListener('voiceschanged', onVoices);
+        applyAndSpeak();
+    };
+
+    timeoutId = setTimeout(() => {
+        timeoutId = null;
+        synth.removeEventListener('voiceschanged', onVoices);
+        applyAndSpeak();
+    }, 400);
+
+    synth.addEventListener('voiceschanged', onVoices);
+}
+
 // 单词发音（英音）
 function speakWord(text) {
     if (!('speechSynthesis' in window)) {
@@ -5263,7 +5328,8 @@ function speakWord(text) {
         return;
     }
 
-    if (!text) return;
+    const clean = stripMdForSpeech(text) || String(text).replace(/\*\*/g, '').trim();
+    if (!clean) return;
 
     // 取消之前的朗读
     try {
@@ -5272,31 +5338,16 @@ function speakWord(text) {
         // 忽略取消时的错误
     }
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(clean);
     utterance.lang = 'en-GB';
     utterance.rate = 0.8;
     utterance.pitch = 1.0;
 
-    // 添加错误处理
-    utterance.onerror = (event) => {
+    utterance.onerror = () => {
         // 对于 'canceled' 和 'interrupted' 错误，不做处理（正常行为）
-        // 其他错误可能是临时性问题，不需要特别处理
     };
 
-    // 尝试选择英语语音
-    try {
-        const voices = window.speechSynthesis.getVoices();
-        const englishVoice = voices.find(voice =>
-            voice.lang.startsWith('en') && voice.name.includes('Female')
-        );
-        if (englishVoice) {
-            utterance.voice = englishVoice;
-        }
-
-        window.speechSynthesis.speak(utterance);
-    } catch (e) {
-        // 忽略语音播放时的错误
-    }
+    speakUtteranceWithVoice(utterance, true);
 }
 
 // 单词发音（美音）
@@ -5306,39 +5357,23 @@ function speakWordUS(text) {
         return;
     }
 
-    if (!text) return;
+    const clean = stripMdForSpeech(text) || String(text).replace(/\*\*/g, '').trim();
+    if (!clean) return;
 
-    // 取消之前的朗读
     try {
         window.speechSynthesis.cancel();
     } catch (e) {
         // 忽略取消时的错误
     }
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(clean);
     utterance.lang = 'en-US';
     utterance.rate = 0.8;
     utterance.pitch = 1.0;
 
-    // 添加错误处理
-    utterance.onerror = (event) => {
-        // 对于 'canceled' 和 'interrupted' 错误，不做处理
-    };
+    utterance.onerror = () => {};
 
-    // 尝试选择美式英语语音
-    try {
-        const voices = window.speechSynthesis.getVoices();
-        const americanVoice = voices.find(voice =>
-            voice.lang.startsWith('en-US') && voice.name.includes('Female')
-        );
-        if (americanVoice) {
-            utterance.voice = americanVoice;
-        }
-
-        window.speechSynthesis.speak(utterance);
-    } catch (e) {
-        // 忽略语音播放时的错误
-    }
+    speakUtteranceWithVoice(utterance, false);
 }
 
 /**
@@ -5370,24 +5405,7 @@ function speakExample(text, accent = 'us') {
         /* canceled / interrupted 等忽略 */
     };
 
-    try {
-        const voices = window.speechSynthesis.getVoices();
-        let picked = null;
-        if (isGB) {
-            picked = voices.find(v => v.lang.startsWith('en-GB') && v.name.includes('Female'))
-                || voices.find(v => v.lang.startsWith('en-GB'))
-                || voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'));
-        } else {
-            picked = voices.find(v => v.lang.startsWith('en-US') && v.name.includes('Female'))
-                || voices.find(v => v.lang.startsWith('en-US'));
-        }
-        if (picked) {
-            utterance.voice = picked;
-        }
-        window.speechSynthesis.speak(utterance);
-    } catch (e) {
-        /* ignore */
-    }
+    speakUtteranceWithVoice(utterance, isGB);
 }
 
 // 切换收藏
