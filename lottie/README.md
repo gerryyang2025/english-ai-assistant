@@ -16,6 +16,10 @@ LottieFiles 工具导出的跳舞猫（`nm`：`Comp 1`，画布 512×512，`op` 
 
 矢量恐龙短循环（`nm`：`Bryce - code`，画布 2000×2000，`op` 24，`v` 4.10.2；含 `Shade It!` 等伪效果层，部分播放器可能忽略）。键名 **`mascot-dinosaur-dance`**。
 
+## `mascot-death-dance.json`（死亡之舞）
+
+角色跳舞循环（`nm`：`Comp 1`，画布 1100×1100，`fr` 30，`op` 181，`v` 5.12.2；含 PRINT 装饰层、四肢与躯干等矢量图层）。键名 **`mascot-death-dance`**。
+
 ## `mascot-alien-poke-emoji.json`（外星人戳脸）
 
 表情风格外星人（`nm`：`Alien poking`，画布 500×500，`op` 61，`v` 5.9.6，预合成 `comp_0` / `main`）。键名 **`mascot-alien-poke-emoji`**。
