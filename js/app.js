@@ -5514,9 +5514,9 @@ let moxiaolingLottieInst = null;
 /** 与当前 `moxiaolingLottieInst` 对应的 JSON 路径（用于热切换形象） */
 let moxiaolingLottieLoadedPath = null;
 
-/** 可切换的墨小灵 Lottie：`?mascot=` 当次生效；`localStorage.moxiaolingLottieVariant` 持久。默认 mascot-bot2；`blob` 原 bot；`lottiefiles` LottieFiles 包；`mascot-cat` 猫咪矢量；`mascot-bot2` 与默认同源 */
+/** 可切换的墨小灵 Lottie：`?mascot=` 当次生效；`localStorage.moxiaolingLottieVariant` 持久锁定；均未设置时使用 `default`（mascot-cat）。键：`mascot-bot2`；`blob` 原 bot；`lottiefiles`；`mascot-cat` 与 `default` 同源 */
 const MOXIAOLING_LOTTIE_BY_KEY = {
-    default: 'lottie/mascot-bot2.json',
+    default: 'lottie/mascot-cat.json',
     blob: 'lottie/mascot-bot.json',
     lottiefiles: 'lottie/mascot-character.json',
     'mascot-bot2': 'lottie/mascot-bot2.json',
