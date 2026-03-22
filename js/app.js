@@ -5267,83 +5267,27 @@ function isLikelyChromiumBrowser() {
     return typeof navigator !== 'undefined' && /Chrome|Chromium|Edg\//u.test(navigator.userAgent);
 }
 
-/** URL ?debugSpeech=1 或 localStorage.debugSpeech=1 时输出语音调试日志 */
-function isSpeechDebugEnabled() {
-    try {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('debugSpeech') === '1') {
-            return true;
-        }
-        return new URLSearchParams(window.location.search).get('debugSpeech') === '1';
-    } catch (e) {
-        return false;
-    }
-}
-
-function logSpeechDebug(...args) {
-    if (isSpeechDebugEnabled()) {
-        console.info('[speech-debug]', ...args);
-    }
+/** 是否为本机可视为「相对安全」的主机名（与 isSecureContext 无关，用于提示文案） */
+function isLocalhostLikeHostname() {
+    const h = (typeof location !== 'undefined' && location.hostname ? location.hostname : '').toLowerCase();
+    return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h.endsWith('.localhost');
 }
 
 /**
- * 在控制台执行 diagnoseSpeechSynthesis() 排查无声（建议先点击页面任意处再运行，以满足用户手势策略）。
- * 返回对象含 voices 数量等摘要。
+ * Chrome 在「HTTP + 非本机主机名」（常见 http://192.168.x.x）下 isSecureContext 为 false，
+ * 语音合成常无声或极不稳定；Safari 往往仍可用。
  */
-function diagnoseSpeechSynthesis() {
-    const synth = window.speechSynthesis;
-    if (!('speechSynthesis' in window) || !synth) {
-        console.warn('[speech-diag] 当前环境无 window.speechSynthesis');
-        return { ok: false, reason: 'no API' };
-    }
-    const secure =
-        typeof isSecureContext !== 'undefined'
-            ? isSecureContext
-            : location.protocol === 'https:' ||
-              location.hostname === 'localhost' ||
-              location.hostname === '127.0.0.1';
-    console.info('[speech-diag] secureContext:', secure, 'protocol:', location.protocol);
-    console.info('[speech-diag] paused / speaking / pending:', synth.paused, synth.speaking, synth.pending);
-    try {
-        synth.resume();
-    } catch (e) {
-        console.warn('[speech-diag] resume() 异常:', e);
-    }
-    const voices = synth.getVoices();
-    console.info('[speech-diag] getVoices().length:', voices.length);
-    const en = voices.filter((v) => /^en/i.test(v.lang || ''));
-    console.info('[speech-diag] en* 音色数量:', en.length, '（若为 0，可再执行一次：voices 有时异步加载）');
-    en.slice(0, 15).forEach((v) => console.info('  ', v.name, '|', v.lang));
+function isSpeechRestrictedHttpContext() {
+    if (typeof location === 'undefined') return false;
+    if (location.protocol !== 'http:') return false;
+    if (typeof isSecureContext !== 'undefined' && isSecureContext) return false;
+    return !isLocalhostLikeHostname();
+}
 
-    const u = new SpeechSynthesisUtterance('Test. One. Two.');
-    u.lang = 'en-US';
-    u.rate = 1;
-    u.onstart = () => console.info('[speech-diag] onstart（已开始合成）');
-    u.onend = () =>
-        console.info('[speech-diag] onend（正常结束；若仍无声音请看系统音量与 Chrome 标签页是否被静音）');
-    u.onerror = (ev) => console.warn('[speech-diag] onerror:', ev.error, ev);
-
-    try {
-        synth.cancel();
-    } catch (e) {
-        /* ignore */
-    }
-    const defer = isLikelyChromiumBrowser() ? 50 : 0;
-    setTimeout(() => {
-        try {
-            synth.resume();
-            synth.speak(u);
-            console.info('[speech-diag] 已调用 speak()，defer ms =', defer);
-        } catch (e) {
-            console.warn('[speech-diag] speak() 抛出:', e);
-        }
-    }, defer);
-
-    return {
-        ok: true,
-        voices: voices.length,
-        enVoices: en.length,
-        hint: '若从控制台运行仍无声：先单击页面空白处，再重新执行本函数；或地址栏加 ?debugSpeech=1 后点击站内读音按钮看 [speech-debug] 日志'
-    };
+/** cancel 之后到 speak 的延迟：受限 HTTP 下 Chrome 需要更长间隔 */
+function speechDeferMsAfterCancel() {
+    if (!isLikelyChromiumBrowser()) return 0;
+    return isSpeechRestrictedHttpContext() ? 150 : 50;
 }
 
 /**
@@ -5384,15 +5328,8 @@ function speakUtteranceWithVoice(utterance, preferGb) {
             // Chrome：voice.lang 须与 utterance.lang 一致，否则易静默失败
             if (picked.lang) utterance.lang = picked.lang;
         }
-        // Chrome：cancel 后需异步 speak；部分版本需 resume()；Blink 上略延迟更稳
-        const deferMs = isLikelyChromiumBrowser() ? 50 : 0;
-        logSpeechDebug('applyAndSpeak', {
-            deferMs,
-            voiceCount: synth.getVoices().length,
-            voice: utterance.voice?.name,
-            lang: utterance.lang,
-            textPreview: (utterance.text || '').slice(0, 48)
-        });
+        // Chrome：cancel 后需异步 speak；受限 HTTP 上下文需更长延迟
+        const deferMs = speechDeferMsAfterCancel();
         setTimeout(() => {
             try {
                 try {
@@ -5402,7 +5339,7 @@ function speakUtteranceWithVoice(utterance, preferGb) {
                 }
                 synth.speak(utterance);
             } catch (e) {
-                console.warn('[speech] speak() 失败:', e);
+                /* ignore */
             }
         }, deferMs);
     };
@@ -5460,11 +5397,8 @@ function speakWord(text) {
     utterance.rate = 0.8;
     utterance.pitch = 1.0;
 
-    utterance.onerror = (ev) => {
-        if (ev.error === 'canceled' || ev.error === 'interrupted') return;
-        if (isSpeechDebugEnabled()) {
-            console.warn('[speech-debug] utterance error:', ev.error, ev);
-        }
+    utterance.onerror = () => {
+        // canceled / interrupted 等为正常情况
     };
 
     speakUtteranceWithVoice(utterance, true);
@@ -5497,12 +5431,7 @@ function speakWordUS(text) {
     utterance.rate = 0.8;
     utterance.pitch = 1.0;
 
-    utterance.onerror = (ev) => {
-        if (ev.error === 'canceled' || ev.error === 'interrupted') return;
-        if (isSpeechDebugEnabled()) {
-            console.warn('[speech-debug] utterance error:', ev.error, ev);
-        }
-    };
+    utterance.onerror = () => {};
 
     speakUtteranceWithVoice(utterance, false);
 }
@@ -5538,12 +5467,7 @@ function speakExample(text, accent = 'us') {
     utterance.lang = isGB ? 'en-GB' : 'en-US';
     utterance.rate = 0.9;
 
-    utterance.onerror = (ev) => {
-        if (ev.error === 'canceled' || ev.error === 'interrupted') return;
-        if (isSpeechDebugEnabled()) {
-            console.warn('[speech-debug] utterance error:', ev.error, ev);
-        }
-    };
+    utterance.onerror = () => {};
 
     speakUtteranceWithVoice(utterance, isGB);
 }
@@ -5923,7 +5847,6 @@ async function submitQA() {
 window.speakWord = speakWord;
 window.speakWordUS = speakWordUS;
 window.speakExample = speakExample;
-window.diagnoseSpeechSynthesis = diagnoseSpeechSynthesis;
 window.playAllDialogues = playAllDialogues;
 window.playDialogue = playDialogue;
 window.toggleFavorite = toggleFavorite;
