@@ -106,7 +106,8 @@ function parseWordsMD() {
             const titleMatch = line.match(/Title:\s*(.+?)\s*Category:\s*(.+)/);
             if (titleMatch && currentUnit) {
                 currentUnit.title = titleMatch[1].trim();
-                currentUnit.category = titleMatch[2].trim();
+                // WORDS.md 里 Category 行尾可能误写英文逗号，避免写入 JSON
+                currentUnit.category = titleMatch[2].trim().replace(/,+\s*$/, '');
             }
             continue;
         }
@@ -154,6 +155,28 @@ function parseWordsMD() {
     return wordBooks;
 }
 
+/**
+ * 无音标时：英文词/短语与中文释义以「首个汉字」为界（WORDS.md 约定）。
+ * 旧逻辑只取前两个英文 token，会把 **(be) full of** 拆成 **(be) full + of** 中文。
+ */
+function splitWordLineWithoutPhonetic(wordLine) {
+    const hanMatch = wordLine.match(/\p{Script=Han}/u);
+    if (hanMatch && hanMatch.index !== undefined) {
+        return {
+            word: wordLine.slice(0, hanMatch.index).trim(),
+            meaning: wordLine.slice(hanMatch.index).trim()
+        };
+    }
+    const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
+    if (wordMatch) {
+        return {
+            word: wordMatch[1].trim(),
+            meaning: wordLine.substring(wordMatch[0].length).trim()
+        };
+    }
+    return { word: wordLine.trim(), meaning: '' };
+}
+
 function parseWordLine(line, book, unit, index) {
     // 格式: * word /phonetic/ meaning
     const wordLine = line.substring(2).trim(); // 移除 "* "
@@ -172,13 +195,10 @@ function parseWordLine(line, book, unit, index) {
             meaning = parts[2].trim();
         }
     } else {
-        // 没有音标，使用原有的空格分割逻辑
-        const wordMatch = wordLine.match(/^([^\s\/]+(?:\s+[^\s\/]+)?)/);
-        if (!wordMatch) return null;
-        
-        word = wordMatch[1].trim();
-        let remaining = wordLine.substring(wordMatch[0].length).trim();
-        meaning = remaining;
+        const split = splitWordLineWithoutPhonetic(wordLine);
+        word = split.word;
+        meaning = split.meaning;
+        if (!word) return null;
     }
     
     // 生成 ID（包含词书前缀以确保唯一性）
