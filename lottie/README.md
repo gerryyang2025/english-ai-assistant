@@ -1,8 +1,12 @@
 # Lottie 资源
 
-## `mascot-bot.json`（默认 · bot 形象）
+## `lascot-bot2.json`（默认）
 
-首页墨小灵**默认**使用的抱屏/笔记本风格矢量角色（项目提供的 Lottie JSON）。格式说明见 [Lottie Animation Community](https://lottie.github.io/)。
+首页墨小灵**默认**使用的矢量角色（项目提供的 Lottie JSON）。格式说明见 [Lottie Animation Community](https://lottie.github.io/)。
+
+## `mascot-bot.json`（原 bot 形象 · `?mascot=blob`）
+
+抱屏/笔记本风格矢量角色。通过键名 **`blob`** 或 URL `?mascot=blob` 使用（与默认的 lascot-bot2 不同）。
 
 ## `mascot-character.json`（备选 · LottieFiles 角色）
 
@@ -12,7 +16,7 @@
 
 | 方式 | 说明 |
 |------|------|
-| **URL 参数** | 不写参数即为默认（bot）。`?mascot=lottiefiles` 当次使用 LottieFiles 角色；`?mascot=blob` 与默认相同（兼容旧书签）。 |
-| **localStorage** | `localStorage.setItem('moxiaolingLottieVariant', 'lottiefiles')` 后刷新 → 使用备选；删除该项或设为 `'default'` / `'blob'` → bot。 |
+| **URL 参数** | 不写参数即为默认（lascot-bot2）。`?mascot=lottiefiles` 当次使用 LottieFiles 角色；`?mascot=blob` 使用原 bot；`?mascot=lascot-bot2` 与默认相同。 |
+| **localStorage** | `localStorage.setItem('moxiaolingLottieVariant', 'lottiefiles')` 后刷新 → 使用备选；删除该项或设为 `'default'` → lascot-bot2；设为 `'blob'` → 原 bot。 |
 
 新增更多 JSON 时：把文件放进本目录，在 `MOXIAOLING_LOTTIE_BY_KEY` 里增加键与路径即可。

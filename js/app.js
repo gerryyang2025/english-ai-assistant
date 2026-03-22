@@ -5514,11 +5514,12 @@ let moxiaolingLottieInst = null;
 /** 与当前 `moxiaolingLottieInst` 对应的 JSON 路径（用于热切换形象） */
 let moxiaolingLottieLoadedPath = null;
 
-/** 可切换的墨小灵 Lottie：`?mascot=` 当次生效；`localStorage.moxiaolingLottieVariant` 持久。默认使用 bot 形象（blob）；`lottiefiles` 为 LottieFiles 公开包角色 */
+/** 可切换的墨小灵 Lottie：`?mascot=` 当次生效；`localStorage.moxiaolingLottieVariant` 持久。默认使用 lascot-bot2；`blob` 为原 bot 形象；`lottiefiles` 为 LottieFiles 公开包角色；`lascot-bot2` 与默认同源 */
 const MOXIAOLING_LOTTIE_BY_KEY = {
-    default: 'lottie/mascot-bot.json',
+    default: 'lottie/lascot-bot2.json',
     blob: 'lottie/mascot-bot.json',
-    lottiefiles: 'lottie/mascot-character.json'
+    lottiefiles: 'lottie/mascot-character.json',
+    'lascot-bot2': 'lottie/lascot-bot2.json'
 };
 
 function resolveMoxiaolingLottiePath() {
