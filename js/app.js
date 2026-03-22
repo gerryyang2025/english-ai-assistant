@@ -5514,7 +5514,7 @@ let moxiaolingLottieInst = null;
 /** 与当前 `moxiaolingLottieInst` 对应的 JSON 路径（用于热切换形象） */
 let moxiaolingLottieLoadedPath = null;
 
-/** 可切换的墨小灵 Lottie：`?mascot=` 当次生效；`localStorage.moxiaolingLottieVariant` 持久锁定；均未设置时使用 `default`（mascot-cat）。键：`mascot-bot2`；`blob` 原 bot；`lottiefiles`；`mascot-cat` 与 `default` 同源 */
+/** 可切换的墨小灵 Lottie：无 URL、无 localStorage 时每次加载随机；`?mascot=` / `localStorage.moxiaolingLottieVariant` 可固定形象（可选）。键：`default`→mascot-cat；`mascot-bot2`；`blob`；`lottiefiles`；`mascot-cat` */
 const MOXIAOLING_LOTTIE_BY_KEY = {
     default: 'lottie/mascot-cat.json',
     blob: 'lottie/mascot-bot.json',
@@ -5522,6 +5522,9 @@ const MOXIAOLING_LOTTIE_BY_KEY = {
     'mascot-bot2': 'lottie/mascot-bot2.json',
     'mascot-cat': 'lottie/mascot-cat.json'
 };
+
+/** 随机候选：已注册形象的去重路径（`MOXIAOLING_LOTTIE_BY_KEY` 增删键时自动同步） */
+const MOXIAOLING_LOTTIE_RANDOM_PATHS = [...new Set(Object.values(MOXIAOLING_LOTTIE_BY_KEY))];
 
 function resolveMoxiaolingLottiePath() {
     try {
@@ -5536,7 +5539,8 @@ function resolveMoxiaolingLottiePath() {
     } catch (_) {
         /* ignore */
     }
-    return MOXIAOLING_LOTTIE_BY_KEY.default;
+    const pool = MOXIAOLING_LOTTIE_RANDOM_PATHS;
+    return pool[Math.floor(Math.random() * pool.length)];
 }
 
 /** 纯 Lottie 角色（无位图），资源见 lottie/ 与 lottie/README.md */

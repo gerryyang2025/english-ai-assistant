@@ -26,7 +26,7 @@ english-ai-assistant/
 ├── css/                    # 样式文件
 ├── js/app.js               # 前端逻辑
 ├── images/                 # 其他静态图（可选）
-├── lottie/                 # 首页墨小灵 Lottie（默认 mascot-cat；可 ?mascot= 或 localStorage 切换，见 lottie/README.md）
+├── lottie/                 # 首页墨小灵 Lottie（无参数时每次刷新随机多形象之一；可选 ?mascot= / localStorage 固定，见 lottie/README.md）
 ├── data/                   # 数据文件
 │   ├── words.json
 │   ├── readings.json
