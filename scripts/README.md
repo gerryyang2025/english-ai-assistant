@@ -11,7 +11,7 @@ You can also invoke the same commands via **`./optools.sh`** from any working di
 | `python3 scripts/check-listen-format.py` | `./optools.sh check-listen` |
 | `node scripts/convert-words.js` | `./optools.sh convert-words` |
 | `node scripts/convert-readings.js` | `./optools.sh convert-readings` |
-| `node scripts/convert-listen.js` | `./optools.sh convert-listen` |
+| `node scripts/convert-listen.js` | `./optools.sh convert-listens` |
 
 Optional path argument for check commands, e.g. `./optools.sh check-words data/WORDS.md`.
 

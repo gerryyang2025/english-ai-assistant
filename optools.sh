@@ -6,7 +6,7 @@
 #        ./optools.sh init|install [--force]   # venv + Python deps
 #        ./optools.sh check-env                # report env & dependencies (no changes)
 #        ./optools.sh check-words|check-readings|check-listen [path]
-#        ./optools.sh convert-words|convert-readings|convert-listen
+#        ./optools.sh convert-words|convert-readings|convert-listens
 
 # 脚本所在目录即仓库根目录，便于从任意 cwd 调用
 ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -197,7 +197,7 @@ check_env() {
     if command -v node &>/dev/null; then
         echo "  node:    $(node --version 2>&1) ($(command -v node))"
     else
-        echo "  node:    NOT FOUND (needed for convert-words / convert-readings / convert-listen)"
+        echo "  node:    NOT FOUND (needed for convert-words / convert-readings / convert-listens)"
     fi
     echo ""
 
@@ -584,7 +584,7 @@ case "$1" in
         shift
         node scripts/convert-readings.js "$@"
         ;;
-    convert-listen)
+    convert-listens|convert-listen)
         shift
         node scripts/convert-listen.js "$@"
         ;;
@@ -607,7 +607,7 @@ case "$1" in
         echo "  ./optools.sh check-listen [path/to/LISTEN.md]   # default: data/LISTEN.md"
         echo "  ./optools.sh convert-words"
         echo "  ./optools.sh convert-readings"
-        echo "  ./optools.sh convert-listen"
+        echo "  ./optools.sh convert-listens   # (convert-listen 仍可用，同上)"
         echo ""
         echo "Configuration:"
         echo "  cp api_config.example.py api_config.py"

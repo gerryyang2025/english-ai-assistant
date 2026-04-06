@@ -107,7 +107,7 @@ From the repo root (see `scripts/README.md`):
 ```bash
 ./optools.sh convert-words
 ./optools.sh convert-readings
-./optools.sh convert-listen
+./optools.sh convert-listens
 ./optools.sh check-words
 ./optools.sh check-readings
 ./optools.sh check-listen
