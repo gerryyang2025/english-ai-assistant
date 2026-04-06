@@ -8,7 +8,7 @@ You can also invoke the same commands via **`./optools.sh`** from any working di
 |----------------|----------------------|
 | `python3 scripts/check-words-format.py` | `./optools.sh check-words` |
 | `python3 scripts/check-readings-format.py` | `./optools.sh check-readings` |
-| `python3 scripts/check-listen-format.py` | `./optools.sh check-listen` |
+| `python3 scripts/check-listens-format.py` | `./optools.sh check-listens` |
 | `node scripts/convert-words.js` | `./optools.sh convert-words` |
 | `node scripts/convert-readings.js` | `./optools.sh convert-readings` |
 | `node scripts/convert-listens.js` | `./optools.sh convert-listens` |
@@ -29,7 +29,7 @@ Optional path argument for check commands, e.g. `./optools.sh check-words data/W
 |---------|--------|
 | `python3 scripts/check-words-format.py` | `data/WORDS.md` |
 | `python3 scripts/check-readings-format.py` | `data/READINGS.md` |
-| `python3 scripts/check-listen-format.py` | `data/LISTEN.md` |
+| `python3 scripts/check-listens-format.py` | `data/LISTEN.md` |
 
 You may pass an absolute path or a path relative to the repo root.
 

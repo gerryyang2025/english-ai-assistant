@@ -5,7 +5,7 @@
 # Usage: ./optools.sh start|stop|restart|status
 #        ./optools.sh init|install [--force]   # venv + Python deps
 #        ./optools.sh check-env                # report env & dependencies (no changes)
-#        ./optools.sh check-words|check-readings|check-listen [path]
+#        ./optools.sh check-words|check-readings|check-listens [path]
 #        ./optools.sh convert-words|convert-readings|convert-listens
 
 # 脚本所在目录即仓库根目录，便于从任意 cwd 调用
@@ -572,9 +572,9 @@ case "$1" in
         shift
         python3 scripts/check-readings-format.py "$@"
         ;;
-    check-listen)
+    check-listens)
         shift
-        python3 scripts/check-listen-format.py "$@"
+        python3 scripts/check-listens-format.py "$@"
         ;;
     convert-words)
         shift
@@ -604,7 +604,7 @@ case "$1" in
         echo "Data scripts (see scripts/README.md):"
         echo "  ./optools.sh check-words [path/to/WORDS.md]   # default: data/WORDS.md"
         echo "  ./optools.sh check-readings [path/to/READINGS.md]   # default: data/READINGS.md"
-        echo "  ./optools.sh check-listen [path/to/LISTEN.md]   # default: data/LISTEN.md"
+        echo "  ./optools.sh check-listens [path/to/LISTEN.md]   # default: data/LISTEN.md"
         echo "  ./optools.sh convert-words"
         echo "  ./optools.sh convert-readings"
         echo "  ./optools.sh convert-listens"

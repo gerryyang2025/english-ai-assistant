@@ -110,7 +110,7 @@ From the repo root (see `scripts/README.md`):
 ./optools.sh convert-listens
 ./optools.sh check-words
 ./optools.sh check-readings
-./optools.sh check-listen
+./optools.sh check-listens
 # ./optools.sh check-words /path/to/WORDS.md   # default: data/WORDS.md
 ```
 

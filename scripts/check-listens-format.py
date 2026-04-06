@@ -9,7 +9,7 @@ LISTEN.md 格式检查工具
 - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
 - 二级标题下的内容都是该章节的内容
 
-运行方式（在仓库根目录）：python3 scripts/check-listen-format.py [文件路径]
+运行方式（在仓库根目录）：python3 scripts/check-listens-format.py [文件路径]
 """
 
 import re
