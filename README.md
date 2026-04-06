@@ -51,7 +51,8 @@ english-ai-assistant/
 # Start the server
 ./optools.sh start
 
-# Open http://localhost:8082
+# On this machine: http://localhost:8082
+# From another device on the same network, use this computer's LAN IP (shown after start/status), not localhost.
 ```
 
 ## Server commands

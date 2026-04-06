@@ -16,6 +16,62 @@ PORT=8082
 export PORT
 PID_FILE=".server.pid"
 
+# Primary non-loopback IPv4 for LAN access (Gunicorn binds 0.0.0.0)
+get_lan_ipv4() {
+    local ip=""
+    case "$(uname -s)" in
+        Darwin)
+            for iface in en0 en1 en2; do
+                ip=$(ipconfig getifaddr "$iface" 2>/dev/null)
+                case "$ip" in
+                    127.*|"") ;;
+                    *) echo "$ip"; return 0 ;;
+                esac
+            done
+            ;;
+    esac
+    if command -v ip >/dev/null 2>&1; then
+        ip=$(ip -4 route get 1.1.1.1 2>/dev/null | awk '{for (i = 1; i <= NF; i++) if ($i == "src") { print $(i + 1); exit }}')
+        case "$ip" in
+            127.*|"") ;;
+            *) echo "$ip"; return 0 ;;
+        esac
+    fi
+    if command -v hostname >/dev/null 2>&1; then
+        ip=$(hostname -I 2>/dev/null | awk '{print $1}')
+        case "$ip" in
+            127.*|"") ;;
+            *) echo "$ip"; return 0 ;;
+        esac
+    fi
+    return 1
+}
+
+print_access_urls() {
+    echo "Listen: 0.0.0.0:$PORT (all interfaces)"
+    echo ""
+    echo "  This computer only:"
+    echo "    http://127.0.0.1:$PORT"
+    echo "    http://localhost:$PORT"
+    echo ""
+    local lip
+    lip=$(get_lan_ipv4) || true
+    if [ -n "$lip" ]; then
+        echo "  Same Wi‑Fi / LAN (phone, tablet, another PC) — use this host's IP, not localhost:"
+        echo "    http://$lip:$PORT"
+        echo ""
+    else
+        echo "  Same LAN — replace host with this machine's IPv4 (not localhost):"
+        echo "    http://<this-host-IPv4>:$PORT"
+        echo "    Hint (macOS): ipconfig getifaddr en0"
+        echo ""
+    fi
+    echo "  Public internet (remote access):"
+    echo "    Use your router WAN / public IP or DDNS, with port $PORT forwarded to this computer."
+    echo "    localhost only works on the machine running the server."
+    echo ""
+}
+
 # Check if using virtual environment
 USE_VENV=false
 
@@ -350,9 +406,8 @@ start_server() {
 
     echo ""
     echo "======================================"
-    echo "Access URL: http://localhost:$PORT"
+    print_access_urls
     echo "======================================"
-    echo ""
 }
 
 stop_server() {
@@ -467,8 +522,7 @@ check_status() {
     
     echo ""
     echo "Port: $PORT"
-    echo "Access URL: http://localhost:$PORT"
-    echo ""
+    print_access_urls
     
     # Check API configuration
     if [ -f "api_config.py" ]; then

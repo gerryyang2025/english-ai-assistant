@@ -7,8 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.10] - 2026-04-06
+
+Grammar **时态魔法学院** (lessons + 24-question quiz + stats); **`optools.sh`** startup hints for LAN/public access.
+
 ### Added
 - Grammar **时态魔法学院** quiz (`content/grammar-tenses-magic.html` + `initGrammarTensesQuiz`): each question has **`textZh`** (Chinese paraphrase of the stem) shown below the English line; each question includes an **`explain`** field; after submit, per-question feedback shows **解析** (why the correct answer fits, and why distractors do not). **No on-screen tense label** before submit (avoids leaking the expected tense).
+
+### Changed
+- **`optools.sh`**: after `start` / `status`, prints listen address (`0.0.0.0`), localhost URLs, best-effort LAN IPv4 for other devices, and a short note on public-internet access (WAN/DDNS + port forward); avoids implying that `localhost` works from another machine.
+- Grammar **时态魔法学院** quiz (`initGrammarTensesQuiz`): per-question **`explain`** copy reworded to avoid naming tenses in Chinese (e.g. no 「一般现在时」「现在进行时」); uses structure/context wording instead. Summary tables and **`point`** labels after submit are unchanged.
+- Grammar **时态魔法学院** quiz: items are ordered by **round-robin across the three tense groups** (each group shuffled first), so the same tense is not listed in one block; `content/grammar-tenses-magic.html` quiz blurb notes the mixed order.
 
 ## [3.9] - 2026-04-06
 

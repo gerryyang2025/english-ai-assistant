@@ -824,13 +824,38 @@ function buildGrammarTenseQuizSummaryHtml(totalScore, totalQuestions, results, q
 }
 
 /**
+ * 按三种时态分组、组内随机打乱，再轮流合并（一般现在 → 现在进行 → 将来 → …），
+ * 避免卷面上同一时态连续排在一起。
+ */
+function buildMixedGrammarTensesQuizOrder(questions) {
+    const tenseOrder = ['一般现在时', '现在进行时', '将来时'];
+    const groups = tenseOrder.map(t => questions.filter(q => q.tense === t));
+    for (const g of groups) {
+        for (let i = g.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const tmp = g[i];
+            g[i] = g[j];
+            g[j] = tmp;
+        }
+    }
+    const out = [];
+    const maxLen = Math.max(0, ...groups.map(gr => gr.length));
+    for (let i = 0; i < maxLen; i++) {
+        for (const g of groups) {
+            if (i < g.length) out.push(g[i]);
+        }
+    }
+    return out;
+}
+
+/**
  * 「时态魔法学院」小测验：仅在 #grammar-detail-body 内查找节点，避免与全站其它题目冲突。
  */
 function initGrammarTensesQuiz(root) {
     const scope = root && root.querySelector('.grammar-tenses-embed');
     if (!scope) return;
 
-    const questionsData = [
+    const questionBank = [
         {
             text: 'My sister ______ to school by bus every day.',
             options: ['go', 'goes', 'going'],
@@ -839,7 +864,7 @@ function initGrammarTensesQuiz(root) {
             point: '第三人称单数',
             textZh: '我姐姐每天乘公交车上学。',
             explain:
-                '主语 My sister 是第三人称单数，一般现在时要加 -s。every day 表示习惯动作。go 是原形，going 不能单独作谓语（缺 be 动词）。'
+                '主语 My sister 是第三人称单数，表习惯或重复动作时谓语要加 -s。every day 表示习惯动作。go 是原形，going 不能单独作谓语（缺 be 动词）。'
         },
         {
             text: 'They ______ football on Sunday mornings.',
@@ -859,7 +884,7 @@ function initGrammarTensesQuiz(root) {
             point: '第三人称单数',
             textZh: '这只猫非常喜欢牛奶。',
             explain:
-                'The cat 视为三单，一般现在时用 likes。like 表喜好时通常不用进行时，故不用 is liking。'
+                'The cat 视为三单，表习惯或喜好时用 likes。like 表喜好时通常不用 be + -ing，故不用 is liking。'
         },
         {
             text: 'He ______ like hot milk. (否定)',
@@ -869,7 +894,7 @@ function initGrammarTensesQuiz(root) {
             point: '否定与助动词 do/does',
             textZh: '他不喜欢热牛奶。（否定）',
             explain:
-                '一般现在时否定实义动词 like 要用 don’t/doesn’t + 原形。主语 He 用 doesn’t。isn’t 后面不能接原形 like。'
+                '否定实义动词 like 要用 don’t/doesn’t + 原形。主语 He 用 doesn’t。isn’t 后面不能接原形 like。'
         },
         {
             text: '______ your mother cook dinner every evening?',
@@ -879,7 +904,7 @@ function initGrammarTensesQuiz(root) {
             point: '一般疑问句 Do/Does',
             textZh: '你妈妈每天晚上做晚饭吗？',
             explain:
-                'your mother 是三单，一般现在时疑问句用 Does 开头，后面动词用原形 cook。Do 用于 I/you/we/they；Is 用于进行时或形容词，不适用此处。'
+                'your mother 是三单，表习惯疑问句用 Does 开头，后面动词用原形 cook。Do 用于 I/you/we/they；Is 用于「正在做」或形容词，不适用此处。'
         },
         {
             text: 'The moon ______ around the Earth.',
@@ -889,7 +914,7 @@ function initGrammarTensesQuiz(root) {
             point: '客观事实',
             textZh: '月亮绕地球运行。',
             explain:
-                '描述客观规律、真理用一般现在时。The moon 是三单，用 goes。is going 表「正在去」，不符合天文事实的表述习惯。'
+                '描述客观规律、真理常用三单谓语。The moon 是三单，用 goes。is going 表「正在去」，不符合天文事实的表述习惯。'
         },
         {
             text: 'Water ______ at 100°C.',
@@ -899,7 +924,7 @@ function initGrammarTensesQuiz(root) {
             point: '客观事实',
             textZh: '水在100℃沸腾。',
             explain:
-                'Water 不可数名词作主语，一般现在时常用单数谓语 boils 表科学事实。is boiling 强调「正在沸腾」这一时刻，题干在陈述普遍规律。'
+                'Water 不可数名词作主语，陈述科学事实时常用单数谓语 boils。is boiling 强调「正在沸腾」这一时刻，题干在陈述普遍规律。'
         },
         {
             text: 'My brother and I ______ to the library on Saturdays.',
@@ -919,7 +944,7 @@ function initGrammarTensesQuiz(root) {
             point: 'Listen/Look 与进行时',
             textZh: '听！外面的鸟儿正在欢快地歌唱。',
             explain:
-                'Listen! 提示「注意此刻正在发生的事」，用现在进行时。birds 是复数，用 are singing。sing 是一般现在时习惯；is singing 与复数主语不一致。'
+                'Listen! 提示「注意此刻正在发生的事」，用 are + singing。birds 是复数，用 are singing。sing 表习惯或重复；is singing 与复数主语不一致。'
         },
         {
             text: 'Mom ______ dinner in the kitchen right now.',
@@ -939,7 +964,7 @@ function initGrammarTensesQuiz(root) {
             point: '此刻正在',
             textZh: '安静！宝宝正在睡觉。',
             explain:
-                'Be quiet! 暗示「现在正在睡觉，别吵」，用进行时。The baby 用 is sleeping。sleeps 表习惯，语气不如进行时贴切。'
+                'Be quiet! 暗示「现在正在睡觉，别吵」，用 is + sleeping。The baby 用 is sleeping。sleeps 表习惯，语气不如「正在睡」贴切。'
         },
         {
             text: 'They ______ English in class this week.',
@@ -949,7 +974,7 @@ function initGrammarTensesQuiz(root) {
             point: '现阶段进行 (this week)',
             textZh: '他们本周在课堂上学习英语。',
             explain:
-                'this week 可表示「本周这一阶段正在进行的安排」，常用进行时。They 搭配 are studying。studies 是三单形式，与 They 不符。'
+                'this week 可表示「本周这一阶段正在发生的安排」，常用 be + -ing。They 搭配 are studying。studies 是三单形式，与 They 不符。'
         },
         {
             text: '______ you doing your homework now?',
@@ -959,7 +984,7 @@ function initGrammarTensesQuiz(root) {
             point: '进行时疑问句',
             textZh: '你现在正在做家庭作业吗？',
             explain:
-                '句中已有 doing，为现在进行时疑问句，要把 be 提前。主语 you 搭配 Are。Do 用于一般现在时；Is 与 you 不搭配。'
+                '句中已有 doing，要把 be 提前构成疑问。主语 you 搭配 Are。Do 用于习惯/事实类疑问；Is 与 you 不搭配。'
         },
         {
             text: 'Look! The dog ______ after a ball.',
@@ -969,7 +994,7 @@ function initGrammarTensesQuiz(root) {
             point: 'Listen/Look 与进行时',
             textZh: '看！狗正在追一个球。',
             explain:
-                'Look! 提示正在发生的画面，用进行时。The dog 是三单，用 is running。runs 表习惯，不能突出「正在追」。'
+                'Look! 提示正在发生的画面，用 is + running。The dog 是三单，用 is running。runs 表习惯，不能突出「正在追」。'
         },
         {
             text: 'He ______ not playing football now.',
@@ -979,7 +1004,7 @@ function initGrammarTensesQuiz(root) {
             point: '进行时否定',
             textZh: '他现在没在踢足球。',
             explain:
-                '进行时结构为 be + not + doing。主语 He 搭配 is。am 只用于 I；are 用于 you/we/they。'
+                'be + not + doing 结构。主语 He 搭配 is。am 只用于 I；are 用于 you/we/they。'
         },
         {
             text: 'We ______ for the bus at the moment.',
@@ -989,7 +1014,7 @@ function initGrammarTensesQuiz(root) {
             point: 'at the moment',
             textZh: '我们此刻正在等公交车。',
             explain:
-                'at the moment = 此刻，用现在进行时。We 搭配 are waiting。waits 是三单，与 We 不符。'
+                'at the moment = 此刻，用 are + waiting。We 搭配 are waiting。waits 是三单，与 We 不符。'
         },
         {
             text: 'I ______ you a postcard from Japan next month.',
@@ -999,7 +1024,7 @@ function initGrammarTensesQuiz(root) {
             point: 'will + 动词原形',
             textZh: '下个月我会从日本给你寄一张明信片。',
             explain:
-                'next month 表将来。will send 表将来会寄出。单纯一般现在时 send 不表将来；am sending 多指「眼下正在寄」或已安排好的近期，与 next month 搭配 will 更自然。'
+                'next month 指下个月。will send 表示之后会寄出。单纯 send 不表示「之后寄出」；am sending 多指「眼下正在寄」或已安排好的近期，与 next month 搭配 will 更自然。'
         },
         {
             text: 'They ______ going to have a picnic this weekend.',
@@ -1019,7 +1044,7 @@ function initGrammarTensesQuiz(root) {
             point: 'will + 动词原形',
             textZh: '她明天上午要去看望奶奶。',
             explain:
-                'tomorrow morning 表将来，will 后直接接动词原形 visit。若用 is，需写成 is going to visit，不能单独 is visit。'
+                'tomorrow morning 指明天上午，will 后直接接动词原形 visit。若用 is，需写成 is going to visit，不能单独 is visit。'
         },
         {
             text: 'It ______ cloudy tomorrow. (根据预测)',
@@ -1039,7 +1064,7 @@ function initGrammarTensesQuiz(root) {
             point: 'Will 表意愿/请求',
             textZh: '你愿意帮我搬这个箱子吗？',
             explain:
-                'Will you…? 常用来礼貌地请求对方做某事。Are you 需接 -ing 表进行；Do you help 表习惯，不如 Will 贴切。'
+                'Will you…? 常用来礼貌地请求对方做某事。Are you 需接 -ing 表此刻动作；Do you help 表习惯，不如 Will 贴切。'
         },
         {
             text: 'He ______ not come to school tomorrow.',
@@ -1049,7 +1074,7 @@ function initGrammarTensesQuiz(root) {
             point: 'will 的否定 (won’t)',
             textZh: '他明天不来上学。',
             explain:
-                'tomorrow 表将来，否定将来动作用 won’t + 动词原形。doesn’t come 是一般现在时习惯；isn’t 后不能接原形 come。'
+                'tomorrow 指明天，否定之后要做的事用 won’t + 动词原形。doesn’t come 表习惯或重复；isn’t 后不能接原形 come。'
         },
         {
             text: 'We ______ watch a cartoon tonight.',
@@ -1069,9 +1094,10 @@ function initGrammarTensesQuiz(root) {
             point: 'there will be / 计划',
             textZh: '下周一有一场运动会。',
             explain:
-                'There be 的将来时常用 there will be 或 there is going to be。题干选项中 will be 正确。单独 will 后缺动词，无法接 a sports meeting。'
+                'There be 表「之后会有」时常用 there will be 或 there is going to be。题干选项中 will be 正确。单独 will 后缺动词，无法接 a sports meeting。'
         }
     ];
+    const quizQuestions = buildMixedGrammarTensesQuizOrder(questionBank);
 
     const qContainer = scope.querySelector('#gtq-questions-container');
     const submitBtn = scope.querySelector('#gtq-submit');
@@ -1080,7 +1106,7 @@ function initGrammarTensesQuiz(root) {
 
     function renderQuestions() {
         qContainer.innerHTML = '';
-        questionsData.forEach((q, idx) => {
+        quizQuestions.forEach((q, idx) => {
             const questionDiv = document.createElement('div');
             questionDiv.className = 'quiz-question';
             questionDiv.dataset.index = String(idx);
@@ -1127,7 +1153,7 @@ function initGrammarTensesQuiz(root) {
         qContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.checked = false;
         });
-        for (let i = 0; i < questionsData.length; i++) {
+        for (let i = 0; i < quizQuestions.length; i++) {
             const fbDiv = scope.querySelector(`#gtq-fb-${i}`);
             if (fbDiv) fbDiv.innerHTML = '';
         }
@@ -1141,7 +1167,7 @@ function initGrammarTensesQuiz(root) {
 
     function gradeQuiz() {
         let totalScore = 0;
-        const totalQuestions = questionsData.length;
+        const totalQuestions = quizQuestions.length;
         const results = [];
 
         let allAnswered = true;
@@ -1173,7 +1199,7 @@ function initGrammarTensesQuiz(root) {
                     break;
                 }
             }
-            const correctAnswer = questionsData[i].correct;
+            const correctAnswer = quizQuestions[i].correct;
             const isCorrect = selectedValue === correctAnswer;
             if (isCorrect) {
                 totalScore += 10;
@@ -1192,7 +1218,7 @@ function initGrammarTensesQuiz(root) {
             totalScore,
             totalQuestions,
             results,
-            questionsData
+            quizQuestions
         );
         resultDiv.innerHTML = summaryHtml;
         resultDiv.classList.add('has-summary');
@@ -1201,7 +1227,7 @@ function initGrammarTensesQuiz(root) {
         for (let i = 0; i < totalQuestions; i++) {
             const fbDiv = scope.querySelector(`#gtq-fb-${i}`);
             const res = results.find(r => r.index === i);
-            const q = questionsData[i];
+            const q = quizQuestions[i];
             const explainText = q && q.explain ? q.explain : '';
             const explainHtml = explainText
                 ? `<div class="gtq-explain"><strong>解析：</strong>${escapeHtml(explainText)}</div>`

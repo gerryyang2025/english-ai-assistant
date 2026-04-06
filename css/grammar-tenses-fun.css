@@ -185,10 +185,6 @@
     gap: 12px;
 }
 
-.grammar-tenses-embed .card-header span:first-child {
-    font-size: 2.2rem;
-}
-
 .grammar-tenses-embed .card.present .card-header {
     background: linear-gradient(120deg, #43c6ac, #191654);
 }
