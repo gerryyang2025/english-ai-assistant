@@ -1116,7 +1116,9 @@ function initGrammarTensesQuiz(root) {
             qTextDiv.className = 'question-text';
             const zhBlock =
                 q.textZh &&
-                `<div class="question-text-zh" lang="zh-CN">【${escapeHtml(q.textZh)}】</div>`;
+                `<div class="question-text-zh" lang="zh-CN">${escapeHtml(
+                    unwrapChineseBookQuotes(q.textZh)
+                )}</div>`;
             qTextDiv.innerHTML = `
                 <div class="question-text-row">
                     <span>${idx + 1}. ${escapeHtml(q.text)}</span>
@@ -1159,7 +1161,7 @@ function initGrammarTensesQuiz(root) {
         }
         const resultDiv = scope.querySelector('#gtq-result');
         if (resultDiv) {
-            resultDiv.innerHTML = '✨ 已经清空答案，重新选择再提交吧 ✨';
+            resultDiv.innerHTML = '✨ 已经清空答案，重新选择再提交吧';
             resultDiv.style.background = '#fff0d4';
             resultDiv.classList.remove('has-summary');
         }
@@ -1181,7 +1183,7 @@ function initGrammarTensesQuiz(root) {
         if (!resultDiv) return;
 
         if (!allAnswered) {
-            resultDiv.innerHTML = '⚠️ 哎呀！还有题目没有选答案哦～ 请完成所有题目再提交 ⚠️';
+            resultDiv.innerHTML = '⚠️ 哎呀！还有题目没有选答案哦～ 请完成所有题目再提交';
             resultDiv.style.background = '#ffe0b5';
             resultDiv.style.animation = 'none';
             setTimeout(() => {
@@ -1236,7 +1238,7 @@ function initGrammarTensesQuiz(root) {
                 if (res.correct) {
                     fbDiv.innerHTML = `<div class="gtq-fb-summary correct-feedback">✅ 回答正确！ “${escapeHtml(
                         String(res.selected)
-                    )}” 是对的！ +10分 ✅</div>${explainHtml}`;
+                    )}” 是对的！ +10分</div>${explainHtml}`;
                     fbDiv.className = 'question-feedback';
                 } else {
                     fbDiv.innerHTML = `<div class="gtq-fb-summary wrong-feedback">❌ 正确答案是 “${escapeHtml(
@@ -1261,7 +1263,7 @@ function initGrammarTensesQuiz(root) {
         const resultDiv = scope.querySelector('#gtq-result');
         if (resultDiv) {
             resultDiv.style.background = '#fff0d4';
-            resultDiv.innerHTML = '🔄 答案已清空，可以重新挑战啦！ 🔄';
+            resultDiv.innerHTML = '🔄 答案已清空，可以重新挑战啦！';
             resultDiv.classList.remove('has-summary');
         }
     });
@@ -1282,7 +1284,7 @@ function initGrammarTensesQuiz(root) {
             const resultDiv = scope.querySelector('#gtq-result');
             if (resultDiv && resultDiv.querySelector('.gtq-result-summary')) {
                 resultDiv.innerHTML =
-                    '📝 你修改了答案，请重新提交以更新分数与薄弱知识点分析。 📝';
+                    '📝 你修改了答案，请重新提交以更新分数与薄弱知识点分析。';
                 resultDiv.style.background = '#fff0d4';
                 resultDiv.classList.remove('has-summary');
             }
@@ -5804,6 +5806,16 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+/** 去掉中文释义外层 【…】（题库或旧数据可能带成对黑括号） */
+function unwrapChineseBookQuotes(text) {
+    if (!text) return '';
+    let s = String(text).trim();
+    while (s.startsWith('【') && s.endsWith('】') && s.length > 2) {
+        s = s.slice(1, -1).trim();
+    }
+    return s;
 }
 
 /** 将简单 Markdown（如 **粗体**）转为 HTML，先转义再替换，保证安全 */
