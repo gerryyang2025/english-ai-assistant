@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Grammar **时态魔法学院** quiz (`content/grammar-tenses-magic.html` + `initGrammarTensesQuiz`): each question has **`textZh`** (Chinese paraphrase of the stem) shown below the English line; each question includes an **`explain`** field; after submit, per-question feedback shows **解析** (why the correct answer fits, and why distractors do not). **No on-screen tense label** before submit (avoids leaking the expected tense).
+
 ## [3.9] - 2026-04-06
 
 Markdown sources moved to **`data/`**; **`requirements.txt`** and **`optools.sh`** environment checks (`check-env`, `init` / idempotent `install`); audiobook tool exports **`listen.json`** in **`books`** format; docs and comments aligned (`scripts/README.md` in English, `api_config` / server / convert paths).

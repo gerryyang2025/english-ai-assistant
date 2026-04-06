@@ -836,168 +836,240 @@ function initGrammarTensesQuiz(root) {
             options: ['go', 'goes', 'going'],
             correct: 'goes',
             tense: '一般现在时',
-            point: '第三人称单数'
+            point: '第三人称单数',
+            textZh: '我姐姐每天乘公交车上学。',
+            explain:
+                '主语 My sister 是第三人称单数，一般现在时要加 -s。every day 表示习惯动作。go 是原形，going 不能单独作谓语（缺 be 动词）。'
         },
         {
             text: 'They ______ football on Sunday mornings.',
             options: ['plays', 'play', 'playing'],
             correct: 'play',
             tense: '一般现在时',
-            point: '复数主语与动词'
+            point: '复数主语与动词',
+            textZh: '他们在周日上午踢足球。',
+            explain:
+                'They 是复数，谓语用动词原形 play。plays 只用于 he/she/it；playing 不能单独作谓语。'
         },
         {
             text: 'The cat ______ milk very much.',
             options: ['like', 'likes', 'is liking'],
             correct: 'likes',
             tense: '一般现在时',
-            point: '第三人称单数'
+            point: '第三人称单数',
+            textZh: '这只猫非常喜欢牛奶。',
+            explain:
+                'The cat 视为三单，一般现在时用 likes。like 表喜好时通常不用进行时，故不用 is liking。'
         },
         {
             text: 'He ______ like hot milk. (否定)',
             options: ["doesn't", "don't", "isn't"],
             correct: "doesn't",
             tense: '一般现在时',
-            point: '否定与助动词 do/does'
+            point: '否定与助动词 do/does',
+            textZh: '他不喜欢热牛奶。（否定）',
+            explain:
+                '一般现在时否定实义动词 like 要用 don’t/doesn’t + 原形。主语 He 用 doesn’t。isn’t 后面不能接原形 like。'
         },
         {
             text: '______ your mother cook dinner every evening?',
             options: ['Do', 'Does', 'Is'],
             correct: 'Does',
             tense: '一般现在时',
-            point: '一般疑问句 Do/Does'
+            point: '一般疑问句 Do/Does',
+            textZh: '你妈妈每天晚上做晚饭吗？',
+            explain:
+                'your mother 是三单，一般现在时疑问句用 Does 开头，后面动词用原形 cook。Do 用于 I/you/we/they；Is 用于进行时或形容词，不适用此处。'
         },
         {
             text: 'The moon ______ around the Earth.',
             options: ['go', 'goes', 'is going'],
             correct: 'goes',
             tense: '一般现在时',
-            point: '客观事实'
+            point: '客观事实',
+            textZh: '月亮绕地球运行。',
+            explain:
+                '描述客观规律、真理用一般现在时。The moon 是三单，用 goes。is going 表「正在去」，不符合天文事实的表述习惯。'
         },
         {
             text: 'Water ______ at 100°C.',
             options: ['boil', 'boils', 'is boiling'],
             correct: 'boils',
             tense: '一般现在时',
-            point: '客观事实'
+            point: '客观事实',
+            textZh: '水在100℃沸腾。',
+            explain:
+                'Water 不可数名词作主语，一般现在时常用单数谓语 boils 表科学事实。is boiling 强调「正在沸腾」这一时刻，题干在陈述普遍规律。'
         },
         {
             text: 'My brother and I ______ to the library on Saturdays.',
             options: ['go', 'goes', 'going'],
             correct: 'go',
             tense: '一般现在时',
-            point: '并列主语'
+            point: '并列主语',
+            textZh: '我和哥哥（或弟弟）每周六去图书馆。',
+            explain:
+                'My brother and I 是两个人，作主语为复数，谓语用原形 go。goes 仅用于三单；going 不能单独作谓语。'
         },
         {
             text: 'Listen! The birds ______ sweetly outside.',
             options: ['sing', 'is singing', 'are singing'],
             correct: 'are singing',
             tense: '现在进行时',
-            point: 'Listen/Look 与进行时'
+            point: 'Listen/Look 与进行时',
+            textZh: '听！外面的鸟儿正在欢快地歌唱。',
+            explain:
+                'Listen! 提示「注意此刻正在发生的事」，用现在进行时。birds 是复数，用 are singing。sing 是一般现在时习惯；is singing 与复数主语不一致。'
         },
         {
             text: 'Mom ______ dinner in the kitchen right now.',
             options: ['cooks', 'is cooking', 'cook'],
             correct: 'is cooking',
             tense: '现在进行时',
-            point: '此刻正在 (now/right now)'
+            point: '此刻正在 (now/right now)',
+            textZh: '妈妈此刻正在厨房里做晚饭。',
+            explain:
+                'right now 表示此时此刻，用 am/is/are + doing。Mom 是三单，用 is cooking。cooks 表习惯，与 right now 冲突。'
         },
         {
             text: 'Be quiet! The baby ______.',
             options: ['sleep', 'sleeps', 'is sleeping'],
             correct: 'is sleeping',
             tense: '现在进行时',
-            point: '此刻正在'
+            point: '此刻正在',
+            textZh: '安静！宝宝正在睡觉。',
+            explain:
+                'Be quiet! 暗示「现在正在睡觉，别吵」，用进行时。The baby 用 is sleeping。sleeps 表习惯，语气不如进行时贴切。'
         },
         {
             text: 'They ______ English in class this week.',
             options: ['study', 'are studying', 'studies'],
             correct: 'are studying',
             tense: '现在进行时',
-            point: '现阶段进行 (this week)'
+            point: '现阶段进行 (this week)',
+            textZh: '他们本周在课堂上学习英语。',
+            explain:
+                'this week 可表示「本周这一阶段正在进行的安排」，常用进行时。They 搭配 are studying。studies 是三单形式，与 They 不符。'
         },
         {
             text: '______ you doing your homework now?',
             options: ['Are', 'Is', 'Do'],
             correct: 'Are',
             tense: '现在进行时',
-            point: '进行时疑问句'
+            point: '进行时疑问句',
+            textZh: '你现在正在做家庭作业吗？',
+            explain:
+                '句中已有 doing，为现在进行时疑问句，要把 be 提前。主语 you 搭配 Are。Do 用于一般现在时；Is 与 you 不搭配。'
         },
         {
             text: 'Look! The dog ______ after a ball.',
             options: ['run', 'runs', 'is running'],
             correct: 'is running',
             tense: '现在进行时',
-            point: 'Listen/Look 与进行时'
+            point: 'Listen/Look 与进行时',
+            textZh: '看！狗正在追一个球。',
+            explain:
+                'Look! 提示正在发生的画面，用进行时。The dog 是三单，用 is running。runs 表习惯，不能突出「正在追」。'
         },
         {
             text: 'He ______ not playing football now.',
             options: ['is', 'am', 'are'],
             correct: 'is',
             tense: '现在进行时',
-            point: '进行时否定'
+            point: '进行时否定',
+            textZh: '他现在没在踢足球。',
+            explain:
+                '进行时结构为 be + not + doing。主语 He 搭配 is。am 只用于 I；are 用于 you/we/they。'
         },
         {
             text: 'We ______ for the bus at the moment.',
             options: ['wait', 'are waiting', 'waits'],
             correct: 'are waiting',
             tense: '现在进行时',
-            point: 'at the moment'
+            point: 'at the moment',
+            textZh: '我们此刻正在等公交车。',
+            explain:
+                'at the moment = 此刻，用现在进行时。We 搭配 are waiting。waits 是三单，与 We 不符。'
         },
         {
             text: 'I ______ you a postcard from Japan next month.',
             options: ['send', 'will send', 'am sending'],
             correct: 'will send',
             tense: '将来时',
-            point: 'will + 动词原形'
+            point: 'will + 动词原形',
+            textZh: '下个月我会从日本给你寄一张明信片。',
+            explain:
+                'next month 表将来。will send 表将来会寄出。单纯一般现在时 send 不表将来；am sending 多指「眼下正在寄」或已安排好的近期，与 next month 搭配 will 更自然。'
         },
         {
             text: 'They ______ going to have a picnic this weekend.',
             options: ['is', 'am', 'are'],
             correct: 'are',
             tense: '将来时',
-            point: 'be going to 与主语一致'
+            point: 'be going to 与主语一致',
+            textZh: '他们本周末打算去野餐。',
+            explain:
+                'be going to 结构中的 be 要随主语变化。They 是复数，用 are。is 用于三单；am 只用于 I。'
         },
         {
             text: 'She ______ visit her grandma tomorrow morning.',
             options: ['will', 'is', 'are'],
             correct: 'will',
             tense: '将来时',
-            point: 'will + 动词原形'
+            point: 'will + 动词原形',
+            textZh: '她明天上午要去看望奶奶。',
+            explain:
+                'tomorrow morning 表将来，will 后直接接动词原形 visit。若用 is，需写成 is going to visit，不能单独 is visit。'
         },
         {
             text: 'It ______ cloudy tomorrow. (根据预测)',
             options: ['is going to be', 'will be', 'will'],
             correct: 'is going to be',
             tense: '将来时',
-            point: 'be going to 表预测'
+            point: 'be going to 表预测',
+            textZh: '明天会是阴天。（根据预测）',
+            explain:
+                '题干注明「根据预测」，有迹象推断天气常用 be going to。后面接形容词 cloudy，需要 be，故 is going to be。单独 will 后不能直接接形容词。'
         },
         {
             text: '______ you help me carry this box?',
             options: ['Will', 'Are', 'Do'],
             correct: 'Will',
             tense: '将来时',
-            point: 'Will 表意愿/请求'
+            point: 'Will 表意愿/请求',
+            textZh: '你愿意帮我搬这个箱子吗？',
+            explain:
+                'Will you…? 常用来礼貌地请求对方做某事。Are you 需接 -ing 表进行；Do you help 表习惯，不如 Will 贴切。'
         },
         {
             text: 'He ______ not come to school tomorrow.',
             options: ["won't", "doesn't", "isn't"],
             correct: "won't",
             tense: '将来时',
-            point: 'will 的否定 (won’t)'
+            point: 'will 的否定 (won’t)',
+            textZh: '他明天不来上学。',
+            explain:
+                'tomorrow 表将来，否定将来动作用 won’t + 动词原形。doesn’t come 是一般现在时习惯；isn’t 后不能接原形 come。'
         },
         {
             text: 'We ______ watch a cartoon tonight.',
             options: ['are going to', 'will to', 'are go to'],
             correct: 'are going to',
             tense: '将来时',
-            point: 'be going to 结构'
+            point: 'be going to 结构',
+            textZh: '我们今晚打算看一部动画片。',
+            explain:
+                '今晚打算做某事，用 be going to + 原形 watch。We 搭配 are going to。英语不存在 will to；are go to 结构错误。'
         },
         {
             text: 'There ______ a sports meeting next Monday.',
             options: ['will be', 'is going to be', 'will'],
             correct: 'will be',
             tense: '将来时',
-            point: 'there will be / 计划'
+            point: 'there will be / 计划',
+            textZh: '下周一有一场运动会。',
+            explain:
+                'There be 的将来时常用 there will be 或 there is going to be。题干选项中 will be 正确。单独 will 后缺动词，无法接 a sports meeting。'
         }
     ];
 
@@ -1016,9 +1088,14 @@ function initGrammarTensesQuiz(root) {
 
             const qTextDiv = document.createElement('div');
             qTextDiv.className = 'question-text';
+            const zhBlock =
+                q.textZh &&
+                `<div class="question-text-zh" lang="zh-CN">【${escapeHtml(q.textZh)}】</div>`;
             qTextDiv.innerHTML = `
-                <span>${idx + 1}. ${q.text}</span>
-                <span class="tense-badge">${q.tense}</span>
+                <div class="question-text-row">
+                    <span>${idx + 1}. ${escapeHtml(q.text)}</span>
+                </div>
+                ${zhBlock || ''}
             `;
 
             const optionsDiv = document.createElement('div');
@@ -1124,13 +1201,22 @@ function initGrammarTensesQuiz(root) {
         for (let i = 0; i < totalQuestions; i++) {
             const fbDiv = scope.querySelector(`#gtq-fb-${i}`);
             const res = results.find(r => r.index === i);
+            const q = questionsData[i];
+            const explainText = q && q.explain ? q.explain : '';
+            const explainHtml = explainText
+                ? `<div class="gtq-explain"><strong>解析：</strong>${escapeHtml(explainText)}</div>`
+                : '';
             if (fbDiv && res) {
                 if (res.correct) {
-                    fbDiv.innerHTML = `✅ 回答正确！ “${res.selected}” 是对的！ +10分 ✅`;
-                    fbDiv.className = 'question-feedback correct-feedback';
+                    fbDiv.innerHTML = `<div class="gtq-fb-summary correct-feedback">✅ 回答正确！ “${escapeHtml(
+                        String(res.selected)
+                    )}” 是对的！ +10分 ✅</div>${explainHtml}`;
+                    fbDiv.className = 'question-feedback';
                 } else {
-                    fbDiv.innerHTML = `❌ 噢不，正确答案是 “${res.correctAns}”。 你选了 “${res.selected}”。 再记一记！ ❌`;
-                    fbDiv.className = 'question-feedback wrong-feedback';
+                    fbDiv.innerHTML = `<div class="gtq-fb-summary wrong-feedback">❌ 正确答案是 “${escapeHtml(
+                        String(res.correctAns)
+                    )}”，你选了 “${escapeHtml(String(res.selected))}”。再记一记！</div>${explainHtml}`;
+                    fbDiv.className = 'question-feedback is-wrong';
                 }
             }
         }

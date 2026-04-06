@@ -307,18 +307,26 @@
     font-size: 1.2rem;
     margin-bottom: 0.8rem;
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+}
+
+.grammar-tenses-embed .question-text-row {
+    display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 10px;
 }
 
-.grammar-tenses-embed .tense-badge {
-    background: #8b5cf6;
-    color: white;
-    font-size: 0.7rem;
-    padding: 4px 12px;
-    border-radius: 40px;
-    letter-spacing: 1px;
+.grammar-tenses-embed .question-text-zh {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4a5568;
+    line-height: 1.55;
+    padding: 0.35rem 0 0;
+    border-top: 1px dashed rgba(139, 92, 246, 0.25);
+    margin-top: 0.15rem;
 }
 
 .grammar-tenses-embed .options {
@@ -354,11 +362,34 @@
 .grammar-tenses-embed .question-feedback {
     margin-top: 8px;
     font-size: 0.85rem;
-    padding-left: 8px;
+    padding-left: 4px;
     font-weight: 500;
     display: flex;
-    align-items: center;
-    gap: 6px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.grammar-tenses-embed .gtq-fb-summary {
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.grammar-tenses-embed .gtq-explain {
+    font-size: 0.82rem;
+    font-weight: 400;
+    line-height: 1.58;
+    color: #2d3748;
+    padding: 0.5rem 0.65rem 0.55rem;
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 10px;
+    border-left: 4px solid #4299e1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.grammar-tenses-embed .question-feedback.is-wrong .gtq-explain {
+    border-left-color: #ed8936;
+    background: rgba(255, 251, 245, 0.95);
 }
 
 .grammar-tenses-embed .quiz-buttons {
@@ -526,20 +557,18 @@
     }
 }
 
-.grammar-tenses-embed .correct-feedback {
+.grammar-tenses-embed .gtq-fb-summary.correct-feedback {
     color: #2b7e3a;
     background: #e0ffea;
     border-radius: 40px;
     padding: 4px 12px;
-    display: inline-block;
 }
 
-.grammar-tenses-embed .wrong-feedback {
+.grammar-tenses-embed .gtq-fb-summary.wrong-feedback {
     color: #c7362b;
     background: #ffe4e0;
     border-radius: 40px;
     padding: 4px 12px;
-    display: inline-block;
 }
 
 .grammar-tenses-embed .gt-footer {
