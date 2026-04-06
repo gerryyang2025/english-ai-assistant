@@ -247,7 +247,7 @@ class ListenFormatChecker:
         if self.books:
             print('\n📚 书本列表：')
             for idx, book in enumerate(self.books, 1):
-                print(f'\n  【第 {idx} 本】{book["name"]}')
+                print(f'\n  第 {idx} 本：{book["name"]}')
                 print(f'    - 听书材料数：{len(book["speeches"])}')
                 for speech in book['speeches']:
                     print(f'    - 章节数：{len(speech.get("chapters", []))}')

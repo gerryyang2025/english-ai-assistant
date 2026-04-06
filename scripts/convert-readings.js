@@ -262,7 +262,7 @@ function main() {
     });
     
     unitMap.forEach((readings, unitName) => {
-        console.log(`\n  【${unitName}】- ${readings.length} 篇`);
+        console.log(`\n  ${unitName}：${readings.length} 篇`);
         readings.forEach((reading, index) => {
             console.log(`    ${index + 1}. ${reading.title} (${reading.titleCn})`);
             console.log(`       - 句型: ${reading.keySentencePatterns.length} 个`);

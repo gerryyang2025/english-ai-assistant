@@ -213,11 +213,11 @@ function main() {
     console.log(`\n📚 共 ${data.books.length} 本书`);
 
     data.books.forEach((book, bookIndex) => {
-        console.log(`\n【第 ${bookIndex + 1} 本】${book.name}`);
+        console.log(`\n第 ${bookIndex + 1} 本：${book.name}`);
         console.log(`  📖 共 ${book.speeches.length} 篇听书材料`);
 
         book.speeches.forEach((speech, speechIndex) => {
-            console.log(`\n  【${speech.title}】`);
+            console.log(`\n  ${speech.title}`);
             console.log(`    - 概要: ${speech.summary ? speech.summary.substring(0, 50) + '...' : '未设置'}`);
             console.log(`    - 章节数: ${speech.chapters.length} 个`);
             speech.chapters.forEach((chapter, chapterIndex) => {

@@ -850,6 +850,7 @@ function buildMixedGrammarTensesQuizOrder(questions) {
 
 /**
  * 「时态魔法学院」小测验：仅在 #grammar-detail-body 内查找节点，避免与全站其它题目冲突。
+ * `textZh`：英语题干的中文释义，写入题库即原样展示（`escapeHtml`），不加外层装饰符号。
  */
 function initGrammarTensesQuiz(root) {
     const scope = root && root.querySelector('.grammar-tenses-embed');
@@ -1116,9 +1117,7 @@ function initGrammarTensesQuiz(root) {
             qTextDiv.className = 'question-text';
             const zhBlock =
                 q.textZh &&
-                `<div class="question-text-zh" lang="zh-CN">${escapeHtml(
-                    unwrapChineseBookQuotes(q.textZh)
-                )}</div>`;
+                `<div class="question-text-zh" lang="zh-CN">${escapeHtml(q.textZh)}</div>`;
             qTextDiv.innerHTML = `
                 <div class="question-text-row">
                     <span>${idx + 1}. ${escapeHtml(q.text)}</span>
@@ -5806,16 +5805,6 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
-}
-
-/** 去掉中文释义外层 【…】（题库或旧数据可能带成对黑括号） */
-function unwrapChineseBookQuotes(text) {
-    if (!text) return '';
-    let s = String(text).trim();
-    while (s.startsWith('【') && s.endsWith('】') && s.length > 2) {
-        s = s.slice(1, -1).trim();
-    }
-    return s;
 }
 
 /** 将简单 Markdown（如 **粗体**）转为 HTML，先转义再替换，保证安全 */
