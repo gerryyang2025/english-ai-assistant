@@ -276,14 +276,14 @@ RATE_LIMIT = {
 
 ### 服务器管理
 
-**使用 run.sh 脚本**：
+**使用 optools.sh 脚本**：
 ```bash
-./run.sh install      # 安装依赖
-./run.sh start        # 开发模式（Flask）
-./run.sh start prod   # 生产模式（Gunicorn）
-./run.sh stop         # 停止服务器
-./run.sh restart      # 重启服务器
-./run.sh status       # 检查服务器状态
+./optools.sh install      # 安装依赖
+./optools.sh start        # 开发模式（Flask）
+./optools.sh start prod   # 生产模式（Gunicorn）
+./optools.sh stop         # 停止服务器
+./optools.sh restart      # 重启服务器
+./optools.sh status       # 检查服务器状态
 ```
 
 **生产部署**：
@@ -345,7 +345,7 @@ gunicorn server:app -w 4 -b 0.0.0.0:8082
 english-ai-assistant/
 ├── index.html              # 主页面
 ├── server.py               # Python Flask 后端服务器
-├── run.sh                  # 服务器管理脚本
+├── optools.sh                  # 服务器管理脚本
 ├── api_config.py           # API 配置文件（忽略版本控制）
 ├── api_config.example.py   # API 配置模板
 ├── README.md               # 项目说明

@@ -139,7 +139,7 @@ response by returning true, but the message channel closed..."
 
 ## Development Notes
 
-- Run server: `./run.sh start`
+- Run server: `./optools.sh start`
 - Access: http://localhost:8082
 - Force refresh after code changes: `Cmd+Shift+R`
 - API config: Copy `api_config.example.py` to `api_config.py`

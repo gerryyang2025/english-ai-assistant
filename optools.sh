@@ -2,7 +2,7 @@
 
 # Word Wizard - Server Script
 # Uses Flask-based server with API proxy for AI features
-# Usage: ./run.sh start|stop|restart|install [production]
+# Usage: ./optools.sh start|stop|restart|install [production]
 
 PORT=8082
 export PORT
@@ -163,7 +163,7 @@ start_server() {
         OLD_PID=$(cat "$PID_FILE")
         if kill -0 "$OLD_PID" 2>/dev/null; then
             echo "Warning: Server may already be running (PID: $OLD_PID)"
-            echo "Use './run.sh stop' first, or './run.sh restart'"
+            echo "Use './optools.sh stop' first, or './optools.sh restart'"
             return 1
         else
             echo "Stale PID file found, removing..."
@@ -184,7 +184,7 @@ start_server() {
         echo ""
         echo "[Warning] Flask not found!"
         echo ""
-        echo "Please run './run.sh install' first to install dependencies."
+        echo "Please run './optools.sh install' first to install dependencies."
         echo ""
         echo "Or install manually with:"
         echo "  pip3 install gunicorn flask requests"
@@ -433,15 +433,15 @@ case "$1" in
         check_status
         ;;
     *)
-        echo "Usage: ./run.sh {start|stop|restart|install|status} [prod]"
+        echo "Usage: ./optools.sh {start|stop|restart|install|status} [prod]"
         echo ""
         echo "Commands:"
-        echo "  ./run.sh start        # Development mode (Flask built-in)"
-        echo "  ./run.sh start prod   # Production mode (Gunicorn)"
-        echo "  ./run.sh stop         # Stop server"
-        echo "  ./run.sh restart      # Restart"
-        echo "  ./run.sh install      # Install dependencies"
-        echo "  ./run.sh status       # Check server status"
+        echo "  ./optools.sh start        # Development mode (Flask built-in)"
+        echo "  ./optools.sh start prod   # Production mode (Gunicorn)"
+        echo "  ./optools.sh stop         # Stop server"
+        echo "  ./optools.sh restart      # Restart"
+        echo "  ./optools.sh install      # Install dependencies"
+        echo "  ./optools.sh status       # Check server status"
         echo ""
         echo "Configuration:"
         echo "  cp api_config.example.py api_config.py"

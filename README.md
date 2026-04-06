@@ -40,10 +40,10 @@ english-ai-assistant/
 
 ```bash
 # 安装依赖
-./run.sh install
+./optools.sh install
 
 # 启动服务器
-./run.sh start
+./optools.sh start
 
 # 浏览器访问 http://localhost:8082
 ```
@@ -52,19 +52,19 @@ english-ai-assistant/
 
 | 命令 | 说明 |
 |------|------|
-| `./run.sh install` | 安装依赖 |
-| `./run.sh start` | 启动服务器 |
-| `./run.sh start prod` | 生产模式 |
-| `./run.sh stop` | 停止服务器 |
-| `./run.sh restart` | 重启服务器 |
-| `./run.sh status` | 检查状态 |
+| `./optools.sh install` | 安装依赖 |
+| `./optools.sh start` | 启动服务器 |
+| `./optools.sh start prod` | 生产模式 |
+| `./optools.sh stop` | 停止服务器 |
+| `./optools.sh restart` | 重启服务器 |
+| `./optools.sh status` | 检查状态 |
 
 ## API 配置
 
 ```bash
 cp api_config.example.py api_config.py
 # 编辑 api_config.py，填入 MiniMax API Key
-./run.sh restart
+./optools.sh restart
 ```
 
 ### 音色复刻配置
