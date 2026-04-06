@@ -1265,9 +1265,22 @@ const EMBEDDED_READING_DATA = ${json};`;
             speechPreview.classList.add('show');
         }
         
+        function buildListenJsonExport(flatSpeeches) {
+            if (!flatSpeeches || flatSpeeches.length === 0) return null;
+            const bookMap = new Map();
+            flatSpeeches.forEach((speech) => {
+                const name = speech.bookName || '听书素材';
+                if (!bookMap.has(name)) bookMap.set(name, []);
+                const copy = { ...speech };
+                delete copy.bookName;
+                bookMap.get(name).push(copy);
+            });
+            const books = Array.from(bookMap.entries()).map(([name, speeches]) => ({ name, speeches }));
+            return JSON.stringify({ books }, null, 2);
+        }
+
         function generateSpeechJSON() {
-            if (!parsedSpeechData) return null;
-            return JSON.stringify({ speeches: parsedSpeechData }, null, 2);
+            return buildListenJsonExport(parsedSpeechData);
         }
         
         function showSpeechStatus(message, type) {

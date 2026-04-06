@@ -6422,7 +6422,7 @@ async function submitQA() {
             <p><strong>请求失败：</strong>${escapeHtml(error.message)}</p>
             <p>请检查：</p>
             <ul>
-                <li>服务器是否正在运行（运行 ./server.py）</li>
+                <li>服务器是否正在运行（./optools.sh start）</li>
                 <li>API Key 是否正确配置</li>
                 <li>网络连接是否正常</li>
             </ul>
@@ -6446,6 +6446,24 @@ window.removeFromWrongbook = removeFromWrongbook;
 window.speakCurrentWord = speakCurrentWord;
 window.speakCurrentWordUS = speakCurrentWordUS;
 window.submitQA = submitQA;
+
+/**
+ * Flattened speech list (optional bookName per item) → same shape as data/listen.json:
+ * { books: [{ name, speeches }] }; bookName is omitted on each speech in the export.
+ */
+function buildListenJsonExport(flatSpeeches) {
+    if (!flatSpeeches || flatSpeeches.length === 0) return null;
+    const bookMap = new Map();
+    flatSpeeches.forEach((speech) => {
+        const name = speech.bookName || '听书素材';
+        if (!bookMap.has(name)) bookMap.set(name, []);
+        const copy = { ...speech };
+        delete copy.bookName;
+        bookMap.get(name).push(copy);
+    });
+    const books = Array.from(bookMap.entries()).map(([name, speeches]) => ({ name, speeches }));
+    return JSON.stringify({ books }, null, 2);
+}
 
 // ========== 工具页面 ==========
 let parsedWordsData = null;
@@ -7251,8 +7269,7 @@ function initSpeechUpload() {
     }
 
     function generateSpeechJSON() {
-        if (!parsedSpeechData) return null;
-        return JSON.stringify({ speeches: parsedSpeechData }, null, 2);
+        return buildListenJsonExport(parsedSpeechData);
     }
 
     function showSpeechStatus(message, type) {
@@ -7266,8 +7283,8 @@ function initSpeechUpload() {
             showSpeechStatus('没有可生成的数据', 'error');
             return;
         }
-        downloadFile(json, 'speech.json', 'application/json');
-        showSpeechStatus('✅ speech.json 已下载！', 'success');
+        downloadFile(json, 'listen.json', 'application/json');
+        showSpeechStatus('✅ listen.json 已下载（与 data/listen.json 格式一致，可覆盖到 data/ 目录）', 'success');
     });
 
     document.getElementById('speechCopyBtn').addEventListener('click', () => {

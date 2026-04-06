@@ -1,5 +1,8 @@
-# MiniMax API Configuration
-# ⚠️ IMPORTANT: This file is not tracked by git. Do not commit API keys!
+# MiniMax API Configuration (template — this file IS tracked in git)
+#
+# Copy to api_config.py and put your real key there:
+#   cp api_config.example.py api_config.py
+# The file api_config.py is gitignored; never commit it with production keys.
 #
 # ============================================
 # AI Service Configuration

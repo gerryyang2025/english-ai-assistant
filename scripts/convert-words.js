@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 数据转换脚本：将 WORDS.md 转换为 JSON 格式
+// 数据转换脚本：将 data/WORDS.md 转为 data/words.json
 // 运行方式（在仓库根目录）：node scripts/convert-words.js
 
 const fs = require('fs');

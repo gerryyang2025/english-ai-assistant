@@ -7,13 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.9] - 2026-04-06
+
+Markdown sources moved to **`data/`**; **`requirements.txt`** and **`optools.sh`** environment checks (`check-env`, `init` / idempotent `install`); audiobook tool exports **`listen.json`** in **`books`** format; docs and comments aligned (`scripts/README.md` in English, `api_config` / server / convert paths).
+
 ### Added
 - Root **`requirements.txt`** (Flask, Gunicorn, requests) for reproducible installs.
 - **`./optools.sh check-env`**: read-only report for Python, Node, `venv`, package imports, `requirements.txt`, `api_config.py`, and `data/*.json`.
 - **`./optools.sh init`**: alias for **`./optools.sh install`** (create virtualenv if needed, then `pip install -r requirements.txt`). **`install`** skips pip when imports already succeed unless **`--force`**.
+- **`buildListenJsonExport()`** in `js/app.js` (and the same logic in `tools/update-tool.html`): in-app audiobook tool exports **`listen.json`** in the **`{ "books": [...] }`** shape used by `data/listen.json` / `convert-listen.js` (replaces legacy `{ "speeches": [...] }` + `speech.json`).
+- **`scripts/README.md`** in English to align with the root **`README.md`**.
 
 ### Changed
 - Markdown authoring sources **`WORDS.md`**, **`READINGS.md`**, and **`LISTEN.md`** now live under **`data/`** next to the generated JSON files. Conversion and format-check scripts default to `data/WORDS.md`, `data/READINGS.md`, and `data/LISTEN.md`.
+- Comments aligned with current workflow: `api_config.example.py` header distinguishes tracked template vs gitignored `api_config.py`; `server.py` docstring references `./optools.sh install` / `requirements.txt`; home AI error copy references `./optools.sh start`; convert scripts’ top-line comments reference `data/` paths.
+- **`README.md`** / **`DESIGN.md`**: Web tools section notes that audiobook export matches **`data/listen.json`**.
 
 ## [3.8] - 2026-04-06
 

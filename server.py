@@ -10,7 +10,7 @@
 - 请求日志
 
 使用前配置：
-1. 安装依赖: pip3 install flask requests
+1. 安装依赖: ./optools.sh install   （或 pip install -r requirements.txt）
 2. 复制配置文件: cp api_config.example.py api_config.py
 3. 编辑 api_config.py，填入你的 API Key
 """

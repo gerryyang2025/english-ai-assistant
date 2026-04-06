@@ -97,7 +97,7 @@ Converters and checks skip `<!-- ... -->` blocks in sources (e.g. format example
 
 ### Web tools
 
-In the nav bar, open **Tools** to upload Markdown or JSON and apply changes immediately.
+In the nav bar, open **Tools** to upload Markdown or JSON and apply changes immediately. The audiobook tab generates **`listen.json`** with the same `{ "books": [ … ] }` structure as `data/listen.json` (matching `convert-listen.js`), so you can replace the file under `data/` after download.
 
 ### Command line
 

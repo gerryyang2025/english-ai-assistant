@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 听书数据转换脚本：将 LISTEN.md 转换为 JSON 格式
+ * 听书数据转换脚本：将 data/LISTEN.md 转为 data/listen.json
  *
  * LISTEN.md 格式说明：
  * - 一级标题 # 书本名称 表示新书本

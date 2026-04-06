@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 阅读数据转换脚本：将 READINGS.md 转换为 JSON 格式
+// 阅读数据转换脚本：将 data/READINGS.md 转为 data/readings.json
 // 运行方式（在仓库根目录）：node scripts/convert-readings.js
 
 const fs = require('fs');
