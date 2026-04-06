@@ -720,6 +720,9 @@ async function showGrammarDetail(typeId) {
     await renderGrammarDetail(item);
 }
 
+/** 时态魔法学院测验：每题分值（判分、总分、反馈需与此一致） */
+const GRAMMAR_TENSES_QUIZ_POINTS_PER_QUESTION = 10;
+
 /**
  * 时态测验结果：按大题型与知识点归纳，并标出薄弱点（供 initGrammarTensesQuiz 使用）。
  */
@@ -760,7 +763,7 @@ function buildGrammarTenseQuizSummaryHtml(totalScore, totalQuestions, results, q
     });
     weakPoints.sort((a, b) => b.wrong / b.total - a.wrong / a.total || b.wrong - a.wrong);
 
-    const maxScore = totalQuestions * 10;
+    const maxScore = totalQuestions * GRAMMAR_TENSES_QUIZ_POINTS_PER_QUESTION;
     const pct = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
     let praise = '';
     if (pct === 100) praise = ' 🌟 全对！';
@@ -1049,23 +1052,23 @@ function initGrammarTensesQuiz(root) {
         },
         {
             text: 'It ______ cloudy tomorrow. (根据预测)',
-            options: ['is going to be', 'will be', 'will'],
+            options: ['is going to be', 'will', 'is'],
             correct: 'is going to be',
             tense: '将来时',
             point: 'be going to 表预测',
             textZh: '明天会是阴天。（根据预测）',
             explain:
-                '题干注明「根据预测」，有迹象推断天气常用 be going to。后面接形容词 cloudy，需要 be，故 is going to be。单独 will 后不能直接接形容词。'
+                '题干注明「根据预测」，后面接形容词 cloudy，需要 be + 形容词，故 is going to be。单独 will 后缺动词，不能直接接 cloudy；is cloudy 表现在，与 tomorrow 不符。'
         },
         {
-            text: '______ you help me carry this box?',
-            options: ['Will', 'Are', 'Do'],
-            correct: 'Will',
+            text: 'She ______ help us with the project next week.',
+            options: ['will', 'is', 'are'],
+            correct: 'will',
             tense: '将来时',
-            point: 'Will 表意愿/请求',
-            textZh: '你愿意帮我搬这个箱子吗？',
+            point: 'will + 动词原形',
+            textZh: '她下周会帮我们做这个项目。',
             explain:
-                'Will you…? 常用来礼貌地请求对方做某事。Are you 需接 -ing 表此刻动作；Do you help 表习惯，不如 Will 贴切。'
+                'next week 表将来，will 后直接接动词原形 help。is 后若表将来需 is going to help，不能单独 is help；are 与主语 she 不一致。'
         },
         {
             text: 'He ______ not come to school tomorrow.',
@@ -1089,13 +1092,283 @@ function initGrammarTensesQuiz(root) {
         },
         {
             text: 'There ______ a sports meeting next Monday.',
-            options: ['will be', 'is going to be', 'will'],
+            options: ['will be', 'will', 'are'],
             correct: 'will be',
             tense: '将来时',
             point: 'there will be / 计划',
             textZh: '下周一有一场运动会。',
             explain:
-                'There be 表「之后会有」时常用 there will be 或 there is going to be。题干选项中 will be 正确。单独 will 后缺动词，无法接 a sports meeting。'
+                'There be 表「之后会有」用 there will be（或 there is going to be）。本题选 will be。单独 will 后缺动词；There are a sports meeting 主谓不一致（meeting 为单数）。'
+        },
+        {
+            text: 'She ______ her teeth twice a day.',
+            options: ['brush', 'brushes', 'brushing'],
+            correct: 'brushes',
+            tense: '一般现在时',
+            point: '第三人称单数',
+            textZh: '她每天刷两次牙。',
+            explain:
+                'She 是三单，表习惯动作时用 brushes。twice a day 表示频率。brush 是原形；brushing 不能单独作谓语。'
+        },
+        {
+            text: 'It often ______ here in spring.',
+            options: ['rain', 'rains', 'is raining'],
+            correct: 'rains',
+            tense: '一般现在时',
+            point: '第三人称单数 it',
+            textZh: '这里春天经常下雨。',
+            explain:
+                'It 指天气，作三单主语，表习惯或规律用 rains。often 表经常。is raining 强调此刻正在下，与 often 搭配习惯义时不如 rains 自然。'
+        },
+        {
+            text: 'Tom and I ______ basketball after school.',
+            options: ['play', 'plays', 'playing'],
+            correct: 'play',
+            tense: '一般现在时',
+            point: '并列主语',
+            textZh: '汤姆和我放学后打篮球。',
+            explain:
+                'Tom and I 是两个人，主语为复数，谓语用原形 play。plays 只用于三单；playing 不能单独作谓语。'
+        },
+        {
+            text: 'The sun ______ in the east.',
+            options: ['rise', 'rises', 'is rising'],
+            correct: 'rises',
+            tense: '一般现在时',
+            point: '客观事实',
+            textZh: '太阳从东方升起。',
+            explain:
+                '描述自然规律用三单谓语。The sun 是三单，用 rises。is rising 强调此刻，题干在陈述常识。'
+        },
+        {
+            text: '______ you like science?',
+            options: ['Do', 'Does', 'Are'],
+            correct: 'Do',
+            tense: '一般现在时',
+            point: '一般疑问句 Do/Does',
+            textZh: '你喜欢科学吗？',
+            explain:
+                'like 是实义动词，主语 you 用 Do 构成疑问。Does 用于三单；Are 用于 be 或 -ing，不适用 like 原形。'
+        },
+        {
+            text: 'Mary ______ not like carrots.',
+            options: ['do', 'does', 'is'],
+            correct: 'does',
+            tense: '一般现在时',
+            point: '否定与助动词 do/does',
+            textZh: '玛丽不喜欢胡萝卜。',
+            explain:
+                'Mary 是三单，否定 like 用 does + not + 原形 like。do 与三单不符；is 后不能接 like 原形。'
+        },
+        {
+            text: 'Our teacher ______ us stories in class.',
+            options: ['tell', 'tells', 'telling'],
+            correct: 'tells',
+            tense: '一般现在时',
+            point: '第三人称单数',
+            textZh: '我们老师在课堂上给我们讲故事。',
+            explain:
+                'Our teacher 是三单，表经常发生的事用 tells。tell 是原形；telling 不能单独作谓语。'
+        },
+        {
+            text: '______ there any milk in the fridge?',
+            options: ['Is', 'Are', 'Do'],
+            correct: 'Is',
+            tense: '一般现在时',
+            point: 'there be 疑问',
+            textZh: '冰箱里有牛奶吗？',
+            explain:
+                'there be 的疑问句把 be 提前。milk 不可数，视作单数，用 Is there。Are 与不可数名词不搭配。'
+        },
+        {
+            text: 'We ______ to the zoo once a year.',
+            options: ['go', 'goes', 'are going'],
+            correct: 'go',
+            tense: '一般现在时',
+            point: '频率与复数主语',
+            textZh: '我们每年去一次动物园。',
+            explain:
+                'We 是复数，表习惯用 go。once a year 表频率。goes 只用于三单；are going 多指眼下安排，与 once a year 习惯义搭配时用 go 更自然。'
+        },
+        {
+            text: 'Why ______ you crying?',
+            options: ['are', 'is', 'do'],
+            correct: 'are',
+            tense: '现在进行时',
+            point: '疑问与 be',
+            textZh: '你为什么在哭？',
+            explain:
+                'cry 用 -ing 表此刻，疑问句要把 be 提前。主语 you 搭配 are。is 与 you 不符；do 不与 crying 搭配。'
+        },
+        {
+            text: 'Shh! The librarian ______ us.',
+            options: ['watches', 'is watching', 'watch'],
+            correct: 'is watching',
+            tense: '现在进行时',
+            point: '此刻正在',
+            textZh: '嘘！图书管理员正在看着我们。',
+            explain:
+                'Shh! 提示此刻不要出声，用 is + watching。The librarian 是三单，用 is watching。watches 表习惯，语气不如「正在看」贴切。'
+        },
+        {
+            text: '______ it still raining outside?',
+            options: ['Is', 'Does', 'Are'],
+            correct: 'Is',
+            tense: '现在进行时',
+            point: '进行时疑问句',
+            textZh: '外面还在下雨吗？',
+            explain:
+                '句中 raining 为 -ing，疑问句用 Is 提前。主语 it 搭配 Is。Does 与 raining 不搭配。'
+        },
+        {
+            text: 'We ______ not having lunch at home now.',
+            options: ['are', 'is', 'do'],
+            correct: 'are',
+            tense: '现在进行时',
+            point: '进行时否定',
+            textZh: '我们现在没在家吃午饭。',
+            explain:
+                'having 为 -ing，否定用 be + not + doing。We 搭配 are。is 与 We 不符；do 不适用。'
+        },
+        {
+            text: '______ your parents working from home this month?',
+            options: ['Are', 'Is', 'Do'],
+            correct: 'Are',
+            tense: '现在进行时',
+            point: '现阶段进行',
+            textZh: '你父母本月在家办公吗？',
+            explain:
+                'working 为 -ing，要把 be 提前。parents 是复数，用 Are。Is 与复数主语不符。'
+        },
+        {
+            text: 'The phone ______ ; can you answer it?',
+            options: ['rings', 'is ringing', 'ring'],
+            correct: 'is ringing',
+            tense: '现在进行时',
+            point: '此刻正在',
+            textZh: '电话在响；你能接一下吗？',
+            explain:
+                '语境是「此刻正在响」，用 is ringing。rings 表习惯铃声，不如「正在响」贴切。'
+        },
+        {
+            text: 'My sister ______ on the phone at the moment.',
+            options: ['talks', 'is talking', 'talk'],
+            correct: 'is talking',
+            tense: '现在进行时',
+            point: 'at the moment',
+            textZh: '我姐姐此刻正在打电话。',
+            explain:
+                'at the moment 表此刻，用 is + talking。talks 表习惯，与 at the moment 冲突。'
+        },
+        {
+            text: 'Hurry! The bus ______ .',
+            options: ['is leaving', 'leave', 'leaving'],
+            correct: 'is leaving',
+            tense: '现在进行时',
+            point: '此刻即将',
+            textZh: '快点！公交车要开了。',
+            explain:
+                'Hurry! 表示马上发生，用 is + leaving 表「就要开走」。leave 缺少助动词；单独 leaving 不能作谓语。'
+        },
+        {
+            text: 'Look! The children ______ kites in the park.',
+            options: ['fly', 'are flying', 'flies'],
+            correct: 'are flying',
+            tense: '现在进行时',
+            point: 'Listen/Look 与进行时',
+            textZh: '看！孩子们正在公园里放风筝。',
+            explain:
+                'Look! 提示眼前画面，用 are + flying。children 是复数。fly 表习惯；flies 与复数主语不符。'
+        },
+        {
+            text: 'I think it ______ be sunny tomorrow.',
+            options: ['will', 'is', 'will to'],
+            correct: 'will',
+            tense: '将来时',
+            point: 'will + 动词原形',
+            textZh: '我想明天会是晴天。',
+            explain:
+                'tomorrow 表之后的时间，宾语从句里常用 will + be 表预测。will to 不存在；is 不能单独接 be 表将来预测。'
+        },
+        {
+            text: 'They ______ a birthday party next Sunday.',
+            options: ['will have', 'have', 'are have'],
+            correct: 'will have',
+            tense: '将来时',
+            point: 'will + 动词原形',
+            textZh: '他们下周日要办一场生日聚会。',
+            explain:
+                'next Sunday 表将来，用 will have。单纯 have 不表将来；are have 结构错误。'
+        },
+        {
+            text: 'The film ______ at 7:00 tomorrow evening.',
+            options: ['will start', 'will starts', 'started'],
+            correct: 'will start',
+            tense: '将来时',
+            point: 'will + 动词原形',
+            textZh: '电影明晚七点开始。',
+            explain:
+                'tomorrow evening 表将来，用 will + 动词原形 start。will starts 多了一个 s，结构错误；started 是过去式，与 tomorrow evening 不符。'
+        },
+        {
+            text: 'I am sure she ______ pass the exam.',
+            options: ['will', 'will to', 'is'],
+            correct: 'will',
+            tense: '将来时',
+            point: 'will + 动词原形',
+            textZh: '我相信她会通过考试。',
+            explain:
+                '表对未来的判断，用 will pass。will 后直接接原形 pass。will to 错误；is pass 不成立。'
+        },
+        {
+            text: 'It ______ a sunny day tomorrow.',
+            options: ['will be', 'is', 'will'],
+            correct: 'will be',
+            tense: '将来时',
+            point: 'will be + 表语',
+            textZh: '明天会是晴天。',
+            explain:
+                'tomorrow 表将来，后面接名词短语 a sunny day，需要 will be。单独 will 后缺动词；is 不表将来预测。'
+        },
+        {
+            text: 'We ______ not go camping if it rains.',
+            options: ["won't", "don't", "isn't"],
+            correct: "won't",
+            tense: '将来时',
+            point: 'will 的否定',
+            textZh: '如果下雨我们就不去露营了。',
+            explain:
+                '主句表将来打算，否定用 won’t + 原形 go。don’t go 多表习惯；if 从句用现在时 rains，主句仍用将来否定。'
+        },
+        {
+            text: '______ there be a concert next week?',
+            options: ['Will', 'Is', 'Are'],
+            correct: 'Will',
+            tense: '将来时',
+            point: 'there will be 疑问',
+            textZh: '下周会有一场音乐会吗？',
+            explain:
+                'there be 的将来疑问常用 Will there be…? next week 表将来。Is there 表现在存在。'
+        },
+        {
+            text: 'My dad ______ buy a new car soon.',
+            options: ['is going to', 'will to', 'goes to'],
+            correct: 'is going to',
+            tense: '将来时',
+            point: 'be going to + 原形',
+            textZh: '我爸爸很快要买一辆新车。',
+            explain:
+                'soon 表不久的将来，打算做某事用 be going to + 原形。My dad 是三单，用 is going to。will to、goes to buy 结构不对。'
+        },
+        {
+            text: 'The train ______ at 9:00 tomorrow morning.',
+            options: ['will leave', 'will leaving', 'is leave'],
+            correct: 'will leave',
+            tense: '将来时',
+            point: 'will + 动词原形',
+            textZh: '火车明天上午九点开。',
+            explain:
+                'tomorrow morning 表将来，用 will + 动词原形 leave。will leaving 结构错误；is leave 错误。'
         }
     ];
     const quizQuestions = buildMixedGrammarTensesQuizOrder(questionBank);
@@ -1203,7 +1476,7 @@ function initGrammarTensesQuiz(root) {
             const correctAnswer = quizQuestions[i].correct;
             const isCorrect = selectedValue === correctAnswer;
             if (isCorrect) {
-                totalScore += 10;
+                totalScore += GRAMMAR_TENSES_QUIZ_POINTS_PER_QUESTION;
                 results.push({ index: i, correct: true, selected: selectedValue, correctAns: correctAnswer });
             } else {
                 results.push({
@@ -1237,7 +1510,7 @@ function initGrammarTensesQuiz(root) {
                 if (res.correct) {
                     fbDiv.innerHTML = `<div class="gtq-fb-summary correct-feedback">✅ 回答正确！ “${escapeHtml(
                         String(res.selected)
-                    )}” 是对的！ +10分</div>${explainHtml}`;
+                    )}” 是对的！ +${GRAMMAR_TENSES_QUIZ_POINTS_PER_QUESTION}分</div>${explainHtml}`;
                     fbDiv.className = 'question-feedback';
                 } else {
                     fbDiv.innerHTML = `<div class="gtq-fb-summary wrong-feedback">❌ 正确答案是 “${escapeHtml(

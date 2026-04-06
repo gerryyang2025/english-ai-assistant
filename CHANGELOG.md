@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Renamed **`scripts/convert-listen.js`** → **`scripts/convert-listens.js`** to match `./optools.sh convert-listens`; `optools.sh`, **`README.md`**, **`DESIGN.md`**, **`scripts/README.md`**, and historical changelog lines that cited the old filename are updated.
 - **`check-listen`** → **`check-listens`** in `./optools.sh`; renamed **`scripts/check-listen-format.py`** → **`scripts/check-listens-format.py`**; **`README.md`** and **`scripts/README.md`** updated.
+- Grammar **时态魔法学院** quiz (`initGrammarTensesQuiz`): expanded from **24** to **50** items (about **17 / 17 / 16** per tense group); **`content/grammar-tenses-magic.html`** quiz line now says 共50题.
+- Grammar quiz: **`GRAMMAR_TENSES_QUIZ_POINTS_PER_QUESTION`** centralizes per-question score (10); **`#gtq-result`** has **`role="status"`** and **`aria-live="polite"`** for assistive tech when results update.
 
 ## [3.10] - 2026-04-06
 
