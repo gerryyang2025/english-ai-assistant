@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 // 数据转换脚本：将 WORDS.md 转换为 JSON 格式
-// 运行方式：node convert-words.js  或  ./convert-words.js
+// 运行方式（在仓库根目录）：node scripts/convert-words.js
 
 const fs = require('fs');
 const path = require('path');
+
+/** 仓库根目录（本脚本位于 scripts/ 下） */
+const REPO_ROOT = path.join(__dirname, '..');
 
 // 词书名称到 ID 的映射
 const bookNameToId = {
@@ -15,7 +18,7 @@ const bookNameToId = {
 
 function parseWordsMD() {
     // 读取 WORDS.md 文件
-    const wordsMdPath = path.join(__dirname, 'WORDS.md');
+    const wordsMdPath = path.join(REPO_ROOT, 'data', 'WORDS.md');
     const content = fs.readFileSync(wordsMdPath, 'utf-8');
     
     const lines = content.split('\n');
@@ -220,7 +223,7 @@ function parseWordLine(line, book, unit, index) {
 
 // 主程序
 function main() {
-    console.log('开始转换 WORDS.md...');
+    console.log('开始转换 data/WORDS.md...');
     
     const wordBooks = parseWordsMD();
     
@@ -238,7 +241,7 @@ function main() {
     const jsonOutput = JSON.stringify(wordBooks, null, 2);
     
     // 保存到 data/words.json
-    const outputPath = path.join(__dirname, 'data', 'words.json');
+    const outputPath = path.join(REPO_ROOT, 'data', 'words.json');
     fs.writeFileSync(outputPath, jsonOutput, 'utf-8');
     console.log(`\n数据已保存到: ${outputPath}`);
     

@@ -7,11 +7,13 @@
  * - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
  * - 二级标题下的内容都是该章节的内容
  *
- * 运行方式：node convert-listen.js  或  ./convert-listen.js
+ * 运行方式（在仓库根目录）：node scripts/convert-listen.js
  */
 
 const fs = require('fs');
 const path = require('path');
+
+const REPO_ROOT = path.join(__dirname, '..');
 
 /**
  * 解析 LISTEN.md 文件
@@ -21,7 +23,7 @@ const path = require('path');
  *   内容            -> 二级标题下的所有内容属于该章节
  */
 function parseListenMD() {
-    const listenMdPath = path.join(__dirname, 'LISTEN.md');
+    const listenMdPath = path.join(REPO_ROOT, 'data', 'LISTEN.md');
     const content = fs.readFileSync(listenMdPath, 'utf-8');
 
     const lines = content.split('\n');
@@ -205,7 +207,7 @@ function parseListenMD() {
 }
 
 function main() {
-    console.log('开始转换 LISTEN.md...');
+    console.log('开始转换 data/LISTEN.md...');
     const data = parseListenMD();
 
     console.log(`\n📚 共 ${data.books.length} 本书`);
@@ -229,7 +231,7 @@ function main() {
     const jsonOutput = JSON.stringify(data, null, 2);
 
     // 保存到 data/listen.json
-    const outputPath = path.join(__dirname, 'data', 'listen.json');
+    const outputPath = path.join(REPO_ROOT, 'data', 'listen.json');
     fs.writeFileSync(outputPath, jsonOutput, 'utf-8');
     console.log(`\n\n✅ 数据已保存到: ${outputPath}`);
 

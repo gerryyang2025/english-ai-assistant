@@ -3,7 +3,7 @@
 """
 WORDS.md 格式检查工具
 用于验证 WORDS.md 文件的语法格式是否正确
-运行方式：python check-words-format.py [文件路径]
+运行方式（在仓库根目录）：python3 scripts/check-words-format.py [文件路径]
 
 注意：词条与例句等处禁止使用 Markdown 加粗 **...**，否则生成到听写练习时会要求用户输入 * 号，不合理。
 """
@@ -12,6 +12,9 @@ import re
 import sys
 import os
 from typing import List, Dict, Optional
+
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.normpath(os.path.join(_SCRIPT_DIR, '..'))
 
 
 class WordsFormatChecker:
@@ -349,7 +352,7 @@ class WordsFormatChecker:
     
     def run(self, file_path: str = None) -> bool:
         """运行检查"""
-        words_path = file_path or os.path.join(os.path.dirname(__file__), 'WORDS.md')
+        words_path = file_path or os.path.join(_REPO_ROOT, 'data', 'WORDS.md')
         
         print('🔍 开始检查 WORDS.md 格式...')
         print(f'📁 文件路径: {words_path}')

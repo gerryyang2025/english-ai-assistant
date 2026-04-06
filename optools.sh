@@ -2,7 +2,15 @@
 
 # Word Wizard - Server Script
 # Uses Flask-based server with API proxy for AI features
-# Usage: ./optools.sh start|stop|restart|install [production]
+# Usage: ./optools.sh start|stop|restart|status
+#        ./optools.sh init|install [--force]   # venv + Python deps
+#        ./optools.sh check-env                # report env & dependencies (no changes)
+#        ./optools.sh check-words|check-readings|check-listen [path]
+#        ./optools.sh convert-words|convert-readings|convert-listen
+
+# 脚本所在目录即仓库根目录，便于从任意 cwd 调用
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT" || exit 1
 
 PORT=8082
 export PORT
@@ -99,61 +107,165 @@ get_python_cmd() {
     fi
 }
 
-install_deps() {
-    echo "Installing dependencies..."
+REQUIREMENTS_FILE="requirements.txt"
+
+# Test imports with a given Python executable (no side effects)
+python_can_import() {
+    local py="$1"
+    [ -n "$py" ] && [ -x "$py" ] || return 1
+    "$py" -c "import flask, gunicorn, requests" 2>/dev/null
+}
+
+# After create_venv / get_python_cmd — true if server deps are importable
+python_deps_satisfied() {
+    local py
+    py=$(get_python_cmd)
+    python_can_import "$py"
+}
+
+# Read-only: print environment and dependency status (does not create venv)
+check_env() {
+    echo "Environment check (read-only)"
+    echo "============================="
     echo ""
-    
-    # Create virtual environment first
+    echo "Repository: $ROOT"
+    echo ""
+
+    # --- System tools ---
+    echo "[System]"
+    if command -v python3 &>/dev/null; then
+        echo "  python3: $(python3 --version 2>&1) ($(command -v python3))"
+    else
+        echo "  python3: NOT FOUND (required)"
+    fi
+    if command -v node &>/dev/null; then
+        echo "  node:    $(node --version 2>&1) ($(command -v node))"
+    else
+        echo "  node:    NOT FOUND (needed for convert-words / convert-readings / convert-listen)"
+    fi
+    echo ""
+
+    # --- Virtualenv ---
+    echo "[Python virtualenv: ./venv]"
+    if [ -d "venv" ] && [ -x "venv/bin/python" ]; then
+        echo "  status:  present"
+        echo "  python:  $(venv/bin/python --version 2>&1)"
+        if python_can_import "venv/bin/python"; then
+            echo "  imports: OK (flask, gunicorn, requests)"
+        else
+            echo "  imports: MISSING — run: ./optools.sh init"
+        fi
+    else
+        echo "  status:  missing or incomplete"
+        if command -v python3 &>/dev/null && python_can_import "$(command -v python3)"; then
+            echo "  imports: OK on system python3 (no venv — ./optools.sh init recommended for isolation)"
+        else
+            echo "  imports: n/a"
+            echo "  hint:    run ./optools.sh init  (creates venv and installs packages)"
+        fi
+    fi
+    echo ""
+
+    # --- requirements.txt ---
+    echo "[Lockfile]"
+    if [ -f "$REQUIREMENTS_FILE" ]; then
+        echo "  $REQUIREMENTS_FILE: present"
+    else
+        echo "  $REQUIREMENTS_FILE: MISSING"
+    fi
+    echo ""
+
+    # --- Config & data (quick) ---
+    echo "[Configuration]"
+    if [ -f "api_config.py" ]; then
+        echo "  api_config.py: present"
+    else
+        echo "  api_config.py: missing — copy: cp api_config.example.py api_config.py"
+    fi
+    echo ""
+    echo "[Data JSON]"
+    for f in data/words.json data/readings.json data/listen.json; do
+        if [ -f "$f" ]; then
+            echo "  $f: OK"
+        else
+            echo "  $f: missing"
+        fi
+    done
+    echo ""
+
+    # Exit 0 if python3 exists and packages import (venv preferred, else system python3)
+    local ok=false
+    if command -v python3 &>/dev/null; then
+        if [ -x "venv/bin/python" ] && python_can_import "venv/bin/python"; then
+            ok=true
+        elif python_can_import "$(command -v python3)"; then
+            ok=true
+        fi
+    fi
+    if [ "$ok" = true ]; then
+        echo "Summary: Python runtime dependencies are satisfied."
+        return 0
+    fi
+    echo "Summary: Run ./optools.sh init to create venv and install Python packages."
+    return 1
+}
+
+# Create venv (if needed) and install from requirements.txt; skip if already satisfied unless --force
+install_deps() {
+    local force=false
+    for a in "$@"; do
+        [ "$a" = "--force" ] && force=true
+    done
+
+    echo "Installing / verifying dependencies..."
+    echo ""
+
     create_venv
-    
-    # Get appropriate pip command
+
+    local PIP_CMD
     PIP_CMD=$(get_pip_cmd)
-    
     if [ -z "$PIP_CMD" ]; then
         echo "[Error] pip not found!"
-        echo ""
-        echo "On Ubuntu/Debian, install with:"
-        echo "  sudo apt-get install python3-pip"
+        echo "On Ubuntu/Debian: sudo apt-get install python3-pip"
         exit 1
     fi
-    
-    echo "[Debug] Using pip: $PIP_CMD"
-    echo ""
-    echo "Installing packages: gunicorn flask requests"
-    echo "----------------------------------------"
-    
-    if $PIP_CMD install gunicorn flask requests; then
-        echo "----------------------------------------"
-        echo "[OK] Dependencies installed successfully!"
+
+    if [ "$force" != true ] && python_deps_satisfied; then
+        echo "[OK] Python packages already satisfied (flask, gunicorn, requests)."
+        echo "     Use ./optools.sh install --force to reinstall from $REQUIREMENTS_FILE."
         echo ""
+        return 0
+    fi
+
+    if [ ! -f "$REQUIREMENTS_FILE" ]; then
+        echo "[Warning] $REQUIREMENTS_FILE not found; falling back to: pip install gunicorn flask requests"
+        echo "----------------------------------------"
+        if ! $PIP_CMD install gunicorn flask requests; then
+            echo "[Error] pip install failed."
+            exit 1
+        fi
     else
+        echo "Using pip: $PIP_CMD"
+        echo "Installing from $REQUIREMENTS_FILE"
         echo "----------------------------------------"
-        echo ""
-        echo "[Error] Failed to install packages!"
-        echo ""
-        echo "Possible solutions:"
-        echo "  1. Try with sudo:"
-        echo "     sudo $PIP_CMD install gunicorn flask requests"
-        echo ""
-        echo "  2. On Ubuntu/Debian, install system packages:"
-        echo "     sudo apt-get update"
-        echo "     sudo apt-get install -y python3-flask python3-requests"
-        echo ""
-        exit 1
+        if ! $PIP_CMD install -r "$REQUIREMENTS_FILE"; then
+            echo "[Error] pip install -r $REQUIREMENTS_FILE failed."
+            exit 1
+        fi
     fi
+    echo "----------------------------------------"
+    echo "[OK] Python dependencies installed."
+    echo ""
 }
 
 start_server() {
-    local mode=${1:-dev}
-    
     # Check if virtual environment exists
     create_venv
     
     echo "========================================"
-    echo "Starting Server (Debug Mode)"
+    echo "Starting Server (Gunicorn)"
     echo "========================================"
     echo "Port: $PORT"
-    echo "Mode: $mode"
     echo "Python: $(get_python_cmd)"
     echo "Virtual Environment: $USE_VENV"
     echo "PID File: $PID_FILE"
@@ -171,14 +283,14 @@ start_server() {
         fi
     fi
 
-    echo "Starting server on port $PORT (mode: $mode)..."
+    echo "Starting Gunicorn on port $PORT..."
     echo ""
 
     # Get Python command
     PYTHON_CMD=$(get_python_cmd)
     echo "[Debug] Using Python: $PYTHON_CMD"
     
-    # Check if Flask is available
+    # Check if Flask is available (required by server:app)
     echo "[Debug] Checking Flask availability..."
     if ! $PYTHON_CMD -c "import flask" 2>&1; then
         echo ""
@@ -203,71 +315,37 @@ start_server() {
         echo ""
     fi
 
-    # Start server based on mode
-    if [ "$mode" = "production" ]; then
-        # Production mode with Gunicorn
-        echo "[Debug] Checking Gunicorn..."
-        if ! command -v gunicorn &> /dev/null; then
-            echo "[Info] Installing Gunicorn for production..."
-            PIP_CMD=$(get_pip_cmd)
-            if ! $PIP_CMD install gunicorn 2>&1; then
-                echo "[Error] Failed to install Gunicorn!"
-                exit 1
-            fi
-        fi
-        
-        # Start Gunicorn with multiple workers
-        echo "[Info] Starting Gunicorn production server..."
-        echo "[Debug] Command: gunicorn server:app -w 4 -b 0.0.0.0:$PORT"
-        
-        if [ "$USE_VENV" = true ]; then
-            venv/bin/gunicorn server:app -w 4 -b 0.0.0.0:$PORT --pid $PID_FILE --daemon 2>&1
-        else
-            gunicorn server:app -w 4 -b 0.0.0.0:$PORT --pid $PID_FILE --daemon 2>&1
-        fi
-        EXIT_CODE=$?
-        
-        if [ $EXIT_CODE -ne 0 ]; then
-            echo "[Error] Gunicorn failed to start (exit code: $EXIT_CODE)"
-            echo "Check logs with: cat nohup.out 2>/dev/null || journalctl -u gunicorn 2>/dev/null"
-        else
-            echo "[OK] Server started with Gunicorn"
-        fi
+    echo "[Debug] Checking Gunicorn..."
+    GUNICORN_CMD=""
+    if [ "$USE_VENV" = true ] && [ -x "venv/bin/gunicorn" ]; then
+        GUNICORN_CMD="venv/bin/gunicorn"
+    elif command -v gunicorn &> /dev/null; then
+        GUNICORN_CMD="gunicorn"
     else
-        # Development mode - capture output for debugging
-        echo "[Debug] Starting development server..."
-        echo "[Debug] Command: $PYTHON_CMD server.py"
-        
-        LOG_FILE="server.log"
-        if [ "$USE_VENV" = true ]; then
-            venv/bin/python server.py > "$LOG_FILE" 2>&1 &
-        else
-            python3 server.py > "$LOG_FILE" 2>&1 &
-        fi
-        SERVER_PID=$!
-        
-        echo "[Debug] Server PID: $SERVER_PID"
-        echo "$SERVER_PID" > "$PID_FILE"
-        
-        # Wait a moment and check if process is still running
-        sleep 1
-        
-        if kill -0 $SERVER_PID 2>/dev/null; then
-            echo "[OK] Server started successfully (PID: $SERVER_PID)"
-        else
-            echo "[Error] Server failed to start!"
-            echo ""
-            echo "=== Server Output ==="
-            if [ -f "$LOG_FILE" ]; then
-                cat "$LOG_FILE"
-            else
-                echo "(No log file found)"
-            fi
-            echo "====================="
-            echo ""
-            rm -f "$PID_FILE"
+        echo "[Info] Installing Gunicorn..."
+        PIP_CMD=$(get_pip_cmd)
+        if ! $PIP_CMD install gunicorn 2>&1; then
+            echo "[Error] Failed to install Gunicorn!"
             exit 1
         fi
+        if [ "$USE_VENV" = true ] && [ -x "venv/bin/gunicorn" ]; then
+            GUNICORN_CMD="venv/bin/gunicorn"
+        else
+            GUNICORN_CMD="gunicorn"
+        fi
+    fi
+
+    echo "[Info] Starting Gunicorn..."
+    echo "[Debug] Command: $GUNICORN_CMD server:app -w 4 -b 0.0.0.0:$PORT"
+    
+    $GUNICORN_CMD server:app -w 4 -b 0.0.0.0:$PORT --pid "$PID_FILE" --daemon 2>&1
+    EXIT_CODE=$?
+    
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo "[Error] Gunicorn failed to start (exit code: $EXIT_CODE)"
+        echo "Check logs with: cat nohup.out 2>/dev/null || journalctl -u gunicorn 2>/dev/null"
+    else
+        echo "[OK] Server started with Gunicorn"
     fi
 
     echo ""
@@ -398,7 +476,7 @@ check_status() {
             echo "✓ API Key: Configured"
         else
             echo "✗ API Key: Not configured"
-    fi
+        fi
     else
         echo "✗ Config file: Missing (api_config.py)"
     fi
@@ -408,11 +486,7 @@ check_status() {
 
 case "$1" in
     start)
-        if [ "$2" = "prod" ] || [ "$2" = "production" ]; then
-            start_server production
-        else
-            start_server dev
-        fi
+        start_server
         ;;
     stop)
         stop_server
@@ -420,28 +494,66 @@ case "$1" in
     restart)
         stop_server
         sleep 1
-        if [ "$2" = "prod" ] || [ "$2" = "production" ]; then
-            start_server production
-        else
-            start_server dev
-        fi
+        start_server
         ;;
     install)
-        install_deps
+        shift
+        install_deps "$@"
+        ;;
+    init)
+        shift
+        install_deps "$@"
+        ;;
+    check-env)
+        check_env
         ;;
     status)
         check_status
         ;;
+    check-words)
+        shift
+        python3 scripts/check-words-format.py "$@"
+        ;;
+    check-readings)
+        shift
+        python3 scripts/check-readings-format.py "$@"
+        ;;
+    check-listen)
+        shift
+        python3 scripts/check-listen-format.py "$@"
+        ;;
+    convert-words)
+        shift
+        node scripts/convert-words.js "$@"
+        ;;
+    convert-readings)
+        shift
+        node scripts/convert-readings.js "$@"
+        ;;
+    convert-listen)
+        shift
+        node scripts/convert-listen.js "$@"
+        ;;
     *)
-        echo "Usage: ./optools.sh {start|stop|restart|install|status} [prod]"
+        echo "Usage: ./optools.sh <command> [arguments]"
         echo ""
-        echo "Commands:"
-        echo "  ./optools.sh start        # Development mode (Flask built-in)"
-        echo "  ./optools.sh start prod   # Production mode (Gunicorn)"
-        echo "  ./optools.sh stop         # Stop server"
-        echo "  ./optools.sh restart      # Restart"
-        echo "  ./optools.sh install      # Install dependencies"
-        echo "  ./optools.sh status       # Check server status"
+        echo "Server:"
+        echo "  ./optools.sh start           # Start (Gunicorn, 4 workers)"
+        echo "  ./optools.sh stop            # Stop server"
+        echo "  ./optools.sh restart         # Restart"
+        echo "  ./optools.sh check-env       # Check python/node/venv/deps (no changes)"
+        echo "  ./optools.sh init            # Create venv + pip install (same as install)"
+        echo "  ./optools.sh install         # Idempotent install from requirements.txt"
+        echo "  ./optools.sh install --force # Reinstall packages"
+        echo "  ./optools.sh status          # Server process + API config"
+        echo ""
+        echo "Data scripts (see scripts/README.md):"
+        echo "  ./optools.sh check-words [path/to/WORDS.md]   # default: data/WORDS.md"
+        echo "  ./optools.sh check-readings [path/to/READINGS.md]   # default: data/READINGS.md"
+        echo "  ./optools.sh check-listen [path/to/LISTEN.md]   # default: data/LISTEN.md"
+        echo "  ./optools.sh convert-words"
+        echo "  ./optools.sh convert-readings"
+        echo "  ./optools.sh convert-listen"
         echo ""
         echo "Configuration:"
         echo "  cp api_config.example.py api_config.py"

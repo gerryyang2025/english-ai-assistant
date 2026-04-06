@@ -16,8 +16,10 @@ English learning web application built with vanilla HTML/CSS/JavaScript and Pyth
 
 ```
 english-ai-assistant/
+├── optools.sh              # Ops entry: install deps, start/stop server (only root shell entry)
 ├── index.html              # Main HTML (all pages in one file)
 ├── server.py               # Flask backend
+├── scripts/                # Data converters and MD format checkers
 ├── css/
 │   ├── main.css            # Main styles (6000+ lines, responsive design)
 │   └── readings.css        # Reading page specific styles

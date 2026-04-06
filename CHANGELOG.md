@@ -7,209 +7,211 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.7] - 2026-03-21
-
-品牌与首页体验更新：墨小灵纯 Lottie 形象、今日一词与东八区日期、移除外链笑话。
-
 ### Added
-- 首页「墨小灵」互动区：**纯 Lottie 矢量角色**（默认 `lottie/mascot-bot.json` bot 形象，[lottie-web](https://github.com/airbnb/lottie-web) 播放），与 AI 单词问答（`/api/chat`）一体化；无位图叠加；`thinking`/`happy` 通过播放速率区分；`prefers-reduced-motion` 下以静态占位替代
-- 备选 LottieFiles 角色 `lottie/mascot-character.json`；通过 `?mascot=lottiefiles` 或 `localStorage.moxiaolingLottieVariant` 切换（见 `lottie/README.md`）
-- 虚拟形象交互：光晕与思考点、答毕星光、对话气泡、点击/键盘鼓励语、视差倾斜、Web Audio 点击提示音
-- 问答区支持回车提交、结果区 `aria-live`；联网搜索平铺展示且默认开启（不再收入家长折叠区）
+- Root **`requirements.txt`** (Flask, Gunicorn, requests) for reproducible installs.
+- **`./optools.sh check-env`**: read-only report for Python, Node, `venv`, package imports, `requirements.txt`, `api_config.py`, and `data/*.json`.
+- **`./optools.sh init`**: alias for **`./optools.sh install`** (create virtualenv if needed, then `pip install -r requirements.txt`). **`install`** skips pip when imports already succeed unless **`--force`**.
 
 ### Changed
-- 网站名称由「英语学习 - 墨小灵」改为「爱英语学习 - 墨小灵」（标题、顶栏、页脚、README、DESIGN）
-- 首页问答文案儿童向调整（「问小灵」、提示语等）；墨小灵面板配色与站点主色统一
-- 首页问答主标题为「墨小灵陪你学英语」；联网搜索改为平铺、默认开启
-- 首页 Hero：**今日一词**取代外链笑话——从 `words.json` 按**东八区（北京时间）日历**确定性选词；标题旁展示东八区日期与星期；音标、释义、例句/译文与记忆提示；词库内 `**粗体**` 按 Markdown 渲染；单词与例句支持**英音/美音**朗读（`speakExample` 支持英/美并自动去掉 `**`）；「问墨小灵」预填问题并滚动至问答区；**移除** Chuck Norris API
+- Markdown authoring sources **`WORDS.md`**, **`READINGS.md`**, and **`LISTEN.md`** now live under **`data/`** next to the generated JSON files. Conversion and format-check scripts default to `data/WORDS.md`, `data/READINGS.md`, and `data/LISTEN.md`.
+
+## [3.8] - 2026-04-06
+
+Project layout and server startup: data tooling under `scripts/`; single **Gunicorn** entry via `optools.sh`.
+
+### Changed
+- Moved conversion and Markdown format-check scripts into `scripts/`; repo root keeps `optools.sh` as the service entry. Examples: `node scripts/convert-words.js`, `python3 scripts/check-words-format.py` (see `scripts/README.md`).
+- `optools.sh start` / `restart` now only start with **Gunicorn**; removed the Flask built-in dev vs production split and dropped `start prod`.
+
+## [3.7] - 2026-03-21
+
+Branding and home experience: Moxiaoling Lottie-only mascot, Word of the Day with UTC+8 date, removed external joke API.
+
+### Added
+- Home **Moxiaoling** panel: **vector-only Lottie** character (default `lottie/mascot-bot.json`, [lottie-web](https://github.com/airbnb/lottie-web)), integrated with AI word Q&A (`/api/chat`); no bitmap overlay; `thinking` / `happy` via playback speed; static placeholder under `prefers-reduced-motion`.
+- Alternate LottieFiles asset `lottie/mascot-character.json`; switch via `?mascot=lottiefiles` or `localStorage.moxiaolingLottieVariant` (see `lottie/README.md`).
+- Mascot interaction: glow, thinking dots, success sparkles, speech bubble, tap/keyboard encouragement, parallax tilt, Web Audio tap cue.
+- Q&A area: Enter to submit, `aria-live` on results; web search shown inline and on by default (no longer tucked in a parent-only collapsible).
+
+### Changed
+- Site title from *English Study - Moxiaoling* to **Love English Study - Moxiaoling** (document title, header, footer, README, DESIGN).
+- Home Q&A copy tuned for children (“Ask Xiaoling”, hints); Moxiaoling panel colors aligned with site theme.
+- Home Q&A heading: **Moxiaoling studies English with you**; web search layout flattened and on by default.
+- Home Hero: **Word of the Day** replaces external jokes—deterministic pick from `words.json` by **UTC+8 (Beijing) calendar**; shows date and weekday; phonetics, gloss, example/translation, memory tip; `**bold**` in bank rendered as Markdown; UK/US speak for word and example (`speakExample` strips `**`); “Ask Moxiaoling” prefills and scrolls to Q&A; **removed** Chuck Norris API.
 
 ## [3.6] - 2026-03-21
 
-正式发布系统。
+First public release of the system.
 
 ### Changed
-- 网站名称由「英语学习小精灵 - 记住么」改为「英语学习 - 墨小灵」（页面标题、顶栏、页脚及文档）
-- 转换脚本 `convert-words.js`、`convert-readings.js`、`convert-listen.js` 增加 shebang（`#!/usr/bin/env node`），支持直接执行 `./convert-words.js` 等
-- 格式检查脚本 `check-words-format.py`、`check-readings-format.py`、`check-listen-format.py` 已设为可执行，支持 `./check-words-format.py` 等直接运行
-- README 中命令行工具说明已更新：补充听书转换与听书格式检查，并区分「数据转换」与「格式检查」及两种运行方式
+- Site title from *English Study Elf - Remember?* to **English Study - Moxiaoling** (page title, header, footer, docs).
+- Added shebang (`#!/usr/bin/env node`) to `convert-words.js`, `convert-readings.js`, `convert-listen.js` for direct execution.
+- Marked `check-words-format.py`, `check-readings-format.py`, `check-listen-format.py` executable for `./…` usage.
+- README: CLI section covers listen conversion and listen format checks; split “data conversion” vs “format check” and both invocation styles.
 
 ### Fixed
-- 格式检查工具 `check-words-format.py` 现在会跳过 `<!-- ... -->` 注释块，避免将文件内示例格式误解析为内容，消除「单元 Unit 2 没有单词」等误报
-- 转换脚本 `convert-words.js` 解析时跳过 `<!-- ... -->` 注释块，不再将 WORDS.md 开头的格式示例写入 words.json
-- 转换脚本 `convert-readings.js` 解析时跳过注释块，并过滤掉无句型/知识点/对话的空壳阅读条目，避免 READINGS.md 示例进入 readings.json
+- `check-words-format.py` skips `<!-- ... -->` blocks so sample formats are not parsed as content (fixes false reports like “Unit 2 has no words”).
+- `convert-words.js` skips HTML comment blocks; no longer writes WORDS.md header samples into `words.json`.
+- `convert-readings.js` skips comment blocks and drops empty reading entries (no patterns / knowledge / dialogue), so READINGS.md samples do not pollute `readings.json`.
 
 ## [3.5] - 2026-02-01
 
 ### Added
-- Added support for configuring multiple voice clone file IDs
-- Added description field for each voice in the voice selection dropdown
-- Added dynamic voice dropdown generation based on server configuration
+- Support for multiple voice-clone file IDs in configuration.
+- Description field per voice in the voice dropdown.
+- Dynamic voice dropdown from server configuration.
 
 ### Changed
-- Updated voice dropdown display from "复刻 (name)" to "音色 (name)"
-- Updated speech page UI: "选择文章" to "选择书本"
-- Updated dropdown default options for better clarity
-- Default voice mode changed to "system" instead of "clone"
+- Voice dropdown label from *clone (name)* to **timbre (name)**.
+- Speech page: label *Select article* → **Select book**.
+- Clearer default placeholder options in dropdowns.
+- Default voice mode is **system**, not clone.
 
 ### Fixed
-- Fixed voice cache not being cleared when switching between different voice clones
-- Fixed playback not resetting when changing voice mode
-- Improved voice switching logic to properly clear audio cache and reset playback state
+- Voice cache cleared when switching clone voices.
+- Playback resets when changing voice mode.
+- Voice switching clears audio cache and playback state reliably.
 
 ## [3.4] - 2026-01-31
 
 ### Added
-- Added mobile responsive optimization for speech page (listening page)
-- Added 768px, 480px, and 360px breakpoint styles for speech page
-- Added speech selector styles for tablet and mobile devices
-- Added speech card grid layout for mobile devices
+- Mobile layout improvements for the speech (listen) page.
+- Breakpoints at 768px, 480px, and 360px for speech styles.
+- Speech selector styles for tablet and phone.
+- Speech card grid for small screens.
 
 ### Fixed
-- Fixed voice playback issue where switching chapters would play previous chapter content (voice clone mode)
-- Fixed auto-play issue when switching chapters in speech page
-- Improved stopSpeech() function to properly clear all playback states
-- Improved playSpeechWithSystem() to prevent incorrect resume attempts after cancellation
-- Enhanced voice clone mode state management to prevent recovering old content
+- Voice clone: switching chapters no longer plays the previous chapter’s audio.
+- Auto-play when changing chapters on the speech page.
+- `stopSpeech()` clears all playback-related state.
+- `playSpeechWithSystem()` avoids bad resume after cancel.
+- Clone mode state does not resurrect stale content.
 
 ### Added
-- Added Chinese description of learning content (words and readings)
+- Chinese descriptions for learning content (words and readings).
 
 ### Changed
-- Updated project name to "英语学习小精灵 - 记住么"
-- Improved feature descriptions to highlight sentence and reading modules
-- Enhanced UI descriptions for better clarity
+- Project display name set to **English Study Elf - Remember?**
+- Feature blurbs emphasize sentence and reading modules.
+- Clearer UI copy.
 
 ### Fixed
-- Optimized bottom control bar display on reading page
-- Fixed display issues in both iPad Chrome APP mode and regular Chrome
+- Reading page bottom control bar on small screens.
+- Layout in iPad Chrome app mode and desktop Chrome.
 
 ## [3.2] - 2026-01-25
 
 ### Added
-- Added iPad Chrome APP mode support with dynamic viewport height (dvh/svh)
-- Added safe area adaptation for iPad
-- Added scroll optimization for iPad
-- Added bottom control bar anti-occlusion for iPad
+- iPad Chrome app mode: dynamic viewport height (`dvh` / `svh`).
+- Safe-area handling on iPad.
+- Scroll behavior tweaks for iPad.
+- Bottom bar kept clear of home indicator overlap.
 
 ### Changed
-- Optimized sentence practice answer display format
+- Sentence practice answer display formatting.
 
 ### Fixed
-- Fixed Web Speech API error messages
-- Improved Web Speech API error handling with try-catch and visibility change handlers
+- Web Speech API error reporting.
+- Safer Web Speech handling with try/catch and `visibilitychange`.
 
 ## [3.1] - 2026-01-25
 
 ### Added
-- Added sentence practice feature with book/unit selection
-- Added sentence dictation practice functionality
-- Added wrong sentence review function
-- Added ability to review sentences from wrong sentence notebook
+- Sentence practice with book/unit selection.
+- Sentence dictation flow.
+- Wrong-sentence review.
+- Review from wrong-sentence notebook.
 
 ### Changed
-- Refined sentence practice UI and interaction experience
+- Sentence practice UI and interaction polish.
 
 ## [3.0] - 2026-01-24
 
 ### Added
-- Added card layout for wrong words and wrong sentences
-- Added pagination display for wrong items
-- Added favorite button in flashcard test
+- Card layout for wrong words and wrong sentences.
+- Pagination for wrong-item lists.
+- Favorite control on flashcard back.
 
 ### Changed
-- Completely redesigned wrong book notebook UI
-- Improved user interface interaction experience
-- Renamed "错词本" to "错题本" (mistake notebook)
+- Wrong-book notebook UI redesigned.
+- General interaction improvements.
+- Renamed wrong-word notebook → **mistake notebook** (wrong words + wrong sentences).
 
 ### Fixed
-- Enhanced wrong sentence recording functionality
+- Wrong-sentence recording reliability.
 
 ## [2.9] - 2026-01-24
 
 ### Added
-- Added wrong sentence recording feature
-- Added separation of wrong words and wrong sentences in mistake notebook
+- Record wrong sentences separately from wrong words.
+- Split wrong words vs wrong sentences in the notebook.
 
 ### Changed
-- Renamed "错词本" to "错题本" (mistake notebook)
+- Renamed wrong-word notebook → **mistake notebook**.
 
 ## [2.8] - 2026-01-20
 
 ### Added
-- Added data security check functionality
-- Added file type validation
-- Added content security scanning
-- Added dangerous pattern detection (script tags, iframes, event handlers)
+- Data upload safety checks.
+- File type validation.
+- Content safety scan.
+- Dangerous-pattern detection (script tags, iframes, inline event handlers).
 
 ## [2.7] - 2026-01-20
 
 ### Changed
-- Improved mobile tool page adaptation
-- Enhanced responsive design for tool page
+- Tool page mobile layout.
+- Responsive tool page styles.
 
 ## [2.6] - 2026-01-20
 
 ### Added
-- Added tool page with Markdown/JSON conversion
-- Added format checking functionality
-- Added real-time data upload and activation
+- Tools page: Markdown ↔ JSON conversion.
+- Format checking in the tool flow.
+- Upload JSON for immediate in-app use.
 
 ## [2.5] - 2026-01-20
 
 ### Added
-- Added reading module
-- Added reading list page
-- Added reading detail page
-- Added voice playback functionality
-- Added knowledge point display
-- Added key sentence patterns highlighting
+- Reading module: list and detail.
+- Playback for lines.
+- Knowledge points and key sentence patterns.
 
 ## [2.4] - 2026-01-18
 
 ### Changed
-- Improved mobile responsive design
-- Enhanced flashcard mobile adaptation
-- Improved word list mobile display
-- Enhanced favorites page mobile display
-- Improved mistake book mobile display
+- Broader mobile responsive pass.
+- Flashcard, word list, favorites, wrong-book layouts on phones.
 
 ## [2.3] - 2026-01-18
 
 ### Added
-- Added service health check functionality
-- Added error overlay display when service unavailable
+- Service health check (`/api/health`).
+- Full-screen error overlay when the backend is unreachable.
 
 ## [2.2] - 2026-01-18
 
 ### Added
-- Added daily joke feature using Chuck Norris API
+- Daily joke via Chuck Norris API (later removed in 3.7).
 
 ## [2.1] - 2026-01-18
 
 ### Added
-- Added independent wordbook selection for flashcard test
+- Independent wordbook picker for flashcard sessions.
 
 ## [2.0] - 2026-01-18
 
 ### Added
-- Added Python Flask backend server
-- Added AI assistant feature with MiniMax API
-- Added rate limiting functionality (20 requests/hour)
-- Added Gunicorn production deployment support
+- Python Flask backend.
+- AI assistant via MiniMax proxy.
+- Rate limiting (20 requests/hour default).
+- Gunicorn deployment notes.
 
 ### Changed
-- Migrated from static HTML to Flask backend architecture
+- Architecture: static HTML → Flask-served app.
 
 ## [1.0] - 2026-01-18
 
 ### Added
-- Initial release
-- Core flashcard test functionality
-- Word list browsing
-- Word search functionality
-- Word pronunciation (GB/US)
-- Favorites management
-- User progress tracking
-- Basic responsive design
-
+- Initial release: flashcards, word list, search, GB/US pronunciation, favorites, progress, basic responsive layout.
 

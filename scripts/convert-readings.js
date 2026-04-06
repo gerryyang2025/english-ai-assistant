@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 // 阅读数据转换脚本：将 READINGS.md 转换为 JSON 格式
-// 运行方式：node convert-readings.js  或  ./convert-readings.js
+// 运行方式（在仓库根目录）：node scripts/convert-readings.js
 
 const fs = require('fs');
 const path = require('path');
 
+const REPO_ROOT = path.join(__dirname, '..');
+
 function parseReadingsMD() {
-    const readingsMdPath = path.join(__dirname, 'READINGS.md');
+    const readingsMdPath = path.join(REPO_ROOT, 'data', 'READINGS.md');
     const content = fs.readFileSync(readingsMdPath, 'utf-8');
     
     const lines = content.split('\n');
@@ -243,7 +245,7 @@ function parseReadingsMD() {
 }
 
 function main() {
-    console.log('开始转换 READINGS.md...');
+    console.log('开始转换 data/READINGS.md...');
     const data = parseReadingsMD();
     
     console.log(`\n📖 书本名称: ${data.bookName || '未设置'}`);
@@ -273,7 +275,7 @@ function main() {
     const jsonOutput = JSON.stringify(data, null, 2);
     
     // 保存到 data/readings.json
-    const outputPath = path.join(__dirname, 'data', 'readings.json');
+    const outputPath = path.join(REPO_ROOT, 'data', 'readings.json');
     fs.writeFileSync(outputPath, jsonOutput, 'utf-8');
     console.log(`\n\n✅ 数据已保存到: ${outputPath}`);
     

@@ -9,13 +9,16 @@ LISTEN.md 格式检查工具
 - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
 - 二级标题下的内容都是该章节的内容
 
-运行方式：python check-listen-format.py [文件路径]
+运行方式（在仓库根目录）：python3 scripts/check-listen-format.py [文件路径]
 """
 
 import re
 import sys
 import os
 from typing import List, Dict, Tuple, Optional
+
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.normpath(os.path.join(_SCRIPT_DIR, '..'))
 
 
 class ListenFormatChecker:
@@ -286,7 +289,7 @@ class ListenFormatChecker:
     
     def run(self, file_path: str = None) -> bool:
         """运行检查"""
-        listen_path = file_path or os.path.join(os.path.dirname(__file__), 'LISTEN.md')
+        listen_path = file_path or os.path.join(_REPO_ROOT, 'data', 'LISTEN.md')
         
         print('🔍 开始检查 LISTEN.md 格式...')
         print(f'📁 文件路径: {listen_path}')

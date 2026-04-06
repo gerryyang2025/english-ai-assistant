@@ -1,0 +1,4 @@
+# Python runtime for server.py (Flask + Gunicorn + MiniMax proxy)
+gunicorn>=21.0
+flask>=3.0
+requests>=2.28
