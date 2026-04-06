@@ -4,6 +4,8 @@
 WORDS.md 格式检查工具
 用于验证 WORDS.md 文件的语法格式是否正确
 运行方式：python check-words-format.py [文件路径]
+
+注意：词条与例句等处禁止使用 Markdown 加粗 **...**，否则生成到听写练习时会要求用户输入 * 号，不合理。
 """
 
 import re
@@ -51,10 +53,38 @@ class WordsFormatChecker:
             self.errors.append(f"读取文件失败: {e}")
             return None
     
+    def _check_markdown_bold_forbidden(self, lines: List[str]) -> None:
+        """
+        禁止使用 **...** 加粗。
+        若词条或例句等含 **，转换后听写/输入会要求用户键入星号，与正常听写不符。
+        """
+        in_comment_block = False
+        in_code_block = False
+        for i, raw_line in enumerate(lines):
+            line_stripped = raw_line.strip()
+            if in_comment_block:
+                if '-->' in raw_line:
+                    in_comment_block = False
+                continue
+            if line_stripped.startswith('<!--'):
+                in_comment_block = True
+                continue
+            if line_stripped.startswith('```'):
+                in_code_block = not in_code_block
+                continue
+            if in_code_block:
+                continue
+            if '**' in raw_line:
+                self.errors.append(
+                    f"第 {i + 1} 行：禁止使用 Markdown 加粗 **...** "
+                    f"(听写功能会按原文判题，用户不应输入 * 号；请去掉 ** 仅保留文字)"
+                )
+
     def check_format(self, content: str):
         """检查格式"""
         lines = content.split('\n')
-        
+        self._check_markdown_bold_forbidden(lines)
+
         current_book = None
         current_unit = None
         current_word = None
