@@ -41,7 +41,7 @@ Deliver a browser-based English learning experience: vocabulary practice (dictat
 
 10. **Progress (`学习进度`)** — Aggregates from the persisted progress model.
 
-11. **Tools (`工具`)** — Convert `data/WORDS.md` / `data/READINGS.md` / `data/LISTEN.md` to JSON; upload JSON for in-memory reload; previews; server-side validation where uploads hit the API. Audiobook export downloads **`listen.json`** (`books` array, same schema as `data/listen.json` / `convert-listen.js`).
+11. **Tools (`工具`)** — Convert `data/WORDS.md` / `data/READINGS.md` / `data/LISTEN.md` to JSON; upload JSON for in-memory reload; previews; server-side validation where uploads hit the API. Audiobook export downloads **`listen.json`** (`books` array, same schema as `data/listen.json` / `convert-listens.js`).
 
 12. **Health check** — On `http:` / `https:`, `GET /api/health` with **3s** timeout; failure shows a blocking overlay. **`file://`** skips the check (no same-origin `/api`).
 

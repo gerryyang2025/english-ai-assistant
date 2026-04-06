@@ -7,7 +7,7 @@
  * - 二级标题 ## 标题 可以是"文章概要"、"正文"、或其他任何章节名
  * - 二级标题下的内容都是该章节的内容
  *
- * 运行方式（在仓库根目录）：node scripts/convert-listen.js
+ * 运行方式（在仓库根目录）：node scripts/convert-listens.js
  */
 
 const fs = require('fs');

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Renamed **`scripts/convert-listen.js`** → **`scripts/convert-listens.js`** to match `./optools.sh convert-listens`; `optools.sh`, **`README.md`**, **`DESIGN.md`**, **`scripts/README.md`**, and historical changelog lines that cited the old filename are updated.
+
 ## [3.10] - 2026-04-06
 
 Grammar **时态魔法学院** (lessons + 24-question quiz + stats); **`optools.sh`** startup hints for LAN/public access.
@@ -27,7 +30,7 @@ Markdown sources moved to **`data/`**; **`requirements.txt`** and **`optools.sh`
 - Root **`requirements.txt`** (Flask, Gunicorn, requests) for reproducible installs.
 - **`./optools.sh check-env`**: read-only report for Python, Node, `venv`, package imports, `requirements.txt`, `api_config.py`, and `data/*.json`.
 - **`./optools.sh init`**: alias for **`./optools.sh install`** (create virtualenv if needed, then `pip install -r requirements.txt`). **`install`** skips pip when imports already succeed unless **`--force`**.
-- **`buildListenJsonExport()`** in `js/app.js` (and the same logic in `tools/update-tool.html`): in-app audiobook tool exports **`listen.json`** in the **`{ "books": [...] }`** shape used by `data/listen.json` / `convert-listen.js` (replaces legacy `{ "speeches": [...] }` + `speech.json`).
+- **`buildListenJsonExport()`** in `js/app.js` (and the same logic in `tools/update-tool.html`): in-app audiobook tool exports **`listen.json`** in the **`{ "books": [...] }`** shape used by `data/listen.json` / `convert-listens.js` (replaces legacy `{ "speeches": [...] }` + `speech.json`).
 - **`scripts/README.md`** in English to align with the root **`README.md`**.
 
 ### Changed
@@ -65,7 +68,7 @@ First public release of the system.
 
 ### Changed
 - Site title from *English Study Elf - Remember?* to **English Study - Moxiaoling** (page title, header, footer, docs).
-- Added shebang (`#!/usr/bin/env node`) to `convert-words.js`, `convert-readings.js`, `convert-listen.js` for direct execution.
+- Added shebang (`#!/usr/bin/env node`) to `convert-words.js`, `convert-readings.js`, `convert-listens.js` for direct execution.
 - Marked `check-words-format.py`, `check-readings-format.py`, `check-listen-format.py` executable for `./…` usage.
 - README: CLI section covers listen conversion and listen format checks; split “data conversion” vs “format check” and both invocation styles.
 

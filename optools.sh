@@ -584,9 +584,9 @@ case "$1" in
         shift
         node scripts/convert-readings.js "$@"
         ;;
-    convert-listens|convert-listen)
+    convert-listens)
         shift
-        node scripts/convert-listen.js "$@"
+        node scripts/convert-listens.js "$@"
         ;;
     *)
         echo "Usage: ./optools.sh <command> [arguments]"
@@ -607,7 +607,7 @@ case "$1" in
         echo "  ./optools.sh check-listen [path/to/LISTEN.md]   # default: data/LISTEN.md"
         echo "  ./optools.sh convert-words"
         echo "  ./optools.sh convert-readings"
-        echo "  ./optools.sh convert-listens   # (convert-listen 仍可用，同上)"
+        echo "  ./optools.sh convert-listens"
         echo ""
         echo "Configuration:"
         echo "  cp api_config.example.py api_config.py"
