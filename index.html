@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/readings.css">
     <link rel="stylesheet" href="css/speech.css">
+    <link rel="stylesheet" href="css/grammar.css">
+    <link rel="stylesheet" href="css/grammar-tenses-fun.css">
 </head>
 <body>
     <div id="app">
@@ -23,6 +25,7 @@
                         <button type="button" class="nav-btn active" data-page="home" aria-current="page">首页</button>
                         <button type="button" class="nav-btn" data-page="words">单词</button>
                         <button type="button" class="nav-btn" data-page="sentences">语句</button>
+                        <button type="button" class="nav-btn" data-page="grammar">语法</button>
                         <button type="button" class="nav-btn" data-page="readings">阅读</button>
                         <button type="button" class="nav-btn" data-page="speech">听书</button>
                         <button type="button" class="nav-btn" data-page="flashcard">闪卡</button>
@@ -143,6 +146,11 @@
                         <div class="card-icon">💬</div>
                         <h3>语句</h3>
                         <p>练习课文句子，强化记忆</p>
+                    </div>
+                    <div class="feature-card" data-action="go-grammar">
+                        <div class="card-icon">📐</div>
+                        <h3>语法</h3>
+                        <p>按类型学习语法点与例句</p>
                     </div>
                     <div class="feature-card" data-action="go-readings">
                         <div class="card-icon">📖</div>
@@ -415,6 +423,29 @@
                         <button class="btn-secondary" id="back-sentences-btn">返回列表</button>
                     </div>
                 </div>
+            </section>
+
+            <!-- 语法学习：类型列表 -->
+            <section id="page-grammar" class="page" aria-labelledby="grammar-page-title">
+                <div class="page-header">
+                    <h2 id="grammar-page-title">📐 语法学习</h2>
+                    <p class="page-subtitle grammar-page-subtitle">选择一类语法，进入专项学习与练习</p>
+                </div>
+                <div class="grammar-type-grid" id="grammar-type-grid" role="list" aria-label="语法类型">
+                    <!-- 由 JS 根据 GRAMMAR_TYPES 动态生成 -->
+                </div>
+            </section>
+
+            <!-- 语法学习：某一类型的详情（正文区可后续填入 HTML） -->
+            <section id="page-grammar-detail" class="page" aria-labelledby="grammar-detail-title">
+                <div class="grammar-detail-header">
+                    <button type="button" class="back-btn grammar-back-btn" id="grammar-detail-back" aria-label="返回语法类型列表">
+                        <span class="back-icon" aria-hidden="true">←</span> 返回语法列表
+                    </button>
+                    <h2 class="grammar-detail-title" id="grammar-detail-title"></h2>
+                    <p class="grammar-detail-desc" id="grammar-detail-desc"></p>
+                </div>
+                <div class="grammar-detail-body" id="grammar-detail-body"></div>
             </section>
 
             <!-- 闪卡页 -->

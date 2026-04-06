@@ -1,0 +1,109 @@
+/* 语法学习：类型列表 + 详情页 */
+
+#page-grammar .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.grammar-page-subtitle {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.grammar-type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.grammar-type-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 20px 22px;
+    text-align: left;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    font-family: inherit;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.grammar-type-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.grammar-type-card:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+.grammar-type-card-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.grammar-type-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.grammar-type-card-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+/* 详情页 */
+.grammar-detail-header {
+    margin-bottom: 20px;
+}
+
+.grammar-back-btn {
+    margin-bottom: 12px;
+}
+
+.grammar-detail-title {
+    font-size: 1.45rem;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
+.grammar-detail-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.grammar-detail-body {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    min-height: 120px;
+}
+
+.grammar-detail-body .grammar-placeholder {
+    color: var(--text-secondary);
+    margin: 0;
+    padding: 12px 0;
+}
+
+@media (max-width: 600px) {
+    .grammar-type-grid {
+        grid-template-columns: 1fr;
+    }
+}

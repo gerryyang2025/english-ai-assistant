@@ -36,7 +36,44 @@ const AppState = {
     speechPaused: false,          // 朗读是否暂停
     speechCloneAudioCache: new Map(), // 音色复刻音频缓存：key=内容hash, value={url, timestamp}
     speechCloneReady: false,      // 音色复刻音频是否已准备就绪（等待用户点击播放）
+    currentGrammarTypeId: null,   // 当前语法学习类型 id（与 GRAMMAR_TYPES 对应）
 };
+
+/**
+ * 语法学习类型配置。点击后进入详情页：
+ * - loadUrl：从该路径 fetch HTML 片段注入正文（如 content/grammar-tenses-magic.html）
+ * - html：无 loadUrl 时的内联占位
+ */
+const GRAMMAR_TYPES = [
+    {
+        id: 'tenses',
+        title: '时态',
+        description: '一般现在时、现在进行时、将来时等',
+        icon: '⏱️',
+        loadUrl: 'content/grammar-tenses-magic.html'
+    },
+    {
+        id: 'parts-of-speech',
+        title: '词性',
+        description: '名词、动词、形容词、副词等',
+        icon: '📝',
+        html: '<p class="grammar-placeholder">此处预留：后续可替换为「词性」类完整学习内容。</p>'
+    },
+    {
+        id: 'sentence-patterns',
+        title: '句型',
+        description: '常用句型与结构',
+        icon: '💬',
+        html: '<p class="grammar-placeholder">此处预留：后续可替换为「句型」类完整学习内容。</p>'
+    },
+    {
+        id: 'clauses',
+        title: '从句',
+        description: '名词性从句、定语从句、状语从句等',
+        icon: '🔗',
+        html: '<p class="grammar-placeholder">此处预留：后续可替换为「从句」类完整学习内容。</p>'
+    }
+];
 
 // ========== DOM 元素缓存 ==========
 const DOM = {};
@@ -164,8 +201,17 @@ function initSpeechVoices() {
     }, 1000);
 }
 
+/** 当前页面是否通过 http(s) 提供（可请求同源 /api）。file:// 打开时 origin 为 null，/api 会变成 file:///api 导致失败。 */
+function isHttpOrHttpsPage() {
+    const p = window.location.protocol;
+    return p === 'http:' || p === 'https:';
+}
+
 // 检查服务健康状态
 async function checkServiceHealth() {
+    if (!isHttpOrHttpsPage()) {
+        return true;
+    }
     try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000);
@@ -186,6 +232,9 @@ async function checkServiceHealth() {
 
 // 获取服务器配置
 async function fetchVoiceCloneConfig() {
+    if (!isHttpOrHttpsPage()) {
+        return;
+    }
     try {
         const response = await fetch('/api/status');
         if (!response.ok) throw new Error('获取配置失败');
@@ -468,10 +517,13 @@ function bindEvents() {
             else if (action === 'go-words') switchPage('words');
             else if (action === 'go-sentences') switchPage('sentences');
             else if (action === 'go-readings') switchPage('readings');
+            else if (action === 'go-grammar') switchPage('grammar');
             else if (action === 'go-wrongbook') switchPage('wrongbook');
             else if (action === 'go-favorites') switchPage('favorites');
         });
     });
+
+    document.getElementById('grammar-detail-back')?.addEventListener('click', () => showGrammarPage());
 
     document.getElementById('qa-input')?.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.isComposing) {
@@ -595,7 +647,535 @@ function switchPage(pageName) {
         case 'tool':
             initToolPage();
             break;
+        case 'grammar':
+            showGrammarPage();
+            break;
     }
+}
+
+// ========== 语法学习 ==========
+function renderGrammarHub() {
+    const grid = document.getElementById('grammar-type-grid');
+    if (!grid) return;
+
+    grid.innerHTML = GRAMMAR_TYPES.map(
+        t => `
+        <button type="button" class="grammar-type-card" data-grammar-id="${escapeHtml(t.id)}" role="listitem" aria-label="进入学习：${escapeHtml(t.title)}">
+            <span class="grammar-type-card-icon" aria-hidden="true">${t.icon}</span>
+            <span class="grammar-type-card-title">${escapeHtml(t.title)}</span>
+            <span class="grammar-type-card-desc">${escapeHtml(t.description)}</span>
+        </button>`
+    ).join('');
+
+    grid.querySelectorAll('.grammar-type-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.grammarId;
+            if (id) showGrammarDetail(id);
+        });
+    });
+}
+
+async function renderGrammarDetail(item) {
+    const titleEl = document.getElementById('grammar-detail-title');
+    const descEl = document.getElementById('grammar-detail-desc');
+    const bodyEl = document.getElementById('grammar-detail-body');
+    if (titleEl) titleEl.textContent = item.title;
+    if (descEl) descEl.textContent = item.description || '';
+    if (!bodyEl) return;
+
+    if (item.loadUrl) {
+        bodyEl.innerHTML = '<p class="grammar-placeholder">加载中…</p>';
+        try {
+            const response = await fetch(item.loadUrl);
+            if (!response.ok) throw new Error('加载失败');
+            bodyEl.innerHTML = await response.text();
+            if (item.id === 'tenses') initGrammarTensesQuiz(bodyEl);
+        } catch (e) {
+            console.error('语法内容加载失败:', e);
+            bodyEl.innerHTML = '<p class="grammar-placeholder">内容加载失败，请确认使用本地服务器打开站点后重试。</p>';
+        }
+    } else {
+        bodyEl.innerHTML = item.html || '<p class="grammar-placeholder">此处预留：可在此类型下填入学习内容。</p>';
+    }
+}
+
+function showGrammarPage() {
+    AppState.currentGrammarTypeId = null;
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-grammar');
+    });
+    setActiveNavPage('grammar');
+    renderGrammarHub();
+}
+
+async function showGrammarDetail(typeId) {
+    const item = GRAMMAR_TYPES.find(t => t.id === typeId);
+    if (!item) return;
+
+    AppState.currentGrammarTypeId = typeId;
+    DOM.pages.forEach(page => {
+        page.classList.toggle('active', page.id === 'page-grammar-detail');
+    });
+    setActiveNavPage('grammar');
+    await renderGrammarDetail(item);
+}
+
+/**
+ * 时态测验结果：按大题型与知识点归纳，并标出薄弱点（供 initGrammarTensesQuiz 使用）。
+ */
+function buildGrammarTenseQuizSummaryHtml(totalScore, totalQuestions, results, questionsData) {
+    const tenseOrder = ['一般现在时', '现在进行时', '将来时'];
+    const byTense = {};
+    tenseOrder.forEach(t => {
+        byTense[t] = { correct: 0, total: 0 };
+    });
+    const pointStats = {};
+
+    for (let i = 0; i < questionsData.length; i++) {
+        const q = questionsData[i];
+        const tense = q.tense;
+        const r = results.find(x => x.index === i);
+        if (!byTense[tense]) byTense[tense] = { correct: 0, total: 0 };
+        byTense[tense].total++;
+        if (r && r.correct) byTense[tense].correct++;
+
+        const point = q.point || tense;
+        if (!pointStats[point]) pointStats[point] = { correct: 0, total: 0 };
+        pointStats[point].total++;
+        if (r && r.correct) pointStats[point].correct++;
+    }
+
+    const weakPoints = [];
+    Object.keys(pointStats).forEach(point => {
+        const st = pointStats[point];
+        const wrong = st.total - st.correct;
+        if (wrong > 0) {
+            weakPoints.push({
+                point,
+                wrong,
+                total: st.total,
+                rate: Math.round((st.correct / st.total) * 100)
+            });
+        }
+    });
+    weakPoints.sort((a, b) => b.wrong / b.total - a.wrong / a.total || b.wrong - a.wrong);
+
+    const maxScore = totalQuestions * 10;
+    const pct = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+    let praise = '';
+    if (pct === 100) praise = ' 🌟 全对！';
+    else if (pct >= 80) praise = ' 👍 很棒！';
+    else if (pct >= 60) praise = ' 📚 继续加油！';
+    else praise = ' 🌱 建议多复习下方标出的薄弱点。';
+
+    let tableRows = '';
+    tenseOrder.forEach(t => {
+        const s = byTense[t];
+        if (!s || s.total === 0) return;
+        const pctT = Math.round((s.correct / s.total) * 100);
+        const cls = pctT < 70 ? 'gtq-tense-weak' : 'gtq-tense-ok';
+        tableRows += `<tr><td>${escapeHtml(t)}</td><td>${s.correct}/${s.total}</td><td class="${cls}">${pctT}%</td></tr>`;
+    });
+
+    let weakHtml = '';
+    if (weakPoints.length === 0) {
+        weakHtml = '<p class="gtq-tense-ok" style="margin:0.35rem 0 0;">暂无错题，各知识点掌握均匀。</p>';
+    } else {
+        weakHtml = '<ul class="gtq-weak-list">';
+        weakPoints.forEach(w => {
+            let line = `<li><strong>${escapeHtml(w.point)}</strong>：答错 ${w.wrong}/${w.total} 题（${w.rate}% 正确）`;
+            if (w.rate < 60) line += ' —— 建议对照上方「用法说明」与例句再练一遍';
+            line += '</li>';
+            weakHtml += line;
+        });
+        weakHtml += '</ul>';
+    }
+
+    const weakestTense = tenseOrder
+        .map(t => {
+            const s = byTense[t];
+            if (!s || s.total === 0) return null;
+            return { t, pct: Math.round((s.correct / s.total) * 100), wrong: s.total - s.correct };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.pct - b.pct || b.wrong - a.wrong)[0];
+
+    let tipBox = '';
+    if (weakestTense && weakestTense.wrong > 0) {
+        tipBox = `<div class="gtq-tip-box"><strong>学习建议：</strong>本次「${escapeHtml(weakestTense.t)}」正确率相对较低，可优先重读该卡片上的<strong>标志词、基本结构</strong>，再做错题。</div>`;
+    }
+
+    return `
+<div class="gtq-result-summary">
+  <p class="gtq-result-score">🎉 总分：<strong>${totalScore}</strong> / ${maxScore} 分（正确率 ${pct}%）${praise}</p>
+  <div class="gtq-result-section">
+    <h4>📊 按大题型统计</h4>
+    <table class="gtq-tense-table" aria-label="各时态答对情况">
+      <thead><tr><th>题型</th><th>答对</th><th>正确率</th></tr></thead>
+      <tbody>${tableRows}</tbody>
+    </table>
+  </div>
+  <div class="gtq-result-section">
+    <h4>🎯 薄弱知识点（有错即列出）</h4>
+    ${weakHtml}
+  </div>
+  ${tipBox}
+</div>`;
+}
+
+/**
+ * 「时态魔法学院」小测验：仅在 #grammar-detail-body 内查找节点，避免与全站其它题目冲突。
+ */
+function initGrammarTensesQuiz(root) {
+    const scope = root && root.querySelector('.grammar-tenses-embed');
+    if (!scope) return;
+
+    const questionsData = [
+        {
+            text: 'My sister ______ to school by bus every day.',
+            options: ['go', 'goes', 'going'],
+            correct: 'goes',
+            tense: '一般现在时',
+            point: '第三人称单数'
+        },
+        {
+            text: 'They ______ football on Sunday mornings.',
+            options: ['plays', 'play', 'playing'],
+            correct: 'play',
+            tense: '一般现在时',
+            point: '复数主语与动词'
+        },
+        {
+            text: 'The cat ______ milk very much.',
+            options: ['like', 'likes', 'is liking'],
+            correct: 'likes',
+            tense: '一般现在时',
+            point: '第三人称单数'
+        },
+        {
+            text: 'He ______ like hot milk. (否定)',
+            options: ["doesn't", "don't", "isn't"],
+            correct: "doesn't",
+            tense: '一般现在时',
+            point: '否定与助动词 do/does'
+        },
+        {
+            text: '______ your mother cook dinner every evening?',
+            options: ['Do', 'Does', 'Is'],
+            correct: 'Does',
+            tense: '一般现在时',
+            point: '一般疑问句 Do/Does'
+        },
+        {
+            text: 'The moon ______ around the Earth.',
+            options: ['go', 'goes', 'is going'],
+            correct: 'goes',
+            tense: '一般现在时',
+            point: '客观事实'
+        },
+        {
+            text: 'Water ______ at 100°C.',
+            options: ['boil', 'boils', 'is boiling'],
+            correct: 'boils',
+            tense: '一般现在时',
+            point: '客观事实'
+        },
+        {
+            text: 'My brother and I ______ to the library on Saturdays.',
+            options: ['go', 'goes', 'going'],
+            correct: 'go',
+            tense: '一般现在时',
+            point: '并列主语'
+        },
+        {
+            text: 'Listen! The birds ______ sweetly outside.',
+            options: ['sing', 'is singing', 'are singing'],
+            correct: 'are singing',
+            tense: '现在进行时',
+            point: 'Listen/Look 与进行时'
+        },
+        {
+            text: 'Mom ______ dinner in the kitchen right now.',
+            options: ['cooks', 'is cooking', 'cook'],
+            correct: 'is cooking',
+            tense: '现在进行时',
+            point: '此刻正在 (now/right now)'
+        },
+        {
+            text: 'Be quiet! The baby ______.',
+            options: ['sleep', 'sleeps', 'is sleeping'],
+            correct: 'is sleeping',
+            tense: '现在进行时',
+            point: '此刻正在'
+        },
+        {
+            text: 'They ______ English in class this week.',
+            options: ['study', 'are studying', 'studies'],
+            correct: 'are studying',
+            tense: '现在进行时',
+            point: '现阶段进行 (this week)'
+        },
+        {
+            text: '______ you doing your homework now?',
+            options: ['Are', 'Is', 'Do'],
+            correct: 'Are',
+            tense: '现在进行时',
+            point: '进行时疑问句'
+        },
+        {
+            text: 'Look! The dog ______ after a ball.',
+            options: ['run', 'runs', 'is running'],
+            correct: 'is running',
+            tense: '现在进行时',
+            point: 'Listen/Look 与进行时'
+        },
+        {
+            text: 'He ______ not playing football now.',
+            options: ['is', 'am', 'are'],
+            correct: 'is',
+            tense: '现在进行时',
+            point: '进行时否定'
+        },
+        {
+            text: 'We ______ for the bus at the moment.',
+            options: ['wait', 'are waiting', 'waits'],
+            correct: 'are waiting',
+            tense: '现在进行时',
+            point: 'at the moment'
+        },
+        {
+            text: 'I ______ you a postcard from Japan next month.',
+            options: ['send', 'will send', 'am sending'],
+            correct: 'will send',
+            tense: '将来时',
+            point: 'will + 动词原形'
+        },
+        {
+            text: 'They ______ going to have a picnic this weekend.',
+            options: ['is', 'am', 'are'],
+            correct: 'are',
+            tense: '将来时',
+            point: 'be going to 与主语一致'
+        },
+        {
+            text: 'She ______ visit her grandma tomorrow morning.',
+            options: ['will', 'is', 'are'],
+            correct: 'will',
+            tense: '将来时',
+            point: 'will + 动词原形'
+        },
+        {
+            text: 'It ______ cloudy tomorrow. (根据预测)',
+            options: ['is going to be', 'will be', 'will'],
+            correct: 'is going to be',
+            tense: '将来时',
+            point: 'be going to 表预测'
+        },
+        {
+            text: '______ you help me carry this box?',
+            options: ['Will', 'Are', 'Do'],
+            correct: 'Will',
+            tense: '将来时',
+            point: 'Will 表意愿/请求'
+        },
+        {
+            text: 'He ______ not come to school tomorrow.',
+            options: ["won't", "doesn't", "isn't"],
+            correct: "won't",
+            tense: '将来时',
+            point: 'will 的否定 (won’t)'
+        },
+        {
+            text: 'We ______ watch a cartoon tonight.',
+            options: ['are going to', 'will to', 'are go to'],
+            correct: 'are going to',
+            tense: '将来时',
+            point: 'be going to 结构'
+        },
+        {
+            text: 'There ______ a sports meeting next Monday.',
+            options: ['will be', 'is going to be', 'will'],
+            correct: 'will be',
+            tense: '将来时',
+            point: 'there will be / 计划'
+        }
+    ];
+
+    const qContainer = scope.querySelector('#gtq-questions-container');
+    const submitBtn = scope.querySelector('#gtq-submit');
+    const resetBtn = scope.querySelector('#gtq-reset');
+    if (!qContainer || !submitBtn || !resetBtn) return;
+
+    function renderQuestions() {
+        qContainer.innerHTML = '';
+        questionsData.forEach((q, idx) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'quiz-question';
+            questionDiv.dataset.index = String(idx);
+            questionDiv.dataset.correct = q.correct;
+
+            const qTextDiv = document.createElement('div');
+            qTextDiv.className = 'question-text';
+            qTextDiv.innerHTML = `
+                <span>${idx + 1}. ${q.text}</span>
+                <span class="tense-badge">${q.tense}</span>
+            `;
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            const radioName = `gtq_q_${idx}`;
+            q.options.forEach(opt => {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = radioName;
+                radio.value = opt;
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(opt));
+                optionsDiv.appendChild(label);
+            });
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'question-feedback';
+            feedbackDiv.id = `gtq-fb-${idx}`;
+
+            questionDiv.appendChild(qTextDiv);
+            questionDiv.appendChild(optionsDiv);
+            questionDiv.appendChild(feedbackDiv);
+            qContainer.appendChild(questionDiv);
+        });
+    }
+
+    function resetQuiz() {
+        qContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.checked = false;
+        });
+        for (let i = 0; i < questionsData.length; i++) {
+            const fbDiv = scope.querySelector(`#gtq-fb-${i}`);
+            if (fbDiv) fbDiv.innerHTML = '';
+        }
+        const resultDiv = scope.querySelector('#gtq-result');
+        if (resultDiv) {
+            resultDiv.innerHTML = '✨ 已经清空答案，重新选择再提交吧 ✨';
+            resultDiv.style.background = '#fff0d4';
+            resultDiv.classList.remove('has-summary');
+        }
+    }
+
+    function gradeQuiz() {
+        let totalScore = 0;
+        const totalQuestions = questionsData.length;
+        const results = [];
+
+        let allAnswered = true;
+        for (let i = 0; i < totalQuestions; i++) {
+            const radios = qContainer.querySelectorAll(`input[name="gtq_q_${i}"]`);
+            const isChecked = Array.from(radios).some(r => r.checked);
+            if (!isChecked) allAnswered = false;
+        }
+
+        const resultDiv = scope.querySelector('#gtq-result');
+        if (!resultDiv) return;
+
+        if (!allAnswered) {
+            resultDiv.innerHTML = '⚠️ 哎呀！还有题目没有选答案哦～ 请完成所有题目再提交 ⚠️';
+            resultDiv.style.background = '#ffe0b5';
+            resultDiv.style.animation = 'none';
+            setTimeout(() => {
+                resultDiv.style.animation = 'gt-slideUp 0.3s';
+            }, 10);
+            return;
+        }
+
+        for (let i = 0; i < totalQuestions; i++) {
+            const radios = qContainer.querySelectorAll(`input[name="gtq_q_${i}"]`);
+            let selectedValue = null;
+            for (const radio of radios) {
+                if (radio.checked) {
+                    selectedValue = radio.value;
+                    break;
+                }
+            }
+            const correctAnswer = questionsData[i].correct;
+            const isCorrect = selectedValue === correctAnswer;
+            if (isCorrect) {
+                totalScore += 10;
+                results.push({ index: i, correct: true, selected: selectedValue, correctAns: correctAnswer });
+            } else {
+                results.push({
+                    index: i,
+                    correct: false,
+                    selected: selectedValue || '未选',
+                    correctAns: correctAnswer
+                });
+            }
+        }
+
+        const summaryHtml = buildGrammarTenseQuizSummaryHtml(
+            totalScore,
+            totalQuestions,
+            results,
+            questionsData
+        );
+        resultDiv.innerHTML = summaryHtml;
+        resultDiv.classList.add('has-summary');
+        resultDiv.style.background = '#e9f5e6';
+
+        for (let i = 0; i < totalQuestions; i++) {
+            const fbDiv = scope.querySelector(`#gtq-fb-${i}`);
+            const res = results.find(r => r.index === i);
+            if (fbDiv && res) {
+                if (res.correct) {
+                    fbDiv.innerHTML = `✅ 回答正确！ “${res.selected}” 是对的！ +10分 ✅`;
+                    fbDiv.className = 'question-feedback correct-feedback';
+                } else {
+                    fbDiv.innerHTML = `❌ 噢不，正确答案是 “${res.correctAns}”。 你选了 “${res.selected}”。 再记一记！ ❌`;
+                    fbDiv.className = 'question-feedback wrong-feedback';
+                }
+            }
+        }
+
+        resultDiv.style.transform = 'scale(1.01)';
+        setTimeout(() => {
+            resultDiv.style.transform = 'scale(1)';
+        }, 200);
+    }
+
+    renderQuestions();
+
+    submitBtn.addEventListener('click', gradeQuiz);
+    resetBtn.addEventListener('click', () => {
+        resetQuiz();
+        const resultDiv = scope.querySelector('#gtq-result');
+        if (resultDiv) {
+            resultDiv.style.background = '#fff0d4';
+            resultDiv.innerHTML = '🔄 答案已清空，可以重新挑战啦！ 🔄';
+            resultDiv.classList.remove('has-summary');
+        }
+    });
+
+    qContainer.addEventListener('change', e => {
+        if (e.target && e.target.type === 'radio') {
+            const questionDiv = e.target.closest('.quiz-question');
+            if (questionDiv) {
+                const idxAttr = questionDiv.dataset.index;
+                if (idxAttr !== undefined) {
+                    const fbDiv = scope.querySelector(`#gtq-fb-${idxAttr}`);
+                    if (fbDiv) {
+                        fbDiv.innerHTML = '';
+                        fbDiv.className = 'question-feedback';
+                    }
+                }
+            }
+            const resultDiv = scope.querySelector('#gtq-result');
+            if (resultDiv && resultDiv.querySelector('.gtq-result-summary')) {
+                resultDiv.innerHTML =
+                    '📝 你修改了答案，请重新提交以更新分数与薄弱知识点分析。 📝';
+                resultDiv.style.background = '#fff0d4';
+                resultDiv.classList.remove('has-summary');
+            }
+        }
+    });
 }
 
 // ========== 数据加载 ==========

@@ -1,0 +1,584 @@
+/* 时态魔法学院（嵌入语法详情页）：样式作用域在 .grammar-tenses-embed 内 */
+
+.grammar-tenses-embed {
+    font-family: 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', 'Poppins', system-ui, -apple-system, 'Segoe UI', cursive, sans-serif;
+    background: linear-gradient(145deg, #f9f0c1 0%, #fce5b4 100%);
+    color: #2d3e50;
+    border-radius: var(--radius-lg, 16px);
+    padding: 1.5rem 1rem 2rem;
+    margin: -4px -6px 0;
+}
+
+.grammar-tenses-embed * {
+    box-sizing: border-box;
+}
+
+.grammar-tenses-embed .container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grammar-tenses-embed .hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: gt-floatIn 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.grammar-tenses-embed .hero h1 {
+    font-size: 2.6rem;
+    background: linear-gradient(135deg, #ff8c42, #ff3b6f);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 3px 3px 12px rgba(255, 140, 66, 0.2);
+    display: inline-block;
+    padding: 0 0.5rem;
+}
+
+.grammar-tenses-embed .hero p {
+    font-size: 1.2rem;
+    background: #fff6e0;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 40px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 12px;
+}
+
+.grammar-tenses-embed .hero-lead {
+    display: block;
+    max-width: 42rem;
+    margin: 1rem auto 0;
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #3d4f63;
+}
+
+.grammar-tenses-embed .gt-intro {
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 28px;
+    padding: 1.25rem 1.5rem 1.35rem;
+    margin-bottom: 2rem;
+    border: 2px dashed rgba(255, 180, 100, 0.65);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.grammar-tenses-embed .gt-intro h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #c45c1a;
+    text-align: center;
+}
+
+.grammar-tenses-embed .gt-intro p,
+.grammar-tenses-embed .gt-intro li {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #2d3e50;
+}
+
+.grammar-tenses-embed .gt-intro ul {
+    margin: 0.5rem 0 0 1.1rem;
+    padding: 0;
+}
+
+.grammar-tenses-embed .gt-intro li {
+    margin-bottom: 0.35rem;
+}
+
+.grammar-tenses-embed .gt-zh {
+    color: #5a6b7c;
+    font-size: 0.88em;
+}
+
+.grammar-tenses-embed .usage-sub {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed rgba(204, 123, 0, 0.25);
+}
+
+.grammar-tenses-embed .usage-sub:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.grammar-tenses-embed .usage-sub h4 {
+    font-size: 1.05rem;
+    margin-bottom: 0.45rem;
+    color: #b45309;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.grammar-tenses-embed .card.continuous .usage-sub h4 {
+    color: #9a3412;
+}
+
+.grammar-tenses-embed .card.future .usage-sub h4 {
+    color: #9d174d;
+}
+
+.grammar-tenses-embed .pitfall {
+    background: #fff5f5;
+    border-radius: 20px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.85rem;
+    border-left: 6px solid #f87171;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.grammar-tenses-embed .pitfall strong {
+    color: #b91c1c;
+}
+
+.grammar-tenses-embed .tense-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.grammar-tenses-embed .card {
+    flex: 1;
+    min-width: 280px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 48px 32px 48px 32px;
+    box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 215, 150, 0.6);
+    animation: gt-cardPop 0.5s ease backwards;
+}
+
+.grammar-tenses-embed .card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.grammar-tenses-embed .card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.grammar-tenses-embed .card:nth-child(3) {
+    animation-delay: 0.25s;
+}
+
+.grammar-tenses-embed .card:hover {
+    transform: translateY(-12px) scale(1.01);
+    box-shadow: 0 28px 40px -12px rgba(0, 0, 0, 0.3);
+    border-color: #ffb347;
+}
+
+.grammar-tenses-embed .card-header {
+    padding: 1.2rem 1.8rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.grammar-tenses-embed .card-header span:first-child {
+    font-size: 2.2rem;
+}
+
+.grammar-tenses-embed .card.present .card-header {
+    background: linear-gradient(120deg, #43c6ac, #191654);
+}
+
+.grammar-tenses-embed .card.continuous .card-header {
+    background: linear-gradient(120deg, #f7971e, #ffd200);
+}
+
+.grammar-tenses-embed .card.future .card-header {
+    background: linear-gradient(120deg, #ff6a88, #ff99ac);
+}
+
+.grammar-tenses-embed .card-content {
+    padding: 1.6rem;
+}
+
+.grammar-tenses-embed .usage {
+    background: #fef7e0;
+    border-radius: 32px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    border-left: 8px solid #ffaa33;
+}
+
+.grammar-tenses-embed .usage h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+    color: #cc7b00;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.grammar-tenses-embed .usage p {
+    line-height: 1.5;
+    font-size: 0.98rem;
+}
+
+.grammar-tenses-embed .examples {
+    background: #eef9ff;
+    border-radius: 28px;
+    padding: 1rem;
+}
+
+.grammar-tenses-embed .examples h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+    color: #2c7da0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.grammar-tenses-embed .example-item {
+    background: white;
+    border-radius: 24px;
+    padding: 8px 16px;
+    margin: 10px 0;
+    font-family: monospace, ui-monospace, monospace;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: 0.2s;
+    border-left: 6px solid #ffaa66;
+}
+
+.grammar-tenses-embed .example-item:hover {
+    transform: translateX(6px);
+    background: #fff7e8;
+}
+
+.grammar-tenses-embed .quiz-area {
+    background: #fffdf7;
+    border-radius: 64px 48px 64px 48px;
+    padding: 2rem 1.8rem;
+    box-shadow: 0 25px 40px -18px rgba(0, 0, 0, 0.3);
+    margin-top: 1.2rem;
+    border: 2px solid #ffe0a3;
+    animation: gt-slideUp 0.6s ease;
+}
+
+.grammar-tenses-embed .quiz-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.grammar-tenses-embed .quiz-title span {
+    background: #ffd966;
+    border-radius: 60px;
+    padding: 0.2rem 1rem;
+    font-size: 1rem;
+}
+
+.grammar-tenses-embed #gtq-questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0 1.5rem;
+}
+
+.grammar-tenses-embed .quiz-question {
+    background: #fef3dd;
+    border-radius: 40px;
+    padding: 1.2rem 1.5rem;
+    transition: all 0.2s;
+    border: 1px solid #ffe2b5;
+}
+
+.grammar-tenses-embed .question-text {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.grammar-tenses-embed .tense-badge {
+    background: #8b5cf6;
+    color: white;
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    border-radius: 40px;
+    letter-spacing: 1px;
+}
+
+.grammar-tenses-embed .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin: 0.8rem 0 0.5rem;
+}
+
+.grammar-tenses-embed .options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 6px 16px;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: 0.15s;
+    border: 1px solid #ffd58c;
+}
+
+.grammar-tenses-embed .options label:hover {
+    background: #ffe8c7;
+    transform: scale(0.97);
+}
+
+.grammar-tenses-embed input[type="radio"] {
+    accent-color: #ff9142;
+    width: 18px;
+    height: 18px;
+}
+
+.grammar-tenses-embed .question-feedback {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    padding-left: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.grammar-tenses-embed .quiz-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0 15px;
+}
+
+.grammar-tenses-embed button {
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    background: #ffaa44;
+    color: #2d2f36;
+    padding: 12px 28px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 6px 0 #b4621a;
+    transform: translateY(-2px);
+}
+
+.grammar-tenses-embed button:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #b4621a;
+}
+
+.grammar-tenses-embed button.reset-btn {
+    background: #7c8a9e;
+    box-shadow: 0 6px 0 #4a5568;
+    color: white;
+}
+
+.grammar-tenses-embed #gtq-result.result-area {
+    text-align: center;
+    background: #fff0d4;
+    border-radius: 60px;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.grammar-tenses-embed #gtq-result.result-area.has-summary {
+    text-align: left;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.55;
+    padding: 1.15rem 1.35rem;
+}
+
+.grammar-tenses-embed .gtq-result-summary {
+    width: 100%;
+}
+
+.grammar-tenses-embed .gtq-result-score {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px dashed rgba(255, 180, 100, 0.5);
+}
+
+.grammar-tenses-embed .gtq-result-section {
+    margin-top: 0.85rem;
+}
+
+.grammar-tenses-embed .gtq-result-section h4 {
+    font-size: 0.95rem;
+    color: #2c5282;
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.grammar-tenses-embed .gtq-tense-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 0.35rem;
+}
+
+.grammar-tenses-embed .gtq-tense-table th,
+.grammar-tenses-embed .gtq-tense-table td {
+    border: 1px solid #e8d4a8;
+    padding: 0.4rem 0.5rem;
+    text-align: center;
+}
+
+.grammar-tenses-embed .gtq-tense-table th {
+    background: #fff6e0;
+    font-weight: 600;
+}
+
+.grammar-tenses-embed .gtq-tense-table td:first-child {
+    text-align: left;
+}
+
+.grammar-tenses-embed .gtq-tense-weak {
+    color: #c05621;
+    font-weight: 600;
+}
+
+.grammar-tenses-embed .gtq-tense-ok {
+    color: #276749;
+}
+
+.grammar-tenses-embed .gtq-weak-list {
+    margin: 0.35rem 0 0;
+    padding-left: 1.2rem;
+    font-size: 0.88rem;
+    color: #4a5568;
+}
+
+.grammar-tenses-embed .gtq-weak-list li {
+    margin-bottom: 0.35rem;
+}
+
+.grammar-tenses-embed .gtq-tip-box {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    background: #fff8f0;
+    border-radius: 16px;
+    border-left: 5px solid #ed8936;
+    font-size: 0.88rem;
+    color: #744210;
+}
+
+@keyframes gt-floatIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gt-cardPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes gt-slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.grammar-tenses-embed .correct-feedback {
+    color: #2b7e3a;
+    background: #e0ffea;
+    border-radius: 40px;
+    padding: 4px 12px;
+    display: inline-block;
+}
+
+.grammar-tenses-embed .wrong-feedback {
+    color: #c7362b;
+    background: #ffe4e0;
+    border-radius: 40px;
+    padding: 4px 12px;
+    display: inline-block;
+}
+
+.grammar-tenses-embed .gt-footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+@media (max-width: 780px) {
+    .grammar-tenses-embed {
+        padding: 1rem 0.75rem 1.5rem;
+    }
+
+    .grammar-tenses-embed .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .grammar-tenses-embed .hero-lead {
+        font-size: 0.92rem;
+    }
+
+    .grammar-tenses-embed .gt-intro {
+        padding: 1rem 1.1rem;
+    }
+
+    .grammar-tenses-embed .gt-intro h2 {
+        font-size: 1.1rem;
+    }
+
+    .grammar-tenses-embed .card-header {
+        font-size: 1.4rem;
+    }
+
+    .grammar-tenses-embed .quiz-question {
+        padding: 1rem;
+    }
+
+    .grammar-tenses-embed .example-item {
+        font-size: 0.92rem;
+    }
+}
