@@ -1422,7 +1422,36 @@
           "speakerCn": "医生",
           "content": "You're welcome.",
           "contentCn": "医生：不客气。"
+        }
+      ]
+    },
+    {
+      "id": "reading-019",
+      "bookName": "英语五年级下册课文",
+      "unitName": "Unit 10",
+      "title": "Great inventions",
+      "titleCn": "伟大的发明",
+      "scene": "郭老师正在课堂上和同学们讨论世界上伟大的发明。吉蒂、艾丽丝和彼得分别分享了他们认为伟大的发明（纸、手表、汽车）及其用途。乔则分享了他想要自己发明“飞行单车”的梦想。",
+      "keySentencePatterns": [
+        {
+          "pattern": "I think paper is a great invention.",
+          "meaning": "我认为纸是一项伟大的发明。"
         },
+        {
+          "pattern": "People can tell the time anywhere.",
+          "meaning": "人们可以在任何地方看时间。"
+        },
+        {
+          "pattern": "I'm going to invent something myself.",
+          "meaning": "我打算自己发明点东西。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`invention` (发明), `watch` (手表), `anywhere` (任何地方), `travel` (旅行), `invent` (发明), `myself` (我自己), `camera` (相机), `something` (某事；某物)",
+        "重点短语：`from one place to another` (从一个地方到另一个地方), `write on` (在……上写字), `tell the time` (看时间), `far away from ...` (远离……)",
+        "背景知识：了解莱特兄弟（Wilbur Wright 和 Orville Wright）发明飞机（flying machine）的故事。"
+      ],
+      "dialogues": [
         {
           "speaker": "Ms Guo",
           "speakerCn": "郭老师",
@@ -1468,7 +1497,7 @@
       ]
     },
     {
-      "id": "reading-019",
+      "id": "reading-020",
       "bookName": "英语五年级下册课文",
       "unitName": "Unit 11",
       "title": "Chinese festivals",
@@ -1533,7 +1562,36 @@
           "speakerCn": "乔",
           "content": "People also watch fireworks at night. They like the beautiful fireworks very much.",
           "contentCn": "乔：人们还在晚上看烟花。他们非常喜欢美丽的烟花。"
+        }
+      ]
+    },
+    {
+      "id": "reading-021",
+      "bookName": "英语五年级下册课文",
+      "unitName": "Unit 12",
+      "title": "The giant's garden",
+      "titleCn": "巨人的花园",
+      "scene": "一个自私的巨人拥有一座美丽的花园，但他筑起高墙禁止孩子们进入。结果他的花园里永远只有寒冷的冬天。直到有一天，孩子们钻进花园带回了春天，巨人终于意识到自己的错误，拆掉围墙欢迎孩子们回来。",
+      "keySentencePatterns": [
+        {
+          "pattern": "He's not kind to children.",
+          "meaning": "他对孩子们不友好。"
         },
+        {
+          "pattern": "They are coming through a hole.",
+          "meaning": "他们正从一个洞里钻进来。"
+        },
+        {
+          "pattern": "Children, you can play in my garden any time.",
+          "meaning": "孩子们，你们随时可以在我的花园里玩。"
+        }
+      ],
+      "knowledgePoints": [
+        "核心词汇：`giant` (巨人), `wall` (墙), `kind` (友好的), `through` (穿过), `no entry` (禁止进入)",
+        "重点短语：`(be) kind to ...` (对……友好), `knock down` (推倒；拆掉), `around his garden` (在他的花园周围), `Miss Spring` (春姑娘), `feel sad` (感到伤心)",
+        "语音知识：学习掌握本单元相关单词的发音和拼写。"
+      ],
+      "dialogues": [
         {
           "speaker": "Narrator",
           "speakerCn": "旁白",

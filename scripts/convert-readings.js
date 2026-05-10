@@ -7,18 +7,14 @@ const path = require('path');
 
 const REPO_ROOT = path.join(__dirname, '..');
 
-function parseReadingsMD() {
-    const readingsMdPath = path.join(REPO_ROOT, 'data', 'READINGS.md');
-    const content = fs.readFileSync(readingsMdPath, 'utf-8');
-    
+/**
+ * 过滤掉 <!-- ... --> 注释块内的行，避免将格式示例当作真实内容解析
+ * @param {string} mdPath
+ * @returns {string[]}
+ */
+function getReadingsMdLinesWithoutComments(mdPath) {
+    const content = fs.readFileSync(mdPath, 'utf-8');
     const lines = content.split('\n');
-    const readings = [];
-    let currentReading = null;
-    let readingIndex = 0;
-    let isParsingPatterns = false;
-    let isParsingKnowledgePoints = false;
-
-    // 过滤掉 <!-- ... --> 注释块内的行（含其中的 ``` 代码块），避免将格式示例当作真实内容解析
     const filteredLines = [];
     let inCommentBlock = false;
     for (let i = 0; i < lines.length; i++) {
@@ -36,7 +32,63 @@ function parseReadingsMD() {
         }
         filteredLines.push(raw);
     }
-    const linesToParse = filteredLines;
+    return filteredLines;
+}
+
+/**
+ * 检查 READINGS.md：列表元数据行、句型/知识点子项不得使用 ** 加粗标签（与解析器约定一致）。
+ * @param {string} mdPath
+ * @returns {{ line: number, reason: string, preview: string }[]}
+ */
+function validateReadingsMdFormat(mdPath) {
+    const content = fs.readFileSync(mdPath, 'utf-8');
+    const lines = content.split('\n');
+    const errors = [];
+    let inCommentBlock = false;
+
+    for (let i = 0; i < lines.length; i++) {
+        const raw = lines[i];
+        const t = raw.trim();
+        if (t.startsWith('<!--')) {
+            inCommentBlock = true;
+            continue;
+        }
+        if (inCommentBlock) {
+            if (t.includes('-->')) {
+                inCommentBlock = false;
+            }
+            continue;
+        }
+
+        const trimmed = raw.trim();
+        // * **题目**： 等（星号列表 + 加粗标签）
+        if (/^\*\s+\*\*/.test(trimmed)) {
+            errors.push({
+                line: i + 1,
+                reason: '列表元数据行请勿在标签上使用 ** 加粗，请使用「* 题目：」「* 场景：」「* 重点句型：」「* 知识点：」。',
+                preview: trimmed.slice(0, 80)
+            });
+            continue;
+        }
+        //   - **核心词汇**： 等
+        if (/^\s{2,}-\s+\*\*/.test(raw)) {
+            errors.push({
+                line: i + 1,
+                reason: '句型/知识点子项请勿使用「- **类别**：」加粗，请使用「- 核心词汇：」「- 重点短语：」等。',
+                preview: trimmed.slice(0, 80)
+            });
+        }
+    }
+
+    return errors;
+}
+
+function parseReadingsMDFromLines(linesToParse) {
+    const readings = [];
+    let currentReading = null;
+    let readingIndex = 0;
+    let isParsingPatterns = false;
+    let isParsingKnowledgePoints = false;
     
     // 初始书本名称（第一个 # 书本标题，用于顶层 bookName 兼容）
     let bookName = '';
@@ -145,7 +197,7 @@ function parseReadingsMD() {
         }
         
         // 检测重点句型行（支持两种格式：# 重点句型： 和 * 重点句型：）
-        if (line.startsWith('# 重点句型：') || line.startsWith('# 重点句型') || 
+        if (line.startsWith('# 重点句型：') || line.startsWith('# 重点句型') ||
             line.startsWith('* 重点句型：') || line.startsWith('* 重点句型')) {
             isParsingPatterns = true;
             isParsingKnowledgePoints = false;
@@ -153,7 +205,7 @@ function parseReadingsMD() {
         }
         
         // 检测知识点行（支持两种格式：# 知识点： 和 * 知识点：）
-        if (line.startsWith('# 知识点：') || line.startsWith('# 知识点') || 
+        if (line.startsWith('# 知识点：') || line.startsWith('# 知识点') ||
             line.startsWith('* 知识点：') || line.startsWith('* 知识点')) {
             isParsingPatterns = false;
             isParsingKnowledgePoints = true;
@@ -244,7 +296,25 @@ function parseReadingsMD() {
     };
 }
 
+function parseReadingsMD() {
+    const readingsMdPath = path.join(REPO_ROOT, 'data', 'READINGS.md');
+    const linesToParse = getReadingsMdLinesWithoutComments(readingsMdPath);
+    return parseReadingsMDFromLines(linesToParse);
+}
+
 function main() {
+    const mdPath = path.join(REPO_ROOT, 'data', 'READINGS.md');
+    const formatErrors = validateReadingsMdFormat(mdPath);
+    if (formatErrors.length > 0) {
+        console.error('READINGS.md 格式检查失败：\n');
+        formatErrors.forEach((e) => {
+            console.error(`  第 ${e.line} 行: ${e.reason}`);
+            console.error(`    ${e.preview}${e.preview.length >= 80 ? '…' : ''}\n`);
+        });
+        process.exit(1);
+    }
+    console.log('✓ READINGS.md 格式检查通过（题目/场景等列表项与知识点子项未使用 ** 标签加粗）');
+
     console.log('开始转换 data/READINGS.md...');
     const data = parseReadingsMD();
     

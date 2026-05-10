@@ -471,16 +471,16 @@ Doctor: You're welcome. (医生：不客气。)
 
 ## Unit 10
 
-* **题目**：Great inventions (伟大的发明)
-* **场景**：郭老师正在课堂上和同学们讨论世界上伟大的发明。吉蒂、艾丽丝和彼得分别分享了他们认为伟大的发明（纸、手表、汽车）及其用途。乔则分享了他想要自己发明“飞行单车”的梦想。
-* **重点句型**：
+* 题目：Great inventions (伟大的发明)
+* 场景：郭老师正在课堂上和同学们讨论世界上伟大的发明。吉蒂、艾丽丝和彼得分别分享了他们认为伟大的发明（纸、手表、汽车）及其用途。乔则分享了他想要自己发明“飞行单车”的梦想。
+* 重点句型：
   - I think paper is a great invention. (我认为纸是一项伟大的发明。)
   - People can tell the time anywhere. (人们可以在任何地方看时间。)
   - I'm going to invent something myself. (我打算自己发明点东西。)
-* **知识点**：
-  - **核心词汇**：`invention` (发明), `watch` (手表), `anywhere` (任何地方), `travel` (旅行), `invent` (发明), `myself` (我自己), `camera` (相机), `something` (某事；某物)
-  - **重点短语**：`from one place to another` (从一个地方到另一个地方), `write on` (在……上写字), `tell the time` (看时间), `far away from ...` (远离……)
-  - **背景知识**：了解莱特兄弟（Wilbur Wright 和 Orville Wright）发明飞机（flying machine）的故事。
+* 知识点：
+  - 核心词汇：`invention` (发明), `watch` (手表), `anywhere` (任何地方), `travel` (旅行), `invent` (发明), `myself` (我自己), `camera` (相机), `something` (某事；某物)
+  - 重点短语：`from one place to another` (从一个地方到另一个地方), `write on` (在……上写字), `tell the time` (看时间), `far away from ...` (远离……)
+  - 背景知识：了解莱特兄弟（Wilbur Wright 和 Orville Wright）发明飞机（flying machine）的故事。
 
 
 Ms Guo: Do you know any great inventions in the world? (郭老师：你们知道世界上有哪些伟大的发明吗？)
@@ -519,16 +519,16 @@ Joe: People also watch fireworks at night. They like the beautiful fireworks ver
 
 ## Unit 12
 
-* **题目**：The giant's garden (巨人的花园)
-* **场景**：一个自私的巨人拥有一座美丽的花园，但他筑起高墙禁止孩子们进入。结果他的花园里永远只有寒冷的冬天。直到有一天，孩子们钻进花园带回了春天，巨人终于意识到自己的错误，拆掉围墙欢迎孩子们回来。
-* **重点句型**：
+* 题目：The giant's garden (巨人的花园)
+* 场景：一个自私的巨人拥有一座美丽的花园，但他筑起高墙禁止孩子们进入。结果他的花园里永远只有寒冷的冬天。直到有一天，孩子们钻进花园带回了春天，巨人终于意识到自己的错误，拆掉围墙欢迎孩子们回来。
+* 重点句型：
   - He's not kind to children. (他对孩子们不友好。)
   - They are coming through a hole. (他们正从一个洞里钻进来。)
   - Children, you can play in my garden any time. (孩子们，你们随时可以在我的花园里玩。)
-* **知识点**：
-  - **核心词汇**：`giant` (巨人), `wall` (墙), `kind` (友好的), `through` (穿过), `no entry` (禁止进入)
-  - **重点短语**：`(be) kind to ...` (对……友好), `knock down` (推倒；拆掉), `around his garden` (在他的花园周围), `Miss Spring` (春姑娘), `feel sad` (感到伤心)
-  - **语音知识**：学习掌握本单元相关单词的发音和拼写。
+* 知识点：
+  - 核心词汇：`giant` (巨人), `wall` (墙), `kind` (友好的), `through` (穿过), `no entry` (禁止进入)
+  - 重点短语：`(be) kind to ...` (对……友好), `knock down` (推倒；拆掉), `around his garden` (在他的花园周围), `Miss Spring` (春姑娘), `feel sad` (感到伤心)
+  - 语音知识：学习掌握本单元相关单词的发音和拼写。
 
 
 Narrator: A giant lives in a big house with a beautiful garden. Children like to play in the garden. They have a lot of fun there. (旁白：一个巨人住在一所带漂亮花园的大房子里。孩子们喜欢在花园里玩耍。他们在那里玩得很开心。)
