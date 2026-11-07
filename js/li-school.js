@@ -5,6 +5,7 @@ const LiSchool = (() => {
     const supportsAudio = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
     let lessons = [];
     let loading = false;
+    let requested = {};
     let activeUtterance = null;
 
     function asset(path) {
@@ -121,10 +122,30 @@ const LiSchool = (() => {
         get('rows').replaceChildren(...lesson.rows.map(wordCard));
     }
 
-    async function open() {
+    function applySelection(replaceAddress = true) {
+        const match = lessons.findIndex(lesson => lesson.date === requested.date &&
+            (!requested.course || lesson.course === requested.course));
+        get('lesson').selectedIndex = match < 0 ? 0 : match;
+        const lesson = lessons[get('lesson').selectedIndex];
+        requested = match < 0 ? {} : {date: lesson.date, course: lesson.course};
+        drawLesson();
+        // 课程加载期间用户可能已离开，只同步仍在显示的页面。
+        if (document.getElementById('page-li-school').classList.contains('active')) {
+            writePageAddress('li-school', requested, replaceAddress);
+            if (match >= 0) document.title = lesson.date + ' ' + lesson.theme + ' · 李校来啦';
+        }
+        document.querySelector('.nav-btn[data-page="li-school"]').href = pageUrl('li-school', requested);
+    }
+
+    async function open(details) {
+        requested = details;
         // 首页入口可能位于一屏以下；切换面板时将新课程标题带回视口。
         document.querySelector('.main-content').scrollTop = 0;
-        if (lessons.length || loading) return;
+        if (lessons.length) {
+            applySelection();
+            return;
+        }
+        if (loading) return;
         loading = true;
         get('retry').hidden = true;
         get('load-status').textContent = '正在加载课程…';
@@ -140,7 +161,7 @@ const LiSchool = (() => {
             get('lesson').replaceChildren(...ordered.map(lesson =>
                 new Option(lesson.date + '　' + lesson.theme)));
             lessons = ordered;
-            drawLesson();
+            applySelection();
             get('book').href = asset(book.output);
             get('book').hidden = false;
             get('body').hidden = false;
@@ -154,9 +175,13 @@ const LiSchool = (() => {
         }
     }
 
-    get('lesson').addEventListener('change', drawLesson);
+    get('lesson').addEventListener('change', () => {
+        const lesson = lessons[get('lesson').selectedIndex];
+        requested = {date: lesson.date, course: lesson.course};
+        applySelection(false);
+    });
     get('accent').addEventListener('change', stopAudio);
-    get('retry').addEventListener('click', open);
+    get('retry').addEventListener('click', () => open(requested));
     get('print').addEventListener('click', () => window.print());
     document.addEventListener('visibilitychange', () => { if (document.hidden) stopAudio(); });
     return { open, stopAudio };

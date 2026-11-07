@@ -26,7 +26,7 @@
     cursor: pointer;
     white-space: nowrap;
 }
-.li-enter { color: white; background: #285f53; border: 1px solid #285f53; font-weight: 600; }
+.li-enter { text-decoration: none; color: white; background: #285f53; border: 1px solid #285f53; font-weight: 600; }
 .li-enter span { padding-left: 8px; }
 .li-header { justify-content: space-between; flex-wrap: wrap; margin: 6px 0 20px; }
 .li-header h2, .li-lesson-header h3 { color: #214f46; }

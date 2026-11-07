@@ -81,6 +81,9 @@ const DOM = {};
 // ========== 初始化应用 ==========
 document.addEventListener('DOMContentLoaded', () => {
     initDOMElements();
+    if (new URLSearchParams(location.search).has('page')) {
+        document.getElementById('page-home').classList.remove('active');
+    }
 
     // 初始化语音列表（处理异步加载）
     initSpeechVoices();
@@ -108,17 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
             showServiceError();
             return;
         }
-    // 获取服务器配置
-    fetchVoiceCloneConfig();
-    showLoading();
-    loadWordData().then(() => {
-            loadReadingData(); // 加载阅读数据
-            loadSpeechData(); // 加载听书数据
-        loadUserProgress();
-        bindEvents();
-        renderHomePage();
-            loadHomeDailyWord(); // 首页今日一词（词库轮换 + 墨小灵引导）
-        hideLoading();
+        fetchVoiceCloneConfig();
+        showLoading();
+        Promise.all([loadWordData(), loadReadingData(), loadSpeechData()]).then(() => {
+            loadUserProgress();
+            bindEvents();
+            restorePageAddress();
+            window.addEventListener('popstate', restorePageAddress);
+            loadHomeDailyWord();
+            hideLoading();
         });
     });
 });
@@ -504,12 +505,13 @@ function hideLoading() {
 
 // ========== 事件绑定 ==========
 function bindEvents() {
-    // 导航按钮
-    DOM.navBtns.forEach(btn => {
-        btn.addEventListener('click', () => switchPage(btn.dataset.page));
+    document.querySelectorAll('a[data-page]').forEach(link => {
+        link.addEventListener('click', event => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            openPageAddress(new URL(link.href).searchParams);
+        });
     });
-
-    document.getElementById('li-open').addEventListener('click', () => switchPage('li-school'));
 
     // 功能卡片点击
     document.querySelectorAll('.feature-card').forEach(card => {
@@ -525,7 +527,7 @@ function bindEvents() {
         });
     });
 
-    document.getElementById('grammar-detail-back')?.addEventListener('click', () => showGrammarPage());
+    document.getElementById('grammar-detail-back')?.addEventListener('click', () => switchPage('grammar'));
 
     document.getElementById('qa-input')?.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.isComposing) {
@@ -608,16 +610,84 @@ function scrollActiveNavIntoView() {
     });
 }
 
-function switchPage(pageName) {
-    if (pageName !== 'li-school' && document.getElementById('page-li-school').classList.contains('active')) {
+const siteTitle = document.title;
+let restoringAddress = false;
+
+function pageUrl(section, details = {}) {
+    const url = new URL(location.href);
+    for (const key of ['page', 'date', 'course', 'item', 'chapter', 'tab']) url.searchParams.delete(key);
+    if (section !== 'wrongbook') {
+        url.searchParams.delete('wrongbook_page');
+        url.searchParams.delete('wrongsentence_page');
+    }
+    if (section !== 'home') url.searchParams.set('page', section);
+    for (const [key, value] of Object.entries(details)) {
+        if (value != null && value !== '') url.searchParams.set(key, value);
+    }
+    return url;
+}
+
+function writePageAddress(section, details, replace = false) {
+    const url = pageUrl(section, details);
+    if (url.href !== location.href) {
+        if (replace || restoringAddress) history.replaceState(history.state, '', url);
+        else history.pushState(null, '', url);
+    }
+}
+
+function restorePageAddress() {
+    restoringAddress = true;
+    try {
+        openPageAddress(new URLSearchParams(location.search));
+    } finally {
+        restoringAddress = false;
+    }
+}
+
+function openPageAddress(params) {
+    const page = params.get('page') || 'home';
+    const item = params.get('item');
+    if (page === 'grammar' && GRAMMAR_TYPES.some(type => type.id === item)) {
+        showGrammarDetail(item);
+    } else if (page === 'readings' && AppState.readings.some(reading => reading.id === item)) {
+        showReadingDetail(item);
+    } else if (page === 'speech' && AppState.speechData.some(speech => speech.id === item)) {
+        showSpeechDetailWithChapter(item, params.get('chapter'));
+    } else if (page === 'li-school') {
+        switchPage(page, {date: params.get('date'), course: params.get('course')});
+    } else if (page === 'wrongbook') {
+        switchPage(page, params.get('tab') === 'sentences' ? {tab: 'sentences'} : {});
+    } else if (page === 'tool') {
+        const tab = params.get('tab');
+        switchPage(page, ['readings', 'speech'].includes(tab) ? {tab} : {});
+    } else {
+        switchPage(Array.from(DOM.navBtns).some(link => link.dataset.page === page) ? page : 'home');
+    }
+}
+
+function activatePage(view, section, details = {}, title = '') {
+    if (view !== 'li-school' && document.getElementById('page-li-school').classList.contains('active')) {
         LiSchool.stopAudio();
     }
-    setActiveNavPage(pageName);
+    if (view !== 'speech-detail' && document.getElementById('page-speech-detail').classList.contains('active')) {
+        stopSpeech();
+    }
+    DOM.pages.forEach(page => page.classList.toggle('active', page.id === `page-${view}`));
+    setActiveNavPage(section);
+    const label = title || document.querySelector('.nav-btn.active')?.textContent;
+    document.title = section === 'home' || !label ? siteTitle : `${label} · ${siteTitle}`;
+    writePageAddress(section, details);
+}
 
-    // 切换页面显示
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === `page-${pageName}`);
-    });
+function switchPage(pageName, details = {}) {
+    // 练习和答题结果依赖本次作答，分享时进入对应的练习入口。
+    const practiceSection = {
+        dictation: 'words',
+        'dictation-result': 'words',
+        'sentence-practice': 'sentences',
+        'sentence-result': 'sentences'
+    };
+    activatePage(pageName, practiceSection[pageName] || pageName, details);
 
     // 页面特定初始化
     switch (pageName) {
@@ -625,16 +695,23 @@ function switchPage(pageName) {
             renderHomePage();
             break;
         case 'li-school':
-            LiSchool.open();
+            LiSchool.open(details);
             break;
         case 'words':
             initDictationPage();
+            break;
+        case 'sentences':
+            initSentencesPage();
+            renderSentencesPage();
+            break;
+        case 'sentence-practice':
+            bindSentencePracticeButtons();
             break;
         case 'flashcard':
             renderFlashcardSetup();
             break;
         case 'wrongbook':
-            renderWrongbookPage();
+            switchWrongbookTab(details.tab || 'words');
             break;
         case 'favorites':
             renderFavoritesPage();
@@ -653,7 +730,7 @@ function switchPage(pageName) {
             renderProgressPage();
             break;
         case 'tool':
-            initToolPage();
+            initToolPage(details.tab);
             break;
         case 'grammar':
             showGrammarPage();
@@ -696,9 +773,12 @@ async function renderGrammarDetail(item) {
         try {
             const response = await fetch(item.loadUrl);
             if (!response.ok) throw new Error('加载失败');
-            bodyEl.innerHTML = await response.text();
+            const html = await response.text();
+            if (AppState.currentGrammarTypeId !== item.id) return;
+            bodyEl.innerHTML = html;
             if (item.id === 'tenses') initGrammarTensesQuiz(bodyEl);
         } catch (e) {
+            if (AppState.currentGrammarTypeId !== item.id) return;
             console.error('语法内容加载失败:', e);
             bodyEl.innerHTML = '<p class="grammar-placeholder">内容加载失败，请确认使用本地服务器打开站点后重试。</p>';
         }
@@ -709,10 +789,6 @@ async function renderGrammarDetail(item) {
 
 function showGrammarPage() {
     AppState.currentGrammarTypeId = null;
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-grammar');
-    });
-    setActiveNavPage('grammar');
     renderGrammarHub();
 }
 
@@ -721,10 +797,7 @@ async function showGrammarDetail(typeId) {
     if (!item) return;
 
     AppState.currentGrammarTypeId = typeId;
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-grammar-detail');
-    });
-    setActiveNavPage('grammar');
+    activatePage('grammar-detail', 'grammar', {item: typeId}, item.title);
     await renderGrammarDetail(item);
 }
 
@@ -2727,6 +2800,7 @@ function renderWrongbookPage() {
 
 // 切换错题本标签页
 function switchWrongbookTab(tabName) {
+    writePageAddress('wrongbook', tabName === 'sentences' ? {tab: tabName} : {});
     // 更新按钮状态
     document.querySelectorAll('.wrongbook-tabs .tab-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -3535,11 +3609,6 @@ async function loadSpeechData() {
 }
 
 function showReadingsPage() {
-    // 直接切换页面显示，避免与 switchPage 形成递归调用
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-readings');
-    });
-
     // 重置页码并初始化
     resetReadingsListPage();
 
@@ -3557,12 +3626,7 @@ function showReadingDetail(readingId) {
     AppState.currentDialogueIndex = 0;
     AppState.isPlaying = false;
 
-    // 直接切换页面显示，避免与 switchPage 形成递归调用
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-reading-detail');
-    });
-
-    setActiveNavPage('readings');
+    activatePage('reading-detail', 'readings', {item: readingId}, reading.titleCn || reading.title);
 
     renderReadingDetail(reading);
 }
@@ -4167,11 +4231,6 @@ const SPEECH_PAGE_SIZE = 6;
 // 听书列表当前页码
 AppState.speechPage = 1;
 function showSpeechPage() {
-    // 直接切换页面显示，避免与 switchPage 形成递归调用
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-speech');
-    });
-
     // 重置页码并初始化
     resetSpeechListPage();
 
@@ -4327,57 +4386,29 @@ function filterSpeechByArticle(articleId) {
 
 // 跳转到文章详情页并显示指定章节
 function showSpeechDetailWithChapter(articleId, chapterValue) {
-    console.log('showSpeechDetailWithChapter:', articleId, chapterValue);
-
     const speech = AppState.speechData.find(s => s.id === articleId);
-    if (!speech) {
-        console.error('未找到文章:', articleId);
-        return;
-    }
+    if (!speech) return;
 
-    AppState.currentSpeech = speech;
-
-    // 设置当前章节
-    if (chapterValue === 'summary' && speech.summary) {
-        AppState.currentSpeechChapter = {
-            title: `${speech.title} - 概要`,
-            content: speech.summary
-        };
-    } else {
-        const chapterIndex = parseInt(chapterValue, 10);
-        if (speech.chapters[chapterIndex]) {
-            AppState.currentSpeechChapter = speech.chapters[chapterIndex];
-        } else if (speech.chapters.length > 0) {
-            AppState.currentSpeechChapter = speech.chapters[0];
-        } else {
-            AppState.currentSpeechChapter = null;
-            console.warn('文章没有章节内容:', speech.title);
-        }
-    }
-
-    // 停止当前播放
     stopSpeech();
-
-    // 切换到详情页面
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-speech-detail');
-    });
-
-    setActiveNavPage('speech');
-
-    // 更新页面标题
-    const titleEl = document.getElementById('speech-title');
-    if (titleEl) {
-        titleEl.textContent = speech.title;
+    AppState.currentSpeech = speech;
+    const chapters = speech.chapters;
+    const number = /^\d+$/.test(chapterValue) ? Number(chapterValue) : -1;
+    let chapter;
+    if (chapters[number]) {
+        chapter = String(number);
+        AppState.currentSpeechChapter = chapters[number];
+    } else if (speech.summary) {
+        chapter = 'summary';
+        AppState.currentSpeechChapter = {title: '文章概要', content: speech.summary, isSummary: true};
+    } else {
+        chapter = chapters.length ? '0' : null;
+        AppState.currentSpeechChapter = chapters[0] || null;
     }
-
-    // 渲染章节导航
+    activatePage('speech-detail', 'speech', {item: articleId, chapter}, speech.title);
+    document.getElementById('speech-title').textContent = speech.title;
     renderSpeechChapterNav();
-
-    // 渲染章节内容
     renderSpeechChapter();
-
-    // 滚动到页面顶部
+    initSpeechDebugToggle();
     window.scrollTo(0, 0);
 }
 
@@ -4502,45 +4533,7 @@ function resetSpeechListPage() {
 }
 
 function showSpeechDetail(speechId) {
-    const speech = AppState.speechData.find(s => s.id === speechId);
-    if (!speech) return;
-
-    AppState.currentSpeech = speech;
-
-    // 如果有概要，设置为概要；否则设置为第一个章节
-    if (speech.summary) {
-        AppState.currentSpeechChapter = {
-            title: '文章概要',
-            content: speech.summary,
-            isSummary: true
-        };
-    } else if (speech.chapters.length > 0) {
-        AppState.currentSpeechChapter = speech.chapters[0];
-    } else {
-        AppState.currentSpeechChapter = null;
-    }
-
-    // 停止当前的朗读
-    stopSpeech();
-
-    // 直接切换页面显示
-    DOM.pages.forEach(page => {
-        page.classList.toggle('active', page.id === 'page-speech-detail');
-    });
-
-    setActiveNavPage(null);
-
-    // 更新标题
-    document.getElementById('speech-title').textContent = speech.title;
-
-    // 渲染章节导航
-    renderSpeechChapterNav();
-
-    // 渲染章节内容
-    renderSpeechChapter();
-
-    // 初始化调试开关状态
-    initSpeechDebugToggle();
+    showSpeechDetailWithChapter(speechId, null);
 }
 
 function renderSpeechChapterNav() {
@@ -4548,75 +4541,21 @@ function renderSpeechChapterNav() {
     const speech = AppState.currentSpeech;
     if (!nav || !speech) return;
 
-    // 构建章节列表（包含概要和所有章节）
-    const chapters = [];
-
-    // 添加概要作为第一个选项
+    const sections = speech.chapters.map((chapter, index) => ({
+        title: chapter.title, value: String(index), active: chapter === AppState.currentSpeechChapter
+    }));
     if (speech.summary) {
-        chapters.push({
-            title: '文章概要',
-            content: speech.summary,
-            isSummary: true
-        });
+        sections.unshift({title: '文章概要', value: 'summary', active: AppState.currentSpeechChapter?.isSummary});
     }
-
-    // 添加所有章节
-    speech.chapters.forEach((chapter, index) => {
-        chapters.push({
-            ...chapter,
-            isSummary: false,
-            originalIndex: index
-        });
-    });
-
-    nav.innerHTML = chapters.map((chapter, index) => `
-        <button class="speech-chapter-btn ${chapter === AppState.currentSpeechChapter ? 'active' : ''}"
-                onclick="selectSpeechChapter('${speech.id}', ${index})">
-            ${chapter.title}
-        </button>
-    `).join('');
-}
-
-function selectSpeechChapter(speechId, chapterIndex) {
-    const speech = AppState.speechData.find(s => s.id === speechId);
-    if (!speech) return;
-
-    // 停止当前朗读
-    stopSpeech();
-
-    AppState.currentSpeech = speech;
-
-    // 构建章节列表（包含概要和所有章节）
-    const chapters = [];
-
-    // 添加概要作为第一个选项
-    if (speech.summary) {
-        chapters.push({
-            title: '文章概要',
-            content: speech.summary,
-            isSummary: true
-        });
-    }
-
-    // 添加所有章节
-    speech.chapters.forEach((chapter, index) => {
-        chapters.push({
-            ...chapter,
-            isSummary: false,
-            originalIndex: index
-        });
-    });
-
-    // 设置当前选中的章节
-    AppState.currentSpeechChapter = chapters[chapterIndex];
-
-    // 更新章节导航状态
-    document.querySelectorAll('.speech-chapter-btn').forEach((btn, index) => {
-        btn.classList.toggle('active', index === chapterIndex);
-    });
-
-    // 渲染章节内容
-    renderSpeechChapter();
+    nav.replaceChildren(...sections.map(section => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'speech-chapter-btn';
+        button.classList.toggle('active', Boolean(section.active));
+        button.textContent = section.title;
+        button.addEventListener('click', () => showSpeechDetailWithChapter(speech.id, section.value));
+        return button;
+    }));
 }
 
 function renderSpeechChapter() {
@@ -6865,16 +6804,20 @@ let parsedWordsData = null;
 let parsedReadingsData = null;
 let parsedSpeechData = null;
 
-function initToolPage() {
-    // 初始化标签切换
-    document.querySelectorAll('.tool-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tool-content').forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById('tool-' + tab.dataset.tab).classList.add('active');
-        });
+let toolEventsBound = false;
+
+function initToolPage(selected = 'words') {
+    const tabs = document.querySelectorAll('.tool-tab');
+    tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.tab === selected));
+    document.querySelectorAll('.tool-content').forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'tool-' + selected);
     });
+    if (toolEventsBound) return;
+    toolEventsBound = true;
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+        const name = tab.dataset.tab;
+        switchPage('tool', name === 'words' ? {} : {tab: name});
+    }));
 
     // 初始化单词文件上传
     initWordsUpload();
@@ -8790,20 +8733,6 @@ function startSentencePracticeWithSession(session) {
     switchPage('sentence-practice');
     showCurrentSentence();
 }
-
-// 页面切换时初始化语句页面
-const originalSwitchPage = switchPage;
-switchPage = function(pageName) {
-    originalSwitchPage(pageName);
-
-    if (pageName === 'sentences') {
-        initSentencesPage();
-        renderSentencesPage();
-    } else if (pageName === 'sentence-practice') {
-        // 确保练习页面的按钮事件已绑定
-        bindSentencePracticeButtons();
-    }
-};
 
 // 绑定语句练习页面按钮事件（可重复调用）
 function bindSentencePracticeButtons() {

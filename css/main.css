@@ -161,6 +161,7 @@ body {
 }
 
 .nav-btn {
+    text-decoration: none;
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.8);
