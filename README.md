@@ -96,6 +96,16 @@ MINIMAX_VOICE_CLONE_VOICES = [
 
 Converters and checks skip `<!-- ... -->` blocks in sources (e.g. format examples) and only parse body content.
 
+### 李校来啦课程专栏
+
+从首页「李校来啦」按日期查看课堂单词、音标、双语词组、例句和记忆方法。朗读使用设备的英语语音，可选英式或美式。各课附原始讲义，专栏顶部提供整本打印 PDF。
+
+在学习目录用 `$primary-english-wordlist` 更新课程底稿后，从本工程根目录运行以下命令同步 HTML 专栏及其 PDF 资料：
+
+```bash
+python3 scripts/sync-li-school.py "/path/to/李校来啦"
+```
+
 ### Web tools
 
 In the nav bar, open **Tools** to upload Markdown or JSON and apply changes immediately. The audiobook tab generates **`listen.json`** with the same `{ "books": [ … ] }` structure as `data/listen.json` (matching `convert-listens.js`), so you can replace the file under `data/` after download.

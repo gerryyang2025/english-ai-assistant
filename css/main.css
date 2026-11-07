@@ -125,7 +125,7 @@ body {
 /* 桌面端：占满剩余宽度，导航条右对齐；窄屏时横向滚动，禁止溢出盖住标题 */
 .nav-scroll {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     min-width: 0;
     flex: 1;
@@ -154,6 +154,8 @@ body {
 
 .nav-menu {
     display: flex;
+    flex: none;
+    margin-inline-start: auto;
     align-items: center;
     gap: 8px;
 }

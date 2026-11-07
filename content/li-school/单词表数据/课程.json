@@ -1,0 +1,4905 @@
+{
+  "version": 1,
+  "student": "杨若宸",
+  "title": "六年级英语单词复习表",
+  "output": "output/pdf/杨若宸_六年级英语单词复习表_A4.pdf",
+  "output_copies": [
+    "杨若宸_李校来啦_英语单词复习表.pdf"
+  ],
+  "lessons": [
+    {
+      "date": "2026-07-30",
+      "course": "7.30若宸同学中英文",
+      "theme": "画画与表达",
+      "sources": {
+        "7.30若宸同学中英文.pdf": "15a003252e4dc6af95b7d0c9bd36f1eadd64e3eb269efc7a6ca86297b5c73a20"
+      },
+      "rows": [
+        {
+          "word": "powerful",
+          "ipa": "ˈpaʊəfəl",
+          "meaning": "有力量的；强大的",
+          "phrase": "powerful legs",
+          "phrase_zh": "强健有力的腿",
+          "sentence": "A frog has powerful legs.",
+          "sentence_zh": "青蛙的腿很有力。",
+          "memory": "power 是力量，-ful 表示「充满……的」。"
+        },
+        {
+          "word": "postcard",
+          "ipa": "ˈpəʊstkɑːd",
+          "meaning": "明信片",
+          "phrase": "send a postcard",
+          "phrase_zh": "寄明信片",
+          "sentence": "I sent Grandma a postcard.",
+          "sentence_zh": "我给奶奶寄了一张明信片。",
+          "memory": "post（邮寄）和 card（卡片）合成一个词。"
+        },
+        {
+          "word": "ink painting",
+          "ipa": "ɪŋk ˈpeɪntɪŋ",
+          "meaning": "水墨画",
+          "phrase": "a Chinese ink painting",
+          "phrase_zh": "一幅中国水墨画",
+          "sentence": "There is a panda in this ink painting.",
+          "sentence_zh": "这幅水墨画里有一只熊猫。",
+          "memory": "想象毛笔蘸上墨水 ink，画出一丛竹子。"
+        },
+        {
+          "word": "homeless",
+          "ipa": "ˈhəʊmləs",
+          "meaning": "无家可归的",
+          "phrase": "a homeless cat",
+          "phrase_zh": "一只流浪猫",
+          "sentence": "We found a home for the homeless cat.",
+          "sentence_zh": "我们给这只流浪猫找到了一个家。",
+          "memory": "home 是家，-less 表示「没有……的」。"
+        },
+        {
+          "word": "own",
+          "ipa": "əʊn",
+          "meaning": "自己的",
+          "phrase": "my own room",
+          "phrase_zh": "我自己的房间",
+          "sentence": "I keep my own room tidy.",
+          "sentence_zh": "我把自己的房间收拾得很整洁。",
+          "memory": "把 my book 说成 my own book，强调「我自己的」。"
+        },
+        {
+          "word": "oil painting",
+          "ipa": "ˈɔɪl peɪntɪŋ",
+          "meaning": "油画",
+          "phrase": "an oil painting of a lake",
+          "phrase_zh": "一幅湖景油画",
+          "sentence": "I like this oil painting of a cat.",
+          "sentence_zh": "我喜欢这幅画着小猫的油画。",
+          "memory": "oil 是油，painting 是画，合起来就是油画。"
+        },
+        {
+          "word": "touch one's heart",
+          "ipa": "tʌtʃ wʌnz hɑːt",
+          "meaning": "打动某人的心",
+          "phrase": "touch my heart",
+          "phrase_zh": "打动我的心",
+          "sentence": "Your kind words touched my heart.",
+          "sentence_zh": "你温暖的话打动了我的心。",
+          "memory": "想象一句话轻轻碰到心口；把 one's 换成 my、her 等。"
+        },
+        {
+          "word": "PS",
+          "ipa": "ˌpiː ˈes",
+          "meaning": "附言",
+          "phrase": "a short PS",
+          "phrase_zh": "一小段附言",
+          "sentence": "My letter ends with a PS.",
+          "sentence_zh": "我的信末尾有一句附言。",
+          "memory": "信写完又想起一句话，就在末尾写 PS；两个字母分开读。"
+        },
+        {
+          "word": "express",
+          "ipa": "ɪkˈspres",
+          "meaning": "表达",
+          "phrase": "express an idea",
+          "phrase_zh": "表达一个想法",
+          "sentence": "I express my ideas in pictures.",
+          "sentence_zh": "我用图画表达想法。",
+          "memory": "先想一件开心的事，再把它说出来，就是 express。"
+        },
+        {
+          "word": "lonely",
+          "ipa": "ˈləʊnli",
+          "meaning": "孤独的",
+          "phrase": "feel lonely",
+          "phrase_zh": "感到孤独",
+          "sentence": "I feel lonely without my friends.",
+          "sentence_zh": "没有朋友陪伴，我觉得孤单。",
+          "memory": "想象热闹的操场上，有个孩子觉得没人陪：lonely。"
+        },
+        {
+          "word": "share",
+          "ipa": "ʃeə",
+          "meaning": "分享",
+          "phrase": "share a snack with a friend",
+          "phrase_zh": "和朋友分享点心",
+          "sentence": "I share my crayons with my sister.",
+          "sentence_zh": "我和妹妹共用我的蜡笔。",
+          "memory": "把饼干分给朋友，边分边说 share with you。"
+        },
+        {
+          "word": "paintbrush",
+          "ipa": "ˈpeɪntbrʌʃ",
+          "meaning": "画笔",
+          "phrase": "a thin paintbrush",
+          "phrase_zh": "一支细画笔",
+          "sentence": "I use a paintbrush to paint flowers.",
+          "sentence_zh": "我用画笔画花。",
+          "memory": "paint（画）加 brush（刷子），就是画画用的笔。"
+        },
+        {
+          "word": "I'm so excited",
+          "ipa": "aɪm səʊ ɪkˈsaɪtɪd",
+          "meaning": "我太激动了",
+          "phrase": "excited about the trip",
+          "phrase_zh": "对旅行感到兴奋",
+          "sentence": "I'm so excited about our class trip!",
+          "sentence_zh": "想到班级出游，我太激动了！",
+          "memory": "得到出游的好消息时，大声读这句，重读 so。"
+        },
+        {
+          "word": "show one's feelings",
+          "ipa": "ʃəʊ wʌnz ˈfiːlɪŋz",
+          "meaning": "表现某人的情感",
+          "phrase": "show your feelings",
+          "phrase_zh": "表达你的感受",
+          "sentence": "My songs show my feelings.",
+          "sentence_zh": "我的歌表达了我的感受。",
+          "memory": "讲义写 feeling；泛指多种感受时常用复数 feelings。说自己的感受用 my。"
+        },
+        {
+          "word": "meet the neighbours",
+          "ipa": "miːt ðə ˈneɪbəz",
+          "meaning": "结识邻居",
+          "phrase": "meet the new neighbours",
+          "phrase_zh": "认识新邻居",
+          "sentence": "Let's go and meet the neighbours.",
+          "sentence_zh": "我们去认识一下邻居吧。",
+          "memory": "想象敲开隔壁的门，把 neighbours 和「邻居」连起来。"
+        },
+        {
+          "word": "artist",
+          "ipa": "ˈɑːtɪst",
+          "meaning": "艺术家；画家",
+          "phrase": "a young artist",
+          "phrase_zh": "一位小画家",
+          "sentence": "The young artist drew our school gate.",
+          "sentence_zh": "这位小画家画了我们的校门。",
+          "memory": "在 art（艺术）后加 -ist，就成了做艺术工作的人。"
+        },
+        {
+          "word": "ago",
+          "ipa": "əˈɡəʊ",
+          "meaning": "以前",
+          "phrase": "two days ago",
+          "phrase_zh": "两天前",
+          "sentence": "I planted this bean two weeks ago.",
+          "sentence_zh": "我两周前种下了这颗豆子。",
+          "memory": "在日历上从今天往回数；ago 放在那段时间的后面。"
+        },
+        {
+          "word": "raise money",
+          "ipa": "reɪz ˈmʌni",
+          "meaning": "筹款；募捐",
+          "phrase": "raise money for the library",
+          "phrase_zh": "为图书馆筹款",
+          "sentence": "We sell cakes to raise money.",
+          "sentence_zh": "我们卖蛋糕筹款。",
+          "memory": "想象捐款箱里的钱一点点变多；用 for 接筹款对象。"
+        },
+        {
+          "word": "miss",
+          "ipa": "mɪs",
+          "meaning": "想念",
+          "phrase": "miss my friends",
+          "phrase_zh": "想念我的朋友们",
+          "sentence": "I miss my friends during the holidays.",
+          "sentence_zh": "假期里我很想念朋友们。",
+          "memory": "离开朋友时说 I miss you，把 miss 和想念连起来。"
+        },
+        {
+          "word": "ski",
+          "ipa": "skiː",
+          "meaning": "滑雪",
+          "phrase": "learn to ski",
+          "phrase_zh": "学滑雪",
+          "sentence": "I want to learn to ski this winter.",
+          "sentence_zh": "我想在今年冬天学滑雪。",
+          "memory": "把 ski 的长音 /iː/ 拉长，想象雪板滑出长长的雪道。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-01",
+      "course": "8.1若宸同学中英文",
+      "theme": "运动与安全",
+      "sources": {
+        "8.1若宸同学中英文.pdf": "e43c02fe564d35859e3ce41e44ee27c0bbdd6fcc0364c3d90cc0367a88582373"
+      },
+      "rows": [
+        {
+          "word": "be famous for",
+          "ipa": "bi ˈfeɪməs fɔː",
+          "meaning": "因……而闻名",
+          "phrase": "be famous for its tea",
+          "phrase_zh": "因茶叶而闻名",
+          "sentence": "Our town is famous for its green tea.",
+          "sentence_zh": "我们镇因绿茶而闻名。",
+          "memory": "在 for 后面说出名的原因：茶、风景或某种美食。"
+        },
+        {
+          "word": "skatepark",
+          "ipa": "ˈskeɪtpɑːk",
+          "meaning": "滑板运动场",
+          "phrase": "at the skatepark",
+          "phrase_zh": "在滑板场",
+          "sentence": "We met at the skatepark after school.",
+          "sentence_zh": "放学后我们在滑板场见了面。",
+          "memory": "skate（滑行）加 park（公园），想象有滑板坡道的公园。"
+        },
+        {
+          "word": "heavy",
+          "ipa": "ˈhevi",
+          "meaning": "重的",
+          "phrase": "a heavy bag",
+          "phrase_zh": "一个沉重的包",
+          "sentence": "My schoolbag is heavy today.",
+          "sentence_zh": "今天我的书包很重。",
+          "memory": "想象提起装满书的书包，把下沉的动作和 heavy 连起来。"
+        },
+        {
+          "word": "get hurt",
+          "ipa": "ɡet hɜːt",
+          "meaning": "受伤",
+          "phrase": "get hurt in a fall",
+          "phrase_zh": "摔倒受伤",
+          "sentence": "Ben fell, but he didn't get hurt.",
+          "sentence_zh": "本摔倒了，但没有受伤。",
+          "memory": "hurt 是受伤的，get 表示变成这种状态。"
+        },
+        {
+          "word": "choose",
+          "ipa": "tʃuːz",
+          "meaning": "选择",
+          "phrase": "choose a book",
+          "phrase_zh": "选一本书",
+          "sentence": "Please choose a book for us.",
+          "sentence_zh": "请给我们选一本书。",
+          "memory": "想象两本书摆在面前；挑中一本时说 I choose this one。"
+        },
+        {
+          "word": "pull",
+          "ipa": "pʊl",
+          "meaning": "拉",
+          "phrase": "pull the door open",
+          "phrase_zh": "把门拉开",
+          "sentence": "Please pull the door open.",
+          "sentence_zh": "请把门拉开。",
+          "memory": "双手往自己这边拉，边做边说 pull。"
+        },
+        {
+          "word": "helmet",
+          "ipa": "ˈhelmɪt",
+          "meaning": "头盔",
+          "phrase": "wear a helmet",
+          "phrase_zh": "戴头盔",
+          "sentence": "I wear a helmet on my bike.",
+          "sentence_zh": "我骑车时戴头盔。",
+          "memory": "把手放在头上，想象扣好头盔，再说 helmet。"
+        },
+        {
+          "word": "check injuries",
+          "ipa": "tʃek ˈɪndʒəriz",
+          "meaning": "检查伤情",
+          "phrase": "check a player's injuries",
+          "phrase_zh": "检查球员的伤情",
+          "sentence": "The nurse checked my injuries.",
+          "sentence_zh": "护士检查了我的伤情。",
+          "memory": "injury 是一处损伤；变复数去 y 加 ies。想象校医检查伤处。"
+        },
+        {
+          "word": "emergency worker",
+          "ipa": "ɪˈmɜːdʒənsi ˌwɜːkə",
+          "meaning": "应急救援人员",
+          "phrase": "an emergency worker",
+          "phrase_zh": "一名应急救援人员",
+          "sentence": "The emergency worker helped a child.",
+          "sentence_zh": "这名救援人员帮助了一个孩子。",
+          "memory": "emergency 是紧急情况，worker 是工作人员，合起来记。"
+        },
+        {
+          "word": "push",
+          "ipa": "pʊʃ",
+          "meaning": "推",
+          "phrase": "push a cart",
+          "phrase_zh": "推一辆手推车",
+          "sentence": "Please help me push this cart.",
+          "sentence_zh": "请帮我推一下这辆手推车。",
+          "memory": "伸手把想象中的小车向前推，同时读 push。"
+        },
+        {
+          "word": "call an ambulance",
+          "ipa": "kɔːl ən ˈæmbjələns",
+          "meaning": "叫救护车",
+          "phrase": "call an ambulance for someone",
+          "phrase_zh": "为某人叫救护车",
+          "sentence": "Please call an ambulance for Tom.",
+          "sentence_zh": "请帮汤姆叫辆救护车。",
+          "memory": "想象打电话 call 后，救护车 ambulance 开了过来。"
+        },
+        {
+          "word": "lost",
+          "ipa": "lɒst",
+          "meaning": "迷路的",
+          "phrase": "get lost",
+          "phrase_zh": "迷路",
+          "sentence": "We got lost in the park.",
+          "sentence_zh": "我们在公园里迷路了。",
+          "memory": "在迷宫里找不到出口时，试着说 I'm lost。"
+        },
+        {
+          "word": "arm",
+          "ipa": "ɑːm",
+          "meaning": "手臂",
+          "phrase": "raise your arm",
+          "phrase_zh": "举起你的手臂",
+          "sentence": "My left arm hurts.",
+          "sentence_zh": "我的左臂疼。",
+          "memory": "摸着一只手臂说 arm，伸出两只手臂说 arms。"
+        },
+        {
+          "word": "pad",
+          "ipa": "pæd",
+          "meaning": "护垫；防护垫",
+          "phrase": "a knee pad",
+          "phrase_zh": "一个护膝",
+          "sentence": "This knee pad is soft.",
+          "sentence_zh": "这个护膝很软。",
+          "memory": "想象膝盖 knee 上绑着一块软垫 pad。"
+        },
+        {
+          "word": "protect",
+          "ipa": "prəˈtekt",
+          "meaning": "保护",
+          "phrase": "protect your eyes",
+          "phrase_zh": "保护眼睛",
+          "sentence": "I wear a hat to protect my face.",
+          "sentence_zh": "我戴帽子保护脸部。",
+          "memory": "想象帽檐挡住阳光；protect A from B 表示保护 A 免受 B 伤害。"
+        },
+        {
+          "word": "call for help",
+          "ipa": "kɔːl fə help",
+          "meaning": "呼救；求助",
+          "phrase": "call for help loudly",
+          "phrase_zh": "大声呼救",
+          "sentence": "The boy called for help.",
+          "sentence_zh": "男孩大声呼救。",
+          "memory": "想象喊出 Help!；整个呼救动作就是 call for help。"
+        },
+        {
+          "word": "warm up",
+          "ipa": "wɔːm ʌp",
+          "meaning": "热身",
+          "phrase": "warm up before a race",
+          "phrase_zh": "赛前热身",
+          "sentence": "We warm up before we run.",
+          "sentence_zh": "我们跑步前先热身。",
+          "memory": "原地轻轻踏步，感觉身体 warm（暖）起来。"
+        },
+        {
+          "word": "X-ray",
+          "ipa": "ˈeks reɪ",
+          "meaning": "X 光检查；X 光片",
+          "phrase": "have an X-ray",
+          "phrase_zh": "做 X 光检查",
+          "sentence": "This is an X-ray of my arm.",
+          "sentence_zh": "这是我手臂的 X 光片。",
+          "memory": "X 读字母音，ray 是射线；想象照片上清晰的骨头。"
+        },
+        {
+          "word": "break",
+          "ipa": "breɪk",
+          "meaning": "打破；弄断；破裂",
+          "phrase": "break a stick",
+          "phrase_zh": "折断树枝",
+          "sentence": "Be careful not to break the glass.",
+          "sentence_zh": "小心别打破玻璃杯。",
+          "memory": "想象枯树枝「啪」一声折断，喊出 break。"
+        },
+        {
+          "word": "luckily",
+          "ipa": "ˈlʌkɪli",
+          "meaning": "幸好；幸运地",
+          "phrase": "luckily for us",
+          "phrase_zh": "我们很幸运",
+          "sentence": "Luckily, we caught the last bus.",
+          "sentence_zh": "幸好，我们赶上了末班公交车。",
+          "memory": "lucky（幸运的）去 y 加 -ily，变成描述整件事的 luckily。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-04",
+      "course": "8.4若宸同学中英文",
+      "theme": "力与简单机械",
+      "sources": {
+        "8.4若宸同学中英文.pdf": "b8b1e49710d8b8c4db4f9a2d7d9c8e659b70ea80d2f2e06bf4d94866b759f3bc"
+      },
+      "rows": [
+        {
+          "word": "tortoise",
+          "ipa": "ˈtɔːtəs",
+          "meaning": "陆龟",
+          "phrase": "a pet tortoise",
+          "phrase_zh": "一只宠物陆龟",
+          "sentence": "Our tortoise likes to eat green leaves.",
+          "sentence_zh": "我们家的陆龟喜欢吃绿叶。",
+          "memory": "想象一只陆龟背着壳慢慢走，读两拍 TOR-toise。"
+        },
+        {
+          "word": "wheel",
+          "ipa": "wiːl",
+          "meaning": "轮子",
+          "phrase": "a bicycle wheel",
+          "phrase_zh": "一个自行车车轮",
+          "sentence": "The front wheel of my bike is red.",
+          "sentence_zh": "我自行车的前轮是红色的。",
+          "memory": "手指在空中画一个圆，读出 wheel 里的长音 /iː/。"
+        },
+        {
+          "word": "yourself",
+          "ipa": "jɔːˈself",
+          "meaning": "你自己",
+          "phrase": "by yourself",
+          "phrase_zh": "独自；靠自己",
+          "sentence": "Did you make this kite by yourself?",
+          "sentence_zh": "这只风筝是你自己做的吗？",
+          "memory": "把 your 和 self 连起来；照镜子时指着镜中的自己。"
+        },
+        {
+          "word": "invention",
+          "ipa": "ɪnˈvenʃən",
+          "meaning": "发明；发明物",
+          "phrase": "a useful invention",
+          "phrase_zh": "一项有用的发明",
+          "sentence": "The wheel was a useful invention.",
+          "sentence_zh": "轮子是一项有用的发明。",
+          "memory": "invent 是「发明」的动作，加 -ion 可指发明出来的东西。"
+        },
+        {
+          "word": "towards",
+          "ipa": "təˈwɔːdz",
+          "meaning": "向；朝",
+          "phrase": "walk towards the gate",
+          "phrase_zh": "向大门走去",
+          "sentence": "The kitten ran towards me.",
+          "sentence_zh": "小猫朝我跑来。",
+          "memory": "画一支箭头，箭头所指就是 towards 后面的目标。"
+        },
+        {
+          "word": "force",
+          "ipa": "fɔːs",
+          "meaning": "力；力量",
+          "phrase": "the force of the wind",
+          "phrase_zh": "风的力量",
+          "sentence": "I can feel the force of the wind.",
+          "sentence_zh": "我能感觉到风的力量。",
+          "memory": "想象大风推弯小树，弯下去的树让「力」看得见。"
+        },
+        {
+          "word": "cause",
+          "ipa": "kɔːz",
+          "meaning": "原因；起因",
+          "phrase": "the cause of the delay",
+          "phrase_zh": "延误的原因",
+          "sentence": "What was the cause of the noise?",
+          "sentence_zh": "是什么引起了这阵噪声？",
+          "memory": "问 Why? 找到的原因，可以用 the cause of 来说。"
+        },
+        {
+          "word": "difficult",
+          "ipa": "ˈdɪfɪkəlt",
+          "meaning": "困难的",
+          "phrase": "a difficult question",
+          "phrase_zh": "一道难题",
+          "sentence": "The last question was difficult for me.",
+          "sentence_zh": "最后一道题对我来说很难。",
+          "memory": "想到一道让你停笔思考的题，说 This is difficult。"
+        },
+        {
+          "word": "basic",
+          "ipa": "ˈbeɪsɪk",
+          "meaning": "基本的；基础的",
+          "phrase": "basic rules",
+          "phrase_zh": "基本规则",
+          "sentence": "We learned the basic rules of chess.",
+          "sentence_zh": "我们学了国际象棋的基本规则。",
+          "memory": "base 是基础；basic rules 就是最先要学的规则。"
+        },
+        {
+          "word": "lever",
+          "ipa": "ˈliːvə",
+          "meaning": "杠杆",
+          "phrase": "use a lever",
+          "phrase_zh": "使用杠杆",
+          "sentence": "A seesaw is a kind of lever.",
+          "sentence_zh": "跷跷板是一种杠杆。",
+          "memory": "想象跷跷板绕中间的支点转动，把这根长板记作 lever。"
+        },
+        {
+          "word": "movement",
+          "ipa": "ˈmuːvmənt",
+          "meaning": "移动；动作",
+          "phrase": "a quick movement",
+          "phrase_zh": "一个迅速的动作",
+          "sentence": "I saw a small movement in the box.",
+          "sentence_zh": "我看到盒子里有东西动了一下。",
+          "memory": "在 move（移动）后加 -ment，变成表示动作的名词。"
+        },
+        {
+          "word": "point",
+          "ipa": "pɔɪnt",
+          "meaning": "尖端",
+          "phrase": "the point of a pencil",
+          "phrase_zh": "铅笔尖",
+          "sentence": "The point of my pencil broke.",
+          "sentence_zh": "我的铅笔尖断了。",
+          "memory": "指一指刚削好的铅笔尖，记住这里的 point。"
+        },
+        {
+          "word": "truck",
+          "ipa": "trʌk",
+          "meaning": "卡车",
+          "phrase": "a delivery truck",
+          "phrase_zh": "一辆送货卡车",
+          "sentence": "A truck brought fresh fruit to our school.",
+          "sentence_zh": "一辆卡车给我们学校送来了新鲜水果。",
+          "memory": "想象大车厢装满货物，边画两个车轮边说 truck。"
+        },
+        {
+          "word": "tiny",
+          "ipa": "ˈtaɪni",
+          "meaning": "极小的",
+          "phrase": "a tiny seed",
+          "phrase_zh": "一粒极小的种子",
+          "sentence": "A tiny ant climbed onto my hand.",
+          "sentence_zh": "一只小小的蚂蚁爬上了我的手。",
+          "memory": "拇指和食指只留一条细缝，用手势记 tiny。"
+        },
+        {
+          "word": "watch",
+          "ipa": "wɒtʃ",
+          "meaning": "手表",
+          "phrase": "wear a watch",
+          "phrase_zh": "戴手表",
+          "sentence": "My watch says it's nine o'clock.",
+          "sentence_zh": "我的手表显示现在是九点。",
+          "memory": "看一眼手腕，问 What's the time? 把 watch 和手表连起来。"
+        },
+        {
+          "word": "slide",
+          "ipa": "slaɪd",
+          "meaning": "滑梯",
+          "phrase": "go down the slide",
+          "phrase_zh": "滑滑梯",
+          "sentence": "Let's play on the slide.",
+          "sentence_zh": "我们去玩滑梯吧。",
+          "memory": "用手比出斜坡，手指沿坡滑下，一边说 slide。"
+        },
+        {
+          "word": "speed",
+          "ipa": "spiːd",
+          "meaning": "速度",
+          "phrase": "at high speed",
+          "phrase_zh": "高速地",
+          "sentence": "The train moves at high speed.",
+          "sentence_zh": "火车开得很快。",
+          "memory": "把 speed 和车上的速度表一起想，指针越往上速度越快。"
+        },
+        {
+          "word": "simple",
+          "ipa": "ˈsɪmpəl",
+          "meaning": "简单的",
+          "phrase": "a simple plan",
+          "phrase_zh": "一个简单的计划",
+          "sentence": "We made a simple plan for our picnic.",
+          "sentence_zh": "我们为野餐定了一个简单的计划。",
+          "memory": "想到只需一步就能做完的事，说 It's simple。"
+        },
+        {
+          "word": "seesaw",
+          "ipa": "ˈsiːsɔː",
+          "meaning": "跷跷板",
+          "phrase": "play on the seesaw",
+          "phrase_zh": "玩跷跷板",
+          "sentence": "We took turns on the seesaw.",
+          "sentence_zh": "我们轮流玩跷跷板。",
+          "memory": "读 see 时抬起左手，读 saw 时抬起右手，模拟一上一下。"
+        },
+        {
+          "word": "machine",
+          "ipa": "məˈʃiːn",
+          "meaning": "机器",
+          "phrase": "a washing machine",
+          "phrase_zh": "一台洗衣机",
+          "sentence": "This machine washes our clothes.",
+          "sentence_zh": "这台机器帮我们洗衣服。",
+          "memory": "想到洗衣机转动的样子；machine 的 ch 读 /ʃ/。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-06",
+      "course": "8.6若宸同学中英文",
+      "theme": "城市与生活",
+      "sources": {
+        "8.6若宸同学中英文.pdf": "180053a7d96a4f3d31b050c21691787698a23238719b77bbcdccbfa75335bedc"
+      },
+      "rows": [
+        {
+          "word": "nobody",
+          "ipa": "ˈnəʊbədi",
+          "meaning": "没有人",
+          "phrase": "nobody else",
+          "phrase_zh": "没有别的人",
+          "sentence": "Nobody is in the classroom.",
+          "sentence_zh": "教室里没有人。",
+          "memory": "no 和 body 合在一起指没有一个人，作主语时动词用单数。"
+        },
+        {
+          "word": "ramp",
+          "ipa": "ræmp",
+          "meaning": "斜坡；坡道",
+          "phrase": "a wheelchair ramp",
+          "phrase_zh": "一条轮椅坡道",
+          "sentence": "We pushed the bike up the ramp.",
+          "sentence_zh": "我们把自行车推上了坡道。",
+          "memory": "想象把台阶换成一条斜坡，轮椅就能沿着 ramp 上去。"
+        },
+        {
+          "word": "modern building",
+          "ipa": "ˌmɒdən ˈbɪldɪŋ",
+          "meaning": "现代建筑",
+          "phrase": "a modern glass building",
+          "phrase_zh": "一栋现代玻璃建筑",
+          "sentence": "Our school has a modern building.",
+          "sentence_zh": "我们学校有一栋现代建筑。",
+          "memory": "给自己熟悉的新楼贴上 modern（现代的）这个标签。"
+        },
+        {
+          "word": "sell",
+          "ipa": "sel",
+          "meaning": "卖；出售",
+          "phrase": "sell old books",
+          "phrase_zh": "卖旧书",
+          "sentence": "We sell old books at the school fair.",
+          "sentence_zh": "我们在校园集市上卖旧书。",
+          "memory": "模拟小摊交易：买的人说 buy，卖的人说 sell。"
+        },
+        {
+          "word": "hill",
+          "ipa": "hɪl",
+          "meaning": "小山；山丘",
+          "phrase": "climb a hill",
+          "phrase_zh": "爬小山",
+          "sentence": "We flew our kites on a hill.",
+          "sentence_zh": "我们在小山上放风筝。",
+          "memory": "想象一个圆圆的小山包；画出来并在旁边写 hill。"
+        },
+        {
+          "word": "shopping centre",
+          "ipa": "ˈʃɒpɪŋ ˌsentə",
+          "meaning": "购物中心",
+          "phrase": "a busy shopping centre",
+          "phrase_zh": "一家热闹的购物中心",
+          "sentence": "We bought new shoes at the shopping centre.",
+          "sentence_zh": "我们在购物中心买了新鞋。",
+          "memory": "shopping 是购物，centre 是中心；把很多商店画在一起。"
+        },
+        {
+          "word": "historic building",
+          "ipa": "hɪˌstɒrɪk ˈbɪldɪŋ",
+          "meaning": "有历史意义的建筑",
+          "phrase": "visit a historic building",
+          "phrase_zh": "参观一处历史建筑",
+          "sentence": "We visited a historic building today.",
+          "sentence_zh": "我们今天参观了一座历史建筑。",
+          "memory": "把 history（历史）和 historic 联系起来，想象一座有故事的老楼。"
+        },
+        {
+          "word": "basic",
+          "ipa": "ˈbeɪsɪk",
+          "meaning": "基本的；基础的",
+          "phrase": "basic rules",
+          "phrase_zh": "基本规则",
+          "sentence": "We learned the basic rules of chess.",
+          "sentence_zh": "我们学了国际象棋的基本规则。",
+          "memory": "base 是基础；basic rules 就是最先要学的规则。"
+        },
+        {
+          "word": "thousands of",
+          "ipa": "ˈθaʊzəndz əv",
+          "meaning": "成千上万的",
+          "phrase": "thousands of birds",
+          "phrase_zh": "成千上万只鸟",
+          "sentence": "Thousands of birds live here.",
+          "sentence_zh": "这里住着成千上万只鸟。",
+          "memory": "准确的两千是 two thousand；泛指很多个「千」时用 thousands of。"
+        },
+        {
+          "word": "amusement park",
+          "ipa": "əˈmjuːzmənt pɑːk",
+          "meaning": "游乐园",
+          "phrase": "an amusement park ride",
+          "phrase_zh": "游乐园的一个游乐项目",
+          "sentence": "We had fun at the amusement park.",
+          "sentence_zh": "我们在游乐园玩得很开心。",
+          "memory": "amusement 有「娱乐」的意思，想象公园里有摩天轮。"
+        },
+        {
+          "word": "opera",
+          "ipa": "ˈɒpərə",
+          "meaning": "歌剧",
+          "phrase": "watch an opera",
+          "phrase_zh": "看一场歌剧",
+          "sentence": "Dad and I went to see an opera.",
+          "sentence_zh": "我和爸爸去看了一场歌剧。",
+          "memory": "想象演员用歌声讲述一个完整的故事。"
+        },
+        {
+          "word": "emperor",
+          "ipa": "ˈempərə",
+          "meaning": "皇帝",
+          "phrase": "a young emperor",
+          "phrase_zh": "一位年轻的皇帝",
+          "sentence": "The story is about an emperor and a bird.",
+          "sentence_zh": "这个故事讲的是一位皇帝和一只鸟。",
+          "memory": "在童话插画的皇帝旁写 emperor，读时重音落在开头。"
+        },
+        {
+          "word": "art gallery",
+          "ipa": "ˈɑːt ˌɡæləri",
+          "meaning": "美术馆；画廊",
+          "phrase": "visit an art gallery",
+          "phrase_zh": "参观美术馆",
+          "sentence": "We saw pictures at the art gallery.",
+          "sentence_zh": "我们在美术馆看了画。",
+          "memory": "art 是艺术，gallery 是展示作品的地方。"
+        },
+        {
+          "word": "nature",
+          "ipa": "ˈneɪtʃə",
+          "meaning": "大自然",
+          "phrase": "enjoy nature",
+          "phrase_zh": "亲近自然",
+          "sentence": "We love to walk in nature.",
+          "sentence_zh": "我们喜欢到大自然中散步。",
+          "memory": "闭眼想三样大自然里的东西，用 nature 把它们圈起来。"
+        },
+        {
+          "word": "a mix of",
+          "ipa": "ə ˈmɪks əv",
+          "meaning": "……的混合",
+          "phrase": "a mix of colours",
+          "phrase_zh": "多种颜色的混合",
+          "sentence": "The sky was a mix of pink and orange.",
+          "sentence_zh": "天空中粉色和橙色交织在一起。",
+          "memory": "想象把两种颜料挤在一起；of 后说混在一起的东西。"
+        },
+        {
+          "word": "wheelchair",
+          "ipa": "ˈwiːltʃeə",
+          "meaning": "轮椅",
+          "phrase": "use a wheelchair",
+          "phrase_zh": "使用轮椅",
+          "sentence": "My uncle uses a wheelchair.",
+          "sentence_zh": "我叔叔使用轮椅。",
+          "memory": "wheel（轮子）加 chair（椅子），就是带轮子的椅子。"
+        },
+        {
+          "word": "board",
+          "ipa": "bɔːd",
+          "meaning": "木板",
+          "phrase": "a wooden board",
+          "phrase_zh": "一块木板",
+          "sentence": "We made a shelf from an old board.",
+          "sentence_zh": "我们用一块旧木板做了个架子。",
+          "memory": "用手比出一块平平的长方形木板，边比边说 board。"
+        },
+        {
+          "word": "once",
+          "ipa": "wʌns",
+          "meaning": "曾经",
+          "phrase": "once lived here",
+          "phrase_zh": "曾经住在这里",
+          "sentence": "My grandpa once lived in this village.",
+          "sentence_zh": "我爷爷曾经住在这个村子里。",
+          "memory": "讲以前的经历时用 I once ... 开头，接一个过去式动作。"
+        },
+        {
+          "word": "bored",
+          "ipa": "bɔːd",
+          "meaning": "厌倦的；感到无聊的",
+          "phrase": "feel bored",
+          "phrase_zh": "觉得无聊",
+          "sentence": "I feel bored on rainy days.",
+          "sentence_zh": "下雨天我觉得无聊。",
+          "memory": "等车时打个哈欠，说 I'm bored，记住人的感受用 -ed。"
+        },
+        {
+          "word": "push down",
+          "ipa": "pʊʃ daʊn",
+          "meaning": "向下按；往下压",
+          "phrase": "push down on the lid",
+          "phrase_zh": "向下按盖子",
+          "sentence": "Push down on the lid.",
+          "sentence_zh": "把盖子往下按。",
+          "memory": "手掌朝下按，push 是推，down 给动作加上方向。"
+        },
+        {
+          "word": "snapshot",
+          "ipa": "ˈsnæpʃɒt",
+          "meaning": "快照",
+          "phrase": "take a snapshot",
+          "phrase_zh": "拍一张快照",
+          "sentence": "I took a snapshot of my dog.",
+          "sentence_zh": "我给我的狗拍了一张快照。",
+          "memory": "想象听到快门「咔嚓」一声，一瞬间就留下了 snapshot。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-08",
+      "course": "8.8若宸同学中英文",
+      "theme": "职业与日常活动",
+      "sources": {
+        "8.8若宸同学中英文.pdf": "760d82effc161733ef48158e5709c3a9b9dbb762398d142552f9b9a7158bc2b6"
+      },
+      "rows": [
+        {
+          "word": "photographer",
+          "ipa": "fəˈtɒɡrəfə",
+          "meaning": "摄影师",
+          "phrase": "a wildlife photographer",
+          "phrase_zh": "一位野生动物摄影师",
+          "sentence": "The photographer took a picture of us.",
+          "sentence_zh": "摄影师给我们拍了一张照片。",
+          "memory": "photo 是照片，photographer 是拍照片的人；重读第二音节。"
+        },
+        {
+          "word": "theatre",
+          "ipa": "ˈθɪətə",
+          "meaning": "剧院",
+          "phrase": "at the theatre",
+          "phrase_zh": "在剧院",
+          "sentence": "We watched a play at the theatre.",
+          "sentence_zh": "我们在剧院看了一场戏。",
+          "memory": "想象大幕拉开、演员登场；开头的 th 要轻轻露出舌尖。"
+        },
+        {
+          "word": "writer",
+          "ipa": "ˈraɪtə",
+          "meaning": "作家",
+          "phrase": "a story writer",
+          "phrase_zh": "一位故事作家",
+          "sentence": "My aunt is a writer of children's books.",
+          "sentence_zh": "我姑姑是一位童书作家。",
+          "memory": "write 去掉词尾 e 再加 -er：写东西的人。"
+        },
+        {
+          "word": "centimetre",
+          "ipa": "ˈsentɪmiːtə",
+          "meaning": "厘米",
+          "phrase": "one centimetre long",
+          "phrase_zh": "一厘米长",
+          "sentence": "My plant grew one centimetre.",
+          "sentence_zh": "我的植物长高了一厘米。",
+          "memory": "在尺上找两个相邻的厘米刻度；缩写 cm 就在旁边。"
+        },
+        {
+          "word": "life",
+          "ipa": "laɪf",
+          "meaning": "生活；生命",
+          "phrase": "school life",
+          "phrase_zh": "校园生活",
+          "sentence": "I like my school life.",
+          "sentence_zh": "我喜欢我的校园生活。",
+          "memory": "把上课、吃饭和放学串成一天，就是你一天的 life。"
+        },
+        {
+          "word": "thousands of",
+          "ipa": "ˈθaʊzəndz əv",
+          "meaning": "成千上万的",
+          "phrase": "thousands of birds",
+          "phrase_zh": "成千上万只鸟",
+          "sentence": "Thousands of birds live here.",
+          "sentence_zh": "这里住着成千上万只鸟。",
+          "memory": "准确的两千是 two thousand；泛指很多个「千」时用 thousands of。"
+        },
+        {
+          "word": "taller",
+          "ipa": "ˈtɔːlə",
+          "meaning": "更高的",
+          "phrase": "taller than me",
+          "phrase_zh": "比我高",
+          "sentence": "My little brother is taller than me now.",
+          "sentence_zh": "我弟弟现在比我高了。",
+          "memory": "tall 后加 -er，比身高时用 taller than。"
+        },
+        {
+          "word": "digital",
+          "ipa": "ˈdɪdʒɪtəl",
+          "meaning": "数码的；数字的",
+          "phrase": "a digital camera",
+          "phrase_zh": "一台数码相机",
+          "sentence": "I took this photo with a digital camera.",
+          "sentence_zh": "我用一台数码相机拍了这张照片。",
+          "memory": "把显示数字的钟和数码相机放在一起，都可以用 digital。"
+        },
+        {
+          "word": "broom",
+          "ipa": "bruːm",
+          "meaning": "扫帚",
+          "phrase": "a long broom",
+          "phrase_zh": "一把长扫帚",
+          "sentence": "I used a broom to sweep the leaves.",
+          "sentence_zh": "我用扫帚清扫树叶。",
+          "memory": "想象 broom 是工具，sweep 是挥动它的动作。"
+        },
+        {
+          "word": "kilogram",
+          "ipa": "ˈkɪləɡræm",
+          "meaning": "千克；公斤",
+          "phrase": "a kilogram of rice",
+          "phrase_zh": "一千克大米",
+          "sentence": "This bag of rice weighs one kilogram.",
+          "sentence_zh": "这袋米重一千克。",
+          "memory": "kilo- 表示一千；一千克就是一千个 gram（克）。"
+        },
+        {
+          "word": "themselves",
+          "ipa": "ðəmˈselvz",
+          "meaning": "他们／她们／它们自己",
+          "phrase": "by themselves",
+          "phrase_zh": "靠他们自己",
+          "sentence": "They made the cake by themselves.",
+          "sentence_zh": "他们自己做了这个蛋糕。",
+          "memory": "一个人用 -self，多个人用 -selves；把 them 和 selves 连读。"
+        },
+        {
+          "word": "enjoy oneself",
+          "ipa": "ɪnˈdʒɔɪ wʌnˈself",
+          "meaning": "玩得愉快",
+          "phrase": "enjoy yourself at the party",
+          "phrase_zh": "在聚会上玩得开心",
+          "sentence": "We enjoyed ourselves at the school fair.",
+          "sentence_zh": "我们在校园集市上玩得很开心。",
+          "memory": "主语换，后面也换：I enjoy myself，we enjoy ourselves。"
+        },
+        {
+          "word": "get ... in",
+          "ipa": "ɡet … ɪn",
+          "meaning": "收割；把庄稼收进来",
+          "phrase": "get the rice in",
+          "phrase_zh": "收稻谷",
+          "sentence": "We helped Grandpa get the rice in.",
+          "sentence_zh": "我们帮爷爷收了稻谷。",
+          "memory": "把 the rice 放进 get 和 in 中间，想象稻谷被收进仓里。"
+        },
+        {
+          "word": "fantastic",
+          "ipa": "fænˈtæstɪk",
+          "meaning": "极好的；棒极了的",
+          "phrase": "a fantastic idea",
+          "phrase_zh": "一个绝妙的主意",
+          "sentence": "What a fantastic game!",
+          "sentence_zh": "这场比赛真棒！",
+          "memory": "听到特别好的主意时竖起大拇指，说 Fantastic!"
+        },
+        {
+          "word": "fan",
+          "ipa": "fæn",
+          "meaning": "迷；爱好者",
+          "phrase": "a football fan",
+          "phrase_zh": "一名足球迷",
+          "sentence": "My sister is a football fan.",
+          "sentence_zh": "我姐姐是个足球迷。",
+          "memory": "想象看台上举着球衣欢呼的人，那就是 a fan。"
+        },
+        {
+          "word": "weigh",
+          "ipa": "weɪ",
+          "meaning": "有……重；称重",
+          "phrase": "weigh two kilos",
+          "phrase_zh": "重两千克",
+          "sentence": "How much does your schoolbag weigh?",
+          "sentence_zh": "你的书包有多重？",
+          "memory": "想象把书包放在秤上。weigh 和 way 同音，词尾 gh 不发音。"
+        },
+        {
+          "word": "sweep",
+          "ipa": "swiːp",
+          "meaning": "扫；打扫",
+          "phrase": "sweep the floor",
+          "phrase_zh": "扫地",
+          "sentence": "We sweep the floor after art class.",
+          "sentence_zh": "美术课后我们扫地。",
+          "memory": "拿起想象中的扫帚划一道长弧，同时拉长 /iː/。"
+        },
+        {
+          "word": "street cleaner",
+          "ipa": "ˈstriːt ˌkliːnə",
+          "meaning": "街道清洁工；环卫工人",
+          "phrase": "a street cleaner at work",
+          "phrase_zh": "一位正在工作的环卫工人",
+          "sentence": "The street cleaner keeps our road clean.",
+          "sentence_zh": "环卫工人把我们的路打扫得很干净。",
+          "memory": "street 是街道，cleaner 是打扫的人；合起来记职业。"
+        },
+        {
+          "word": "drive",
+          "ipa": "draɪv",
+          "meaning": "驾驶",
+          "phrase": "drive a bus",
+          "phrase_zh": "开公交车",
+          "sentence": "My mother can drive a bus.",
+          "sentence_zh": "我妈妈会开公交车。",
+          "memory": "双手作握方向盘状；把开头的 /d/ 和 /r/ 连起来读。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-11",
+      "course": "8.11若宸同学中英文",
+      "theme": "自然、机械与安全",
+      "sources": {
+        "8.11若宸同学中英文.pdf": "00c8cea0e88cb0d6d2cded61d8e53ee1e60a7b1c1b4fd482b28b76deedd37335"
+      },
+      "rows": [
+        {
+          "word": "nature",
+          "ipa": "ˈneɪtʃə",
+          "meaning": "大自然",
+          "phrase": "enjoy nature",
+          "phrase_zh": "亲近自然",
+          "sentence": "We love to walk in nature.",
+          "sentence_zh": "我们喜欢到大自然中散步。",
+          "memory": "闭眼想三样大自然里的东西，用 nature 把它们圈起来。"
+        },
+        {
+          "word": "simple",
+          "ipa": "ˈsɪmpəl",
+          "meaning": "简单的",
+          "phrase": "a simple plan",
+          "phrase_zh": "一个简单的计划",
+          "sentence": "We made a simple plan for our picnic.",
+          "sentence_zh": "我们为野餐定了一个简单的计划。",
+          "memory": "想到只需一步就能做完的事，说 It's simple。"
+        },
+        {
+          "word": "lever",
+          "ipa": "ˈliːvə",
+          "meaning": "杠杆",
+          "phrase": "use a lever",
+          "phrase_zh": "使用杠杆",
+          "sentence": "A seesaw is a kind of lever.",
+          "sentence_zh": "跷跷板是一种杠杆。",
+          "memory": "想象跷跷板绕中间的支点转动，把这根长板记作 lever。"
+        },
+        {
+          "word": "opera",
+          "ipa": "ˈɒpərə",
+          "meaning": "歌剧",
+          "phrase": "watch an opera",
+          "phrase_zh": "看一场歌剧",
+          "sentence": "Dad and I went to see an opera.",
+          "sentence_zh": "我和爸爸去看了一场歌剧。",
+          "memory": "想象演员用歌声讲述一个完整的故事。"
+        },
+        {
+          "word": "cause",
+          "ipa": "kɔːz",
+          "meaning": "原因；起因",
+          "phrase": "the cause of the delay",
+          "phrase_zh": "延误的原因",
+          "sentence": "What was the cause of the noise?",
+          "sentence_zh": "是什么引起了这阵噪声？",
+          "memory": "问 Why? 找到的原因，可以用 the cause of 来说。"
+        },
+        {
+          "word": "point",
+          "ipa": "pɔɪnt",
+          "meaning": "尖端",
+          "phrase": "the point of a pencil",
+          "phrase_zh": "铅笔尖",
+          "sentence": "The point of my pencil broke.",
+          "sentence_zh": "我的铅笔尖断了。",
+          "memory": "指一指刚削好的铅笔尖，记住这里的 point。"
+        },
+        {
+          "word": "protect",
+          "ipa": "prəˈtekt",
+          "meaning": "保护",
+          "phrase": "protect your eyes",
+          "phrase_zh": "保护眼睛",
+          "sentence": "I wear a hat to protect my face.",
+          "sentence_zh": "我戴帽子保护脸部。",
+          "memory": "想象帽檐挡住阳光；protect A from B 表示保护 A 免受 B 伤害。"
+        },
+        {
+          "word": "get hurt",
+          "ipa": "ɡet hɜːt",
+          "meaning": "受伤",
+          "phrase": "get hurt in a fall",
+          "phrase_zh": "摔倒受伤",
+          "sentence": "Ben fell, but he didn't get hurt.",
+          "sentence_zh": "本摔倒了，但没有受伤。",
+          "memory": "hurt 是受伤的，get 表示变成这种状态。"
+        },
+        {
+          "word": "speed",
+          "ipa": "spiːd",
+          "meaning": "速度",
+          "phrase": "at high speed",
+          "phrase_zh": "高速地",
+          "sentence": "The train moves at high speed.",
+          "sentence_zh": "火车开得很快。",
+          "memory": "把 speed 和车上的速度表一起想，指针越往上速度越快。"
+        },
+        {
+          "word": "helmet",
+          "ipa": "ˈhelmɪt",
+          "meaning": "头盔",
+          "phrase": "wear a helmet",
+          "phrase_zh": "戴头盔",
+          "sentence": "I wear a helmet on my bike.",
+          "sentence_zh": "我骑车时戴头盔。",
+          "memory": "把手放在头上，想象扣好头盔，再说 helmet。"
+        },
+        {
+          "word": "basic",
+          "ipa": "ˈbeɪsɪk",
+          "meaning": "基本的；基础的",
+          "phrase": "basic rules",
+          "phrase_zh": "基本规则",
+          "sentence": "We learned the basic rules of chess.",
+          "sentence_zh": "我们学了国际象棋的基本规则。",
+          "memory": "base 是基础；basic rules 就是最先要学的规则。"
+        },
+        {
+          "word": "ramp",
+          "ipa": "ræmp",
+          "meaning": "斜坡；坡道",
+          "phrase": "a wheelchair ramp",
+          "phrase_zh": "一条轮椅坡道",
+          "sentence": "We pushed the bike up the ramp.",
+          "sentence_zh": "我们把自行车推上了坡道。",
+          "memory": "想象把台阶换成一条斜坡，轮椅就能沿着 ramp 上去。"
+        },
+        {
+          "word": "movement",
+          "ipa": "ˈmuːvmənt",
+          "meaning": "移动；动作",
+          "phrase": "a quick movement",
+          "phrase_zh": "一个迅速的动作",
+          "sentence": "I saw a small movement in the box.",
+          "sentence_zh": "我看到盒子里有东西动了一下。",
+          "memory": "在 move（移动）后加 -ment，变成表示动作的名词。"
+        },
+        {
+          "word": "snapshot",
+          "ipa": "ˈsnæpʃɒt",
+          "meaning": "快照",
+          "phrase": "take a snapshot",
+          "phrase_zh": "拍一张快照",
+          "sentence": "I took a snapshot of my dog.",
+          "sentence_zh": "我给我的狗拍了一张快照。",
+          "memory": "想象听到快门「咔嚓」一声，一瞬间就留下了 snapshot。"
+        },
+        {
+          "word": "bored",
+          "ipa": "bɔːd",
+          "meaning": "厌倦的；感到无聊的",
+          "phrase": "feel bored",
+          "phrase_zh": "觉得无聊",
+          "sentence": "I feel bored on rainy days.",
+          "sentence_zh": "下雨天我觉得无聊。",
+          "memory": "等车时打个哈欠，说 I'm bored，记住人的感受用 -ed。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-13",
+      "course": "8.13若宸同学中英文",
+      "theme": "城市与机械复习",
+      "sources": {
+        "8.13若宸同学中英文.pdf": "e69ec1f9c70dcd6de8480a9058ec1b18f9f62577d76cb8fca0e50cd318a553ac"
+      },
+      "rows": [
+        {
+          "word": "protect",
+          "ipa": "prəˈtekt",
+          "meaning": "保护",
+          "phrase": "protect your eyes",
+          "phrase_zh": "保护眼睛",
+          "sentence": "I wear a hat to protect my face.",
+          "sentence_zh": "我戴帽子保护脸部。",
+          "memory": "想象帽檐挡住阳光；protect A from B 表示保护 A 免受 B 伤害。"
+        },
+        {
+          "word": "slide",
+          "ipa": "slaɪd",
+          "meaning": "滑梯",
+          "phrase": "go down the slide",
+          "phrase_zh": "滑滑梯",
+          "sentence": "Let's play on the slide.",
+          "sentence_zh": "我们去玩滑梯吧。",
+          "memory": "用手比出斜坡，手指沿坡滑下，一边说 slide。"
+        },
+        {
+          "word": "get hurt",
+          "ipa": "ɡet hɜːt",
+          "meaning": "受伤",
+          "phrase": "get hurt in a fall",
+          "phrase_zh": "摔倒受伤",
+          "sentence": "Ben fell, but he didn't get hurt.",
+          "sentence_zh": "本摔倒了，但没有受伤。",
+          "memory": "hurt 是受伤的，get 表示变成这种状态。"
+        },
+        {
+          "word": "push down",
+          "ipa": "pʊʃ daʊn",
+          "meaning": "向下按；往下压",
+          "phrase": "push down on the lid",
+          "phrase_zh": "向下按盖子",
+          "sentence": "Push down on the lid.",
+          "sentence_zh": "把盖子往下按。",
+          "memory": "手掌朝下按，push 是推，down 给动作加上方向。"
+        },
+        {
+          "word": "art gallery",
+          "ipa": "ˈɑːt ˌɡæləri",
+          "meaning": "美术馆；画廊",
+          "phrase": "visit an art gallery",
+          "phrase_zh": "参观美术馆",
+          "sentence": "We saw pictures at the art gallery.",
+          "sentence_zh": "我们在美术馆看了画。",
+          "memory": "art 是艺术，gallery 是展示作品的地方。"
+        },
+        {
+          "word": "amusement park",
+          "ipa": "əˈmjuːzmənt pɑːk",
+          "meaning": "游乐园",
+          "phrase": "an amusement park ride",
+          "phrase_zh": "游乐园的一个游乐项目",
+          "sentence": "We had fun at the amusement park.",
+          "sentence_zh": "我们在游乐园玩得很开心。",
+          "memory": "amusement 有「娱乐」的意思，想象公园里有摩天轮。"
+        },
+        {
+          "word": "modern building",
+          "ipa": "ˌmɒdən ˈbɪldɪŋ",
+          "meaning": "现代建筑",
+          "phrase": "a modern glass building",
+          "phrase_zh": "一栋现代玻璃建筑",
+          "sentence": "Our school has a modern building.",
+          "sentence_zh": "我们学校有一栋现代建筑。",
+          "memory": "给自己熟悉的新楼贴上 modern（现代的）这个标签。"
+        },
+        {
+          "word": "invention",
+          "ipa": "ɪnˈvenʃən",
+          "meaning": "发明；发明物",
+          "phrase": "a useful invention",
+          "phrase_zh": "一项有用的发明",
+          "sentence": "The wheel was a useful invention.",
+          "sentence_zh": "轮子是一项有用的发明。",
+          "memory": "invent 是「发明」的动作，加 -ion 可指发明出来的东西。"
+        },
+        {
+          "word": "break",
+          "ipa": "breɪk",
+          "meaning": "打破；弄断；破裂",
+          "phrase": "break a stick",
+          "phrase_zh": "折断树枝",
+          "sentence": "Be careful not to break the glass.",
+          "sentence_zh": "小心别打破玻璃杯。",
+          "memory": "想象枯树枝「啪」一声折断，喊出 break。"
+        },
+        {
+          "word": "choose",
+          "ipa": "tʃuːz",
+          "meaning": "选择",
+          "phrase": "choose a book",
+          "phrase_zh": "选一本书",
+          "sentence": "Please choose a book for us.",
+          "sentence_zh": "请给我们选一本书。",
+          "memory": "想象两本书摆在面前；挑中一本时说 I choose this one。"
+        },
+        {
+          "word": "machine",
+          "ipa": "məˈʃiːn",
+          "meaning": "机器",
+          "phrase": "a washing machine",
+          "phrase_zh": "一台洗衣机",
+          "sentence": "This machine washes our clothes.",
+          "sentence_zh": "这台机器帮我们洗衣服。",
+          "memory": "想到洗衣机转动的样子；machine 的 ch 读 /ʃ/。"
+        },
+        {
+          "word": "lever",
+          "ipa": "ˈliːvə",
+          "meaning": "杠杆",
+          "phrase": "use a lever",
+          "phrase_zh": "使用杠杆",
+          "sentence": "A seesaw is a kind of lever.",
+          "sentence_zh": "跷跷板是一种杠杆。",
+          "memory": "想象跷跷板绕中间的支点转动，把这根长板记作 lever。"
+        },
+        {
+          "word": "tiny",
+          "ipa": "ˈtaɪni",
+          "meaning": "极小的",
+          "phrase": "a tiny seed",
+          "phrase_zh": "一粒极小的种子",
+          "sentence": "A tiny ant climbed onto my hand.",
+          "sentence_zh": "一只小小的蚂蚁爬上了我的手。",
+          "memory": "拇指和食指只留一条细缝，用手势记 tiny。"
+        },
+        {
+          "word": "nature",
+          "ipa": "ˈneɪtʃə",
+          "meaning": "大自然",
+          "phrase": "enjoy nature",
+          "phrase_zh": "亲近自然",
+          "sentence": "We love to walk in nature.",
+          "sentence_zh": "我们喜欢到大自然中散步。",
+          "memory": "闭眼想三样大自然里的东西，用 nature 把它们圈起来。"
+        },
+        {
+          "word": "board",
+          "ipa": "bɔːd",
+          "meaning": "木板",
+          "phrase": "a wooden board",
+          "phrase_zh": "一块木板",
+          "sentence": "We made a shelf from an old board.",
+          "sentence_zh": "我们用一块旧木板做了个架子。",
+          "memory": "用手比出一块平平的长方形木板，边比边说 board。"
+        },
+        {
+          "word": "shopping centre",
+          "ipa": "ˈʃɒpɪŋ ˌsentə",
+          "meaning": "购物中心",
+          "phrase": "a busy shopping centre",
+          "phrase_zh": "一家热闹的购物中心",
+          "sentence": "We bought new shoes at the shopping centre.",
+          "sentence_zh": "我们在购物中心买了新鞋。",
+          "memory": "shopping 是购物，centre 是中心；把很多商店画在一起。"
+        },
+        {
+          "word": "truck",
+          "ipa": "trʌk",
+          "meaning": "卡车",
+          "phrase": "a delivery truck",
+          "phrase_zh": "一辆送货卡车",
+          "sentence": "A truck brought fresh fruit to our school.",
+          "sentence_zh": "一辆卡车给我们学校送来了新鲜水果。",
+          "memory": "想象大车厢装满货物，边画两个车轮边说 truck。"
+        },
+        {
+          "word": "historic building",
+          "ipa": "hɪˌstɒrɪk ˈbɪldɪŋ",
+          "meaning": "有历史意义的建筑",
+          "phrase": "visit a historic building",
+          "phrase_zh": "参观一处历史建筑",
+          "sentence": "We visited a historic building today.",
+          "sentence_zh": "我们今天参观了一座历史建筑。",
+          "memory": "把 history（历史）和 historic 联系起来，想象一座有故事的老楼。"
+        },
+        {
+          "word": "simple",
+          "ipa": "ˈsɪmpəl",
+          "meaning": "简单的",
+          "phrase": "a simple plan",
+          "phrase_zh": "一个简单的计划",
+          "sentence": "We made a simple plan for our picnic.",
+          "sentence_zh": "我们为野餐定了一个简单的计划。",
+          "memory": "想到只需一步就能做完的事，说 It's simple。"
+        },
+        {
+          "word": "snapshot",
+          "ipa": "ˈsnæpʃɒt",
+          "meaning": "快照",
+          "phrase": "take a snapshot",
+          "phrase_zh": "拍一张快照",
+          "sentence": "I took a snapshot of my dog.",
+          "sentence_zh": "我给我的狗拍了一张快照。",
+          "memory": "想象听到快门「咔嚓」一声，一瞬间就留下了 snapshot。"
+        },
+        {
+          "word": "movement",
+          "ipa": "ˈmuːvmənt",
+          "meaning": "移动；动作",
+          "phrase": "a quick movement",
+          "phrase_zh": "一个迅速的动作",
+          "sentence": "I saw a small movement in the box.",
+          "sentence_zh": "我看到盒子里有东西动了一下。",
+          "memory": "在 move（移动）后加 -ment，变成表示动作的名词。"
+        },
+        {
+          "word": "opera",
+          "ipa": "ˈɒpərə",
+          "meaning": "歌剧",
+          "phrase": "watch an opera",
+          "phrase_zh": "看一场歌剧",
+          "sentence": "Dad and I went to see an opera.",
+          "sentence_zh": "我和爸爸去看了一场歌剧。",
+          "memory": "想象演员用歌声讲述一个完整的故事。"
+        },
+        {
+          "word": "basic",
+          "ipa": "ˈbeɪsɪk",
+          "meaning": "基本的；基础的",
+          "phrase": "basic rules",
+          "phrase_zh": "基本规则",
+          "sentence": "We learned the basic rules of chess.",
+          "sentence_zh": "我们学了国际象棋的基本规则。",
+          "memory": "base 是基础；basic rules 就是最先要学的规则。"
+        },
+        {
+          "word": "towards",
+          "ipa": "təˈwɔːdz",
+          "meaning": "向；朝",
+          "phrase": "walk towards the gate",
+          "phrase_zh": "向大门走去",
+          "sentence": "The kitten ran towards me.",
+          "sentence_zh": "小猫朝我跑来。",
+          "memory": "画一支箭头，箭头所指就是 towards 后面的目标。"
+        },
+        {
+          "word": "cause",
+          "ipa": "kɔːz",
+          "meaning": "原因；起因",
+          "phrase": "the cause of the delay",
+          "phrase_zh": "延误的原因",
+          "sentence": "What was the cause of the noise?",
+          "sentence_zh": "是什么引起了这阵噪声？",
+          "memory": "问 Why? 找到的原因，可以用 the cause of 来说。"
+        },
+        {
+          "word": "a mix of",
+          "ipa": "ə ˈmɪks əv",
+          "meaning": "……的混合",
+          "phrase": "a mix of colours",
+          "phrase_zh": "多种颜色的混合",
+          "sentence": "The sky was a mix of pink and orange.",
+          "sentence_zh": "天空中粉色和橙色交织在一起。",
+          "memory": "想象把两种颜料挤在一起；of 后说混在一起的东西。"
+        },
+        {
+          "word": "bored",
+          "ipa": "bɔːd",
+          "meaning": "厌倦的；感到无聊的",
+          "phrase": "feel bored",
+          "phrase_zh": "觉得无聊",
+          "sentence": "I feel bored on rainy days.",
+          "sentence_zh": "下雨天我觉得无聊。",
+          "memory": "等车时打个哈欠，说 I'm bored，记住人的感受用 -ed。"
+        },
+        {
+          "word": "seesaw",
+          "ipa": "ˈsiːsɔː",
+          "meaning": "跷跷板",
+          "phrase": "play on the seesaw",
+          "phrase_zh": "玩跷跷板",
+          "sentence": "We took turns on the seesaw.",
+          "sentence_zh": "我们轮流玩跷跷板。",
+          "memory": "读 see 时抬起左手，读 saw 时抬起右手，模拟一上一下。"
+        },
+        {
+          "word": "tortoise",
+          "ipa": "ˈtɔːtəs",
+          "meaning": "陆龟",
+          "phrase": "a pet tortoise",
+          "phrase_zh": "一只宠物陆龟",
+          "sentence": "Our tortoise likes to eat green leaves.",
+          "sentence_zh": "我们家的陆龟喜欢吃绿叶。",
+          "memory": "想象一只陆龟背着壳慢慢走，读两拍 TOR-toise。"
+        },
+        {
+          "word": "emperor",
+          "ipa": "ˈempərə",
+          "meaning": "皇帝",
+          "phrase": "a young emperor",
+          "phrase_zh": "一位年轻的皇帝",
+          "sentence": "The story is about an emperor and a bird.",
+          "sentence_zh": "这个故事讲的是一位皇帝和一只鸟。",
+          "memory": "在童话插画的皇帝旁写 emperor，读时重音落在开头。"
+        },
+        {
+          "word": "thousands of",
+          "ipa": "ˈθaʊzəndz əv",
+          "meaning": "成千上万的",
+          "phrase": "thousands of birds",
+          "phrase_zh": "成千上万只鸟",
+          "sentence": "Thousands of birds live here.",
+          "sentence_zh": "这里住着成千上万只鸟。",
+          "memory": "准确的两千是 two thousand；泛指很多个「千」时用 thousands of。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-15",
+      "course": "8.15若宸同学英文",
+      "theme": "基础发音练习",
+      "sources": {
+        "8.15若宸同学英文.pdf": "f550ee16ab09de2ada38afadcd4c51435ecbfd3a0a617115ecb9a99e5638ab32"
+      },
+      "rows": [
+        {
+          "word": "mountain",
+          "ipa": "ˈmaʊntɪn",
+          "meaning": "山；高山",
+          "phrase": "climb a mountain",
+          "phrase_zh": "登山",
+          "sentence": "We could see the sea from the mountain.",
+          "sentence_zh": "我们从山上能看到大海。",
+          "memory": "双唇闭合，轻轻哼出声。读 mountain 时留意开头的 m。",
+          "sound": "m"
+        },
+        {
+          "word": "sit",
+          "ipa": "sɪt",
+          "meaning": "坐；坐下",
+          "phrase": "sit down",
+          "phrase_zh": "坐下",
+          "sentence": "Please sit next to me on the bus.",
+          "sentence_zh": "坐公交车时请坐在我旁边。",
+          "memory": "放松嘴唇，短短地发音。把 sit 和 seat 对读，听元音的差别。",
+          "sound": "ɪ"
+        },
+        {
+          "word": "hits",
+          "ipa": "hɪts",
+          "meaning": "击打；击中（第三人称单数）",
+          "phrase": "hits the ball",
+          "phrase_zh": "击球",
+          "sentence": "She hits the ball over the net.",
+          "sentence_zh": "她把球打过了网。",
+          "memory": "先堵住气流发 t，再紧接着发 s，中间不加元音。读 hits 的末尾。",
+          "sound": "ts"
+        },
+        {
+          "word": "ring",
+          "ipa": "rɪŋ",
+          "meaning": "戒指；指环",
+          "phrase": "a silver ring",
+          "phrase_zh": "一枚银戒指",
+          "sentence": "Grandma wears a silver ring.",
+          "sentence_zh": "奶奶戴着一枚银戒指。",
+          "memory": "舌后部抬起，声音从鼻腔出来。ring 结尾无需再加 /ɡ/。",
+          "sound": "ŋ"
+        },
+        {
+          "word": "hope",
+          "ipa": "həʊp",
+          "meaning": "希望",
+          "phrase": "hope to win",
+          "phrase_zh": "希望获胜",
+          "sentence": "I hope to see you at the picnic.",
+          "sentence_zh": "我希望在野餐时见到你。",
+          "memory": "先放松嘴唇，再滑向收圆的口形。慢读 hope，听元音的变化。",
+          "sound": "əʊ"
+        },
+        {
+          "word": "shop",
+          "ipa": "ʃɒp",
+          "meaning": "商店",
+          "phrase": "a book shop",
+          "phrase_zh": "一家书店",
+          "sentence": "The shop near my home sells fresh bread.",
+          "sentence_zh": "我家附近的商店卖新鲜面包。",
+          "memory": "嘴张开，双唇略圆，声音短促。读英式 shop，听中间的元音。",
+          "sound": "ɒ"
+        },
+        {
+          "word": "dig",
+          "ipa": "dɪɡ",
+          "meaning": "挖；掘",
+          "phrase": "dig a hole",
+          "phrase_zh": "挖一个洞",
+          "sentence": "Let's dig a hole for the young tree.",
+          "sentence_zh": "我们给小树挖个坑吧。",
+          "memory": "舌尖抵住上齿龈，放开时声带振动。读 dig，和 tip 的开头对比。",
+          "sound": "d"
+        },
+        {
+          "word": "think",
+          "ipa": "θɪŋk",
+          "meaning": "想；思考",
+          "phrase": "think about a question",
+          "phrase_zh": "思考一个问题",
+          "sentence": "Let me think about your question.",
+          "sentence_zh": "让我想想你的问题。",
+          "memory": "舌尖轻放在上下齿之间，吹气，声带不振动。读 think 的开头。",
+          "sound": "θ"
+        },
+        {
+          "word": "fan",
+          "ipa": "fæn",
+          "meaning": "迷；爱好者",
+          "phrase": "a football fan",
+          "phrase_zh": "一名足球迷",
+          "sentence": "My sister is a football fan.",
+          "sentence_zh": "我姐姐是个足球迷。",
+          "memory": "张开嘴，下巴放低，舌身靠前。读 fan，再对比 fun 的元音。",
+          "sound": "æ"
+        },
+        {
+          "word": "push",
+          "ipa": "pʊʃ",
+          "meaning": "推",
+          "phrase": "push a cart",
+          "phrase_zh": "推一辆手推车",
+          "sentence": "Please help me push this cart.",
+          "sentence_zh": "请帮我推一下这辆手推车。",
+          "memory": "嘴唇稍圆，短促发音。读 push，听它与 food 中长音的差别。",
+          "sound": "ʊ"
+        },
+        {
+          "word": "then",
+          "ipa": "ðen",
+          "meaning": "然后",
+          "phrase": "and then",
+          "phrase_zh": "接着；然后",
+          "sentence": "We washed the fruit and then made a salad.",
+          "sentence_zh": "我们洗了水果，然后做了沙拉。",
+          "memory": "舌尖轻放在齿间，发声时摸喉咙感受振动。对读 then 和 think。",
+          "sound": "ð"
+        },
+        {
+          "word": "light",
+          "ipa": "laɪt",
+          "meaning": "轻的；不重的",
+          "phrase": "a light bag",
+          "phrase_zh": "一个轻便的包",
+          "sentence": "My schoolbag is light today.",
+          "sentence_zh": "今天我的书包很轻。",
+          "memory": "让舌尖轻抵上齿龈，气流从舌头两侧通过。读 light 的开头。",
+          "sound": "l"
+        },
+        {
+          "word": "tree",
+          "ipa": "triː",
+          "meaning": "树",
+          "phrase": "plant a tree",
+          "phrase_zh": "种一棵树",
+          "sentence": "We planted a tree beside the playground.",
+          "sentence_zh": "我们在操场旁种了一棵树。",
+          "memory": "嘴唇向两边稍伸，声音拉长。tree 里 ee 只发一个长元音。",
+          "sound": "iː"
+        },
+        {
+          "word": "pet",
+          "ipa": "pet",
+          "meaning": "宠物",
+          "phrase": "a pet rabbit",
+          "phrase_zh": "一只宠物兔",
+          "sentence": "My pet rabbit loves carrot leaves.",
+          "sentence_zh": "我的宠物兔很爱吃胡萝卜叶。",
+          "memory": "嘴唇自然张开，发一个短元音。把 pet 和 pen 的中间音一起读。",
+          "sound": "e"
+        },
+        {
+          "word": "deer",
+          "ipa": "dɪə",
+          "meaning": "鹿",
+          "phrase": "a young deer",
+          "phrase_zh": "一只小鹿",
+          "sentence": "We saw three deer near the trees.",
+          "sentence_zh": "我们在树旁看见三只鹿。",
+          "memory": "从 /ɪ/ 自然滑向 /ə/，连成一个音节。读英式 deer 的韵尾。",
+          "sound": "ɪə"
+        }
+      ],
+      "note": "音标专项 · 原讲义只有发音符号，本课例词及用法为补充示范。"
+    },
+    {
+      "date": "2026-08-18",
+      "course": "8.18若宸同学音标单词",
+      "theme": "从例词练发音",
+      "sources": {
+        "8.18若宸同学音标单词.pdf": "76b17311a21d3177ec74d7e5a5933962c50f22b1a2da474c88f3d20631c872ae"
+      },
+      "rows": [
+        {
+          "word": "tree",
+          "ipa": "triː",
+          "meaning": "树",
+          "phrase": "plant a tree",
+          "phrase_zh": "种一棵树",
+          "sentence": "We planted a tree beside the playground.",
+          "sentence_zh": "我们在操场旁种了一棵树。",
+          "memory": "练 /tr/。画一棵高树，读 tree，先连读 tr，再拉长 /iː/。"
+        },
+        {
+          "word": "better",
+          "ipa": "ˈbetə",
+          "meaning": "更好的；更好地",
+          "phrase": "a better way",
+          "phrase_zh": "一个更好的办法",
+          "sentence": "I have a better idea.",
+          "sentence_zh": "我有一个更好的主意。",
+          "memory": "练 /e/。good 的比较级是 better，把 good、better 成对读。"
+        },
+        {
+          "word": "jeep",
+          "ipa": "dʒiːp",
+          "meaning": "吉普车",
+          "phrase": "ride in a jeep",
+          "phrase_zh": "乘坐吉普车",
+          "sentence": "We rode in a jeep.",
+          "sentence_zh": "我们坐了吉普车。",
+          "memory": "练 /dʒ/。想象大轮胎的车驶过土路；j 的起音和 juice 一样。"
+        },
+        {
+          "word": "ring",
+          "ipa": "rɪŋ",
+          "meaning": "戒指；指环",
+          "phrase": "a silver ring",
+          "phrase_zh": "一枚银戒指",
+          "sentence": "Grandma wears a silver ring.",
+          "sentence_zh": "奶奶戴着一枚银戒指。",
+          "memory": "练 /ŋ/。用手指比出圆环，读 ring 时词尾 ng 收成一个鼻音。"
+        },
+        {
+          "word": "hands",
+          "ipa": "hændz",
+          "meaning": "手（复数）",
+          "phrase": "wash your hands",
+          "phrase_zh": "洗手",
+          "sentence": "Wash your hands before you eat.",
+          "sentence_zh": "吃东西前要洗手。",
+          "memory": "练 /dz/。伸出一只手读 hand，两只手读 hands，听结尾的 /dz/。"
+        },
+        {
+          "word": "thank",
+          "ipa": "θæŋk",
+          "meaning": "感谢",
+          "phrase": "thank a friend",
+          "phrase_zh": "感谢一位朋友",
+          "sentence": "I want to thank you for helping me.",
+          "sentence_zh": "我想谢谢你帮助了我。",
+          "memory": "练 /θ/。把常说的 Thank you 拆开；轻轻把舌尖放在齿间读 th。"
+        },
+        {
+          "word": "chair",
+          "ipa": "tʃeə",
+          "meaning": "椅子",
+          "phrase": "a wooden chair",
+          "phrase_zh": "一把木椅",
+          "sentence": "Please put your chair next to mine.",
+          "sentence_zh": "请把你的椅子放在我的椅子旁边。",
+          "memory": "练 /tʃ/。指着椅子读 chair；开头 ch 和 cheese 的开头相同。"
+        },
+        {
+          "word": "usual",
+          "ipa": "ˈjuːʒuəl",
+          "meaning": "通常的；惯常的",
+          "phrase": "as usual",
+          "phrase_zh": "像往常一样",
+          "sentence": "This is my usual seat.",
+          "sentence_zh": "这是我平时坐的座位。",
+          "memory": "练 /ʒ/。想想每天都坐的位子；usual 中间的 s 发 /ʒ/。"
+        },
+        {
+          "word": "shop",
+          "ipa": "ʃɒp",
+          "meaning": "商店",
+          "phrase": "a book shop",
+          "phrase_zh": "一家书店",
+          "sentence": "The shop near my home sells fresh bread.",
+          "sentence_zh": "我家附近的商店卖新鲜面包。",
+          "memory": "练 /ɒ/。把商店的门想成字母 o，张口短促地读 /ɒ/。"
+        },
+        {
+          "word": "drive",
+          "ipa": "draɪv",
+          "meaning": "驾驶",
+          "phrase": "drive a bus",
+          "phrase_zh": "开公交车",
+          "sentence": "My mother can drive a bus.",
+          "sentence_zh": "我妈妈会开公交车。",
+          "memory": "练 /dr/。双手作握方向盘状；把开头的 /d/ 和 /r/ 连起来读。"
+        },
+        {
+          "word": "game",
+          "ipa": "ɡeɪm",
+          "meaning": "游戏；比赛",
+          "phrase": "play a game",
+          "phrase_zh": "玩游戏",
+          "sentence": "We played a word game after lunch.",
+          "sentence_zh": "午饭后我们玩了一个单词游戏。",
+          "memory": "练 /eɪ/。把 game 和 name 一起读，a 在两个词里都读 /eɪ/。"
+        },
+        {
+          "word": "yellow",
+          "ipa": "ˈjeləʊ",
+          "meaning": "黄色；黄色的",
+          "phrase": "a yellow kite",
+          "phrase_zh": "一只黄色的风筝",
+          "sentence": "My yellow kite flew above the trees.",
+          "sentence_zh": "我的黄色风筝飞到了树梢上方。",
+          "memory": "练 /j/。找一样黄色物品并指着它读 yellow，开头 y 发 /j/。"
+        },
+        {
+          "word": "boy",
+          "ipa": "bɔɪ",
+          "meaning": "男孩",
+          "phrase": "a boy in my class",
+          "phrase_zh": "我们班的一个男孩",
+          "sentence": "The boy in the blue cap is my brother.",
+          "sentence_zh": "那个戴蓝帽子的男孩是我弟弟。",
+          "memory": "练 /ɔɪ/。把 boy 和 toy 配成一组，两个词的 oy 发音相同。"
+        },
+        {
+          "word": "nice",
+          "ipa": "naɪs",
+          "meaning": "友好的；令人愉快的",
+          "phrase": "be nice to others",
+          "phrase_zh": "友好待人",
+          "sentence": "My new teacher is nice to us.",
+          "sentence_zh": "新老师对我们很友好。",
+          "memory": "练 /n/。想起别人对你友好时说的 That's nice，把感受一起记住。"
+        },
+        {
+          "word": "tour",
+          "ipa": "tʊə",
+          "meaning": "游览；旅行",
+          "phrase": "a tour of the school",
+          "phrase_zh": "一次校园参观",
+          "sentence": "We took a tour of the school.",
+          "sentence_zh": "我们参观了这所学校。",
+          "memory": "练 /ʊə/。想象跟着导游走一圈；跟讲义练习 tour 中的 /ʊə/。"
+        },
+        {
+          "word": "class",
+          "ipa": "klɑːs",
+          "meaning": "课；班级",
+          "phrase": "an art class",
+          "phrase_zh": "一节美术课",
+          "sentence": "We drew our pets in art class.",
+          "sentence_zh": "我们在美术课上画了自己的宠物。",
+          "memory": "练 /ɑː/。上课铃一响就说 Time for class；英式读音把 a 拉长。"
+        },
+        {
+          "word": "family",
+          "ipa": "ˈfæməli",
+          "meaning": "家庭；家人",
+          "phrase": "a family photo",
+          "phrase_zh": "一张全家福",
+          "sentence": "My family eats dinner together on Sundays.",
+          "sentence_zh": "我家每周日一起吃晚饭。",
+          "memory": "练 /æ/。看全家福，挨个指出家人，然后说 my family。"
+        }
+      ],
+      "note": "音标例词 · 记忆栏标出讲义指定的目标音，词条下方列出整词音标。"
+    },
+    {
+      "date": "2026-08-20",
+      "course": "8.20若宸同学中英文",
+      "theme": "生活词汇与发音",
+      "sources": {
+        "8.20若宸同学中英文.pdf": "f2b7d14d73959feb26e24039d375a3b72eb40b66d054d230344a27c3f47b354a"
+      },
+      "rows": [
+        {
+          "word": "tree",
+          "ipa": "triː",
+          "meaning": "树",
+          "phrase": "plant a tree",
+          "phrase_zh": "种一棵树",
+          "sentence": "We planted a tree beside the playground.",
+          "sentence_zh": "我们在操场旁种了一棵树。",
+          "memory": "练 /tr/。画一棵高树，读 tree，先连读 tr，再拉长 /iː/。"
+        },
+        {
+          "word": "even",
+          "ipa": "ˈiːvən",
+          "meaning": "甚至",
+          "phrase": "even in winter",
+          "phrase_zh": "即使在冬天",
+          "sentence": "My grandpa swims even in winter.",
+          "sentence_zh": "我爷爷甚至冬天也游泳。",
+          "memory": "想到一件出乎意料的事，用 even 强调最让人惊讶的部分。"
+        },
+        {
+          "word": "in a short time",
+          "ipa": "ɪn ə ʃɔːt taɪm",
+          "meaning": "很快；在短时间内",
+          "phrase": "learn it in a short time",
+          "phrase_zh": "在短时间内学会它",
+          "sentence": "We put up the tent in a short time.",
+          "sentence_zh": "我们很快搭好了帐篷。",
+          "memory": "在纸上画一小段时间线；short time 就是很短的一段时间。"
+        },
+        {
+          "word": "dinosaur",
+          "ipa": "ˈdaɪnəsɔː",
+          "meaning": "恐龙",
+          "phrase": "a dinosaur egg",
+          "phrase_zh": "一枚恐龙蛋",
+          "sentence": "We saw a dinosaur egg at the museum.",
+          "sentence_zh": "我们在博物馆看到了一枚恐龙蛋。",
+          "memory": "边画恐龙边分三拍读 DI-no-saur，把重音放在第一拍。"
+        },
+        {
+          "word": "mountain",
+          "ipa": "ˈmaʊntɪn",
+          "meaning": "山；高山",
+          "phrase": "climb a mountain",
+          "phrase_zh": "登山",
+          "sentence": "We could see the sea from the mountain.",
+          "sentence_zh": "我们从山上能看到大海。",
+          "memory": "画一座高山，在山顶写 mountain，在旁边的小山包写 hill。"
+        },
+        {
+          "word": "fairy",
+          "ipa": "ˈfeəri",
+          "meaning": "仙子；小精灵",
+          "phrase": "a little fairy",
+          "phrase_zh": "一个小精灵",
+          "sentence": "The little fairy can fly.",
+          "sentence_zh": "这个小精灵会飞。",
+          "memory": "想象小精灵飞出童话书；fairy tale 里就有 fairy。"
+        },
+        {
+          "word": "street sweeper",
+          "ipa": "ˈstriːt ˌswiːpə",
+          "meaning": "扫地车；道路清扫车",
+          "phrase": "drive a street sweeper",
+          "phrase_zh": "驾驶扫地车",
+          "sentence": "The street sweeper has two round brushes.",
+          "sentence_zh": "这辆扫地车有两把圆刷子。",
+          "memory": "想象车底的刷子扫街；这课里的 sweeper 指清扫车。"
+        },
+        {
+          "word": "wife",
+          "ipa": "waɪf",
+          "meaning": "妻子",
+          "phrase": "his wife",
+          "phrase_zh": "他的妻子",
+          "sentence": "My uncle and his wife live near the park.",
+          "sentence_zh": "我叔叔和他的妻子住在公园附近。",
+          "memory": "画出一对夫妻，分别标上 husband 和 wife。"
+        },
+        {
+          "word": "carry",
+          "ipa": "ˈkæri",
+          "meaning": "背；提；拿",
+          "phrase": "carry a box",
+          "phrase_zh": "搬一个箱子",
+          "sentence": "Can you help me carry these books?",
+          "sentence_zh": "你能帮我拿这些书吗？",
+          "memory": "用背包、提袋、抱书三个动作记 carry，都要带着东西移动。"
+        },
+        {
+          "word": "poor",
+          "ipa": "pɔː",
+          "meaning": "贫穷的；差的",
+          "phrase": "a poor family",
+          "phrase_zh": "一个贫困家庭",
+          "sentence": "The story is about a poor family.",
+          "sentence_zh": "这个故事讲的是一个贫穷的家庭。",
+          "memory": "成对记 rich 和 poor；形容质量时，poor 还可以表示「差的」。"
+        },
+        {
+          "word": "drive",
+          "ipa": "draɪv",
+          "meaning": "驾驶",
+          "phrase": "drive a bus",
+          "phrase_zh": "开公交车",
+          "sentence": "My mother can drive a bus.",
+          "sentence_zh": "我妈妈会开公交车。",
+          "memory": "练 /dr/。双手作握方向盘状；把开头的 /d/ 和 /r/ 连起来读。"
+        },
+        {
+          "word": "chair",
+          "ipa": "tʃeə",
+          "meaning": "椅子",
+          "phrase": "a wooden chair",
+          "phrase_zh": "一把木椅",
+          "sentence": "Please put your chair next to mine.",
+          "sentence_zh": "请把你的椅子放在我的椅子旁边。",
+          "memory": "练 /tʃ/。指着椅子读 chair；开头 ch 和 cheese 的开头相同。"
+        },
+        {
+          "word": "by hand",
+          "ipa": "baɪ hænd",
+          "meaning": "用手；手工",
+          "phrase": "make a card by hand",
+          "phrase_zh": "手工做一张卡片",
+          "sentence": "I made this birthday card by hand.",
+          "sentence_zh": "这张生日卡片是我亲手做的。",
+          "memory": "举起你的 hand；by hand 回答「用什么方式做」。"
+        },
+        {
+          "word": "space",
+          "ipa": "speɪs",
+          "meaning": "太空",
+          "phrase": "travel into space",
+          "phrase_zh": "飞向太空",
+          "sentence": "I hope to travel into space one day.",
+          "sentence_zh": "我希望有一天能飞向太空。",
+          "memory": "看图想象飞船飞向星空，space 就是飞船所在的太空。"
+        },
+        {
+          "word": "yellow",
+          "ipa": "ˈjeləʊ",
+          "meaning": "黄色；黄色的",
+          "phrase": "a yellow kite",
+          "phrase_zh": "一只黄色的风筝",
+          "sentence": "My yellow kite flew above the trees.",
+          "sentence_zh": "我的黄色风筝飞到了树梢上方。",
+          "memory": "练 /j/。找一样黄色物品并指着它读 yellow，开头 y 发 /j/。"
+        },
+        {
+          "word": "wish",
+          "ipa": "wɪʃ",
+          "meaning": "愿望；祝愿",
+          "phrase": "make a wish",
+          "phrase_zh": "许愿",
+          "sentence": "Close your eyes and make a wish.",
+          "sentence_zh": "闭上眼睛，许个愿吧。",
+          "memory": "闭上眼睛想生日愿望，这个愿望就叫 a wish。"
+        },
+        {
+          "word": "hits",
+          "ipa": "hɪts",
+          "meaning": "击打；击中（第三人称单数）",
+          "phrase": "hits the ball",
+          "phrase_zh": "击球",
+          "sentence": "She hits the ball over the net.",
+          "sentence_zh": "她把球打过了网。",
+          "memory": "练 /ts/。hit 后加 s，词尾 t 和 s 连成 /ts/；用 she 带着读。"
+        },
+        {
+          "word": "right away",
+          "ipa": "raɪt əˈweɪ",
+          "meaning": "立刻；马上",
+          "phrase": "come right away",
+          "phrase_zh": "马上过来",
+          "sentence": "Please come home right away.",
+          "sentence_zh": "请马上回家。",
+          "memory": "听到呼唤就起身，说 I'll come right away，把动作和时间连起来。"
+        },
+        {
+          "word": "head teacher",
+          "ipa": "ˌhed ˈtiːtʃə",
+          "meaning": "校长",
+          "phrase": "our head teacher",
+          "phrase_zh": "我们的校长",
+          "sentence": "Our head teacher knows my name.",
+          "sentence_zh": "校长知道我的名字。",
+          "memory": "head 可以指负责人；把全校的负责人和 head teacher 连起来。"
+        },
+        {
+          "word": "online",
+          "ipa": "ˌɒnˈlaɪn",
+          "meaning": "在线的；在网上",
+          "phrase": "an online lesson",
+          "phrase_zh": "一节网课",
+          "sentence": "We watched an English lesson online.",
+          "sentence_zh": "我们在网上看了一节英语课。",
+          "memory": "想象电脑连上线；on 和 line 合写成 online。"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-27",
+      "course": "快速单词记忆",
+      "theme": "旅行与世界地标",
+      "sources": {
+        "20260827-杨若宸-快速单词记忆/20260827-杨若宸-快速单词记忆-中文.pdf": "b97434414b5272c5e46af34ee8b93dea22000093cd8a6f5e4490fc4845fec7e2",
+        "20260827-杨若宸-快速单词记忆/20260827-杨若宸-快速单词记忆-中英文.pdf": "f36820d4eb656f9156cebeb0e03d5edf96e382278b8d5ea76be33901d7de65f1",
+        "20260827-杨若宸-快速单词记忆/20260827-杨若宸-快速单词记忆-英文.pdf": "85aff69d9105b8ccf4c36f300112e698269921d05113b6c036ac03bfd637f09a",
+        "20260827-杨若宸-快速单词记忆/20260827-杨若宸-快速单词记忆-音标.pdf": "daad7b5a256898cc99a302fa5e4a1c16d0a8f0d3737727ebcc71202500761579"
+      },
+      "rows": [
+        {
+          "word": "Mexico City",
+          "ipa": "ˌmeksɪkəʊ ˈsɪti",
+          "meaning": "墨西哥城",
+          "phrase": "a map of Mexico City",
+          "phrase_zh": "一张墨西哥城地图",
+          "sentence": "Can you find Mexico City on this map?",
+          "sentence_zh": "你能在这张地图上找到墨西哥城吗？",
+          "memory": "Mexico 是国家名，后加 City 就是这座城市的名字。"
+        },
+        {
+          "word": "Beijing roast duck",
+          "ipa": "beɪˈdʒɪŋ rəʊst dʌk",
+          "meaning": "北京烤鸭",
+          "phrase": "try Beijing roast duck",
+          "phrase_zh": "品尝北京烤鸭",
+          "sentence": "We tried Beijing roast duck on our trip.",
+          "sentence_zh": "旅行时我们品尝了北京烤鸭。",
+          "memory": "按「地方＋做法＋食材」来记：北京、烤、鸭。"
+        },
+        {
+          "word": "Xi'an Bell Tower",
+          "ipa": "ˌʃiːˈɑːn ˈbel ˌtaʊə",
+          "meaning": "西安钟楼",
+          "phrase": "a photo of Xi'an Bell Tower",
+          "phrase_zh": "一张西安钟楼的照片",
+          "sentence": "I drew Xi'an Bell Tower on my postcard.",
+          "sentence_zh": "我在明信片上画了西安钟楼。",
+          "memory": "bell 是钟，tower 是塔楼；想象西安城里钟声响起。"
+        },
+        {
+          "word": "National Centre for the Performing Arts",
+          "ipa": "ˈnæʃənəl ˈsentə fə ðə pəˌfɔːmɪŋ ˈɑːts",
+          "meaning": "国家大剧院",
+          "phrase": "at the National Centre for the Performing Arts",
+          "phrase_zh": "在国家大剧院",
+          "sentence": "This is the National Centre for the Performing Arts.",
+          "sentence_zh": "这就是国家大剧院。",
+          "memory": "分两段朗读：National Centre（国家中心）与 for the Performing Arts（表演艺术）。"
+        },
+        {
+          "word": "Russia",
+          "ipa": "ˈrʌʃə",
+          "meaning": "俄罗斯",
+          "phrase": "a map of Russia",
+          "phrase_zh": "一张俄罗斯地图",
+          "sentence": "I found Russia on the classroom map.",
+          "sentence_zh": "我在教室的地图上找到了俄罗斯。",
+          "memory": "在地图上找到俄罗斯，读名字时 ss 在这里发 /ʃ/。"
+        },
+        {
+          "word": "China Art Museum",
+          "ipa": "ˌtʃaɪnə ˈɑːt mjuˌziːəm",
+          "meaning": "中华艺术宫（上海）",
+          "phrase": "visit the China Art Museum",
+          "phrase_zh": "参观中华艺术宫",
+          "sentence": "We visited the China Art Museum.",
+          "sentence_zh": "我们参观了中华艺术宫。",
+          "memory": "把 China、Art、Museum 三块连起来，想象在上海参观艺术展。"
+        },
+        {
+          "word": "Canton Tower",
+          "ipa": "kænˈtɒn ˈtaʊə",
+          "meaning": "广州塔",
+          "phrase": "a model of Canton Tower",
+          "phrase_zh": "一个广州塔模型",
+          "sentence": "My brother made a model of Canton Tower.",
+          "sentence_zh": "我弟弟做了一个广州塔模型。",
+          "memory": "Canton 是广州的传统英文名，tower 是塔。"
+        },
+        {
+          "word": "take a trip",
+          "ipa": "teɪk ə trɪp",
+          "meaning": "去旅行",
+          "phrase": "take a trip to the coast",
+          "phrase_zh": "到海边旅行",
+          "sentence": "Let's take a trip to the zoo.",
+          "sentence_zh": "我们去动物园玩吧。",
+          "memory": "把目的地接在 to 后面，试着说出你最想去哪里。"
+        },
+        {
+          "word": "the Seine River",
+          "ipa": "ðə sen ˈrɪvə",
+          "meaning": "塞纳河",
+          "phrase": "a boat on the Seine River",
+          "phrase_zh": "塞纳河上的一艘船",
+          "sentence": "This bridge crosses the Seine River.",
+          "sentence_zh": "这座桥横跨塞纳河。",
+          "memory": "在速写里用一条河穿过巴黎，沿河读出 Seine River。"
+        },
+        {
+          "word": "the Pearl River",
+          "ipa": "ðə pɜːl ˈrɪvə",
+          "meaning": "珠江",
+          "phrase": "a bridge over the Pearl River",
+          "phrase_zh": "珠江上的一座桥",
+          "sentence": "We walked along the Pearl River.",
+          "sentence_zh": "我们沿着珠江散步。",
+          "memory": "pearl 是珍珠，river 是江河，两个词正好对应「珠江」。"
+        },
+        {
+          "word": "a drop of",
+          "ipa": "ə drɒp əv",
+          "meaning": "一滴……",
+          "phrase": "a drop of water",
+          "phrase_zh": "一滴水",
+          "sentence": "A drop of water fell on my nose.",
+          "sentence_zh": "一滴水落在了我的鼻尖上。",
+          "memory": "画一滴水，在 of 后填水、雨或墨水等液体。"
+        },
+        {
+          "word": "USA",
+          "ipa": "ˌjuː es ˈeɪ",
+          "meaning": "美国",
+          "phrase": "travel to the USA",
+          "phrase_zh": "去美国旅行",
+          "sentence": "My cousin lives in the USA.",
+          "sentence_zh": "我的表姐住在美国。",
+          "memory": "United States of America 取首字母 U、S、A，使用时常加 the。"
+        },
+        {
+          "word": "Olympic Park",
+          "ipa": "əˌlɪmpɪk ˈpɑːk",
+          "meaning": "奥林匹克公园",
+          "phrase": "a walk in the Olympic Park",
+          "phrase_zh": "在奥林匹克公园的散步",
+          "sentence": "We rode our bikes through the Olympic Park.",
+          "sentence_zh": "我们骑车穿过奥林匹克公园。",
+          "memory": "想到奥运五环，再想象五环旁的一座公园 park。"
+        },
+        {
+          "word": "Olympic Games",
+          "ipa": "əˌlɪmpɪk ˈɡeɪmz",
+          "meaning": "奥林匹克运动会",
+          "phrase": "watch the Olympic Games",
+          "phrase_zh": "观看奥运会",
+          "sentence": "We watched the Olympic Games together on TV.",
+          "sentence_zh": "我们一起看了电视上的奥运会。",
+          "memory": "奥运会有很多比赛，所以名字里的 Games 带 s。"
+        },
+        {
+          "word": "National Stadium",
+          "ipa": "ˌnæʃənəl ˈsteɪdiəm",
+          "meaning": "国家体育场",
+          "phrase": "visit the National Stadium",
+          "phrase_zh": "参观国家体育场",
+          "sentence": "We took photos at the National Stadium.",
+          "sentence_zh": "我们在国家体育场拍了照。",
+          "memory": "national 是国家的；stadium 是有大片看台的体育场。"
+        },
+        {
+          "word": "Vincent van Gogh",
+          "ipa": "ˈvɪnsənt væn ˈɡoʊ",
+          "meaning": "文森特·梵高",
+          "phrase": "a painting by Vincent van Gogh",
+          "phrase_zh": "一幅梵高的画",
+          "sentence": "We looked at a painting by Vincent van Gogh.",
+          "sentence_zh": "我们欣赏了一幅梵高的画。",
+          "memory": "想象一幅向日葵油画，在画下写上画家名字；此处采用讲义的美式读法。"
+        },
+        {
+          "word": "Lake Texcoco",
+          "ipa": "leɪk teʃˈkəʊkəʊ",
+          "meaning": "特斯科科湖",
+          "phrase": "a map of Lake Texcoco",
+          "phrase_zh": "一张特斯科科湖的地图",
+          "sentence": "Can you find Lake Texcoco on the map?",
+          "sentence_zh": "你能在地图上找到特斯科科湖吗？",
+          "memory": "Lake 是湖，首音是 /l/；Texcoco 分三拍，第二拍重读。",
+          "reference": {
+            "label": "专名发音参考：Texcoco",
+            "url": "https://www.coreknowledge.org/wp-content/uploads/2017/01/CKLA_G1_D5_SG_web_2.pdf"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-09-04",
+      "course": "快速单词记忆",
+      "theme": "标志与出行",
+      "sources": {
+        "20260904-杨若宸-快速单词记忆/20260904-杨若宸-快速单词记忆-中文.pdf": "f92280006ead8374ea65a7c464c9aadb2005fd95c96ee4d396c2782023f78644",
+        "20260904-杨若宸-快速单词记忆/20260904-杨若宸-快速单词记忆-中英文.pdf": "e3d32a720943327c6d7687c2fa73c3cb6edda911aba80797a98440268f8ecd17",
+        "20260904-杨若宸-快速单词记忆/20260904-杨若宸-快速单词记忆-英文.pdf": "0d970738d0095803b7f3b0bfddceed06b3727f38d33484d64d41db7d29864a2f",
+        "20260904-杨若宸-快速单词记忆/20260904-杨若宸-快速单词记忆-音标.pdf": "a6d2bed937c8481d434e42247c2f064e95b0cd96ccd9b0a9fbb2072b9fea06ad"
+      },
+      "rows": [
+        {
+          "word": "in the middle",
+          "ipa": "ɪn ðə ˈmɪdl",
+          "meaning": "在中间",
+          "phrase": "in the middle of the room",
+          "phrase_zh": "在房间中央",
+          "sentence": "The red flower is in the middle.",
+          "sentence_zh": "红花在中间。",
+          "memory": "画三个点，用箭头指向中间那个，读 in the middle。"
+        },
+        {
+          "word": "Russia",
+          "ipa": "ˈrʌʃə",
+          "meaning": "俄罗斯",
+          "phrase": "a map of Russia",
+          "phrase_zh": "一张俄罗斯地图",
+          "sentence": "I found Russia on the classroom map.",
+          "sentence_zh": "我在教室的地图上找到了俄罗斯。",
+          "memory": "在地图上找到俄罗斯，读名字时 ss 在这里发 /ʃ/。"
+        },
+        {
+          "word": "follow",
+          "ipa": "ˈfɒləʊ",
+          "meaning": "跟随；跟着",
+          "phrase": "follow the guide",
+          "phrase_zh": "跟着导游",
+          "sentence": "Follow me to the garden.",
+          "sentence_zh": "跟我去花园吧。",
+          "memory": "与朋友一前一后走，前面的人说 Follow me。"
+        },
+        {
+          "word": "Canton Tower",
+          "ipa": "kænˈtɒn ˈtaʊə",
+          "meaning": "广州塔",
+          "phrase": "a model of Canton Tower",
+          "phrase_zh": "一个广州塔模型",
+          "sentence": "My brother made a model of Canton Tower.",
+          "sentence_zh": "我弟弟做了一个广州塔模型。",
+          "memory": "Canton 是广州的传统英文名，tower 是塔。"
+        },
+        {
+          "word": "may",
+          "ipa": "meɪ",
+          "meaning": "可以；可能",
+          "phrase": "may borrow a book",
+          "phrase_zh": "可以借一本书",
+          "sentence": "May I borrow your blue pen?",
+          "sentence_zh": "我可以借你的蓝色钢笔吗？",
+          "memory": "敲门时练 May I ...?；说 It may rain 时则表示「可能」。"
+        },
+        {
+          "word": "on the way",
+          "ipa": "ɒn ðə weɪ",
+          "meaning": "在路上；在途中",
+          "phrase": "on the way home",
+          "phrase_zh": "在回家途中",
+          "sentence": "We saw a rainbow on the way home.",
+          "sentence_zh": "我们在回家的路上看到了彩虹。",
+          "memory": "把 way 想成一条路，想象自己正走在这条路上。"
+        },
+        {
+          "word": "gatekeeper",
+          "ipa": "ˈɡeɪtkiːpə",
+          "meaning": "门卫；看门人",
+          "phrase": "the school gatekeeper",
+          "phrase_zh": "学校的门卫",
+          "sentence": "The gatekeeper opened the school gate at seven.",
+          "sentence_zh": "门卫七点打开了校门。",
+          "memory": "gate（大门）加 keeper（看守者），合起来就是看门人。"
+        },
+        {
+          "word": "no smoking",
+          "ipa": "nəʊ ˈsməʊkɪŋ",
+          "meaning": "禁止吸烟",
+          "phrase": "a no smoking sign",
+          "phrase_zh": "一个禁止吸烟标志",
+          "sentence": "The sign on the door says “No smoking”.",
+          "sentence_zh": "门上的标志写着“禁止吸烟”。",
+          "memory": "想象香烟上画着一条斜杠；标志上用 No 加 -ing。"
+        },
+        {
+          "word": "middle",
+          "ipa": "ˈmɪdl",
+          "meaning": "中间；中部",
+          "phrase": "the middle seat",
+          "phrase_zh": "中间的座位",
+          "sentence": "I'll take the middle seat.",
+          "sentence_zh": "我坐中间的位子。",
+          "memory": "伸出三根手指，摸一摸正中间的那根，说 middle。"
+        },
+        {
+          "word": "the Seine River",
+          "ipa": "ðə sen ˈrɪvə",
+          "meaning": "塞纳河",
+          "phrase": "a boat on the Seine River",
+          "phrase_zh": "塞纳河上的一艘船",
+          "sentence": "This bridge crosses the Seine River.",
+          "sentence_zh": "这座桥横跨塞纳河。",
+          "memory": "在速写里用一条河穿过巴黎，沿河读出 Seine River。"
+        },
+        {
+          "word": "special",
+          "ipa": "ˈspeʃl",
+          "meaning": "特别的",
+          "phrase": "a special gift",
+          "phrase_zh": "一份特别的礼物",
+          "sentence": "Today is a special day for me.",
+          "sentence_zh": "今天对我来说很特别。",
+          "memory": "想一件只有你知道其来历的小物件，用 special 形容它。"
+        },
+        {
+          "word": "praise",
+          "ipa": "preɪz",
+          "meaning": "赞扬；表扬",
+          "phrase": "praise a classmate",
+          "phrase_zh": "表扬一位同学",
+          "sentence": "Our coach praised us after the match.",
+          "sentence_zh": "比赛后，教练表扬了我们。",
+          "memory": "想象教练说 Well done!；这样称赞别人就是 praise。"
+        },
+        {
+          "word": "praise ... for ...",
+          "ipa": "preɪz … fɔː …",
+          "meaning": "因……而表扬……",
+          "phrase": "praise her for her hard work",
+          "phrase_zh": "表扬她勤奋努力",
+          "sentence": "Dad praised me for helping my sister.",
+          "sentence_zh": "爸爸表扬我帮助了妹妹。",
+          "memory": "先说表扬谁，再用 for 说原因；动作可以用 -ing 形式。"
+        },
+        {
+          "word": "look out",
+          "ipa": "lʊk aʊt",
+          "meaning": "小心；当心",
+          "phrase": "look out for bikes",
+          "phrase_zh": "当心自行车",
+          "sentence": "Look out! A ball is coming your way.",
+          "sentence_zh": "当心！一个球正朝你飞过来。",
+          "memory": "想象球快飞过来时脱口而出的提醒：Look out!"
+        },
+        {
+          "word": "National Stadium",
+          "ipa": "ˌnæʃənəl ˈsteɪdiəm",
+          "meaning": "国家体育场",
+          "phrase": "visit the National Stadium",
+          "phrase_zh": "参观国家体育场",
+          "sentence": "We took photos at the National Stadium.",
+          "sentence_zh": "我们在国家体育场拍了照。",
+          "memory": "national 是国家的；stadium 是有大片看台的体育场。"
+        },
+        {
+          "word": "worry",
+          "ipa": "ˈwʌri",
+          "meaning": "担心",
+          "phrase": "worry about the test",
+          "phrase_zh": "担心考试",
+          "sentence": "Don't worry about the test.",
+          "sentence_zh": "别担心考试。",
+          "memory": "想到让你牵挂的事情，把它接在 worry about 后面。"
+        },
+        {
+          "word": "sign",
+          "ipa": "saɪn",
+          "meaning": "标志；标识",
+          "phrase": "a road sign",
+          "phrase_zh": "一个路标",
+          "sentence": "The sign shows us the way to the lake.",
+          "sentence_zh": "这个标志给我们指了去湖边的路。",
+          "memory": "画一个写着出口的指示牌；sign 的 g 不发音。"
+        },
+        {
+          "word": "path",
+          "ipa": "pɑːθ",
+          "meaning": "小路；小径",
+          "phrase": "a garden path",
+          "phrase_zh": "一条花园小径",
+          "sentence": "This path goes to the lake.",
+          "sentence_zh": "这条小路通向湖边。",
+          "memory": "用铅笔画一条弯曲的小路，沿线读 path。"
+        },
+        {
+          "word": "reuse",
+          "ipa": "ˌriːˈjuːz",
+          "meaning": "重新利用",
+          "phrase": "reuse a bottle",
+          "phrase_zh": "重复使用瓶子",
+          "sentence": "We reuse old jars to hold pencils.",
+          "sentence_zh": "我们用旧罐子装铅笔。",
+          "memory": "re- 是「再次」，use 是「使用」，合起来就是再利用。"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-07",
+      "course": "快速单词记忆",
+      "theme": "职业、工具与手工",
+      "sources": {
+        "20260907-杨若宸-快速单词记忆/20260907-杨若宸-快速单词记忆-中文.pdf": "41d0e412789990fbb5916e143b76ce29c67ffce98c249d6bcd7d33524d4eb056",
+        "20260907-杨若宸-快速单词记忆/20260907-杨若宸-快速单词记忆-中英文.pdf": "42a192457b591531ac6b2ecdbed4e12eced1f5b030ade45c32cc1917922acc42",
+        "20260907-杨若宸-快速单词记忆/20260907-杨若宸-快速单词记忆-英文.pdf": "1389479d12003abbad7c7264573ea05300a49dd0286226836e861196ad0a8f4f",
+        "20260907-杨若宸-快速单词记忆/20260907-杨若宸-快速单词记忆-音标.pdf": "374bc71e1eadaec012c89458e2ccae4f53f48e965b39dc69319f637f7ce08f14"
+      },
+      "rows": [
+        {
+          "word": "weigh",
+          "ipa": "weɪ",
+          "meaning": "有……重；称重",
+          "phrase": "weigh two kilos",
+          "phrase_zh": "重两千克",
+          "sentence": "How much does your schoolbag weigh?",
+          "sentence_zh": "你的书包有多重？",
+          "memory": "想象把书包放在秤上。weigh 和 way 同音，词尾 gh 不发音。"
+        },
+        {
+          "word": "crown",
+          "ipa": "kraʊn",
+          "meaning": "王冠；皇冠",
+          "phrase": "wear a crown",
+          "phrase_zh": "戴王冠",
+          "sentence": "The king wore a paper crown in our play.",
+          "sentence_zh": "在我们的戏里，国王戴着纸王冠。",
+          "memory": "在国王头上画一顶有尖角的帽子，在旁边写 crown。"
+        },
+        {
+          "word": "centimetre",
+          "ipa": "ˈsentɪmiːtə",
+          "meaning": "厘米",
+          "phrase": "one centimetre long",
+          "phrase_zh": "一厘米长",
+          "sentence": "My plant grew one centimetre.",
+          "sentence_zh": "我的植物长高了一厘米。",
+          "memory": "在尺上找两个相邻的厘米刻度；缩写 cm 就在旁边。"
+        },
+        {
+          "word": "sweep",
+          "ipa": "swiːp",
+          "meaning": "扫；打扫",
+          "phrase": "sweep the floor",
+          "phrase_zh": "扫地",
+          "sentence": "We sweep the floor after art class.",
+          "sentence_zh": "美术课后我们扫地。",
+          "memory": "拿起想象中的扫帚划一道长弧，同时拉长 /iː/。"
+        },
+        {
+          "word": "online",
+          "ipa": "ˌɒnˈlaɪn",
+          "meaning": "在线的；在网上",
+          "phrase": "an online lesson",
+          "phrase_zh": "一节网课",
+          "sentence": "We watched an English lesson online.",
+          "sentence_zh": "我们在网上看了一节英语课。",
+          "memory": "想象电脑连上线；on 和 line 合写成 online。"
+        },
+        {
+          "word": "fan",
+          "ipa": "fæn",
+          "meaning": "迷；爱好者",
+          "phrase": "a football fan",
+          "phrase_zh": "一名足球迷",
+          "sentence": "My sister is a football fan.",
+          "sentence_zh": "我姐姐是个足球迷。",
+          "memory": "想象看台上举着球衣欢呼的人，那就是 a fan。"
+        },
+        {
+          "word": "craft",
+          "ipa": "krɑːft",
+          "meaning": "手艺；工艺",
+          "phrase": "learn a craft",
+          "phrase_zh": "学一门手艺",
+          "sentence": "Making bowls from clay is a craft.",
+          "sentence_zh": "用黏土做碗是一门手艺。",
+          "memory": "想到双手把泥团慢慢变成碗，记住 craft 强调手艺。"
+        },
+        {
+          "word": "reuse",
+          "ipa": "ˌriːˈjuːz",
+          "meaning": "重新利用",
+          "phrase": "reuse a bottle",
+          "phrase_zh": "重复使用瓶子",
+          "sentence": "We reuse old jars to hold pencils.",
+          "sentence_zh": "我们用旧罐子装铅笔。",
+          "memory": "re- 是「再次」，use 是「使用」，合起来就是再利用。"
+        },
+        {
+          "word": "street cleaner",
+          "ipa": "ˈstriːt ˌkliːnə",
+          "meaning": "街道清洁工；环卫工人",
+          "phrase": "a street cleaner at work",
+          "phrase_zh": "一位正在工作的环卫工人",
+          "sentence": "The street cleaner keeps our road clean.",
+          "sentence_zh": "环卫工人把我们的路打扫得很干净。",
+          "memory": "street 是街道，cleaner 是打扫的人；合起来记职业。"
+        },
+        {
+          "word": "at work",
+          "ipa": "æt wɜːk",
+          "meaning": "在工作；忙着做事",
+          "phrase": "hard at work",
+          "phrase_zh": "正埋头工作",
+          "sentence": "Dad is hard at work in the garden.",
+          "sentence_zh": "爸爸正在花园里忙活。",
+          "memory": "看到有人忙碌时说 at work，像 at school 一样一起记。"
+        },
+        {
+          "word": "scissors",
+          "ipa": "ˈsɪzəz",
+          "meaning": "剪刀",
+          "phrase": "a pair of scissors",
+          "phrase_zh": "一把剪刀",
+          "sentence": "Can I use your scissors?",
+          "sentence_zh": "我可以用你的剪刀吗？",
+          "memory": "想象剪刀的两片刀刃，记住 scissors 结尾的 s 和 a pair of。"
+        },
+        {
+          "word": "themselves",
+          "ipa": "ðəmˈselvz",
+          "meaning": "他们／她们／它们自己",
+          "phrase": "by themselves",
+          "phrase_zh": "靠他们自己",
+          "sentence": "They made the cake by themselves.",
+          "sentence_zh": "他们自己做了这个蛋糕。",
+          "memory": "一个人用 -self，多个人用 -selves；把 them 和 selves 连读。"
+        },
+        {
+          "word": "paints",
+          "ipa": "peɪnts",
+          "meaning": "绘画颜料",
+          "phrase": "a box of paints",
+          "phrase_zh": "一盒颜料",
+          "sentence": "I packed my paints for art class.",
+          "sentence_zh": "我把上美术课要用的颜料装好了。",
+          "memory": "打开颜料盒，想象不同颜色的小格子，合称 paints。"
+        },
+        {
+          "word": "photographer",
+          "ipa": "fəˈtɒɡrəfə",
+          "meaning": "摄影师",
+          "phrase": "a wildlife photographer",
+          "phrase_zh": "一位野生动物摄影师",
+          "sentence": "The photographer took a picture of us.",
+          "sentence_zh": "摄影师给我们拍了一张照片。",
+          "memory": "photo 是照片，photographer 是拍照片的人；重读第二音节。"
+        },
+        {
+          "word": "fit",
+          "ipa": "fɪt",
+          "meaning": "健壮的；健康的",
+          "phrase": "keep fit",
+          "phrase_zh": "保持健康",
+          "sentence": "We swim twice a week to keep fit.",
+          "sentence_zh": "我们每周游两次泳来保持健康。",
+          "memory": "做个伸展动作，说 keep fit，把运动和健康连起来。"
+        },
+        {
+          "word": "gatekeeper",
+          "ipa": "ˈɡeɪtkiːpə",
+          "meaning": "门卫；看门人",
+          "phrase": "the school gatekeeper",
+          "phrase_zh": "学校的门卫",
+          "sentence": "The gatekeeper opened the school gate at seven.",
+          "sentence_zh": "门卫七点打开了校门。",
+          "memory": "gate（大门）加 keeper（看守者），合起来就是看门人。"
+        },
+        {
+          "word": "sign",
+          "ipa": "saɪn",
+          "meaning": "标志；标识",
+          "phrase": "a road sign",
+          "phrase_zh": "一个路标",
+          "sentence": "The sign shows us the way to the lake.",
+          "sentence_zh": "这个标志给我们指了去湖边的路。",
+          "memory": "画一个写着出口的指示牌；sign 的 g 不发音。"
+        },
+        {
+          "word": "right away",
+          "ipa": "raɪt əˈweɪ",
+          "meaning": "立刻；马上",
+          "phrase": "come right away",
+          "phrase_zh": "马上过来",
+          "sentence": "Please come home right away.",
+          "sentence_zh": "请马上回家。",
+          "memory": "听到呼唤就起身，说 I'll come right away，把动作和时间连起来。"
+        },
+        {
+          "word": "special",
+          "ipa": "ˈspeʃl",
+          "meaning": "特别的",
+          "phrase": "a special gift",
+          "phrase_zh": "一份特别的礼物",
+          "sentence": "Today is a special day for me.",
+          "sentence_zh": "今天对我来说很特别。",
+          "memory": "想一件只有你知道其来历的小物件，用 special 形容它。"
+        },
+        {
+          "word": "still",
+          "ipa": "stɪl",
+          "meaning": "仍然；还是",
+          "phrase": "still at school",
+          "phrase_zh": "还在学校",
+          "sentence": "The baby is still sleeping.",
+          "sentence_zh": "宝宝还在睡觉。",
+          "memory": "日落前后鸟都在唱，用 still 表示动作还在继续。"
+        },
+        {
+          "word": "National Stadium",
+          "ipa": "ˌnæʃənəl ˈsteɪdiəm",
+          "meaning": "国家体育场",
+          "phrase": "visit the National Stadium",
+          "phrase_zh": "参观国家体育场",
+          "sentence": "We took photos at the National Stadium.",
+          "sentence_zh": "我们在国家体育场拍了照。",
+          "memory": "national 是国家的；stadium 是有大片看台的体育场。"
+        },
+        {
+          "word": "carry",
+          "ipa": "ˈkæri",
+          "meaning": "背；提；拿",
+          "phrase": "carry a box",
+          "phrase_zh": "搬一个箱子",
+          "sentence": "Can you help me carry these books?",
+          "sentence_zh": "你能帮我拿这些书吗？",
+          "memory": "用背包、提袋、抱书三个动作记 carry，都要带着东西移动。"
+        },
+        {
+          "word": "swimsuit",
+          "ipa": "ˈswɪmsuːt",
+          "meaning": "游泳衣",
+          "phrase": "pack a swimsuit",
+          "phrase_zh": "把泳衣装进行李",
+          "sentence": "My new swimsuit is blue.",
+          "sentence_zh": "我的新泳衣是蓝色的。",
+          "memory": "swim（游泳）加 suit（服装），是游泳时穿的衣服。"
+        },
+        {
+          "word": "a piece of",
+          "ipa": "ə piːs əv",
+          "meaning": "一张；一片；一块",
+          "phrase": "a piece of paper",
+          "phrase_zh": "一张纸",
+          "sentence": "I wrote my wish on a piece of paper.",
+          "sentence_zh": "我把心愿写在一张纸上。",
+          "memory": "从一叠纸里抽出一张，再从面包上切下一片，都能用 a piece of。"
+        },
+        {
+          "word": "win",
+          "ipa": "wɪn",
+          "meaning": "赢；获胜",
+          "phrase": "win a race",
+          "phrase_zh": "赢得比赛",
+          "sentence": "We hope to win the race.",
+          "sentence_zh": "我们希望赢得比赛。",
+          "memory": "想象第一个冲过终点；赢了可以说 We won!，原形是 win。"
+        },
+        {
+          "word": "craftsman",
+          "ipa": "ˈkrɑːftsmən",
+          "meaning": "工匠；手艺人",
+          "phrase": "a skilled craftsman",
+          "phrase_zh": "一位技艺娴熟的工匠",
+          "sentence": "The craftsman made a toy from wood.",
+          "sentence_zh": "这位工匠用木头做了一个玩具。",
+          "memory": "圈出 craft（手艺）和 man（人），中间还有一个 s。"
+        },
+        {
+          "word": "middle",
+          "ipa": "ˈmɪdl",
+          "meaning": "中间；中部",
+          "phrase": "the middle seat",
+          "phrase_zh": "中间的座位",
+          "sentence": "I'll take the middle seat.",
+          "sentence_zh": "我坐中间的位子。",
+          "memory": "伸出三根手指，摸一摸正中间的那根，说 middle。"
+        },
+        {
+          "word": "path",
+          "ipa": "pɑːθ",
+          "meaning": "小路；小径",
+          "phrase": "a garden path",
+          "phrase_zh": "一条花园小径",
+          "sentence": "This path goes to the lake.",
+          "sentence_zh": "这条小路通向湖边。",
+          "memory": "用铅笔画一条弯曲的小路，沿线读 path。"
+        },
+        {
+          "word": "tool",
+          "ipa": "tuːl",
+          "meaning": "工具",
+          "phrase": "a useful tool",
+          "phrase_zh": "一件有用的工具",
+          "sentence": "A pencil is a useful tool for drawing.",
+          "sentence_zh": "铅笔是画画的好工具。",
+          "memory": "打开想象中的工具箱，给里面的每件工具贴上 tool。"
+        },
+        {
+          "word": "look out",
+          "ipa": "lʊk aʊt",
+          "meaning": "小心；当心",
+          "phrase": "look out for bikes",
+          "phrase_zh": "当心自行车",
+          "sentence": "Look out! A ball is coming your way.",
+          "sentence_zh": "当心！一个球正朝你飞过来。",
+          "memory": "想象球快飞过来时脱口而出的提醒：Look out!"
+        },
+        {
+          "word": "saw",
+          "ipa": "sɔː",
+          "meaning": "锯；锯子",
+          "phrase": "a small saw",
+          "phrase_zh": "一把小锯",
+          "sentence": "Dad put the saw in the box.",
+          "sentence_zh": "爸爸把锯子放进盒子里。",
+          "memory": "想到长着一排小齿的工具；这里 a saw 是一把锯子。"
+        },
+        {
+          "word": "on the way",
+          "ipa": "ɒn ðə weɪ",
+          "meaning": "在路上；在途中",
+          "phrase": "on the way home",
+          "phrase_zh": "在回家途中",
+          "sentence": "We saw a rainbow on the way home.",
+          "sentence_zh": "我们在回家的路上看到了彩虹。",
+          "memory": "把 way 想成一条路，想象自己正走在这条路上。"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-11",
+      "course": "快速单词记忆",
+      "theme": "材料与再利用",
+      "sources": {
+        "20260911-杨若宸-快速单词记忆/20260911-杨若宸-快速单词记忆-中文.pdf": "0f531618de0db135517a94869e35c4fe84d1d814f4560292d9343369703abc35",
+        "20260911-杨若宸-快速单词记忆/20260911-杨若宸-快速单词记忆-中英文.pdf": "d081c176465f4e433afeeebe86b1140a5edaaf714a16be0302818bb3cf27e711",
+        "20260911-杨若宸-快速单词记忆/20260911-杨若宸-快速单词记忆-英文.pdf": "a68082d673d4ca040aaec7802188285afe2af78b8c79f729d71e14f5e878b6ae",
+        "20260911-杨若宸-快速单词记忆/20260911-杨若宸-快速单词记忆-音标.pdf": "7cb76dd2d00dae50a43f2568865a550e81cee37120b2fb7fe104d010f9d75736"
+      },
+      "rows": [
+        {
+          "word": "can",
+          "ipa": "kæn",
+          "meaning": "金属罐",
+          "phrase": "an empty can",
+          "phrase_zh": "一个空金属罐",
+          "sentence": "We turned an empty can into a pen holder.",
+          "sentence_zh": "我们把一个空金属罐做成了笔筒。",
+          "memory": "敲敲金属饮料罐，想象「当当」的声音；这里 can 是物品。"
+        },
+        {
+          "word": "piece",
+          "ipa": "piːs",
+          "meaning": "碎片；小块",
+          "phrase": "a piece of glass",
+          "phrase_zh": "一块玻璃碎片",
+          "sentence": "I found a piece of glass.",
+          "sentence_zh": "我找到了一块玻璃碎片。",
+          "memory": "想象拼图中的一块，要发 /iː/ 长音，和 peace 同音。"
+        },
+        {
+          "word": "fairy tale",
+          "ipa": "ˈfeəri teɪl",
+          "meaning": "童话故事",
+          "phrase": "read a fairy tale",
+          "phrase_zh": "读一则童话",
+          "sentence": "Mum read us a fairy tale before bed.",
+          "sentence_zh": "睡觉前妈妈给我们读了一个童话故事。",
+          "memory": "fairy 是仙子，tale 是故事，合起来记「童话」。"
+        },
+        {
+          "word": "pen holder",
+          "ipa": "pen ˈhəʊldə",
+          "meaning": "笔筒",
+          "phrase": "make a pen holder",
+          "phrase_zh": "做一个笔筒",
+          "sentence": "I keep my pens in this pen holder.",
+          "sentence_zh": "我把笔放在这个笔筒里。",
+          "memory": "hold 是装、容纳；想象 holder 把几支笔都收好。"
+        },
+        {
+          "word": "envelope",
+          "ipa": "ˈenvələʊp",
+          "meaning": "信封",
+          "phrase": "seal an envelope",
+          "phrase_zh": "封好信封",
+          "sentence": "I put my letter inside a blue envelope.",
+          "sentence_zh": "我把信放进了一个蓝色信封。",
+          "memory": "把纸折好装进信封，边做边说 envelope，重读第一拍。"
+        },
+        {
+          "word": "plastic",
+          "ipa": "ˈplæstɪk",
+          "meaning": "塑料的；塑料制的",
+          "phrase": "a plastic bottle",
+          "phrase_zh": "一个塑料瓶",
+          "sentence": "We planted beans in a plastic bottle.",
+          "sentence_zh": "我们在一个塑料瓶里种了豆子。",
+          "memory": "把家中的木勺和塑料勺放一起，指着后者说 plastic。"
+        },
+        {
+          "word": "vase",
+          "ipa": "vɑːz",
+          "meaning": "花瓶",
+          "phrase": "a vase of flowers",
+          "phrase_zh": "一瓶花",
+          "sentence": "I put three yellow flowers in the vase.",
+          "sentence_zh": "我把三朵黄花插进花瓶里。",
+          "memory": "画细口花瓶再添花，注意英式 vase 的 a 是长音 /ɑː/。"
+        },
+        {
+          "word": "cloth",
+          "ipa": "klɒθ",
+          "meaning": "布；布料",
+          "phrase": "a piece of cloth",
+          "phrase_zh": "一块布",
+          "sentence": "We made a flag from a piece of cloth.",
+          "sentence_zh": "我们用一块布做了一面旗子。",
+          "memory": "摸一摸做衣服的布料；一块布叫 a piece of cloth。"
+        },
+        {
+          "word": "throw away",
+          "ipa": "θrəʊ əˈweɪ",
+          "meaning": "扔掉",
+          "phrase": "throw away old tickets",
+          "phrase_zh": "扔掉旧票",
+          "sentence": "Please don't throw away my box.",
+          "sentence_zh": "请别扔掉我的盒子。",
+          "memory": "throw 是扔，away 表示离开；伸手做往外扔的动作。"
+        },
+        {
+          "word": "rubbish bin",
+          "ipa": "ˈrʌbɪʃ bɪn",
+          "meaning": "垃圾桶",
+          "phrase": "an empty rubbish bin",
+          "phrase_zh": "一个空垃圾桶",
+          "sentence": "Put the paper in the rubbish bin.",
+          "sentence_zh": "把纸放进垃圾桶里。",
+          "memory": "rubbish 是垃圾，bin 是桶，想象把废纸投入桶中。"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-14",
+      "course": "快速单词记忆",
+      "theme": "手工与童话",
+      "sources": {
+        "20260914-杨若宸-快速单词记忆/20260914-杨若宸-快速单词记忆-中文.pdf": "05332afa3714f6ef39c673d657aef01b37acac64597f11ed07622f67dd70dac8",
+        "20260914-杨若宸-快速单词记忆/20260914-杨若宸-快速单词记忆-中英文.pdf": "58ab3f51e4d44cddfee29d139d2ea6b878ea4bd6b58be61ece374a59cff94827",
+        "20260914-杨若宸-快速单词记忆/20260914-杨若宸-快速单词记忆-英文.pdf": "534f700372679122e2e283844ba60ec1d1f6e88e2e42a6986f30af60ccf7ae14",
+        "20260914-杨若宸-快速单词记忆/20260914-杨若宸-快速单词记忆-音标.pdf": "4199e2fe21493068aa6cac2407720df6e55a3b98739f6e36f91f6c002322c2ee"
+      },
+      "rows": [
+        {
+          "word": "special",
+          "ipa": "ˈspeʃl",
+          "meaning": "特别的",
+          "phrase": "a special gift",
+          "phrase_zh": "一份特别的礼物",
+          "sentence": "Today is a special day for me.",
+          "sentence_zh": "今天对我来说很特别。",
+          "memory": "想一件只有你知道其来历的小物件，用 special 形容它。"
+        },
+        {
+          "word": "rubbish bin",
+          "ipa": "ˈrʌbɪʃ bɪn",
+          "meaning": "垃圾桶",
+          "phrase": "an empty rubbish bin",
+          "phrase_zh": "一个空垃圾桶",
+          "sentence": "Put the paper in the rubbish bin.",
+          "sentence_zh": "把纸放进垃圾桶里。",
+          "memory": "rubbish 是垃圾，bin 是桶，想象把废纸投入桶中。"
+        },
+        {
+          "word": "cloth",
+          "ipa": "klɒθ",
+          "meaning": "布；布料",
+          "phrase": "a piece of cloth",
+          "phrase_zh": "一块布",
+          "sentence": "We made a flag from a piece of cloth.",
+          "sentence_zh": "我们用一块布做了一面旗子。",
+          "memory": "摸一摸做衣服的布料；一块布叫 a piece of cloth。"
+        },
+        {
+          "word": "theatre",
+          "ipa": "ˈθɪətə",
+          "meaning": "剧院",
+          "phrase": "at the theatre",
+          "phrase_zh": "在剧院",
+          "sentence": "We watched a play at the theatre.",
+          "sentence_zh": "我们在剧院看了一场戏。",
+          "memory": "想象大幕拉开、演员登场；开头的 th 要轻轻露出舌尖。"
+        },
+        {
+          "word": "piece",
+          "ipa": "piːs",
+          "meaning": "碎片；小块",
+          "phrase": "a piece of glass",
+          "phrase_zh": "一块玻璃碎片",
+          "sentence": "I found a piece of glass.",
+          "sentence_zh": "我找到了一块玻璃碎片。",
+          "memory": "想象拼图中的一块，要发 /iː/ 长音，和 peace 同音。"
+        },
+        {
+          "word": "envelope",
+          "ipa": "ˈenvələʊp",
+          "meaning": "信封",
+          "phrase": "seal an envelope",
+          "phrase_zh": "封好信封",
+          "sentence": "I put my letter inside a blue envelope.",
+          "sentence_zh": "我把信放进了一个蓝色信封。",
+          "memory": "把纸折好装进信封，边做边说 envelope，重读第一拍。"
+        },
+        {
+          "word": "craft",
+          "ipa": "krɑːft",
+          "meaning": "手艺；工艺",
+          "phrase": "learn a craft",
+          "phrase_zh": "学一门手艺",
+          "sentence": "Making bowls from clay is a craft.",
+          "sentence_zh": "用黏土做碗是一门手艺。",
+          "memory": "想到双手把泥团慢慢变成碗，记住 craft 强调手艺。"
+        },
+        {
+          "word": "in a short time",
+          "ipa": "ɪn ə ʃɔːt taɪm",
+          "meaning": "很快；在短时间内",
+          "phrase": "learn it in a short time",
+          "phrase_zh": "在短时间内学会它",
+          "sentence": "We put up the tent in a short time.",
+          "sentence_zh": "我们很快搭好了帐篷。",
+          "memory": "在纸上画一小段时间线；short time 就是很短的一段时间。"
+        },
+        {
+          "word": "enjoy oneself",
+          "ipa": "ɪnˈdʒɔɪ wʌnˈself",
+          "meaning": "玩得愉快",
+          "phrase": "enjoy yourself at the party",
+          "phrase_zh": "在聚会上玩得开心",
+          "sentence": "We enjoyed ourselves at the school fair.",
+          "sentence_zh": "我们在校园集市上玩得很开心。",
+          "memory": "主语换，后面也换：I enjoy myself，we enjoy ourselves。"
+        },
+        {
+          "word": "fairy tale",
+          "ipa": "ˈfeəri teɪl",
+          "meaning": "童话故事",
+          "phrase": "read a fairy tale",
+          "phrase_zh": "读一则童话",
+          "sentence": "Mum read us a fairy tale before bed.",
+          "sentence_zh": "睡觉前妈妈给我们读了一个童话故事。",
+          "memory": "fairy 是仙子，tale 是故事，合起来记「童话」。"
+        },
+        {
+          "word": "fairy",
+          "ipa": "ˈfeəri",
+          "meaning": "仙子；小精灵",
+          "phrase": "a little fairy",
+          "phrase_zh": "一个小精灵",
+          "sentence": "The little fairy can fly.",
+          "sentence_zh": "这个小精灵会飞。",
+          "memory": "想象小精灵飞出童话书；fairy tale 里就有 fairy。"
+        },
+        {
+          "word": "broom",
+          "ipa": "bruːm",
+          "meaning": "扫帚",
+          "phrase": "a long broom",
+          "phrase_zh": "一把长扫帚",
+          "sentence": "I used a broom to sweep the leaves.",
+          "sentence_zh": "我用扫帚清扫树叶。",
+          "memory": "想象 broom 是工具，sweep 是挥动它的动作。"
+        },
+        {
+          "word": "vase",
+          "ipa": "vɑːz",
+          "meaning": "花瓶",
+          "phrase": "a vase of flowers",
+          "phrase_zh": "一瓶花",
+          "sentence": "I put three yellow flowers in the vase.",
+          "sentence_zh": "我把三朵黄花插进花瓶里。",
+          "memory": "画细口花瓶再添花，注意英式 vase 的 a 是长音 /ɑː/。"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-28",
+      "course": "快速单词记忆",
+      "theme": "故事与节日",
+      "sources": {
+        "20260928-杨若宸-快速单词记忆/20260928-杨若宸-快速单词记忆-中文.pdf": "aaac3af9e6a1aba509ecf612290a1e426d7227a9f93601210309092c1186ac11",
+        "20260928-杨若宸-快速单词记忆/20260928-杨若宸-快速单词记忆-中英文.pdf": "fb4d4222174f5fb0f7d164665f03bffa6c28b196519f5220f4a1484bdc1fc591",
+        "20260928-杨若宸-快速单词记忆/20260928-杨若宸-快速单词记忆-英文.pdf": "0ddac5e2a584ebebf1423782ede4a723929a9c485b35581cda3954fd01f10a0b",
+        "20260928-杨若宸-快速单词记忆/20260928-杨若宸-快速单词记忆-音标.pdf": "a73a140ab8ebc3ea4387b542b2b3c0d655a64be265222fa35376b87bf07c1034"
+      },
+      "rows": [
+        {
+          "word": "moment",
+          "ipa": "ˈməʊmənt",
+          "meaning": "时刻；片刻",
+          "phrase": "a special moment",
+          "phrase_zh": "一个特别的时刻",
+          "sentence": "Wait a moment, please.",
+          "sentence_zh": "请等一下。",
+          "memory": "想象按下相机快门，把一个特别的时刻留下。"
+        },
+        {
+          "word": "bullet",
+          "ipa": "ˈbʊlɪt",
+          "meaning": "子弹",
+          "phrase": "a bullet in a museum",
+          "phrase_zh": "博物馆里的一颗子弹",
+          "sentence": "The museum has an old bullet.",
+          "sentence_zh": "博物馆里有一颗旧子弹。",
+          "memory": "想象历史展柜里标着 bullet 的展品；第一个 u 读短音 /ʊ/。"
+        },
+        {
+          "word": "Western",
+          "ipa": "ˈwestən",
+          "meaning": "西方的",
+          "phrase": "Western music",
+          "phrase_zh": "西方音乐",
+          "sentence": "We listened to Western music in class.",
+          "sentence_zh": "我们在课上听了西方音乐。",
+          "memory": "west 是西方，Western 用来形容西方的事物。"
+        },
+        {
+          "word": "blow off",
+          "ipa": "bləʊ ɒf",
+          "meaning": "吹掉；吹落",
+          "phrase": "blow the leaves off a tree",
+          "phrase_zh": "把树叶从树上吹落",
+          "sentence": "The wind blew my hat off.",
+          "sentence_zh": "风把我的帽子吹掉了。",
+          "memory": "blow 是吹，off 是脱离；想象帽子离开头顶，过去式是 blew。"
+        },
+        {
+          "word": "pea",
+          "ipa": "piː",
+          "meaning": "豌豆",
+          "phrase": "a green pea",
+          "phrase_zh": "一颗青豌豆",
+          "sentence": "I found one last pea in the pod.",
+          "sentence_zh": "我在豆荚里找到了最后一颗豌豆。",
+          "memory": "想象一颗圆圆的绿豌豆，pea 和字母 P 同音。"
+        },
+        {
+          "word": "laugh at",
+          "ipa": "lɑːf æt",
+          "meaning": "嘲笑",
+          "phrase": "laugh at others",
+          "phrase_zh": "嘲笑别人",
+          "sentence": "Don't laugh at your friends.",
+          "sentence_zh": "别嘲笑你的朋友。",
+          "memory": "用 at 指出嘲笑的对象；把整句 Don't laugh at others 一起记。"
+        },
+        {
+          "word": "decorate",
+          "ipa": "ˈdekəreɪt",
+          "meaning": "装饰；布置",
+          "phrase": "decorate the classroom",
+          "phrase_zh": "装饰教室",
+          "sentence": "We decorated the classroom with paper stars.",
+          "sentence_zh": "我们用纸星星装饰了教室。",
+          "memory": "想象把星星贴上墙，边贴边说 decorate；with 后面接装饰物。"
+        },
+        {
+          "word": "scarf",
+          "ipa": "skɑːf",
+          "meaning": "围巾",
+          "phrase": "wear a scarf",
+          "phrase_zh": "围围巾",
+          "sentence": "Grandma made me a warm scarf.",
+          "sentence_zh": "奶奶给我织了一条暖和的围巾。",
+          "memory": "绕脖子比划围围巾的动作，读 scarf 时把 /ɑː/ 拉长。"
+        },
+        {
+          "word": "turkey",
+          "ipa": "ˈtɜːki",
+          "meaning": "火鸡",
+          "phrase": "a wild turkey",
+          "phrase_zh": "一只野火鸡",
+          "sentence": "A wild turkey walked across the field.",
+          "sentence_zh": "一只野火鸡走过田野。",
+          "memory": "想象一只尾巴像扇子的火鸡，把单词分两拍读。"
+        },
+        {
+          "word": "excited",
+          "ipa": "ɪkˈsaɪtɪd",
+          "meaning": "兴奋的；激动的",
+          "phrase": "excited about the show",
+          "phrase_zh": "对演出感到兴奋",
+          "sentence": "I'm excited about the school trip.",
+          "sentence_zh": "想到学校要组织出游，我很兴奋。",
+          "memory": "人觉得兴奋用 excited；让人兴奋的旅行可说 an exciting trip。"
+        },
+        {
+          "word": "forever",
+          "ipa": "fərˈevə",
+          "meaning": "永远",
+          "phrase": "stay friends forever",
+          "phrase_zh": "永远做朋友",
+          "sentence": "I want to keep this photo forever.",
+          "sentence_zh": "我想永远保存这张照片。",
+          "memory": "把 for 和 ever 合起来写，想象时间一直向前延伸。"
+        },
+        {
+          "word": "pod",
+          "ipa": "pɒd",
+          "meaning": "豆荚",
+          "phrase": "a pea pod",
+          "phrase_zh": "一个豌豆荚",
+          "sentence": "We counted six peas inside the pod.",
+          "sentence_zh": "我们数了数，豆荚里有六颗豌豆。",
+          "memory": "豌豆 pea 住在绿色小房子 pod 里，画一画就能记住两个词。"
+        },
+        {
+          "word": "bright",
+          "ipa": "braɪt",
+          "meaning": "明亮的；鲜艳的",
+          "phrase": "a bright light",
+          "phrase_zh": "明亮的光",
+          "sentence": "My room is bright in the morning.",
+          "sentence_zh": "早上我的房间很明亮。",
+          "memory": "想象窗帘拉开的一瞬间，阳光把房间照亮。"
+        },
+        {
+          "word": "take off",
+          "ipa": "teɪk ɒf",
+          "meaning": "脱掉",
+          "phrase": "take off your coat",
+          "phrase_zh": "脱掉你的外套",
+          "sentence": "Please take off your wet shoes at the door.",
+          "sentence_zh": "请在门口脱掉湿鞋。",
+          "memory": "用同一件外套做两个动作：put on 穿上，take off 脱下。"
+        },
+        {
+          "word": "bigger",
+          "ipa": "ˈbɪɡə",
+          "meaning": "更大的",
+          "phrase": "a bigger box",
+          "phrase_zh": "一个更大的盒子",
+          "sentence": "We need a bigger box for these books.",
+          "sentence_zh": "我们需要一个更大的盒子装这些书。",
+          "memory": "big 变比较级，先把 g 双写，再加 -er。"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-02",
+      "course": "快速单词记忆",
+      "theme": "日常动作与地点",
+      "sources": {
+        "20261002-杨若宸-快速单词记忆/20261002-杨若宸-快速单词记忆-中文.pdf": "8c0db0a1d31dd980d46258ea1d2d1fc2724224c038bee340f936e92e7b8bc1ef",
+        "20261002-杨若宸-快速单词记忆/20261002-杨若宸-快速单词记忆-中英文.pdf": "f61808101858b80910108d2af78940fc4f682c167167f5de2df8689f74577f0b",
+        "20261002-杨若宸-快速单词记忆/20261002-杨若宸-快速单词记忆-英文.pdf": "2504f45f24f10eb34b1fa09b69e502883fe7fbf09f1f0b2fb6fcffebd6c6d839",
+        "20261002-杨若宸-快速单词记忆/20261002-杨若宸-快速单词记忆-音标.pdf": "35787b2994ccacadaabd03a11c2e5ba6cd03d033ac441b0147542592455244cf"
+      },
+      "rows": [
+        {
+          "word": "visitor",
+          "ipa": "ˈvɪzɪtə",
+          "meaning": "来访者；参观者",
+          "phrase": "a visitor to our school",
+          "phrase_zh": "一位到校参观的人",
+          "sentence": "Each visitor got a map of the museum.",
+          "sentence_zh": "每位参观者都拿到了一张博物馆地图。",
+          "memory": "visit 是参观，加 -or 变成做这个动作的人。"
+        },
+        {
+          "word": "whose",
+          "ipa": "huːz",
+          "meaning": "谁的",
+          "phrase": "whose bag",
+          "phrase_zh": "谁的包",
+          "sentence": "Whose umbrella is this?",
+          "sentence_zh": "这是谁的伞？",
+          "memory": "拿起一件失物问 Whose is it?，把 whose 和物品主人连起来。"
+        },
+        {
+          "word": "hit",
+          "ipa": "hɪt",
+          "meaning": "碰撞；撞击",
+          "phrase": "hit the wall",
+          "phrase_zh": "撞到墙上",
+          "sentence": "The ball hit the wall.",
+          "sentence_zh": "球撞到了墙上。",
+          "memory": "双手轻轻一碰来记「撞击」；hit 的过去式也写 hit。"
+        },
+        {
+          "word": "finger",
+          "ipa": "ˈfɪŋɡə",
+          "meaning": "手指",
+          "phrase": "an index finger",
+          "phrase_zh": "一根食指",
+          "sentence": "I have a ring on my finger.",
+          "sentence_zh": "我手指上戴着一枚戒指。",
+          "memory": "把五根手指一个一个点过，单数 finger，复数 fingers。"
+        },
+        {
+          "word": "used",
+          "ipa": "juːst",
+          "meaning": "习惯的（用于 be used to）",
+          "phrase": "be used to getting up early",
+          "phrase_zh": "习惯早起",
+          "sentence": "I am used to getting up early.",
+          "sentence_zh": "我习惯早起。",
+          "memory": "把 be used to 当成一组；后接动作时用 -ing，这里 used 末尾读 /st/。"
+        },
+        {
+          "word": "roof",
+          "ipa": "ruːf",
+          "meaning": "屋顶",
+          "phrase": "the roof of a house",
+          "phrase_zh": "房子的屋顶",
+          "sentence": "We heard rain falling on the roof.",
+          "sentence_zh": "我们听见雨落在屋顶上的声音。",
+          "memory": "画一座小房子，在最上方写 roof。两个 o 一起读 /uː/。"
+        },
+        {
+          "word": "yard",
+          "ipa": "jɑːd",
+          "meaning": "院子",
+          "phrase": "in the yard",
+          "phrase_zh": "在院子里",
+          "sentence": "We grow tomatoes in our yard.",
+          "sentence_zh": "我们在院子里种番茄。",
+          "memory": "想象从家门走出去就到院子，在院门上贴上 yard。"
+        },
+        {
+          "word": "law",
+          "ipa": "lɔː",
+          "meaning": "法律",
+          "phrase": "follow the law",
+          "phrase_zh": "遵守法律",
+          "sentence": "The law protects wild animals here.",
+          "sentence_zh": "这里的法律保护野生动物。",
+          "memory": "想象一本写着 law 的法律书，合上书再拼一遍 l-a-w。"
+        },
+        {
+          "word": "forever",
+          "ipa": "fərˈevə",
+          "meaning": "永远",
+          "phrase": "stay friends forever",
+          "phrase_zh": "永远做朋友",
+          "sentence": "I want to keep this photo forever.",
+          "sentence_zh": "我想永远保存这张照片。",
+          "memory": "把 for 和 ever 合起来写，想象时间一直向前延伸。"
+        },
+        {
+          "word": "dig",
+          "ipa": "dɪɡ",
+          "meaning": "挖；掘",
+          "phrase": "dig a hole",
+          "phrase_zh": "挖一个洞",
+          "sentence": "Let's dig a hole for the young tree.",
+          "sentence_zh": "我们给小树挖个坑吧。",
+          "memory": "做一个铲土动作，读 dig；昨天挖过则用 dug。"
+        },
+        {
+          "word": "dive",
+          "ipa": "daɪv",
+          "meaning": "跳水；潜水",
+          "phrase": "dive into the pool",
+          "phrase_zh": "跳入泳池",
+          "sentence": "I can dive into the pool.",
+          "sentence_zh": "我能一头扎进泳池。",
+          "memory": "用一只手模拟入水，读 dive；和 five 一样含 /aɪ/。"
+        },
+        {
+          "word": "see the world",
+          "ipa": "siː ðə wɜːld",
+          "meaning": "见世面；周游世界",
+          "phrase": "travel to see the world",
+          "phrase_zh": "通过旅行见世面",
+          "sentence": "I want to see the world.",
+          "sentence_zh": "我想去看看世界。",
+          "memory": "用手指转动地球仪，想象每到一处都看到新事物。"
+        },
+        {
+          "word": "one by one",
+          "ipa": "wʌn baɪ wʌn",
+          "meaning": "一个接一个地",
+          "phrase": "come in one by one",
+          "phrase_zh": "一个接一个地进来",
+          "sentence": "The children came in one by one.",
+          "sentence_zh": "孩子们一个接一个地走了进来。",
+          "memory": "摆三支笔，一支一支地拿；每拿一支都念 one。"
+        },
+        {
+          "word": "only",
+          "ipa": "ˈəʊnli",
+          "meaning": "只有；仅仅",
+          "phrase": "only one seat",
+          "phrase_zh": "只有一个座位",
+          "sentence": "I have only two apples.",
+          "sentence_zh": "我只有两个苹果。",
+          "memory": "把 only 放在想强调的数量前，试着把 three 换成 one。"
+        },
+        {
+          "word": "look out of",
+          "ipa": "lʊk aʊt əv",
+          "meaning": "从……向外看",
+          "phrase": "look out of the window",
+          "phrase_zh": "向窗外看",
+          "sentence": "Look out of the window at the snow.",
+          "sentence_zh": "朝窗外看看雪吧。",
+          "memory": "从窗内往外看，of 后面接 window，把视线的路线想一遍。"
+        },
+        {
+          "word": "pet",
+          "ipa": "pet",
+          "meaning": "宠物",
+          "phrase": "a pet rabbit",
+          "phrase_zh": "一只宠物兔",
+          "sentence": "My pet rabbit loves carrot leaves.",
+          "sentence_zh": "我的宠物兔很爱吃胡萝卜叶。",
+          "memory": "想象你要照顾的小动物，在它的窝上写 my pet。"
+        },
+        {
+          "word": "hold",
+          "ipa": "həʊld",
+          "meaning": "举行；举办",
+          "phrase": "hold a meeting",
+          "phrase_zh": "开会",
+          "sentence": "We will hold a book fair on Friday.",
+          "sentence_zh": "我们星期五将举办书市。",
+          "memory": "把「举办什么」接在 hold 后：a meeting 或 a party。"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-09",
+      "course": "快速单词记忆",
+      "theme": "运动、衣物与状态",
+      "sources": {
+        "20261009-杨若宸-快速单词记忆/20261009-杨若宸-快速单词记忆-中文.pdf": "edf60cbfa402a30bc13946b79b9f3cbe1d2e944e90703630e268656dfeb05e6f",
+        "20261009-杨若宸-快速单词记忆/20261009-杨若宸-快速单词记忆-中英文.pdf": "ac2063555efd5276e70fa1a35f952d453375ef4009aefb402b8c932e6a182db7",
+        "20261009-杨若宸-快速单词记忆/20261009-杨若宸-快速单词记忆-英文.pdf": "7363a665a22abbe4f47ee730aab23ce08b973a5a381e7bb4b288496f3180acc1",
+        "20261009-杨若宸-快速单词记忆/20261009-杨若宸-快速单词记忆-音标.pdf": "8e7cd6f1f813e4076da5119fe5e37bdbb8b1f4813637353b2f6b606e3ff410ce"
+      },
+      "rows": [
+        {
+          "word": "slow",
+          "ipa": "sləʊ",
+          "meaning": "慢的；缓慢的",
+          "phrase": "a slow train",
+          "phrase_zh": "一列慢车",
+          "sentence": "We took a slow train through the hills.",
+          "sentence_zh": "我们坐着慢车穿过群山。",
+          "memory": "想象一只走得很慢的蜗牛，把 slow 慢慢读出来。"
+        },
+        {
+          "word": "rather",
+          "ipa": "ˈrɑːðə",
+          "meaning": "相当；颇",
+          "phrase": "rather cold",
+          "phrase_zh": "相当冷",
+          "sentence": "The water is rather cold this morning.",
+          "sentence_zh": "今天早上水相当凉。",
+          "memory": "先说 cold，再说 rather cold，体会程度加强了。"
+        },
+        {
+          "word": "boot",
+          "ipa": "buːt",
+          "meaning": "靴子",
+          "phrase": "a pair of boots",
+          "phrase_zh": "一双靴子",
+          "sentence": "I have mud on one boot.",
+          "sentence_zh": "我的一只靴子上沾了泥。",
+          "memory": "在左靴上想象一个 o，右靴上一个 o；boot 中的 oo 发长音。"
+        },
+        {
+          "word": "hit",
+          "ipa": "hɪt",
+          "meaning": "击打",
+          "phrase": "hit the ball",
+          "phrase_zh": "击球",
+          "sentence": "I hit the ball with my bat.",
+          "sentence_zh": "我用球棒击中了球。",
+          "memory": "边做挥棒的动作边读 hit。过去式与原形拼写相同。"
+        },
+        {
+          "word": "sale",
+          "ipa": "seɪl",
+          "meaning": "出售；销售",
+          "phrase": "for sale",
+          "phrase_zh": "待售",
+          "sentence": "These cakes are for sale.",
+          "sentence_zh": "这些蛋糕正在出售。",
+          "memory": "sell 是卖的动作，sale 是名词；把 for sale 写在小摊的牌子上。"
+        },
+        {
+          "word": "calm",
+          "ipa": "kɑːm",
+          "meaning": "镇静的；平静的",
+          "phrase": "stay calm",
+          "phrase_zh": "保持镇静",
+          "sentence": "I try to stay calm before a race.",
+          "sentence_zh": "比赛前我努力保持镇静。",
+          "memory": "深呼吸一次再读 calm，字母 l 不发音。"
+        },
+        {
+          "word": "jeans",
+          "ipa": "dʒiːnz",
+          "meaning": "牛仔裤",
+          "phrase": "a pair of jeans",
+          "phrase_zh": "一条牛仔裤",
+          "sentence": "My jeans have two big pockets.",
+          "sentence_zh": "我的牛仔裤有两个大口袋。",
+          "memory": "想象牛仔裤的两条裤腿，用 a pair of 数一条牛仔裤。"
+        },
+        {
+          "word": "wet",
+          "ipa": "wet",
+          "meaning": "湿的",
+          "phrase": "wet socks",
+          "phrase_zh": "湿袜子",
+          "sentence": "My socks got wet in the rain.",
+          "sentence_zh": "我的袜子被雨淋湿了。",
+          "memory": "摸摸想象中的湿毛巾，再和 dry（干的）成对记。"
+        },
+        {
+          "word": "rush",
+          "ipa": "rʌʃ",
+          "meaning": "冲；奔",
+          "phrase": "rush to the door",
+          "phrase_zh": "冲向门口",
+          "sentence": "The kids rush out to play.",
+          "sentence_zh": "孩子们冲出去玩。",
+          "memory": "想象一听到「下雪啦」就冲出门，用 rush 表现速度。"
+        },
+        {
+          "word": "wealth",
+          "ipa": "welθ",
+          "meaning": "财富",
+          "phrase": "great wealth",
+          "phrase_zh": "巨大的财富",
+          "sentence": "The king had great wealth.",
+          "sentence_zh": "国王拥有大量财富。",
+          "memory": "wealth 和 health 只差开头一个字母，分别记「财富」「健康」。"
+        },
+        {
+          "word": "baseball",
+          "ipa": "ˈbeɪsbɔːl",
+          "meaning": "棒球",
+          "phrase": "play baseball",
+          "phrase_zh": "打棒球",
+          "sentence": "We play baseball on the field after school.",
+          "sentence_zh": "我们放学后在球场打棒球。",
+          "memory": "base 是垒，ball 是球；想象击球后跑向一垒。"
+        },
+        {
+          "word": "for",
+          "ipa": "fɔː",
+          "meaning": "为；给",
+          "phrase": "a gift for Mum",
+          "phrase_zh": "给妈妈的礼物",
+          "sentence": "I made this card for my teacher.",
+          "sentence_zh": "我为老师做了这张卡片。",
+          "memory": "礼物标签上写 For Mum；for 后面是收礼物的人。"
+        },
+        {
+          "word": "step",
+          "ipa": "step",
+          "meaning": "脚步；一步",
+          "phrase": "take a step",
+          "phrase_zh": "迈一步",
+          "sentence": "Take one step back, please.",
+          "sentence_zh": "请后退一步。",
+          "memory": "每走一步就数 one step、two steps，把动作和单词连起来。"
+        },
+        {
+          "word": "shy",
+          "ipa": "ʃaɪ",
+          "meaning": "害羞的",
+          "phrase": "feel shy",
+          "phrase_zh": "觉得害羞",
+          "sentence": "I felt shy on my first day at school.",
+          "sentence_zh": "开学第一天我觉得很害羞。",
+          "memory": "想象第一次站在大家面前有点脸红，shy 和 my 押韵。"
+        },
+        {
+          "word": "healthy",
+          "ipa": "ˈhelθi",
+          "meaning": "健康的",
+          "phrase": "a healthy breakfast",
+          "phrase_zh": "一顿健康的早餐",
+          "sentence": "Apples are a healthy snack.",
+          "sentence_zh": "苹果是健康的零食。",
+          "memory": "health 是健康，在后面加 -y，就可以形容人或食物。"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-14",
+      "course": "快速单词记忆",
+      "theme": "动作与生活词汇",
+      "sources": {
+        "20261014-杨若宸-快速单词记忆/20261014-杨若宸-快速单词记忆-中文.pdf": "bf372d57a35862936eb4f7efec19aac16afa2e57a270adf790cafbae378ea1f1",
+        "20261014-杨若宸-快速单词记忆/20261014-杨若宸-快速单词记忆-中英文.pdf": "4f142658f795ac76cb3b78e0a0e74db647a6ca317db71f0dbcb48f406ceb92ab",
+        "20261014-杨若宸-快速单词记忆/20261014-杨若宸-快速单词记忆-英文.pdf": "542932df4067d0d9293cba3cf4d5d71806b2ee069d294d82957d1600fefb1ce5",
+        "20261014-杨若宸-快速单词记忆/20261014-杨若宸-快速单词记忆-音标.pdf": "c38e90df7eb1a166ddef0c20a2454b81530071623022d421255d70511d551e71"
+      },
+      "rows": [
+        {
+          "word": "plant",
+          "ipa": "plɑːnt",
+          "meaning": "种植",
+          "phrase": "plant a tree",
+          "phrase_zh": "种树",
+          "sentence": "We plant beans in small pots each spring.",
+          "sentence_zh": "每年春天我们都在小花盆里种豆子。",
+          "memory": "想象把种子放进土里的动作；说「种什么」就放在 plant 后。"
+        },
+        {
+          "word": "engineer",
+          "ipa": "ˌendʒɪˈnɪə",
+          "meaning": "工程师",
+          "phrase": "a bridge engineer",
+          "phrase_zh": "一名桥梁工程师",
+          "sentence": "My aunt is an engineer.",
+          "sentence_zh": "我姑姑是一名工程师。",
+          "memory": "记住构词中眼熟的 engine（发动机）；engineer 重读最后一拍。"
+        },
+        {
+          "word": "wide",
+          "ipa": "waɪd",
+          "meaning": "宽阔的；宽的",
+          "phrase": "a wide river",
+          "phrase_zh": "一条宽阔的河",
+          "sentence": "This river is very wide.",
+          "sentence_zh": "这条河很宽。",
+          "memory": "把两只手臂张开表示宽度，一边比划一边读 wide。"
+        },
+        {
+          "word": "jeans",
+          "ipa": "dʒiːnz",
+          "meaning": "牛仔裤",
+          "phrase": "a pair of jeans",
+          "phrase_zh": "一条牛仔裤",
+          "sentence": "My jeans have two big pockets.",
+          "sentence_zh": "我的牛仔裤有两个大口袋。",
+          "memory": "想象牛仔裤的两条裤腿，用 a pair of 数一条牛仔裤。"
+        },
+        {
+          "word": "are",
+          "ipa": "ɑː",
+          "meaning": "是（be 的一种形式）",
+          "phrase": "we are ready",
+          "phrase_zh": "我们准备好了",
+          "sentence": "You are my best friend.",
+          "sentence_zh": "你是我最好的朋友。",
+          "memory": "按 I am、you are、we are、they are 练习主语和 be 的搭配。"
+        },
+        {
+          "word": "join",
+          "ipa": "dʒɔɪn",
+          "meaning": "参加；加入",
+          "phrase": "join a club",
+          "phrase_zh": "加入社团",
+          "sentence": "I want to join the school chess club.",
+          "sentence_zh": "我想加入学校的国际象棋社团。",
+          "memory": "想象走进一圈朋友中间，成为其中一员就是 join。"
+        },
+        {
+          "word": "fix",
+          "ipa": "fɪks",
+          "meaning": "修理",
+          "phrase": "fix a bike",
+          "phrase_zh": "修自行车",
+          "sentence": "Can you help me fix this toy car?",
+          "sentence_zh": "你能帮我修一下这辆玩具车吗？",
+          "memory": "想象修理玩具时拿起小工具，fix 和 six 一样以 /ɪks/ 结尾。"
+        },
+        {
+          "word": "greeting",
+          "ipa": "ˈɡriːtɪŋ",
+          "meaning": "问候；招呼",
+          "phrase": "a friendly greeting",
+          "phrase_zh": "一声友好的问候",
+          "sentence": "“Good morning” is a friendly greeting.",
+          "sentence_zh": "“早上好”是一句友好的问候。",
+          "memory": "greet 是打招呼的动作，greeting 是那声问候。"
+        },
+        {
+          "word": "push",
+          "ipa": "pʊʃ",
+          "meaning": "推",
+          "phrase": "push a cart",
+          "phrase_zh": "推一辆手推车",
+          "sentence": "Please help me push this cart.",
+          "sentence_zh": "请帮我推一下这辆手推车。",
+          "memory": "伸手把想象中的小车向前推，同时读 push。"
+        },
+        {
+          "word": "peach",
+          "ipa": "piːtʃ",
+          "meaning": "桃；桃子",
+          "phrase": "a ripe peach",
+          "phrase_zh": "一个熟桃子",
+          "sentence": "I shared a sweet peach with my brother.",
+          "sentence_zh": "我和弟弟分吃了一个甜桃子。",
+          "memory": "peach 和 beach 只换首字母；想象在沙滩上吃桃子。"
+        },
+        {
+          "word": "law",
+          "ipa": "lɔː",
+          "meaning": "法律",
+          "phrase": "follow the law",
+          "phrase_zh": "遵守法律",
+          "sentence": "The law protects wild animals here.",
+          "sentence_zh": "这里的法律保护野生动物。",
+          "memory": "想象一本写着 law 的法律书，合上书再拼一遍 l-a-w。"
+        },
+        {
+          "word": "twin",
+          "ipa": "twɪn",
+          "meaning": "双胞胎之一",
+          "phrase": "my twin sister",
+          "phrase_zh": "我的双胞胎姐妹",
+          "sentence": "My twin brother and I share a birthday.",
+          "sentence_zh": "我和我的双胞胎兄弟生日在同一天。",
+          "memory": "想象两个生日相同的孩子，指一个说 a twin，指两个说 twins。"
+        },
+        {
+          "word": "raincoat",
+          "ipa": "ˈreɪnkəʊt",
+          "meaning": "雨衣",
+          "phrase": "wear a raincoat",
+          "phrase_zh": "穿雨衣",
+          "sentence": "I wear my raincoat on rainy days.",
+          "sentence_zh": "下雨天我穿雨衣。",
+          "memory": "rain 是雨，coat 是外套，合起来就是下雨时穿的外套。"
+        },
+        {
+          "word": "think",
+          "ipa": "θɪŋk",
+          "meaning": "想；思考",
+          "phrase": "think about a question",
+          "phrase_zh": "思考一个问题",
+          "sentence": "Let me think about your question.",
+          "sentence_zh": "让我想想你的问题。",
+          "memory": "手指轻点太阳穴，慢慢说 think；想什么用 think about。"
+        },
+        {
+          "word": "rather",
+          "ipa": "ˈrɑːðə",
+          "meaning": "相当；颇",
+          "phrase": "rather cold",
+          "phrase_zh": "相当冷",
+          "sentence": "The water is rather cold this morning.",
+          "sentence_zh": "今天早上水相当凉。",
+          "memory": "先说 cold，再说 rather cold，体会程度加强了。"
+        },
+        {
+          "word": "clock",
+          "ipa": "klɒk",
+          "meaning": "钟",
+          "phrase": "a wall clock",
+          "phrase_zh": "一面挂钟",
+          "sentence": "The clock says it's six.",
+          "sentence_zh": "钟上显示现在是六点。",
+          "memory": "手腕上戴 watch，墙上挂 clock；想象教室墙上的钟面。"
+        },
+        {
+          "word": "step",
+          "ipa": "step",
+          "meaning": "脚步；一步",
+          "phrase": "take a step",
+          "phrase_zh": "迈一步",
+          "sentence": "Take one step back, please.",
+          "sentence_zh": "请后退一步。",
+          "memory": "每走一步就数 one step、two steps，把动作和单词连起来。"
+        },
+        {
+          "word": "wealth",
+          "ipa": "welθ",
+          "meaning": "财富",
+          "phrase": "great wealth",
+          "phrase_zh": "巨大的财富",
+          "sentence": "The king had great wealth.",
+          "sentence_zh": "国王拥有大量财富。",
+          "memory": "wealth 和 health 只差开头一个字母，分别记「财富」「健康」。"
+        },
+        {
+          "word": "then",
+          "ipa": "ðen",
+          "meaning": "然后",
+          "phrase": "and then",
+          "phrase_zh": "接着；然后",
+          "sentence": "We washed the fruit and then made a salad.",
+          "sentence_zh": "我们洗了水果，然后做了沙拉。",
+          "memory": "在两个动作之间画箭头，在箭头上写 then 表示先后。"
+        },
+        {
+          "word": "deer",
+          "ipa": "dɪə",
+          "meaning": "鹿",
+          "phrase": "a young deer",
+          "phrase_zh": "一只小鹿",
+          "sentence": "We saw three deer near the trees.",
+          "sentence_zh": "我们在树旁看见三只鹿。",
+          "memory": "数一数：one deer、two deer，数量变了，拼写一样。"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-14",
+      "course": "阅读理解",
+      "theme": "阅读理解 · Brian’s School",
+      "sources": {
+        "20261014-杨若宸-阅读理解/20261014-杨若宸-阅读理解-中文.pdf": "0c04f83fc89919c5b1aa6ddbf0cbcbfd24ca474c57fd615ece0b3cb9d21ea819",
+        "20261014-杨若宸-阅读理解/20261014-杨若宸-阅读理解-中英文.pdf": "ce062a31e5d7b6036afd2a223690cc958a072325e5116854c3e363a3b2381f75",
+        "20261014-杨若宸-阅读理解/20261014-杨若宸-阅读理解-英文.pdf": "9597550b6d9f4cab2fcccbe6327bc6c97f28913781a9cb36fcd67af8f24ed296",
+        "20261014-杨若宸-阅读理解/20261014-杨若宸-阅读理解-音标.pdf": "54d0dd92de2cd2e416072f6cc6b2f032bdde02145fc4570c1945eef76a564d3b"
+      },
+      "rows": [
+        {
+          "word": "uniforms",
+          "ipa": "ˈjuːnɪfɔːmz",
+          "meaning": "校服（复数）",
+          "phrase": "wear school uniforms",
+          "phrase_zh": "穿校服",
+          "sentence": "Our school uniforms have blue pockets.",
+          "sentence_zh": "我们的校服有蓝色口袋。",
+          "memory": "想象一排同学穿着校服；uniform 加 s，词尾读 /mz/。"
+        },
+        {
+          "word": "minute",
+          "ipa": "ˈmɪnɪt",
+          "meaning": "分钟",
+          "phrase": "in one minute",
+          "phrase_zh": "一分钟内",
+          "sentence": "I can draw a cat in one minute.",
+          "sentence_zh": "我能在一分钟内画一只猫。",
+          "memory": "看秒针转一圈就是 one minute，表示分钟时分两拍读，两拍的元音都是 /ɪ/。"
+        },
+        {
+          "word": "clothes",
+          "ipa": "kləʊðz",
+          "meaning": "衣服；衣物",
+          "phrase": "my own clothes",
+          "phrase_zh": "我自己的衣服",
+          "sentence": "We can wear our own clothes on Friday.",
+          "sentence_zh": "星期五我们可以穿自己的衣服。",
+          "memory": "衣柜里的各种衣服合称 clothes，记成一组 these clothes。"
+        },
+        {
+          "word": "French",
+          "ipa": "frentʃ",
+          "meaning": "法语",
+          "phrase": "speak French",
+          "phrase_zh": "说法语",
+          "sentence": "Our new friend speaks French at home.",
+          "sentence_zh": "我们的新朋友在家说法语。",
+          "memory": "France 是法国，French 是法语；语言名称首字母大写。"
+        },
+        {
+          "word": "Cathays",
+          "ipa": "kəˈteɪz",
+          "meaning": "卡塔伊斯（卡迪夫的地名）",
+          "phrase": "Cathays High School",
+          "phrase_zh": "卡塔伊斯高中",
+          "sentence": "Brian goes to Cathays High School.",
+          "sentence_zh": "布莱恩在卡塔伊斯高中上学。",
+          "memory": "把 Cathays 和课文里的校名一起读；地名重音在第二拍。",
+          "reference": {
+            "label": "专名发音参考：Cathays",
+            "url": "https://tlang.org.uk/wp-content/uploads/2018/08/changing-landscapes-cardiff.pdf"
+          }
+        },
+        {
+          "word": "Cardiff",
+          "ipa": "ˈkɑːdɪf",
+          "meaning": "卡迪夫（威尔士首府）",
+          "phrase": "in Cardiff",
+          "phrase_zh": "在卡迪夫",
+          "sentence": "Brian's school is in Cardiff.",
+          "sentence_zh": "布莱恩的学校在卡迪夫。",
+          "memory": "在地图卡上写 Wales，再标出 Cardiff，把地区和城市配对。"
+        },
+        {
+          "word": "uniform",
+          "ipa": "ˈjuːnɪfɔːm",
+          "meaning": "校服；制服",
+          "phrase": "a school uniform",
+          "phrase_zh": "一套校服",
+          "sentence": "I hang my school uniform by the door.",
+          "sentence_zh": "我把校服挂在门边。",
+          "memory": "想象全班穿相同的衣服。开头读 /j/，所以说 a uniform。"
+        },
+        {
+          "word": "wear",
+          "ipa": "weə",
+          "meaning": "穿；戴",
+          "phrase": "wear a coat",
+          "phrase_zh": "穿着外套",
+          "sentence": "I wear my blue coat on cold days.",
+          "sentence_zh": "天冷的时候我穿蓝色外套。",
+          "memory": "看看身上穿着什么，接在 I wear ... 后面说出来。"
+        },
+        {
+          "word": "own",
+          "ipa": "əʊn",
+          "meaning": "自己的",
+          "phrase": "my own room",
+          "phrase_zh": "我自己的房间",
+          "sentence": "I keep my own room tidy.",
+          "sentence_zh": "我把自己的房间收拾得很整洁。",
+          "memory": "把 my book 说成 my own book，强调「我自己的」。"
+        },
+        {
+          "word": "lesson",
+          "ipa": "ˈlesən",
+          "meaning": "课；课程",
+          "phrase": "a music lesson",
+          "phrase_zh": "一节音乐课",
+          "sentence": "Our music lesson starts after lunch.",
+          "sentence_zh": "我们的音乐课在午餐后开始。",
+          "memory": "在课表的一格画一个音符，写下 a music lesson。"
+        },
+        {
+          "word": "start",
+          "ipa": "stɑːt",
+          "meaning": "开始",
+          "phrase": "start at nine",
+          "phrase_zh": "九点开始",
+          "sentence": "Our lessons start at nine on Monday.",
+          "sentence_zh": "星期一我们九点开始上课。",
+          "memory": "想象发令员喊 Start!；讲开始时间时用 start at 加钟点。"
+        },
+        {
+          "word": "finish",
+          "ipa": "ˈfɪnɪʃ",
+          "meaning": "结束；完成",
+          "phrase": "finish my homework",
+          "phrase_zh": "完成我的作业",
+          "sentence": "I finish my homework before dinner.",
+          "sentence_zh": "我晚饭前做完作业。",
+          "memory": "在最后一道题后面画个勾，读 finish，记住「完成」。"
+        },
+        {
+          "word": "subject",
+          "ipa": "ˈsʌbdʒɪkt",
+          "meaning": "学科；科目",
+          "phrase": "my favourite subject",
+          "phrase_zh": "我最喜欢的学科",
+          "sentence": "Science is my favourite subject.",
+          "sentence_zh": "科学是我最喜欢的学科。",
+          "memory": "指着课表上的语文、数学和科学说：每一门都是 a subject。"
+        },
+        {
+          "word": "science",
+          "ipa": "ˈsaɪəns",
+          "meaning": "科学",
+          "phrase": "a science lesson",
+          "phrase_zh": "一节科学课",
+          "sentence": "We studied the moon in science today.",
+          "sentence_zh": "今天的科学课上我们学习了月球的知识。",
+          "memory": "想到实验和观察，先读 /saɪ/ 再读 /əns/。"
+        },
+        {
+          "word": "IT",
+          "ipa": "ˌaɪ ˈtiː",
+          "meaning": "信息技术",
+          "phrase": "an IT lesson",
+          "phrase_zh": "一节信息技术课",
+          "sentence": "We use computers in IT class.",
+          "sentence_zh": "我们在信息技术课上用电脑。",
+          "memory": "information technology 各取首字母；I 和 T 分开读。"
+        },
+        {
+          "word": "art",
+          "ipa": "ɑːt",
+          "meaning": "艺术；美术",
+          "phrase": "art class",
+          "phrase_zh": "美术课",
+          "sentence": "We painted trees in art class.",
+          "sentence_zh": "我们在美术课上画了树。",
+          "memory": "把 art 写在画本封面上，打开时想起「美术」。"
+        },
+        {
+          "word": "in the heart of",
+          "ipa": "ɪn ðə hɑːt əv",
+          "meaning": "在……的中心",
+          "phrase": "in the heart of the city",
+          "phrase_zh": "在市中心",
+          "sentence": "The museum is in the heart of our town.",
+          "sentence_zh": "博物馆在我们镇的中心。",
+          "memory": "想象在城镇地图的正中央画一颗心，heart 就是中心。"
+        },
+        {
+          "word": "must wear",
+          "ipa": "mʌst weə",
+          "meaning": "必须穿；必须戴",
+          "phrase": "must wear a helmet",
+          "phrase_zh": "必须戴头盔",
+          "sentence": "We must wear a cap in this pool.",
+          "sentence_zh": "我们在这个泳池里必须戴泳帽。",
+          "memory": "把 must 想成明确的规定；后面的 wear 用原形。"
+        },
+        {
+          "word": "may wear",
+          "ipa": "meɪ weə",
+          "meaning": "可以穿；可以戴",
+          "phrase": "may wear their own clothes",
+          "phrase_zh": "可以穿他们自己的衣服",
+          "sentence": "You may wear a hat today.",
+          "sentence_zh": "你今天可以戴帽子。",
+          "memory": "may 表示允许。想象老师点头同意，再说 may wear。"
+        },
+        {
+          "word": "start at ... and finish at ...",
+          "ipa": "stɑːt æt … ənd ˈfɪnɪʃ æt …",
+          "meaning": "在……开始，在……结束",
+          "phrase": "start at nine and finish at ten",
+          "phrase_zh": "九点开始，十点结束",
+          "sentence": "Our lessons start at nine and finish at three.",
+          "sentence_zh": "我们九点开始上课，三点结束。",
+          "memory": "画两只钟，一只写 start，另一只写 finish；两个钟点前都用 at。"
+        },
+        {
+          "word": "and so on",
+          "ipa": "ənd səʊ ɒn",
+          "meaning": "等等",
+          "phrase": "books, pens and so on",
+          "phrase_zh": "书、笔等等",
+          "sentence": "We draw cats, dogs, birds and so on.",
+          "sentence_zh": "我们画猫、狗、鸟等等。",
+          "memory": "列出几样同类物品后，用 and so on 表示还可以继续列举。"
+        }
+      ],
+      "note": "阅读理解 · 收录词表、课文重点单词与五个重点短语。"
+    },
+    {
+      "date": "2026-10-19",
+      "course": "快速单词记忆",
+      "theme": "生活词汇复习",
+      "sources": {
+        "20261019-杨若宸-快速单词记忆/20261019-杨若宸-快速单词记忆-中文.pdf": "8fbec40e8e11afacfd65a720e752b524ff9d14e764dd91fe49a46967cbcc3229",
+        "20261019-杨若宸-快速单词记忆/20261019-杨若宸-快速单词记忆-中英文.pdf": "de8629898bab8ca7d7fedb1dc6f649d69f18f3f769e3d7e61d11640ab930abf4",
+        "20261019-杨若宸-快速单词记忆/20261019-杨若宸-快速单词记忆-英文.pdf": "47864d409a0a94c601912278eea47b0db8bf22e88da6b8ea561713e7208972bd",
+        "20261019-杨若宸-快速单词记忆/20261019-杨若宸-快速单词记忆-音标.pdf": "4e93b512bbfedf2a0b502df3d52268eef71840b13017c5d9b354cd2286106004"
+      },
+      "rows": [
+        {
+          "word": "sale",
+          "ipa": "seɪl",
+          "meaning": "出售；销售",
+          "phrase": "for sale",
+          "phrase_zh": "待售",
+          "sentence": "These cakes are for sale.",
+          "sentence_zh": "这些蛋糕正在出售。",
+          "memory": "sell 是卖的动作，sale 是名词；把 for sale 写在小摊的牌子上。"
+        },
+        {
+          "word": "pet",
+          "ipa": "pet",
+          "meaning": "宠物",
+          "phrase": "a pet rabbit",
+          "phrase_zh": "一只宠物兔",
+          "sentence": "My pet rabbit loves carrot leaves.",
+          "sentence_zh": "我的宠物兔很爱吃胡萝卜叶。",
+          "memory": "想象你要照顾的小动物，在它的窝上写 my pet。"
+        },
+        {
+          "word": "dig",
+          "ipa": "dɪɡ",
+          "meaning": "挖；掘",
+          "phrase": "dig a hole",
+          "phrase_zh": "挖一个洞",
+          "sentence": "Let's dig a hole for the young tree.",
+          "sentence_zh": "我们给小树挖个坑吧。",
+          "memory": "做一个铲土动作，读 dig；昨天挖过则用 dug。"
+        },
+        {
+          "word": "rush",
+          "ipa": "rʌʃ",
+          "meaning": "冲；奔",
+          "phrase": "rush to the door",
+          "phrase_zh": "冲向门口",
+          "sentence": "The kids rush out to play.",
+          "sentence_zh": "孩子们冲出去玩。",
+          "memory": "想象一听到「下雪啦」就冲出门，用 rush 表现速度。"
+        },
+        {
+          "word": "offer",
+          "ipa": "ˈɒfə",
+          "meaning": "提供；主动给予",
+          "phrase": "offer help",
+          "phrase_zh": "主动提供帮助",
+          "sentence": "I offered my seat to an old man.",
+          "sentence_zh": "我主动把座位让给了一位老人。",
+          "memory": "想象把座位让给别人；用 offer A to B 说清给谁什么。"
+        },
+        {
+          "word": "calm",
+          "ipa": "kɑːm",
+          "meaning": "镇静的；平静的",
+          "phrase": "stay calm",
+          "phrase_zh": "保持镇静",
+          "sentence": "I try to stay calm before a race.",
+          "sentence_zh": "比赛前我努力保持镇静。",
+          "memory": "深呼吸一次再读 calm，字母 l 不发音。"
+        },
+        {
+          "word": "wet",
+          "ipa": "wet",
+          "meaning": "湿的",
+          "phrase": "wet socks",
+          "phrase_zh": "湿袜子",
+          "sentence": "My socks got wet in the rain.",
+          "sentence_zh": "我的袜子被雨淋湿了。",
+          "memory": "摸摸想象中的湿毛巾，再和 dry（干的）成对记。"
+        },
+        {
+          "word": "jeans",
+          "ipa": "dʒiːnz",
+          "meaning": "牛仔裤",
+          "phrase": "a pair of jeans",
+          "phrase_zh": "一条牛仔裤",
+          "sentence": "My jeans have two big pockets.",
+          "sentence_zh": "我的牛仔裤有两个大口袋。",
+          "memory": "想象牛仔裤的两条裤腿，用 a pair of 数一条牛仔裤。"
+        },
+        {
+          "word": "beef",
+          "ipa": "biːf",
+          "meaning": "牛肉",
+          "phrase": "beef noodles",
+          "phrase_zh": "牛肉面",
+          "sentence": "Dad cooked beef noodles for lunch.",
+          "sentence_zh": "爸爸午饭做了牛肉面。",
+          "memory": "把菜单上的 beef noodles 拆成牛肉 beef 和面条 noodles。"
+        },
+        {
+          "word": "shy",
+          "ipa": "ʃaɪ",
+          "meaning": "害羞的",
+          "phrase": "feel shy",
+          "phrase_zh": "觉得害羞",
+          "sentence": "I felt shy on my first day at school.",
+          "sentence_zh": "开学第一天我觉得很害羞。",
+          "memory": "想象第一次站在大家面前有点脸红，shy 和 my 押韵。"
+        },
+        {
+          "word": "greeting",
+          "ipa": "ˈɡriːtɪŋ",
+          "meaning": "问候；招呼",
+          "phrase": "a friendly greeting",
+          "phrase_zh": "一声友好的问候",
+          "sentence": "“Good morning” is a friendly greeting.",
+          "sentence_zh": "“早上好”是一句友好的问候。",
+          "memory": "greet 是打招呼的动作，greeting 是那声问候。"
+        },
+        {
+          "word": "stay",
+          "ipa": "steɪ",
+          "meaning": "停留；待在",
+          "phrase": "stay at home",
+          "phrase_zh": "待在家里",
+          "sentence": "We stayed at home when it rained.",
+          "sentence_zh": "下雨时我们待在家里。",
+          "memory": "想象门外下着雨，你留在家里；stay 后接停留地点。"
+        },
+        {
+          "word": "rather",
+          "ipa": "ˈrɑːðə",
+          "meaning": "相当；颇",
+          "phrase": "rather cold",
+          "phrase_zh": "相当冷",
+          "sentence": "The water is rather cold this morning.",
+          "sentence_zh": "今天早上水相当凉。",
+          "memory": "先说 cold，再说 rather cold，体会程度加强了。"
+        },
+        {
+          "word": "engineer",
+          "ipa": "ˌendʒɪˈnɪə",
+          "meaning": "工程师",
+          "phrase": "a bridge engineer",
+          "phrase_zh": "一名桥梁工程师",
+          "sentence": "My aunt is an engineer.",
+          "sentence_zh": "我姑姑是一名工程师。",
+          "memory": "记住构词中眼熟的 engine（发动机）；engineer 重读最后一拍。"
+        },
+        {
+          "word": "wide",
+          "ipa": "waɪd",
+          "meaning": "宽阔的；宽的",
+          "phrase": "a wide river",
+          "phrase_zh": "一条宽阔的河",
+          "sentence": "This river is very wide.",
+          "sentence_zh": "这条河很宽。",
+          "memory": "把两只手臂张开表示宽度，一边比划一边读 wide。"
+        },
+        {
+          "word": "London",
+          "ipa": "ˈlʌndən",
+          "meaning": "伦敦",
+          "phrase": "a trip to London",
+          "phrase_zh": "一次伦敦之旅",
+          "sentence": "My friend sent me a postcard from London.",
+          "sentence_zh": "我的朋友从伦敦给我寄了一张明信片。",
+          "memory": "在明信片上想象伦敦的红色双层公交车，城市名 L 大写。"
+        },
+        {
+          "word": "rise",
+          "ipa": "raɪz",
+          "meaning": "上升；升起",
+          "phrase": "rise in the east",
+          "phrase_zh": "从东方升起",
+          "sentence": "The sun rises in the east.",
+          "sentence_zh": "太阳从东方升起。",
+          "memory": "用手模仿太阳自己升起来；rise 的 s 读 /z/。"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-23",
+      "course": "快速单词记忆",
+      "theme": "行动与计划",
+      "sources": {
+        "20261023-杨若宸-快速单词记忆/20261023-杨若宸-快速单词记忆-中文.pdf": "cd03506e0fcb20a860927777e8496ab15762a146ddc327bad7e3d55b8c461910",
+        "20261023-杨若宸-快速单词记忆/20261023-杨若宸-快速单词记忆-中英文.pdf": "1e25836f2de1ef53a83183d94ca73fb09100cb25fdb86668b5b5698b84dbf956",
+        "20261023-杨若宸-快速单词记忆/20261023-杨若宸-快速单词记忆-英文.pdf": "34a14135ad253d96a158ed4ae2780c32bb0716d653da54be5991f1cbb9d19c3a",
+        "20261023-杨若宸-快速单词记忆/20261023-杨若宸-快速单词记忆-音标.pdf": "6e2403a1c2ef9e9f22cb3a37f03ccd44798c21fc22e06fa09fc526d691ae5289"
+      },
+      "rows": [
+        {
+          "word": "then",
+          "ipa": "ðen",
+          "meaning": "然后",
+          "phrase": "and then",
+          "phrase_zh": "接着；然后",
+          "sentence": "We washed the fruit and then made a salad.",
+          "sentence_zh": "我们洗了水果，然后做了沙拉。",
+          "memory": "在两个动作之间画箭头，在箭头上写 then 表示先后。"
+        },
+        {
+          "word": "list",
+          "ipa": "lɪst",
+          "meaning": "清单",
+          "phrase": "a shopping list",
+          "phrase_zh": "一份购物清单",
+          "sentence": "I put milk and eggs on the shopping list.",
+          "sentence_zh": "我把牛奶和鸡蛋写进了购物清单。",
+          "memory": "把想买的东西一行写一样，在纸上方标一个词 list。"
+        },
+        {
+          "word": "engineer",
+          "ipa": "ˌendʒɪˈnɪə",
+          "meaning": "工程师",
+          "phrase": "a bridge engineer",
+          "phrase_zh": "一名桥梁工程师",
+          "sentence": "My aunt is an engineer.",
+          "sentence_zh": "我姑姑是一名工程师。",
+          "memory": "记住构词中眼熟的 engine（发动机）；engineer 重读最后一拍。"
+        },
+        {
+          "word": "repair",
+          "ipa": "rɪˈpeə",
+          "meaning": "修理",
+          "phrase": "repair a watch",
+          "phrase_zh": "修理手表",
+          "sentence": "Grandpa can repair my old watch.",
+          "sentence_zh": "爷爷能修好我的旧手表。",
+          "memory": "想象手表停了又走起来；把 repair 和近义词 fix 成对记。"
+        },
+        {
+          "word": "relax",
+          "ipa": "rɪˈlæks",
+          "meaning": "放松",
+          "phrase": "relax after school",
+          "phrase_zh": "放学后放松",
+          "sentence": "I relax by listening to music.",
+          "sentence_zh": "我通过听音乐放松。",
+          "memory": "放下书包，肩膀放松，慢慢说 relax，重读第二拍。"
+        },
+        {
+          "word": "prepare",
+          "ipa": "prɪˈpeə",
+          "meaning": "准备",
+          "phrase": "prepare for a test",
+          "phrase_zh": "为考试作准备",
+          "sentence": "We prepared for the picnic together.",
+          "sentence_zh": "我们一起为野餐作了准备。",
+          "memory": "野餐前先收拾东西；记 prepare for 后接要准备的事情。"
+        },
+        {
+          "word": "stay",
+          "ipa": "steɪ",
+          "meaning": "停留；待在",
+          "phrase": "stay at home",
+          "phrase_zh": "待在家里",
+          "sentence": "We stayed at home when it rained.",
+          "sentence_zh": "下雨时我们待在家里。",
+          "memory": "想象门外下着雨，你留在家里；stay 后接停留地点。"
+        },
+        {
+          "word": "active",
+          "ipa": "ˈæktɪv",
+          "meaning": "积极的；活跃的",
+          "phrase": "an active member",
+          "phrase_zh": "一名积极的成员",
+          "sentence": "My little brother is very active.",
+          "sentence_zh": "我弟弟非常活跃。",
+          "memory": "在 active 中找 act（行动），想象总是主动举手的人。"
+        },
+        {
+          "word": "trip",
+          "ipa": "trɪp",
+          "meaning": "旅行",
+          "phrase": "a school trip",
+          "phrase_zh": "一次学校组织的旅行",
+          "sentence": "Our school trip begins at the train station.",
+          "sentence_zh": "我们的学校旅行从火车站开始。",
+          "memory": "在书包里放一张车票，试着补完 go on a trip to ...。"
+        },
+        {
+          "word": "government",
+          "ipa": "ˈɡʌvnmənt",
+          "meaning": "政府",
+          "phrase": "the local government",
+          "phrase_zh": "当地政府",
+          "sentence": "The local government built a new library.",
+          "sentence_zh": "当地政府建了一座新图书馆。",
+          "memory": "拼写分成 govern（管理）和 -ment，注意中间的 n。"
+        },
+        {
+          "word": "wide",
+          "ipa": "waɪd",
+          "meaning": "宽阔的；宽的",
+          "phrase": "a wide river",
+          "phrase_zh": "一条宽阔的河",
+          "sentence": "This river is very wide.",
+          "sentence_zh": "这条河很宽。",
+          "memory": "把两只手臂张开表示宽度，一边比划一边读 wide。"
+        },
+        {
+          "word": "sit",
+          "ipa": "sɪt",
+          "meaning": "坐；坐下",
+          "phrase": "sit down",
+          "phrase_zh": "坐下",
+          "sentence": "Please sit next to me on the bus.",
+          "sentence_zh": "坐公交车时请坐在我旁边。",
+          "memory": "站起来说 stand up，坐下时说 sit down。"
+        },
+        {
+          "word": "about",
+          "ipa": "əˈbaʊt",
+          "meaning": "大约；四处",
+          "phrase": "about ten minutes",
+          "phrase_zh": "大约十分钟",
+          "sentence": "It takes about ten minutes to walk home.",
+          "sentence_zh": "走回家大约要十分钟。",
+          "memory": "放在数字前可表示「大约」；walk about 是「四处走走」。"
+        },
+        {
+          "word": "step",
+          "ipa": "step",
+          "meaning": "脚步；一步",
+          "phrase": "take a step",
+          "phrase_zh": "迈一步",
+          "sentence": "Take one step back, please.",
+          "sentence_zh": "请后退一步。",
+          "memory": "每走一步就数 one step、two steps，把动作和单词连起来。"
+        },
+        {
+          "word": "fix",
+          "ipa": "fɪks",
+          "meaning": "修理",
+          "phrase": "fix a bike",
+          "phrase_zh": "修自行车",
+          "sentence": "Can you help me fix this toy car?",
+          "sentence_zh": "你能帮我修一下这辆玩具车吗？",
+          "memory": "想象修理玩具时拿起小工具，fix 和 six 一样以 /ɪks/ 结尾。"
+        },
+        {
+          "word": "share",
+          "ipa": "ʃeə",
+          "meaning": "分享",
+          "phrase": "share a snack with a friend",
+          "phrase_zh": "和朋友分享点心",
+          "sentence": "I share my crayons with my sister.",
+          "sentence_zh": "我和妹妹共用我的蜡笔。",
+          "memory": "把饼干分给朋友，边分边说 share with you。"
+        },
+        {
+          "word": "wealth",
+          "ipa": "welθ",
+          "meaning": "财富",
+          "phrase": "great wealth",
+          "phrase_zh": "巨大的财富",
+          "sentence": "The king had great wealth.",
+          "sentence_zh": "国王拥有大量财富。",
+          "memory": "wealth 和 health 只差开头一个字母，分别记「财富」「健康」。"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-26",
+      "course": "快速单词记忆",
+      "theme": "想法与可能性",
+      "sources": {
+        "20261026-杨若宸-快速单词记忆/20261026-杨若宸-快速单词记忆-中文.pdf": "525fc1fb26c549ce0c809e990184348974e84eaf47179222020c19fec0b5b1a8",
+        "20261026-杨若宸-快速单词记忆/20261026-杨若宸-快速单词记忆-中英文.pdf": "4c8dbeaef67e90bb73efc0d7dec40ccd636919556f0f2f412c6816f306d9e553",
+        "20261026-杨若宸-快速单词记忆/20261026-杨若宸-快速单词记忆-英文.pdf": "ec092bd34b0785a3bd3b4219b0d52eeaf28ad358f3c9a667e865189307b0efdf",
+        "20261026-杨若宸-快速单词记忆/20261026-杨若宸-快速单词记忆-音标.pdf": "8e9cfea2c10e0e95665c3b1c430f9c1255e3fc7f67a0d3615c7cdf26d3597c37"
+      },
+      "rows": [
+        {
+          "word": "stupid",
+          "ipa": "ˈstjuːpɪd",
+          "meaning": "愚蠢的；欠考虑的",
+          "phrase": "a stupid mistake",
+          "phrase_zh": "一个愚蠢的错误",
+          "sentence": "I made a stupid mistake.",
+          "sentence_zh": "我犯了个愚蠢的错误。",
+          "memory": "把 stupid 和一件欠考虑的事联系起来，例如 a stupid mistake。"
+        },
+        {
+          "word": "without",
+          "ipa": "wɪˈðaʊt",
+          "meaning": "没有；不带",
+          "phrase": "without an umbrella",
+          "phrase_zh": "没带伞",
+          "sentence": "I left home without my umbrella.",
+          "sentence_zh": "我出门时没带伞。",
+          "memory": "对着书包说 with a book（带着书），取出书后说 without a book。"
+        },
+        {
+          "word": "except",
+          "ipa": "ɪkˈsept",
+          "meaning": "除……之外",
+          "phrase": "everyone except me",
+          "phrase_zh": "除了我以外的每个人",
+          "sentence": "The shop is open every day except Monday.",
+          "sentence_zh": "这家商店除了周一每天都营业。",
+          "memory": "画七个代表一周的小格，划掉周一，读 except Monday。"
+        },
+        {
+          "word": "middle",
+          "ipa": "ˈmɪdl",
+          "meaning": "中间；中部",
+          "phrase": "the middle seat",
+          "phrase_zh": "中间的座位",
+          "sentence": "I'll take the middle seat.",
+          "sentence_zh": "我坐中间的位子。",
+          "memory": "伸出三根手指，摸一摸正中间的那根，说 middle。"
+        },
+        {
+          "word": "dare",
+          "ipa": "deə",
+          "meaning": "敢；敢于",
+          "phrase": "dare to try",
+          "phrase_zh": "敢于尝试",
+          "sentence": "Do you dare to sing on stage?",
+          "sentence_zh": "你敢上台唱歌吗？",
+          "memory": "想象深吸一口气，踏上舞台；dare to 后接你敢做的事。"
+        },
+        {
+          "word": "guess",
+          "ipa": "ɡes",
+          "meaning": "猜；猜测",
+          "phrase": "guess the answer",
+          "phrase_zh": "猜答案",
+          "sentence": "Can you guess what is in this box?",
+          "sentence_zh": "你能猜出盒子里有什么吗？",
+          "memory": "想象盒盖还没揭开，你先猜一猜；gu 在这里发 /ɡ/。"
+        },
+        {
+          "word": "hope",
+          "ipa": "həʊp",
+          "meaning": "希望",
+          "phrase": "hope to win",
+          "phrase_zh": "希望获胜",
+          "sentence": "I hope to see you at the picnic.",
+          "sentence_zh": "我希望在野餐时见到你。",
+          "memory": "把自己盼望的事情接在 I hope to 后，用动词原形。"
+        },
+        {
+          "word": "possible",
+          "ipa": "ˈpɒsəbl",
+          "meaning": "可能的；可行的",
+          "phrase": "a possible answer",
+          "phrase_zh": "一个可能的答案",
+          "sentence": "Is it possible to walk there?",
+          "sentence_zh": "可以走到那里吗？",
+          "memory": "想到还有一种可行的做法，说 It's possible；拼写有两个 s。"
+        },
+        {
+          "word": "age",
+          "ipa": "eɪdʒ",
+          "meaning": "年龄",
+          "phrase": "at the age of six",
+          "phrase_zh": "在六岁时",
+          "sentence": "I could swim at the age of six.",
+          "sentence_zh": "我六岁就会游泳了。",
+          "memory": "在生日蛋糕上数蜡烛，蜡烛数代表 age。"
+        },
+        {
+          "word": "strange",
+          "ipa": "streɪndʒ",
+          "meaning": "奇怪的；陌生的",
+          "phrase": "a strange sound",
+          "phrase_zh": "一种奇怪的声音",
+          "sentence": "We heard a strange sound under the bed.",
+          "sentence_zh": "我们听到床下有个奇怪的声音。",
+          "memory": "想象听到不像平常的声音，问 What is that strange sound?"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-30",
+      "course": "快速单词记忆",
+      "theme": "准备与选择",
+      "sources": {
+        "20261030-杨若宸-快速单词记忆/20261030-杨若宸-快速单词记忆-中文.pdf": "ee2b5f485e2db6a33c6444e427e86d1a24ba386105de457a73d015eeb3c4f874",
+        "20261030-杨若宸-快速单词记忆/20261030-杨若宸-快速单词记忆-中英文.pdf": "cd4982bbc19dd2fbdd80820906d54a3813b133533fcb0cd27485c79ee69f8661",
+        "20261030-杨若宸-快速单词记忆/20261030-杨若宸-快速单词记忆-英文.pdf": "432a20a77986b75d1ef8e65eda36124deef8d4f7697dca7ccae4dfd4665f4be9",
+        "20261030-杨若宸-快速单词记忆/20261030-杨若宸-快速单词记忆-音标.pdf": "232d7c7a89aebaae07fe9f97824685138ca17e0184aad345abc10a7da8abaf0f"
+      },
+      "rows": [
+        {
+          "word": "prepare",
+          "ipa": "prɪˈpeə",
+          "meaning": "准备",
+          "phrase": "prepare for a test",
+          "phrase_zh": "为考试作准备",
+          "sentence": "We prepared for the picnic together.",
+          "sentence_zh": "我们一起为野餐作了准备。",
+          "memory": "野餐前先收拾东西；记 prepare for 后接要准备的事情。"
+        },
+        {
+          "word": "list",
+          "ipa": "lɪst",
+          "meaning": "清单",
+          "phrase": "a shopping list",
+          "phrase_zh": "一份购物清单",
+          "sentence": "I put milk and eggs on the shopping list.",
+          "sentence_zh": "我把牛奶和鸡蛋写进了购物清单。",
+          "memory": "把想买的东西一行写一样，在纸上方标一个词 list。"
+        },
+        {
+          "word": "except",
+          "ipa": "ɪkˈsept",
+          "meaning": "除……之外",
+          "phrase": "everyone except me",
+          "phrase_zh": "除了我以外的每个人",
+          "sentence": "The shop is open every day except Monday.",
+          "sentence_zh": "这家商店除了周一每天都营业。",
+          "memory": "画七个代表一周的小格，划掉周一，读 except Monday。"
+        },
+        {
+          "word": "dare",
+          "ipa": "deə",
+          "meaning": "敢；敢于",
+          "phrase": "dare to try",
+          "phrase_zh": "敢于尝试",
+          "sentence": "Do you dare to sing on stage?",
+          "sentence_zh": "你敢上台唱歌吗？",
+          "memory": "想象深吸一口气，踏上舞台；dare to 后接你敢做的事。"
+        },
+        {
+          "word": "relax",
+          "ipa": "rɪˈlæks",
+          "meaning": "放松",
+          "phrase": "relax after school",
+          "phrase_zh": "放学后放松",
+          "sentence": "I relax by listening to music.",
+          "sentence_zh": "我通过听音乐放松。",
+          "memory": "放下书包，肩膀放松，慢慢说 relax，重读第二拍。"
+        },
+        {
+          "word": "active",
+          "ipa": "ˈæktɪv",
+          "meaning": "积极的；活跃的",
+          "phrase": "an active member",
+          "phrase_zh": "一名积极的成员",
+          "sentence": "My little brother is very active.",
+          "sentence_zh": "我弟弟非常活跃。",
+          "memory": "在 active 中找 act（行动），想象总是主动举手的人。"
+        },
+        {
+          "word": "guess",
+          "ipa": "ɡes",
+          "meaning": "猜；猜测",
+          "phrase": "guess the answer",
+          "phrase_zh": "猜答案",
+          "sentence": "Can you guess what is in this box?",
+          "sentence_zh": "你能猜出盒子里有什么吗？",
+          "memory": "想象盒盖还没揭开，你先猜一猜；gu 在这里发 /ɡ/。"
+        },
+        {
+          "word": "possible",
+          "ipa": "ˈpɒsəbl",
+          "meaning": "可能的；可行的",
+          "phrase": "a possible answer",
+          "phrase_zh": "一个可能的答案",
+          "sentence": "Is it possible to walk there?",
+          "sentence_zh": "可以走到那里吗？",
+          "memory": "想到还有一种可行的做法，说 It's possible；拼写有两个 s。"
+        },
+        {
+          "word": "hope",
+          "ipa": "həʊp",
+          "meaning": "希望",
+          "phrase": "hope to win",
+          "phrase_zh": "希望获胜",
+          "sentence": "I hope to see you at the picnic.",
+          "sentence_zh": "我希望在野餐时见到你。",
+          "memory": "把自己盼望的事情接在 I hope to 后，用动词原形。"
+        },
+        {
+          "word": "stay",
+          "ipa": "steɪ",
+          "meaning": "停留；待在",
+          "phrase": "stay at home",
+          "phrase_zh": "待在家里",
+          "sentence": "We stayed at home when it rained.",
+          "sentence_zh": "下雨时我们待在家里。",
+          "memory": "想象门外下着雨，你留在家里；stay 后接停留地点。"
+        }
+      ]
+    },
+    {
+      "date": "2026-11-02",
+      "course": "快速单词记忆",
+      "theme": "合作与技能",
+      "sources": {
+        "20261102-杨若宸-快速单词记忆/20261102-杨若宸-快速单词记忆-中文.pdf": "6ac461e5fe4574a5e9b0ce483b6fdba70b48efecf1c970fe9525fee55f4d909e",
+        "20261102-杨若宸-快速单词记忆/20261102-杨若宸-快速单词记忆-中英文.pdf": "128832a5fd1acf64c7ade87120a600651f6439bba645cfd245b18e6d61a29550",
+        "20261102-杨若宸-快速单词记忆/20261102-杨若宸-快速单词记忆-英文.pdf": "b8f4624ee3f504d3bc85850d92d5d3c1d943bdcd59ef8653127f2bddd4f1c838",
+        "20261102-杨若宸-快速单词记忆/20261102-杨若宸-快速单词记忆-音标.pdf": "16aca66ec4d858c26c74d0ebb5fc0d38eb115b422223f4706b7fc44c2f247995"
+      },
+      "rows": [
+        {
+          "word": "active",
+          "ipa": "ˈæktɪv",
+          "meaning": "积极的；活跃的",
+          "phrase": "an active member",
+          "phrase_zh": "一名积极的成员",
+          "sentence": "My little brother is very active.",
+          "sentence_zh": "我弟弟非常活跃。",
+          "memory": "在 active 中找 act（行动），想象总是主动举手的人。"
+        },
+        {
+          "word": "fear",
+          "ipa": "fɪə",
+          "meaning": "害怕；惧怕",
+          "phrase": "a fear of heights",
+          "phrase_zh": "对高处的恐惧",
+          "sentence": "The little cat fears dogs.",
+          "sentence_zh": "这只小猫怕狗。",
+          "memory": "用 fear the dark 记动词，用 a fear of heights 记名词。"
+        },
+        {
+          "word": "south",
+          "ipa": "saʊθ",
+          "meaning": "南；南方",
+          "phrase": "in the south",
+          "phrase_zh": "在南方",
+          "sentence": "Some birds fly south in winter.",
+          "sentence_zh": "有些鸟冬天飞往南方。",
+          "memory": "在地图上找 S；把 N（北）和 S（南）用一条线连接。"
+        },
+        {
+          "word": "skill",
+          "ipa": "skɪl",
+          "meaning": "技能；本领",
+          "phrase": "learn a new skill",
+          "phrase_zh": "学一项新技能",
+          "sentence": "Cooking is a useful skill to learn.",
+          "sentence_zh": "烹饪是一项值得学习的实用技能。",
+          "memory": "想一件你练习后才学会的事，比如游泳，那就是一种 skill。"
+        },
+        {
+          "word": "stupid",
+          "ipa": "ˈstjuːpɪd",
+          "meaning": "愚蠢的；欠考虑的",
+          "phrase": "a stupid mistake",
+          "phrase_zh": "一个愚蠢的错误",
+          "sentence": "I made a stupid mistake.",
+          "sentence_zh": "我犯了个愚蠢的错误。",
+          "memory": "把 stupid 和一件欠考虑的事联系起来，例如 a stupid mistake。"
+        },
+        {
+          "word": "government",
+          "ipa": "ˈɡʌvnmənt",
+          "meaning": "政府",
+          "phrase": "the local government",
+          "phrase_zh": "当地政府",
+          "sentence": "The local government built a new library.",
+          "sentence_zh": "当地政府建了一座新图书馆。",
+          "memory": "拼写分成 govern（管理）和 -ment，注意中间的 n。"
+        },
+        {
+          "word": "except",
+          "ipa": "ɪkˈsept",
+          "meaning": "除……之外",
+          "phrase": "everyone except me",
+          "phrase_zh": "除了我以外的每个人",
+          "sentence": "The shop is open every day except Monday.",
+          "sentence_zh": "这家商店除了周一每天都营业。",
+          "memory": "画七个代表一周的小格，划掉周一，读 except Monday。"
+        },
+        {
+          "word": "relax",
+          "ipa": "rɪˈlæks",
+          "meaning": "放松",
+          "phrase": "relax after school",
+          "phrase_zh": "放学后放松",
+          "sentence": "I relax by listening to music.",
+          "sentence_zh": "我通过听音乐放松。",
+          "memory": "放下书包，肩膀放松，慢慢说 relax，重读第二拍。"
+        },
+        {
+          "word": "other",
+          "ipa": "ˈʌðə",
+          "meaning": "其他的；另外的",
+          "phrase": "other people",
+          "phrase_zh": "其他人",
+          "sentence": "The other children are outside.",
+          "sentence_zh": "其他孩子在外面。",
+          "memory": "先指自己这一组，再指其余几组，说 the other groups。"
+        },
+        {
+          "word": "team",
+          "ipa": "tiːm",
+          "meaning": "队；组",
+          "phrase": "a swimming team",
+          "phrase_zh": "一支游泳队",
+          "sentence": "Our team practises together every Friday.",
+          "sentence_zh": "我们队每周五一起训练。",
+          "memory": "把几个同学围成一个圈，写上 one team，记住大家合成一队。"
+        }
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "course": "快速单词记忆",
+      "theme": "日常表达与安全",
+      "sources": {
+        "20261106-杨若宸-快速单词记忆/20261106-杨若宸-快速单词记忆-中文.pdf": "3a71daf1ea69d154b4097081c57b215d330f0b03cb9342177c59dc01f4edc6ae",
+        "20261106-杨若宸-快速单词记忆/20261106-杨若宸-快速单词记忆-中英文.pdf": "87c0979786130ef5f89985bec4e1819732398064e83b1dfc58d70cdca7dd373f",
+        "20261106-杨若宸-快速单词记忆/20261106-杨若宸-快速单词记忆-英文.pdf": "519cf1276897ca0ae530c8fec4c8e3adde8fc405eed45424903f209a9cddaf65",
+        "20261106-杨若宸-快速单词记忆/20261106-杨若宸-快速单词记忆-音标.pdf": "dc4b4aef8715bf6a946da08fe52e2bfa158eb17c799e5da5129fce0d896e42e0"
+      },
+      "rows": [
+        {
+          "word": "express",
+          "ipa": "ɪkˈspres",
+          "meaning": "表达",
+          "phrase": "express an idea",
+          "phrase_zh": "表达一个想法",
+          "sentence": "I express my ideas in pictures.",
+          "sentence_zh": "我用图画表达想法。",
+          "memory": "先想一件开心的事，再把它说出来，就是 express。"
+        },
+        {
+          "word": "stay",
+          "ipa": "steɪ",
+          "meaning": "停留；待在",
+          "phrase": "stay at home",
+          "phrase_zh": "待在家里",
+          "sentence": "We stayed at home when it rained.",
+          "sentence_zh": "下雨时我们待在家里。",
+          "memory": "想象门外下着雨，你留在家里；stay 后接停留地点。"
+        },
+        {
+          "word": "except",
+          "ipa": "ɪkˈsept",
+          "meaning": "除……之外",
+          "phrase": "everyone except me",
+          "phrase_zh": "除了我以外的每个人",
+          "sentence": "The shop is open every day except Monday.",
+          "sentence_zh": "这家商店除了周一每天都营业。",
+          "memory": "画七个代表一周的小格，划掉周一，读 except Monday。"
+        },
+        {
+          "word": "emergency worker",
+          "ipa": "ɪˈmɜːdʒənsi ˌwɜːkə",
+          "meaning": "应急救援人员",
+          "phrase": "an emergency worker",
+          "phrase_zh": "一名应急救援人员",
+          "sentence": "The emergency worker helped a child.",
+          "sentence_zh": "这名救援人员帮助了一个孩子。",
+          "memory": "emergency 是紧急情况，worker 是工作人员，合起来记。"
+        },
+        {
+          "word": "anyone",
+          "ipa": "ˈeniwʌn",
+          "meaning": "任何人；有人",
+          "phrase": "anyone in the class",
+          "phrase_zh": "班里的任何人",
+          "sentence": "Can anyone help me?",
+          "sentence_zh": "有人能帮帮我吗？",
+          "memory": "any 和 one 合为一个词；举手问问题时可以用 Does anyone ...?"
+        },
+        {
+          "word": "light",
+          "ipa": "laɪt",
+          "meaning": "轻的；不重的",
+          "phrase": "a light bag",
+          "phrase_zh": "一个轻便的包",
+          "sentence": "My schoolbag is light today.",
+          "sentence_zh": "今天我的书包很轻。",
+          "memory": "一只手拎空书包说 light，装满书后说 heavy。"
+        },
+        {
+          "word": "everyday",
+          "ipa": "ˈevrideɪ",
+          "meaning": "日常的；每天的",
+          "phrase": "everyday life",
+          "phrase_zh": "日常生活",
+          "sentence": "We use maths in everyday life.",
+          "sentence_zh": "我们在日常生活中会用到数学。",
+          "memory": "合写 everyday 放在名词前；分开 every day 表示「每一天」。"
+        },
+        {
+          "word": "check injuries",
+          "ipa": "tʃek ˈɪndʒəriz",
+          "meaning": "检查伤情",
+          "phrase": "check a player's injuries",
+          "phrase_zh": "检查球员的伤情",
+          "sentence": "The nurse checked my injuries.",
+          "sentence_zh": "护士检查了我的伤情。",
+          "memory": "injury 是一处损伤；变复数去 y 加 ies。想象校医检查伤处。"
+        },
+        {
+          "word": "hope",
+          "ipa": "həʊp",
+          "meaning": "希望",
+          "phrase": "hope to win",
+          "phrase_zh": "希望获胜",
+          "sentence": "I hope to see you at the picnic.",
+          "sentence_zh": "我希望在野餐时见到你。",
+          "memory": "把自己盼望的事情接在 I hope to 后，用动词原形。"
+        },
+        {
+          "word": "powerful",
+          "ipa": "ˈpaʊəfəl",
+          "meaning": "有力量的；强大的",
+          "phrase": "powerful legs",
+          "phrase_zh": "强健有力的腿",
+          "sentence": "A frog has powerful legs.",
+          "sentence_zh": "青蛙的腿很有力。",
+          "memory": "power 是力量，-ful 表示「充满……的」。"
+        },
+        {
+          "word": "easy",
+          "ipa": "ˈiːzi",
+          "meaning": "容易的",
+          "phrase": "an easy question",
+          "phrase_zh": "一道简单的问题",
+          "sentence": "This game is easy to learn.",
+          "sentence_zh": "这个游戏很容易学会。",
+          "memory": "在自己会做的题旁写 easy，和 difficult 配对记。"
+        },
+        {
+          "word": "other",
+          "ipa": "ˈʌðə",
+          "meaning": "其他的；另外的",
+          "phrase": "other people",
+          "phrase_zh": "其他人",
+          "sentence": "The other children are outside.",
+          "sentence_zh": "其他孩子在外面。",
+          "memory": "先指自己这一组，再指其余几组，说 the other groups。"
+        },
+        {
+          "word": "pad",
+          "ipa": "pæd",
+          "meaning": "护垫；防护垫",
+          "phrase": "a knee pad",
+          "phrase_zh": "一个护膝",
+          "sentence": "This knee pad is soft.",
+          "sentence_zh": "这个护膝很软。",
+          "memory": "想象膝盖 knee 上绑着一块软垫 pad。"
+        },
+        {
+          "word": "point",
+          "ipa": "pɔɪnt",
+          "meaning": "尖端",
+          "phrase": "the point of a pencil",
+          "phrase_zh": "铅笔尖",
+          "sentence": "The point of my pencil broke.",
+          "sentence_zh": "我的铅笔尖断了。",
+          "memory": "指一指刚削好的铅笔尖，记住这里的 point。"
+        },
+        {
+          "word": "skill",
+          "ipa": "skɪl",
+          "meaning": "技能；本领",
+          "phrase": "learn a new skill",
+          "phrase_zh": "学一项新技能",
+          "sentence": "Cooking is a useful skill to learn.",
+          "sentence_zh": "烹饪是一项值得学习的实用技能。",
+          "memory": "想一件你练习后才学会的事，比如游泳，那就是一种 skill。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+/* 李校来啦课程专栏 */
+.li-feature, .li-header, .li-controls, .li-lesson-header, .li-reading-line {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.li-feature {
+    justify-content: space-between;
+    padding: 24px clamp(20px, 4vw, 44px);
+    margin: 20px 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid #c5dfda;
+    border-left: 5px solid #387569;
+    background: #f3faf7;
+    color: #204d45;
+}
+.li-feature h2, .li-header h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); }
+.li-feature p, .li-header p { color: #506660; margin-top: 6px; }
+.li-enter, .li-action, .li-say, .li-controls select {
+    font: inherit;
+    border-radius: var(--radius-sm);
+}
+.li-enter, .li-action {
+    min-height: 44px;
+    padding: 9px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.li-enter { color: white; background: #285f53; border: 1px solid #285f53; font-weight: 600; }
+.li-enter span { padding-left: 8px; }
+.li-header { justify-content: space-between; flex-wrap: wrap; margin: 6px 0 20px; }
+.li-header h2, .li-lesson-header h3 { color: #214f46; }
+.li-action, .li-source { color: #225a4a; font-weight: 600; text-decoration: none; }
+.li-action {
+    border: 1px solid #adcbc1;
+    background: white;
+    display: inline-flex;
+    align-items: center;
+}
+#page-li-school [hidden] { display: none; }
+.li-enter:hover { background: #1b4c41; }
+.li-action:hover, .li-say:hover:enabled, .li-source:hover { background: #e8f3ed; }
+.li-feature :focus-visible, #page-li-school :focus-visible { outline: 3px solid #286caa; outline-offset: 2px; }
+.li-controls {
+    flex-wrap: wrap;
+    align-items: end;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    background: #eaf3ef;
+}
+.li-controls label { display: grid; gap: 4px; font-size: .9rem; color: #3a514a; min-width: 0; }
+.li-controls label:first-child { flex: 1 1 250px; }
+.li-controls select { max-width: 100%; min-width: 0; min-height: 44px; padding: 5px 10px; border: 1px solid #b9cbc4; background: white; color: #273e36; }
+.li-lesson-header { justify-content: space-between; margin: 24px 0 8px; }
+#li-date { color: #586d65; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.li-lesson-header h3 { font-size: 1.45rem; }
+#li-count { color: #466258; white-space: nowrap; }
+#li-note, #li-sources, #li-audio-status { font-size: .94rem; color: #4f615a; }
+#li-sources { margin: 8px 0 16px; }
+#li-sources summary { cursor: pointer; padding: 6px 0; width: fit-content; }
+#li-files { display: flex; flex-wrap: wrap; gap: 8px; }
+.li-source { padding: 8px 10px; border-bottom: 1px solid #a6c5b9; }
+#li-audio-status:not(:empty), #li-load-status:not(:empty) { margin: 12px 0; }
+#li-rows { display: grid; gap: 12px; }
+.li-word {
+    display: grid;
+    grid-template-columns: minmax(150px, .72fr) minmax(0, 2.3fr);
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #d4e3dc;
+    border-radius: var(--radius-md);
+    background: white;
+    color: #263c34;
+    overflow-wrap: anywhere;
+}
+.li-reading-line { gap: 6px 10px; flex-wrap: wrap; line-height: 1.45; }
+.li-reading-line [lang=en], .li-ipa { font-family: var(--font-english); }
+.li-term h4 { font-size: 1.3rem; line-height: 1.25; }
+.li-say {
+    padding: 4px 9px;
+    color: #255e4e;
+    background: #f2f8f4;
+    border: 1px solid #c6dacf;
+    cursor: pointer;
+    font-size: .8rem;
+}
+.li-say:disabled { opacity: .55; cursor: default; }
+.li-ipa { color: #436c62; margin: 4px 0; }
+.li-target, .li-usage dt { font-size: .82rem; font-weight: 600; color: #536e62; }
+.li-usage { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr); gap: 12px 20px; }
+.li-usage dt { margin-bottom: 4px; }
+.li-usage dd { margin: 0; }
+.li-translation, .li-memory { font-size: .92rem; line-height: 1.55; }
+.li-translation { color: #536158; margin-top: 3px; }
+.li-memory { grid-column: 1 / -1; border-top: 1px solid #e4ede6; padding-top: 8px; }
+.li-memory dt { display: inline; margin-right: 8px; }
+.li-memory dd { display: inline; }
+.li-reference { color: #225a4a; text-underline-offset: .15em; }
+@media (max-width: 720px) {
+    .li-word { grid-template-columns: 1fr; gap: 12px; }
+    .li-usage { grid-template-columns: 1fr; }
+    .li-say { min-height: 36px; }
+}
+@media (max-width: 480px) {
+    .li-feature { align-items: start; flex-direction: column; }
+    .li-controls label:first-child { flex-basis: 100%; }
+    .li-controls, .li-word { padding: 14px; }
+}
+@media print {
+    html:has(#page-li-school.active), body:has(#page-li-school.active),
+    #app:has(#page-li-school.active), .main-content:has(#page-li-school.active) {
+        display: block; height: auto; min-height: 0; max-height: none; overflow: visible; width: auto; margin: 0; padding: 0;
+    }
+    body:has(#page-li-school.active) { background: white; }
+    #app:has(#page-li-school.active) > :not(.main-content),
+    #page-li-school.active :is(.li-controls, .li-action, .li-say, #li-sources, #li-audio-status, #li-summary) { display: none; }
+    #page-li-school.active { display: block; animation: none; }
+    .li-header, .li-lesson-header { margin: 6pt 0; break-after: avoid; }
+    #li-rows { display: block; }
+    .li-word { break-inside: avoid; grid-template-columns: 1fr 3fr; gap: 10pt; padding: 7pt; margin-bottom: 5pt; }
+    .li-usage { grid-template-columns: 1fr 1.5fr; gap: 4pt 10pt; }
+    .li-term h4 { font-size: 12pt; }
+    .li-usage, .li-term p { font-size: 10pt; }
+    .li-translation, .li-memory { font-size: 9pt; }
+}

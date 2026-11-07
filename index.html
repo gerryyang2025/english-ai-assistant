@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/readings.css">
     <link rel="stylesheet" href="css/speech.css">
     <link rel="stylesheet" href="css/grammar.css">
+    <link rel="stylesheet" href="css/li-school.css">
     <link rel="stylesheet" href="css/grammar-tenses-fun.css">
 </head>
 <body>
@@ -23,6 +24,7 @@
                 <div class="nav-scroll">
                     <nav class="nav-menu" aria-label="主导航">
                         <button type="button" class="nav-btn active" data-page="home" aria-current="page">首页</button>
+                        <button type="button" class="nav-btn" data-page="li-school">李校来啦</button>
                         <button type="button" class="nav-btn" data-page="words">单词</button>
                         <button type="button" class="nav-btn" data-page="sentences">语句</button>
                         <button type="button" class="nav-btn" data-page="grammar">语法</button>
@@ -79,6 +81,14 @@
                         </div>
                     </article>
                 </div>
+
+                <section class="li-feature" aria-labelledby="li-feature-title">
+                    <div>
+                        <h2 id="li-feature-title">李校来啦</h2>
+                        <p>按上课日期复习单词，听词组和例句，再用记忆提示回想词义。</p>
+                    </div>
+                    <button type="button" class="li-enter" id="li-open">进入专栏 <span aria-hidden="true">→</span></button>
+                </section>
 
                 <!-- 墨小灵：虚拟形象 + AI 单词问答（沿用 /api/chat） -->
                 <section class="moxiaoling-panel" aria-labelledby="moxiaoling-heading">
@@ -199,6 +209,33 @@
                             <span class="stat-label">连续天数</span>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section id="page-li-school" class="page" aria-labelledby="li-title">
+                <header class="li-header">
+                    <div>
+                        <h2 id="li-title">李校来啦</h2>
+                        <p id="li-summary"></p>
+                    </div>
+                    <a id="li-book" class="li-action" target="_blank" rel="noopener" hidden>整本复习表 PDF ↗</a>
+                </header>
+                <p id="li-load-status" role="status" aria-live="polite"></p>
+                <button type="button" class="li-action" id="li-retry" hidden>重新加载</button>
+                <div id="li-body" hidden>
+                    <div class="li-controls">
+                        <label>学习日期与课程<select id="li-lesson"></select></label>
+                        <label>朗读口音<select id="li-accent"><option value="gb">英式英语</option><option value="us">美式英语</option></select></label>
+                        <button type="button" class="li-action" id="li-print">打印本课</button>
+                    </div>
+                    <p id="li-audio-status" role="status" aria-live="polite"></p>
+                    <header class="li-lesson-header">
+                        <div><p id="li-date"></p><h3 id="li-theme"></h3></div>
+                        <span id="li-count"></span>
+                    </header>
+                    <p id="li-note" hidden></p>
+                    <details id="li-sources"><summary>本课原始讲义</summary><div id="li-files"></div></details>
+                    <div id="li-rows"></div>
                 </div>
             </section>
 
@@ -1172,5 +1209,6 @@ Tom: I want to be a doctor. (汤姆：我想成为一名医生。)
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/li-school.js"></script>
 </body>
 </html>

@@ -509,6 +509,8 @@ function bindEvents() {
         btn.addEventListener('click', () => switchPage(btn.dataset.page));
     });
 
+    document.getElementById('li-open').addEventListener('click', () => switchPage('li-school'));
+
     // 功能卡片点击
     document.querySelectorAll('.feature-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -607,6 +609,9 @@ function scrollActiveNavIntoView() {
 }
 
 function switchPage(pageName) {
+    if (pageName !== 'li-school' && document.getElementById('page-li-school').classList.contains('active')) {
+        LiSchool.stopAudio();
+    }
     setActiveNavPage(pageName);
 
     // 切换页面显示
@@ -618,6 +623,9 @@ function switchPage(pageName) {
     switch (pageName) {
         case 'home':
             renderHomePage();
+            break;
+        case 'li-school':
+            LiSchool.open();
             break;
         case 'words':
             initDictationPage();
@@ -6282,11 +6290,11 @@ function pickEnglishSpeechVoice(preferGb) {
  * Chrome 等浏览器中 getVoices() 常异步填充；若初次为空就 speak，可能无声。
  * 在 voiceschanged 或短延迟后再选音色并朗读（只执行一次）。
  */
-function speakUtteranceWithVoice(utterance, preferGb) {
+function speakUtteranceWithVoice(utterance, preferGb, isCurrent = () => true) {
     const synth = window.speechSynthesis;
     let spoke = false;
     const applyAndSpeak = () => {
-        if (spoke) return;
+        if (spoke || !isCurrent()) return;
         spoke = true;
         const picked = pickEnglishSpeechVoice(preferGb);
         if (picked) {
@@ -6297,6 +6305,7 @@ function speakUtteranceWithVoice(utterance, preferGb) {
         // Chrome：cancel 后需异步 speak；受限 HTTP 上下文需更长延迟
         const deferMs = speechDeferMsAfterCancel();
         setTimeout(() => {
+            if (!isCurrent()) return;
             try {
                 try {
                     synth.resume();

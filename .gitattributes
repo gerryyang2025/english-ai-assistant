@@ -25,6 +25,9 @@
 *.ico binary
 *.svg binary
 
+# Preserve the original course PDFs byte for byte.
+*.pdf binary
+
 # Don't track editor backup files
 *~
 *.bak
